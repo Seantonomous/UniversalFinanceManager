@@ -1,6 +1,13 @@
+<!-- Author: Sean Hansen ID:108841276
+Date Started: 9/13/17
+Date Completed: 9/13/17
+Peer Review:
+    Date:
+    Team Members:
+Contributing Team Members:-->
+
 <resources>
 
-    <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>
