@@ -1,5 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!-- Author: Sean Hansen ID:108841276
+Date Started: 9/13/17
+Date Completed: 9/28/17
+Peer Review:
+    Date:
+    Team Members:
+Contributing Team Members: Areeba-->
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"

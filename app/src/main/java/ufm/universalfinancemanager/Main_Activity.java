@@ -1,3 +1,12 @@
+/* Author: Sean Hansen
+* ID: 108841276
+* Date Started: 9/27/17
+* Date Complete:
+* Peer Review:
+*   Date:
+*   Team Members:
+* Contributing Team Members:
+*/
 package ufm.universalfinancemanager;
 
 import android.content.res.Configuration;
@@ -9,6 +18,7 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
@@ -25,6 +35,14 @@ public class Main_Activity extends AppCompatActivity {
 
         drawer_layout = (DrawerLayout)findViewById(R.id.drawer_layout);
         list_view = (ListView)findViewById(R.id.drawer);
+        list_view.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int pos, long l) {
+
+            }
+        }
+        );
+
         drawer_items = getResources().getStringArray(R.array.drawer_items);
 
         drawer_toggle = new ActionBarDrawerToggle(this,drawer_layout,R.string.drawer_open,
@@ -81,15 +99,8 @@ public class Main_Activity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    /*
     public static class PageFragment extends Fragment {
-        public PageFragment() {}
 
-        @Override
-        public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                                 Bundle SavedInstanceState) {
-            View rootView = inflater.inflate(R.layout.)
-        }
-    }*/
+    }
 
 }
