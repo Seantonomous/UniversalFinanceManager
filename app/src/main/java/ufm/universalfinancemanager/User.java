@@ -1,6 +1,6 @@
 /* Author: Sean Hansen
 * ID: 108841276
-* Date Started:
+* Date Started: 10/13/17
 * Date Complete:
 * Peer Review:
 *   Date:
@@ -39,17 +39,17 @@ public class User implements Serializable {
         return username;
     }
 
-    public bool addAccount(Account account) {}
+    public boolean addAccount(Account account) {}
     public Account getAccount(String name) {}
     public ArrayList<Account> getAccounts() {}
 
-    public bool addTransaction(Transaction transaction) {}
+    public boolean addTransaction(Transaction transaction) {}
     public ArrayList<Transaction> getTransactions() {}
 
-    public bool addBudget(Budget budget) {}
+    public boolean addBudget(Budget budget) {}
     public ArrayList<Budget> getBudgets() {}
 
-    public bool addCategory(Category category) {}
+    public boolean addCategory(Category category) {}
     public Category getCategory(String name) {}
     public ArrayList<Category> getCategories() {}
 
