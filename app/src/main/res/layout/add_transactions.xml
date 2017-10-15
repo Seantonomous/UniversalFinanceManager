@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--Author: Areeba Waheed
+Date Started: 10/14/17
+Date Completed:
+Peer Review:
+    Date:
+    Team Members:
+Contributing Team Members:
+-->
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:weightSum="1">
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Add Transactions"
+        android:textColor="@android:color/background_dark"
+        android:textSize="18sp" />
+
+    <EditText
+        android:id="@id/trans_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint = "Name"
+        android:inputType="textPersonName"
+        android:layout_weight="0.05" />
+
+    <EditText
+        android:id="@id/trans_amount"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint = "$00.00"
+        android:inputType="numberDecimal"
+        android:layout_weight="0.05" />
+
+    <EditText
+        android:id="@id/trans_date"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint = "mm/dd/yy"
+        android:inputType="date"
+        android:layout_weight="0.05" />
+
+    <!--for category selection-->
+    <Spinner
+        android:id="@+id/spinner"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@android:drawable/btn_dropdown" />
+    <!--for frequency selection-->
+    <Spinner
+        android:id="@+id/spinner2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@android:drawable/btn_dropdown"/>
+    <!--for account selection-->
+    <Spinner
+        android:id="@+id/spinner3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@android:drawable/btn_dropdown"/>
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint = "Notes"
+        android:inputType="textShortMessage"
+        android:layout_weight="0.27" />
+
+    <Button
+        android:id="@+id/button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Done" />
+
+</LinearLayout>
