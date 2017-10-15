@@ -1,4 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!-- Author: Sean Hansen ID:108841276
+Date Started: 9/27/17
+Date Completed: 9/27/17
+Peer Review:
+    Date:
+    Team Members:
+Contributing Team Members:-->
 <TextView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
