@@ -22,11 +22,14 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
+import ufm.universalfinancemanager.User;
+
 public class Main_Activity extends AppCompatActivity {
     private String[] drawer_items;
     private DrawerLayout drawer_layout;
     private ListView list_view;
     private ActionBarDrawerToggle drawer_toggle;
+    private User sessionUser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -94,6 +97,10 @@ public class Main_Activity extends AppCompatActivity {
         // true, then it has handled the app icon touch event
         if (drawer_toggle.onOptionsItemSelected(item)) {
             return true;
+        }
+
+        if(item.getTitle().equals("Transaction History")) {
+            return super.onOptionsItemSelected(item);
         }
 
         return super.onOptionsItemSelected(item);
