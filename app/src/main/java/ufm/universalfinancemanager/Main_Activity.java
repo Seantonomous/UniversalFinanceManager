@@ -9,8 +9,9 @@
 */
 package ufm.universalfinancemanager;
 
+import android.app.FragmentManager;
 import android.content.res.Configuration;
-import android.support.v4.app.Fragment;
+import android.app.Fragment;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
@@ -21,6 +22,8 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+
+import java.util.Date;
 
 import ufm.universalfinancemanager.User;
 
@@ -38,13 +41,21 @@ public class Main_Activity extends AppCompatActivity {
 
         drawer_layout = (DrawerLayout)findViewById(R.id.drawer_layout);
         list_view = (ListView)findViewById(R.id.drawer);
-        list_view.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+        //set the drawer
+        list_view.setOnItemClickListener(new ListView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int pos, long l) {
-
+                selectItem(pos);
             }
         }
         );
+
+        /**************TEST DATA*************/
+        sessionUser.addAccount(new Account("Checking", AccountType.DEBIT, 0, new Date()));
+        sessionUser.addTransaction(new Transaction("Gas", -1, 30.24, new Category("Transportation"),
+                sessionUser.getAccount("Checking"),new Date()));
+        /**************TEST DATA*************/
 
         drawer_items = getResources().getStringArray(R.array.drawer_items);
 
@@ -68,8 +79,38 @@ public class Main_Activity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
 
-        list_view.setAdapter(new ArrayAdapter<String>(this, R.layout.nav_drawer_item, drawer_items));
+        //Populate navigation drawer with page names
+        list_view.setAdapter(new ArrayAdapter<>(this, R.layout.nav_drawer_item, drawer_items));
 
+    }
+
+    private void selectItem(int position) {
+        switch(position) {
+            case(1):    //HOME
+                break;
+            case(2):    //BUDGET
+                break;
+            case(3):    //TRANSACTIONS
+                Fragment fragment = new Transaction_Activity();
+                FragmentManager fragmentManager = getFragmentManager();
+                fragmentManager.beginTransaction().replace(R.id.fragment_container, fragment).commit();
+
+                ListView lv = (ListView)findViewById(R.id.transaction_list);
+                lv.setAdapter(new TransactionAdapter(this, sessionUser.getTransactions()));
+
+                getActionBar().setTitle(R.string.transaction_title);
+                list_view.setItemChecked(position, true);
+                drawer_layout.closeDrawer(list_view);
+                break;
+            case(4):    //INCOME/OUTCOME
+                break;
+            case(5):    //NET WORTH
+                break;
+            case(6):    //Reminders
+                break;
+            case(7):    //Settings
+                break;
+        }
     }
 
     @Override
@@ -87,7 +128,6 @@ public class Main_Activity extends AppCompatActivity {
 
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
-        boolean drawerOpen = drawer_layout.isDrawerOpen(list_view);
         return super.onPrepareOptionsMenu(menu);
     }
 
@@ -99,15 +139,6 @@ public class Main_Activity extends AppCompatActivity {
             return true;
         }
 
-        if(item.getTitle().equals("Transaction History")) {
-            return super.onOptionsItemSelected(item);
-        }
-
         return super.onOptionsItemSelected(item);
     }
-
-    public static class PageFragment extends Fragment {
-
-    }
-
 }

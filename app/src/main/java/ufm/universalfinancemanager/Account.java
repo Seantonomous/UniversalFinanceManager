@@ -13,9 +13,6 @@ import java.util.Date;
 import ufm.universalfinancemanager.Transaction;
 
 public class Account {
-    private enum AccountType {
-        CREDIT, DEBIT, CASH
-    }
 
     private String name;
     AccountType type;

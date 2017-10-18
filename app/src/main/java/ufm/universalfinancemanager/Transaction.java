@@ -32,7 +32,16 @@ public class Transaction {
         this.account = account;
         this.date = date;
         this.notes = notes;
+    }
 
+    public Transaction(String name, int flow, double amount, Category category,
+                       Account account, Date date) {
+        this.name = name;
+        this.flow = flow;
+        this.amount = amount;
+        this.category = category;
+        this.account = account;
+        this.date = date;
     }
 
     /********Getters**********************/
