@@ -45,14 +45,18 @@ public class TransactionAdapter extends BaseAdapter {
     @Override
     public View getView(final int position, View convertView, ViewGroup parent) {
         Holder holder = new Holder();
+
+        //inflate the row item layout (multiple textviews
         View rowView = inflater.inflate(R.layout.transaction_list_item, null);
 
+        //Instantiate all the textviews from the layout
         holder.dateView = (TextView)rowView.findViewById(R.id.trans_date);
         holder.nameView = (TextView)rowView.findViewById(R.id.trans_name);
         holder.amountView = (TextView)rowView.findViewById(R.id.trans_amount);
         holder.accountView = (TextView)rowView.findViewById(R.id.trans_account);
         holder.categoryView = (TextView)rowView.findViewById(R.id.trans_category);
 
+        //Set the text of each textview based on its corresponding transaction attribute
         holder.dateView.setText(transactions.get(position).getDate().toString());
         holder.nameView.setText(transactions.get(position).getName());
         holder.amountView.setText(Double.toString(transactions.get(position).getAmount()));

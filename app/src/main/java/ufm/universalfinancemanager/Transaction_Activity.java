@@ -23,6 +23,7 @@ public class Transaction_Activity extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        //Inflate the fragment with the corresponding layout
         View rootView = inflater.inflate(R.layout.transaction_list_layout, container);
         //ListView transaction_list = rootView.findViewById(R.id.transaction_list);
         return rootView;

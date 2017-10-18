@@ -91,14 +91,22 @@ public class Main_Activity extends AppCompatActivity {
             case(2):    //BUDGET
                 break;
             case(3):    //TRANSACTIONS
+
+                //Create a new Transaction_Activity to place in main view container
                 Fragment fragment = new Transaction_Activity();
                 FragmentManager fragmentManager = getFragmentManager();
+
+                //Replace the current container with the fragment and commit changes
                 fragmentManager.beginTransaction().replace(R.id.fragment_container, fragment).commit();
 
+                //Find the transaction list view, and set its adapter to handle the user's transactions
                 ListView lv = (ListView)findViewById(R.id.transaction_list);
                 lv.setAdapter(new TransactionAdapter(this, sessionUser.getTransactions()));
 
+                //Set the action bar title to "Transaction History"
                 getActionBar().setTitle(R.string.transaction_title);
+
+                //Highlight touched item in the nav drawer and then close the nav drawer
                 list_view.setItemChecked(position, true);
                 drawer_layout.closeDrawer(list_view);
                 break;
