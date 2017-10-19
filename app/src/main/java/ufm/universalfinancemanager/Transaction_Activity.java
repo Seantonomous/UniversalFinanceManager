@@ -23,8 +23,7 @@ public class Transaction_Activity extends Fragment {
     public Transaction_Activity() {
         //Required to be empty since extends Fragment
     }
-
-    /*
+/*
     public static Transaction_Activity newInstance(ArrayList<Transaction> t) {
         Transaction_Activity fragment = new Transaction_Activity();
 
@@ -36,9 +35,8 @@ public class Transaction_Activity extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         //Inflate the fragment with the corresponding layout
-        View rootView = inflater.inflate(R.layout.transaction_list_layout, container);
-
-        ArrayList<Transaction> transactions = savedInstanceState.getParcelableArrayList("transactions");
+        View rootView = inflater.inflate(R.layout.transaction_list_layout, container, false);
+        ArrayList<Transaction> transactions = getArguments().getParcelableArrayList("TRANSACTIONS");
 
         ListView transaction_list = rootView.findViewById(R.id.transaction_list);
         transaction_list.setAdapter(new TransactionAdapter(getActivity(), transactions));

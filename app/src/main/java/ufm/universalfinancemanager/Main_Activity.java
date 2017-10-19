@@ -87,18 +87,18 @@ public class Main_Activity extends AppCompatActivity {
 
     private void selectItem(int position) {
         switch(position) {
-            case(1):    //HOME
+            case(0):    //HOME
                 break;
-            case(2):    //BUDGET
+            case(1):    //BUDGET
                 break;
-            case(3):    //TRANSACTIONS
+            case(2):    //TRANSACTIONS
 
                 //Create a new Transaction_Activity to place in main view container
-                Bundle bundle = new Bundle();
-                bundle.putParcelableArrayList("transactions", sessionUser.getTransactions());
 
                 Fragment fragment = new Transaction_Activity();
-                fragment.setArguments(bundle);
+                Bundle b = new Bundle();
+                b.putParcelableArrayList("TRANSACTIONS", sessionUser.getTransactions());
+                fragment.setArguments(b);
                 FragmentManager fragmentManager = getFragmentManager();
 
                 //Replace the current container with the fragment and commit changes
@@ -119,13 +119,13 @@ public class Main_Activity extends AppCompatActivity {
                 list_view.setItemChecked(position, true);
                 drawer_layout.closeDrawer(list_view);
                 break;
-            case(4):    //INCOME/OUTCOME
+            case(3):    //INCOME/OUTCOME
                 break;
-            case(5):    //NET WORTH
+            case(4):    //NET WORTH
                 break;
-            case(6):    //Reminders
+            case(5):    //Reminders
                 break;
-            case(7):    //Settings
+            case(6):    //Settings
                 break;
         }
     }
