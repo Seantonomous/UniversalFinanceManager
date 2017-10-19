@@ -29,6 +29,14 @@ public class User implements Serializable {
     //Later
     //private ArrayList<Reminder> reminders;
 
+    public User(String username) {
+        this.username = username;
+        this.password = "";
+        this.accounts = new ArrayList<Account>();
+        this.transactions = new ArrayList<Transaction>();
+        this.categories = new ArrayList<Category>();
+    }
+
     public User(String username, String password, ArrayList<Account> accounts,
                 ArrayList<Transaction> transactions, ArrayList<Category> categories) {
         this.username = username;

@@ -52,6 +52,7 @@ public class Main_Activity extends AppCompatActivity {
         );
 
         /**************TEST DATA*************/
+        sessionUser = new User("Test");
         sessionUser.addAccount(new Account("Checking", AccountType.DEBIT, 0, new Date()));
         sessionUser.addTransaction(new Transaction("Gas", -1, 30.24, new Category("Transportation"),
                 sessionUser.getAccount("Checking"),new Date()));
@@ -93,18 +94,26 @@ public class Main_Activity extends AppCompatActivity {
             case(3):    //TRANSACTIONS
 
                 //Create a new Transaction_Activity to place in main view container
+                Bundle bundle = new Bundle();
+                bundle.putParcelableArrayList("transactions", sessionUser.getTransactions());
+
                 Fragment fragment = new Transaction_Activity();
+                fragment.setArguments(bundle);
                 FragmentManager fragmentManager = getFragmentManager();
 
                 //Replace the current container with the fragment and commit changes
                 fragmentManager.beginTransaction().replace(R.id.fragment_container, fragment).commit();
 
                 //Find the transaction list view, and set its adapter to handle the user's transactions
-                ListView lv = (ListView)findViewById(R.id.transaction_list);
-                lv.setAdapter(new TransactionAdapter(this, sessionUser.getTransactions()));
+                //ListView lv = fragment.getView().findViewById(R.id.transaction_list);
+                //lv.setAdapter(new TransactionAdapter(getApplicationContext(), sessionUser.getTransactions()));
 
                 //Set the action bar title to "Transaction History"
-                getActionBar().setTitle(R.string.transaction_title);
+                try {
+                    getSupportActionBar().setTitle(R.string.transaction_title);
+                }catch(java.lang.NullPointerException e) {
+
+                }
 
                 //Highlight touched item in the nav drawer and then close the nav drawer
                 list_view.setItemChecked(position, true);

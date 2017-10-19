@@ -10,9 +10,12 @@
 
 package ufm.universalfinancemanager;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import java.util.Date;
 
-public class Transaction {
+public class Transaction implements Parcelable {
     private String name;
     private int flow;
     private double amount;
@@ -43,6 +46,40 @@ public class Transaction {
         this.account = account;
         this.date = date;
     }
+
+    public Transaction(Parcel in) {
+        name = in.readString();
+        flow = in.readInt();
+        amount = in.readDouble();
+        category = new Category(in.readString());
+        account = in.readParcelable(Account.class.getClassLoader());
+        date = new Date(in.readLong());
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(this.name);
+        dest.writeInt(this.flow);
+        dest.writeDouble(this.amount);
+        dest.writeString(this.category.toString());
+        dest.writeParcelable(this.account, flags);
+        dest.writeLong(this.date.getTime());
+    }
+
+    public static final Parcelable.Creator<Transaction> CREATOR = new Parcelable.Creator<Transaction>() {
+        public Transaction createFromParcel(Parcel p) {
+            return new Transaction(p);
+        }
+
+        public Transaction[] newArray(int size) {
+            return new Transaction[size];
+        }
+    };
 
     /********Getters**********************/
     public String getName() {return name;}
