@@ -19,7 +19,9 @@ Contributing Team Members:-->
     <TextView android:id="@+id/trans_name"
         android:layout_height="wrap_content"
         android:layout_width="100dp"
-        android:textSize="18sp">
+        android:textSize="18sp"
+        android:maxLines="1"
+        android:ellipsize="end">
     </TextView>
 
     <TextView android:id="@+id/trans_amount"
@@ -31,13 +33,17 @@ Contributing Team Members:-->
     <TextView android:id="@+id/trans_account"
         android:layout_height="wrap_content"
         android:layout_width="60dp"
-        android:textSize="18sp">
+        android:textSize="18sp"
+        android:maxLines="1"
+        android:ellipsize="end">
     </TextView>
 
     <TextView android:id="@+id/trans_category"
         android:layout_height="wrap_content"
         android:layout_width="match_parent"
-        android:textSize="18sp">
+        android:textSize="18sp"
+        android:maxLines="1"
+        android:ellipsize="end">
     </TextView>
 
 </LinearLayout>

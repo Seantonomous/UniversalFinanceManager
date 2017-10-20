@@ -1,3 +1,10 @@
+<!-- Author: Sean Hansen ID:108841276
+Date Started: 10/14/17
+Date Completed:
+Peer Review:
+    Date:
+    Team Members:
+Contributing Team Members:-->
 <ListView xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/transaction_list"
     android:layout_width="match_parent"
