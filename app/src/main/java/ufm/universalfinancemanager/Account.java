@@ -92,4 +92,9 @@ public class Account implements Parcelable {
             return new Account[size];
         }
     };
+
+    @Override
+    public String toString() {
+        return this.getName();
+    }
 }

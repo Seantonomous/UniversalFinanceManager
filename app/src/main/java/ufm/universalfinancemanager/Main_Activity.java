@@ -56,6 +56,10 @@ public class Main_Activity extends AppCompatActivity {
         sessionUser.addAccount(new Account("Checking", AccountType.DEBIT, 0, new Date()));
         sessionUser.addTransaction(new Transaction("Gas", -1, 30.24, new Category("Transportation"),
                 sessionUser.getAccount("Checking"),new Date()));
+        sessionUser.addTransaction(new Transaction("Ralphs", -1, 30.24, new Category("Food"),
+                sessionUser.getAccount("Checking"),new Date()));
+        sessionUser.addTransaction(new Transaction("AMC", -1, 30.24, new Category("Fun"),
+                sessionUser.getAccount("Checking"),new Date()));
         /**************TEST DATA*************/
 
         drawer_items = getResources().getStringArray(R.array.drawer_items);
@@ -94,19 +98,17 @@ public class Main_Activity extends AppCompatActivity {
             case(2):    //TRANSACTIONS
 
                 //Create a new Transaction_Activity to place in main view container
-
                 Fragment fragment = new Transaction_Activity();
+
+                //Put the users transactions in a bundle, pass to fragment via setArguments()
                 Bundle b = new Bundle();
                 b.putParcelableArrayList("TRANSACTIONS", sessionUser.getTransactions());
                 fragment.setArguments(b);
+
                 FragmentManager fragmentManager = getFragmentManager();
 
                 //Replace the current container with the fragment and commit changes
                 fragmentManager.beginTransaction().replace(R.id.fragment_container, fragment).commit();
-
-                //Find the transaction list view, and set its adapter to handle the user's transactions
-                //ListView lv = fragment.getView().findViewById(R.id.transaction_list);
-                //lv.setAdapter(new TransactionAdapter(getApplicationContext(), sessionUser.getTransactions()));
 
                 //Set the action bar title to "Transaction History"
                 try {

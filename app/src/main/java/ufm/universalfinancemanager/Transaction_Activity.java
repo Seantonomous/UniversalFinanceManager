@@ -23,7 +23,7 @@ public class Transaction_Activity extends Fragment {
     public Transaction_Activity() {
         //Required to be empty since extends Fragment
     }
-/*
+    /*
     public static Transaction_Activity newInstance(ArrayList<Transaction> t) {
         Transaction_Activity fragment = new Transaction_Activity();
 

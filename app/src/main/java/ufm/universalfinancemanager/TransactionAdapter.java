@@ -7,12 +7,15 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Locale;
 
 public class TransactionAdapter extends BaseAdapter {
     private ArrayList<Transaction> transactions;
     private Context context;
     private static LayoutInflater inflater = null;
+    private static SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd", Locale.ENGLISH);
 
     public TransactionAdapter(Context c, ArrayList<Transaction> transactions) {
         this.transactions = transactions;
@@ -58,7 +61,7 @@ public class TransactionAdapter extends BaseAdapter {
         holder.categoryView = (TextView)rowView.findViewById(R.id.trans_category);
 
         //Set the text of each textview based on its corresponding transaction attribute
-        holder.dateView.setText(transactions.get(position).getDate().toString());
+        holder.dateView.setText(dateFormat.format(transactions.get(position).getDate()));
         holder.nameView.setText(transactions.get(position).getName());
         holder.amountView.setText(Double.toString(transactions.get(position).getAmount()));
         holder.accountView.setText(transactions.get(position).getAccount().toString());
