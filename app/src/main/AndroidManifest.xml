@@ -1,4 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!-- Author: Sean Hansen ID:108841276
+Date Started: 9/13/17
+Date Completed: 9/28/17
+Peer Review:
+    Date:
+    Team Members:
+Contributing Team Members:-->
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="ufm.universalfinancemanager">
 
@@ -7,15 +14,17 @@
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
-        android:supportsRtl="true"
-        android:theme="@style/AppTheme">
-        <activity android:name=".Login_Activity">
+        android:supportsRtl="true">
+        <activity android:name=".Login_Activity"
+            android:theme="@style/NoTitleBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+
+        </activity>
+        <activity android:name=".Main_Activity" android:theme="@style/AppTheme">
         </activity>
     </application>
-
 </manifest>

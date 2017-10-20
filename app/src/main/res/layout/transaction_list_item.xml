@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Author: Sean Hansen ID:108841276
+Date Started: 10/14/17
+Date Completed:
+Peer Review:
+    Date:
+    Team Members:
+Contributing Team Members:-->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView android:id="@+id/trans_date"
+        android:layout_height="wrap_content"
+        android:layout_width="60dp"
+        android:textSize="18sp">
+    </TextView>
+
+    <TextView android:id="@+id/trans_name"
+        android:layout_height="wrap_content"
+        android:layout_width="100dp"
+        android:textSize="18sp">
+    </TextView>
+
+    <TextView android:id="@+id/trans_amount"
+        android:layout_height="wrap_content"
+        android:layout_width="60dp"
+        android:textSize="18sp">
+    </TextView>
+
+    <TextView android:id="@+id/trans_account"
+        android:layout_height="wrap_content"
+        android:layout_width="60dp"
+        android:textSize="18sp">
+    </TextView>
+
+    <TextView android:id="@+id/trans_category"
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:textSize="18sp">
+    </TextView>
+
+</LinearLayout>

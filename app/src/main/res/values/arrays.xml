@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <array name="drawer_items">
+        <item>Home</item>
+        <item>Budget Overview</item>
+        <item>Transaction History</item>
+        <item>Income/Outcome</item>
+        <item>Net Worth</item>
+        <item>Reminders</item>
+        <item>Settings</item>
+    </array>
+</resources>

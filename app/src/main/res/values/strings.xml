@@ -1,3 +1,20 @@
+<!-- Author: Sean Hansen ID:108841276
+Date Started: 9/13/17
+Date Completed:
+Peer Review:
+    Date:
+    Team Members:
+Contributing Team Members:-->
+
 <resources>
     <string name="app_name">UniversalFinanceManager</string>
+    <string name="drawer_open">Open navigation</string>
+    <string name="drawer_close">Close navigation</string>
+
+    <!--Page Titles-->
+    <string name="home_title">UFM Home</string>
+    <string name="transaction_title">Transaction History</string>
+    <string name="budget_title">Budget Overview</string>
+    <string name="account_title">Accounts</string>
+    <string name="networth_title">Net Worth</string>
 </resources>
