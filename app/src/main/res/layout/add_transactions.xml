@@ -7,75 +7,101 @@ Peer Review:
     Team Members:
 Contributing Team Members:
 -->
-
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:weightSum="1">
+    android:padding="10dp"
+    android:fillViewport="false">
 
-    <TextView
-        android:id="@+id/textView"
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Add Transactions"
-        android:textColor="@android:color/background_dark"
-        android:textSize="18sp" />
+        android:weightSum="1">
 
-    <EditText
-        android:id="@id/trans_name"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint = "Name"
-        android:inputType="textPersonName"
-        android:layout_weight="0.05" />
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Add Transaction"
+            android:textColor="@android:color/holo_red_dark"
+            android:textSize="18sp"
+            android:visibility="visible" />
 
-    <EditText
-        android:id="@id/trans_amount"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint = "$00.00"
-        android:inputType="numberDecimal"
-        android:layout_weight="0.05" />
+        <EditText
+            android:id="@+id/name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.05"
+            android:hint="Name"
+            android:inputType="textPersonName" />
 
-    <EditText
-        android:id="@id/trans_date"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint = "mm/dd/yy"
-        android:inputType="date"
-        android:layout_weight="0.05" />
+        <EditText
+            android:id="@+id/amount"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.05"
+            android:hint="$00.00"
+            android:inputType="numberDecimal" />
 
-    <!--for category selection-->
-    <Spinner
-        android:id="@+id/spinner"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@android:drawable/btn_dropdown" />
-    <!--for frequency selection-->
-    <Spinner
-        android:id="@+id/spinner2"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@android:drawable/btn_dropdown"/>
-    <!--for account selection-->
-    <Spinner
-        android:id="@+id/spinner3"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@android:drawable/btn_dropdown"/>
+        <EditText
+            android:id="@+id/date"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.05"
+            android:hint="mm/dd/yy"
+            android:inputType="date" />
 
-    <EditText
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint = "Notes"
-        android:inputType="textShortMessage"
-        android:layout_weight="0.27" />
+        <!--Drop Down menu for category selection-->
+        <Spinner
+            android:id="@+id/account"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@android:drawable/btn_dropdown"
+            android:entries="@array/accounts" />
 
-    <Button
-        android:id="@+id/button"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Done" />
+        <!--Drop Down menu for account selection-->
+        <Spinner
+            android:id="@+id/category"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@android:drawable/btn_dropdown"
+            android:entries="@array/categories"/>
 
-</LinearLayout>
+        <CheckBox
+            android:id="@+id/frequency"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Repeat" />
+
+        <!--Drop Down menu for frequency selection-->
+        <Spinner
+            android:id="@+id/duration"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@android:drawable/btn_dropdown"
+            android:entries="@array/duration"/>
+
+        <EditText
+            android:id="@+id/notes"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.27"
+            android:hint="Notes"
+            android:inputType="textShortMessage" />
+
+        <Button
+            android:id="@+id/done"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Done" />
+
+        <Button
+            android:id="@+id/cancel"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Cancel" />
+
+    </LinearLayout>
+</ScrollView>

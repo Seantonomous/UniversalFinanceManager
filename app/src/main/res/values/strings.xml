@@ -17,4 +17,33 @@ Contributing Team Members:-->
     <string name="budget_title">Budget Overview</string>
     <string name="account_title">Accounts</string>
     <string name="networth_title">Net Worth</string>
+
+
+    <string-array name="categories">
+        <item>Grocery</item>
+        <item>Gas</item>
+        <item>Rent</item>
+        <item>Travelling</item>
+        <item>Cosmetics</item>
+    </string-array>
+
+    <string-array name="accounts">
+        <item>BOFA</item>
+        <item>Chase</item>
+        <item>Cash</item>
+    </string-array>
+
+    <string-array name="duration">
+        <item>Daily</item>
+        <item>Weekly</item>
+        <item>Monthly</item>
+        <item>Yearly</item>
+    </string-array>
+
+    <string-array name="accountsType">
+        <item>Checking</item>
+        <item>Savings</item>
+        <item>Cash</item>
+        <item>Credit Card</item>
+    </string-array>
 </resources>
