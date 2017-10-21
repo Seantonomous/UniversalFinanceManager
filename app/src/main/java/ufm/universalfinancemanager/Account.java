@@ -9,13 +9,12 @@
 */
 package ufm.universalfinancemanager;
 
-import java.util.Date;
-import ufm.universalfinancemanager.Transaction;
+import android.os.Parcel;
+import android.os.Parcelable;
 
-public class Account {
-    private enum AccountType {
-        CREDIT, DEBIT, CASH
-    }
+import java.util.Date;
+
+public class Account implements Parcelable {
 
     private String name;
     AccountType type;
@@ -36,6 +35,7 @@ public class Account {
         this.type = type;
         this.balance = balance;
         OpeningDate = openingDate;
+        this.notes = "";
     }
 
     /******************Getters**********************/
@@ -59,5 +59,42 @@ public class Account {
             case CREDIT:
                 break;
         }
+    }
+
+    public Account(Parcel in) {
+        name = in.readString();
+        type = AccountType.valueOf(in.readString());
+        balance = in.readDouble();
+        OpeningDate = new Date(in.readLong());
+        notes = in.readString();
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(name);
+        dest.writeString(type.name());
+        dest.writeDouble(balance);
+        dest.writeLong(OpeningDate.getTime());
+        dest.writeString(notes);
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    public static final Parcelable.Creator<Account> CREATOR = new Parcelable.Creator<Account>() {
+        public Account createFromParcel(Parcel p) {
+            return new Account(p);
+        }
+
+        public Account[] newArray(int size) {
+            return new Account[size];
+        }
+    };
+
+    @Override
+    public String toString() {
+        return this.getName();
     }
 }

@@ -23,14 +23,27 @@ public class User implements Serializable {
 
     private ArrayList<Account> accounts;
     private ArrayList<Transaction> transactions;
-    //private Arraylist<Budget> budgets;
+    //private ArrayList<Budget> budgets;
     private ArrayList<Category> categories;
 
     //Later
     //private ArrayList<Reminder> reminders;
 
-    public User(String name) {
-        username = name;
+    public User(String username) {
+        this.username = username;
+        this.password = "";
+        this.accounts = new ArrayList<Account>();
+        this.transactions = new ArrayList<Transaction>();
+        this.categories = new ArrayList<Category>();
+    }
+
+    public User(String username, String password, ArrayList<Account> accounts,
+                ArrayList<Transaction> transactions, ArrayList<Category> categories) {
+        this.username = username;
+        this.password = password;
+        this.accounts = accounts;
+        this.transactions = transactions;
+        this.categories = categories;
     }
 
     public void setUserName(String name) {

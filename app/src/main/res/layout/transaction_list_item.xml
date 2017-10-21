@@ -8,30 +8,42 @@ Peer Review:
 Contributing Team Members:-->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="Horizontal">
+    android:layout_height="match_parent">
 
     <TextView android:id="@+id/trans_date"
         android:layout_height="wrap_content"
-        android:layout_width="wrap_content">
+        android:layout_width="60dp"
+        android:textSize="18sp">
     </TextView>
 
     <TextView android:id="@+id/trans_name"
         android:layout_height="wrap_content"
-        android:layout_width="wrap_content">
+        android:layout_width="100dp"
+        android:textSize="18sp"
+        android:maxLines="1"
+        android:ellipsize="end">
     </TextView>
 
     <TextView android:id="@+id/trans_amount"
         android:layout_height="wrap_content"
-        android:layout_width="wrap_content">
+        android:layout_width="60dp"
+        android:textSize="18sp">
     </TextView>
 
     <TextView android:id="@+id/trans_account"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:layout_width="60dp"
+        android:textSize="18sp"
+        android:maxLines="1"
+        android:ellipsize="end">
+    </TextView>
 
     <TextView android:id="@+id/trans_category"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:textSize="18sp"
+        android:maxLines="1"
+        android:ellipsize="end">
+    </TextView>
 
 </LinearLayout>
