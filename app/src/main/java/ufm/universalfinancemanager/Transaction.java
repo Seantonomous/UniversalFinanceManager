@@ -12,10 +12,15 @@ package ufm.universalfinancemanager;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.widget.TextView;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Locale;
 
-public class Transaction implements Parcelable {
+public class Transaction implements Parcelable, ListItem {
     private String name;
     private int flow;
     private double amount;
@@ -24,6 +29,7 @@ public class Transaction implements Parcelable {
     private boolean frequency;
     private Date date;
     private String notes;
+    private static SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd", Locale.ENGLISH);
 
     public Transaction(String name, int flow, double amount, Category category,
                        Account account, Date date, String notes) {
@@ -80,6 +86,36 @@ public class Transaction implements Parcelable {
             return new Transaction[size];
         }
     };
+
+    @Override
+    public int getViewType() {
+        return RowType.LIST_ITEM.ordinal();
+    }
+
+    @Override
+    public View getView(LayoutInflater inflater, View convertView) {
+        View view;
+        if(convertView == null)
+            view = (View)inflater.inflate(R.layout.transaction_list_item, null);
+        else
+            view = convertView;
+
+        //Instantiate all the textviews from the layout
+        TextView dateText = (TextView)view.findViewById(R.id.trans_date);
+        TextView nameText = (TextView)view.findViewById(R.id.trans_name);
+        TextView amountText = (TextView)view.findViewById(R.id.trans_amount);
+        TextView accountText = (TextView)view.findViewById(R.id.trans_account);
+        TextView categoryText = (TextView)view.findViewById(R.id.trans_category);
+
+        //Set the text of each textview based on its corresponding transaction attribute
+        dateText.setText(dateFormat.format(this.date));
+        nameText.setText(this.name);
+        amountText.setText(Double.toString(this.amount));
+        accountText.setText(this.account.toString());
+        categoryText.setText(this.category.toString());
+
+        return view;
+    }
 
     /********Getters**********************/
     public String getName() {return name;}

@@ -10,6 +10,7 @@
 package ufm.universalfinancemanager;
 
 import android.app.Fragment;
+import android.app.ListFragment;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,10 +18,11 @@ import android.view.ViewGroup;
 import android.widget.ListView;
 
 import java.util.ArrayList;
+import java.util.Date;
 
-public class Transaction_Activity extends Fragment {
+public class TransactionFragment extends ListFragment {
 
-    public Transaction_Activity() {
+    public TransactionFragment() {
         //Required to be empty since extends Fragment
     }
     /*
@@ -39,7 +41,20 @@ public class Transaction_Activity extends Fragment {
         ArrayList<Transaction> transactions = getArguments().getParcelableArrayList("TRANSACTIONS");
 
         ListView transaction_list = rootView.findViewById(R.id.transaction_list);
-        transaction_list.setAdapter(new TransactionAdapter(getActivity(), transactions));
+
+        ArrayList<ListItem> items = new ArrayList<>();
+        Date cur_date = transactions.get(0).getDate();
+
+        for(int i=0;i<transactions.size();i++) {
+            Date t_date = transactions.get(i).getDate();
+            if(cur_date.equals(t_date)) {
+                items.add(new TransactionDateHeader(t_date));
+                cur_date = t_date;
+            }
+            items.add(transactions.get(i));
+        }
+
+        transaction_list.setAdapter(new TransactionAdapter(getActivity(), items));
         return rootView;
     }
 }

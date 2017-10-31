@@ -13,69 +13,65 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.BaseAdapter;
-import android.widget.TextView;
+import android.widget.ArrayAdapter;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Locale;
 
-public class TransactionAdapter extends BaseAdapter {
-    private ArrayList<Transaction> transactions;
+public class TransactionAdapter extends ArrayAdapter<ListItem> {
+    private static final int TYPE_TRANSACTION = 0;
+    private static final int TYPE_SEPARATOR = 1;
+
     private Context context;
     private static LayoutInflater inflater = null;
-    private static SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd", Locale.ENGLISH);
 
-    public TransactionAdapter(Context c, ArrayList<Transaction> transactions) {
-        this.transactions = transactions;
+
+    public TransactionAdapter(Context c, ArrayList<ListItem> transactions) {
+        super(c, 0, transactions);
         this.context = c;
-        inflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        inflater = LayoutInflater.from(c); //LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
 
-    @Override
-    public int getCount() {
-        return transactions.size();
+    public int getViewTypeCount() {
+        return RowType.values().length;
     }
 
-    @Override
-    public Object getItem(int position) {
-        return position;
+    public int getItemViewType(int position) {
+        return getItem(position).getViewType();
     }
 
+    /*
     @Override
     public long getItemId(int position) {
         return position;
     }
+    */
 
     public class Holder {
-        TextView dateView;
-        TextView nameView;
-        TextView amountView;
-        TextView accountView;
-        TextView categoryView;
+        public View view;
     }
 
     @Override
     public View getView(final int position, View convertView, ViewGroup parent) {
-        Holder holder = new Holder();
+        Holder holder = null;
+        int rowtype = getItemViewType(position);
+        View view;
 
-        //inflate the row item layout (multiple textviews
-        View rowView = inflater.inflate(R.layout.transaction_list_item, null);
-
-        //Instantiate all the textviews from the layout
-        holder.dateView = (TextView)rowView.findViewById(R.id.trans_date);
-        holder.nameView = (TextView)rowView.findViewById(R.id.trans_name);
-        holder.amountView = (TextView)rowView.findViewById(R.id.trans_amount);
-        holder.accountView = (TextView)rowView.findViewById(R.id.trans_account);
-        holder.categoryView = (TextView)rowView.findViewById(R.id.trans_category);
-
-        //Set the text of each textview based on its corresponding transaction attribute
-        holder.dateView.setText(dateFormat.format(transactions.get(position).getDate()));
-        holder.nameView.setText(transactions.get(position).getName());
-        holder.amountView.setText(Double.toString(transactions.get(position).getAmount()));
-        holder.accountView.setText(transactions.get(position).getAccount().toString());
-        holder.categoryView.setText(transactions.get(position).getCategory().toString());
-
-        return rowView;
+        if (convertView == null) {
+            holder = new Holder();
+            switch (rowtype) {
+                case TYPE_TRANSACTION:
+                    convertView = inflater.inflate(R.layout.transaction_list_item, null);
+                    holder.view = getItem(position).getView(inflater, convertView);
+                    break;
+                case TYPE_SEPARATOR:
+                    convertView = inflater.inflate(R.layout.transaction_header_item, null);
+                    holder.view = getItem(position).getView(inflater, convertView);
+                    break;
+            }
+            convertView.setTag(holder);
+        }else {
+            holder = (Holder)convertView.getTag();
+        }
+        return convertView;
     }
 }

@@ -24,7 +24,10 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Locale;
 
 import ufm.universalfinancemanager.User;
 
@@ -34,6 +37,9 @@ public class Main_Activity extends AppCompatActivity {
     private ListView list_view;
     private ActionBarDrawerToggle drawer_toggle;
     private User sessionUser;
+
+    //For Test dates...remove later
+    SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy", Locale.ENGLISH);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,12 +61,26 @@ public class Main_Activity extends AppCompatActivity {
         /**************TEST DATA*************/
         sessionUser = new User("Test");
         sessionUser.addAccount(new Account("Checking", AccountType.DEBIT, 0, new Date()));
-        sessionUser.addTransaction(new Transaction("Gas", -1, 30.24, new Category("Transportation"),
-                sessionUser.getAccount("Checking"),new Date()));
-        sessionUser.addTransaction(new Transaction("Ralphs", -1, 30.24, new Category("Food"),
-                sessionUser.getAccount("Checking"),new Date()));
-        sessionUser.addTransaction(new Transaction("AMC", -1, 30.24, new Category("Fun"),
-                sessionUser.getAccount("Checking"),new Date()));
+
+        try {
+            sessionUser.addTransaction(new Transaction("Gas", -1, 30.24, new Category("Transportation"),
+                    sessionUser.getAccount("Checking"), dateFormat.parse("10/28/2017")));
+            sessionUser.addTransaction(new Transaction("Ralphs", -1, 86.13, new Category("Food"),
+                    sessionUser.getAccount("Checking"), dateFormat.parse("10/28/2017")));
+            sessionUser.addTransaction(new Transaction("AMC", -1, 8.50, new Category("Fun"),
+                    sessionUser.getAccount("Checking"), dateFormat.parse("10/29/2017")));
+            sessionUser.addTransaction(new Transaction("CSUN", -1, 57.00, new Category("Education"),
+                    sessionUser.getAccount("Checking"), dateFormat.parse("10/30/2017")));
+            sessionUser.addTransaction(new Transaction("Amazon", -1, 24.15, new Category("Household"),
+                    sessionUser.getAccount("Checking"), dateFormat.parse("10/30/2017")));
+            sessionUser.addTransaction(new Transaction("Autozone", -1, 11.15, new Category("Vehicle Maintenance"),
+                    sessionUser.getAccount("Checking"), dateFormat.parse("10/30/2017")));
+            sessionUser.addTransaction(new Transaction("Gas", -1, 29.13, new Category("Transportation"),
+                    sessionUser.getAccount("Checking"), dateFormat.parse("10/30/2017")));
+        }catch(ParseException e) {
+            //shouldn't happen...
+        }
+
         /**************TEST DATA*************/
 
         drawer_items = getResources().getStringArray(R.array.drawer_items);
@@ -99,7 +119,7 @@ public class Main_Activity extends AppCompatActivity {
             case(2):    //TRANSACTIONS
 
                 //Create a new Transaction_Activity to place in main view container
-                Fragment fragment = new Transaction_Activity();
+                Fragment fragment = new TransactionFragment();
 
                 //Put the users transactions in a bundle, pass to fragment via setArguments()
                 Bundle b = new Bundle();
