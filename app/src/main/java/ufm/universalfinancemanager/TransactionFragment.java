@@ -43,11 +43,15 @@ public class TransactionFragment extends ListFragment {
         ListView transaction_list = rootView.findViewById(R.id.transaction_list);
 
         ArrayList<ListItem> items = new ArrayList<>();
-        Date cur_date = transactions.get(0).getDate();
+        Date cur_date = transactions.get(transactions.size() - 1).getDate();
 
-        for(int i=0;i<transactions.size();i++) {
+        //Add the header for the latest transaction
+        items.add(new TransactionDateHeader(cur_date));
+
+        for(int i=transactions.size()-1; i>=0; i--) {
             Date t_date = transactions.get(i).getDate();
-            if(cur_date.equals(t_date)) {
+            //If the current date is different the next transaction's date, create a new header
+            if(!cur_date.equals(t_date)) {
                 items.add(new TransactionDateHeader(t_date));
                 cur_date = t_date;
             }

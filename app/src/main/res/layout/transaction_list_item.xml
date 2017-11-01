@@ -6,44 +6,47 @@ Peer Review:
     Date:
     Team Members:
 Contributing Team Members:-->
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:stretchColumns="1">
 
-    <TextView android:id="@+id/trans_date"
-        android:layout_height="wrap_content"
-        android:layout_width="60dp"
-        android:textSize="18sp">
-    </TextView>
+    <TableRow>
+        <TextView android:id="@+id/trans_date"
+            android:textSize="18sp"
+            android:padding="4dp">
+        </TextView>
 
-    <TextView android:id="@+id/trans_name"
-        android:layout_height="wrap_content"
-        android:layout_width="100dp"
-        android:textSize="18sp"
-        android:maxLines="1"
-        android:ellipsize="end">
-    </TextView>
+        <TextView android:id="@+id/trans_name"
+            android:textSize="18sp"
+            android:ellipsize="end"
+            android:padding="4dp">
+        </TextView>
 
-    <TextView android:id="@+id/trans_amount"
-        android:layout_height="wrap_content"
-        android:layout_width="60dp"
-        android:textSize="18sp">
-    </TextView>
+        <TextView android:id="@+id/trans_amount"
+            android:textSize="18sp"
+            android:padding="4dp"
+            android:gravity="end">
+        </TextView> 
+    </TableRow>
 
-    <TextView android:id="@+id/trans_account"
-        android:layout_height="wrap_content"
-        android:layout_width="60dp"
-        android:textSize="18sp"
-        android:maxLines="1"
-        android:ellipsize="end">
-    </TextView>
+    <TableRow>
+        <TextView android:id="@+id/trans_account"
+            android:textSize="18sp"
+            android:ellipsize="end"
+            android:padding="4dp">
+        </TextView>
 
-    <TextView android:id="@+id/trans_category"
-        android:layout_height="wrap_content"
-        android:layout_width="match_parent"
-        android:textSize="18sp"
-        android:maxLines="1"
-        android:ellipsize="end">
-    </TextView>
+        <TextView>
 
-</LinearLayout>
+        </TextView>
+
+        <TextView android:id="@+id/trans_category"
+            android:gravity="end"
+            android:textSize="18sp"
+            android:ellipsize="end"
+            android:padding="4dp">
+        </TextView>
+    </TableRow>
+
+</TableLayout>
