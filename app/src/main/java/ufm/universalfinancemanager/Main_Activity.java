@@ -10,8 +10,10 @@
 package ufm.universalfinancemanager;
 
 import android.app.FragmentManager;
+import android.content.Intent;
 import android.content.res.Configuration;
 import android.app.Fragment;
+import android.support.v4.app.FragmentActivity;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
@@ -23,6 +25,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -31,7 +34,7 @@ import java.util.Locale;
 
 import ufm.universalfinancemanager.User;
 
-public class Main_Activity extends AppCompatActivity {
+public class Main_Activity extends AppCompatActivity{
     private String[] drawer_items;
     private DrawerLayout drawer_layout;
     private ListView list_view;
@@ -182,10 +185,27 @@ public class Main_Activity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         // Pass the event to ActionBarDrawerToggle, if it returns
         // true, then it has handled the app icon touch event
+
         if (drawer_toggle.onOptionsItemSelected(item)) {
             return true;
         }
-
-        return super.onOptionsItemSelected(item);
+        int id = item.getItemId();
+        switch(id) {
+           case R.id.action_add_transaction:
+               startActivity(new Intent(this, Transaction_Add.class));
+               return true;
+            case R.id.action_add_account:
+                startActivity(new Intent(this, Account_Add.class));
+                return true;
+            case R.id.action_add_category:
+                startActivity(new Intent(this, Category_Add.class));
+                return true;
+            case R.id.action_add_reminder:
+                startActivity(new Intent(this, Reminder_Add.class));
+                return true;
+               default:
+                   return super.onOptionsItemSelected(item);
+        }
     }
+
 }
