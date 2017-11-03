@@ -25,5 +25,9 @@ Contributing Team Members:-->
         </activity>
         <activity android:name=".Main_Activity" android:theme="@style/AppTheme">
         </activity>
+        <activity android:name=".Transaction_Add"></activity>
+        <activity android:name=".Account_Add"></activity>
+        <activity android:name=".Category_Add"></activity>
+        <activity android:name=".Reminder_Add"></activity>
     </application>
 </manifest>
