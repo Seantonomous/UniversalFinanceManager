@@ -25,7 +25,7 @@ import java.sql.Date;
  */
 
 public class Transaction_Add extends Activity {
-    private boolean valid_input = true;
+    private boolean valid_input = false;
     private User sessionUser;
 
     private EditText edit_name;
@@ -84,7 +84,7 @@ public class Transaction_Add extends Activity {
             @Override
             public void validate(TextView textView, String text) {
                 if(text.length() == 0) {
-                    textView.setError("Transaction must have an ammount");
+                    textView.setError("Transaction must have an amount");
                     valid_input = false;
                 }else {
                     valid_input = true;
@@ -108,6 +108,13 @@ public class Transaction_Add extends Activity {
 
                     finish();
                 }
+            }
+        });
+
+        cancel_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
             }
         });
     }
