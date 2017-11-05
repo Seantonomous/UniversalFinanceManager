@@ -16,6 +16,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.TextView;
 
+import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
@@ -29,7 +30,9 @@ public class Transaction implements Parcelable, ListItem {
     private boolean frequency;
     private Date date;
     private String notes;
+
     private static SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd", Locale.ENGLISH);
+    private NumberFormat num_format = NumberFormat.getCurrencyInstance();
 
     public Transaction(String name, int flow, double amount, Category category,
                        Account account, Date date, String notes) {
@@ -77,6 +80,7 @@ public class Transaction implements Parcelable, ListItem {
         dest.writeLong(this.date.getTime());
     }
 
+    //Needed for parcelable types
     public static final Parcelable.Creator<Transaction> CREATOR = new Parcelable.Creator<Transaction>() {
         public Transaction createFromParcel(Parcel p) {
             return new Transaction(p);
@@ -110,7 +114,7 @@ public class Transaction implements Parcelable, ListItem {
         //Set the text of each textview based on its corresponding transaction attribute
         dateText.setText(dateFormat.format(this.date));
         nameText.setText(this.name);
-        amountText.setText(Double.toString(this.amount));
+        amountText.setText(num_format.format(this.amount));
         accountText.setText(this.account.toString());
         categoryText.setText(this.category.toString());
 

@@ -41,6 +41,8 @@ public class Main_Activity extends AppCompatActivity{
     private ActionBarDrawerToggle drawer_toggle;
     private User sessionUser;
 
+    public static final String EXTRA_USER = "ufm.universalfinancemanager.USER";
+
     //For Test dates...remove later
     SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy", Locale.ENGLISH);
 
@@ -63,6 +65,7 @@ public class Main_Activity extends AppCompatActivity{
 
         /**************TEST DATA*************/
         sessionUser = new User("Test");
+        sessionUser.addCategory(new Category("Gas"));
         sessionUser.addAccount(new Account("Checking", AccountType.DEBIT, 0, new Date()));
 
         try {
@@ -192,7 +195,9 @@ public class Main_Activity extends AppCompatActivity{
         int id = item.getItemId();
         switch(id) {
            case R.id.action_add_transaction:
-               startActivity(new Intent(this, Transaction_Add.class));
+               Intent intent = new Intent(this, Transaction_Add.class);
+               intent.putExtra(EXTRA_USER, sessionUser);
+               startActivity(intent);
                return true;
             case R.id.action_add_account:
                 startActivity(new Intent(this, Account_Add.class));

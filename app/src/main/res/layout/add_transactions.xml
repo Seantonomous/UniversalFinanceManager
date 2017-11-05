@@ -60,8 +60,7 @@ Contributing Team Members:
             android:id="@+id/account"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@android:drawable/btn_dropdown"
-            android:entries="@array/accounts" />
+            android:background="@android:drawable/btn_dropdown"/>
 
         <!--Drop Down menu for account selection-->
         <Spinner

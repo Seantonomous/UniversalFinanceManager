@@ -10,12 +10,15 @@
 
 package ufm.universalfinancemanager;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import java.io.Serializable;
 import ufm.universalfinancemanager.Transaction;
 import java.util.ArrayList;
 import java.util.Locale;
 
-public class User implements Serializable {
+public class User implements Parcelable {
     private String username;
 
     //Placeholder, won't actually be string
@@ -35,6 +38,21 @@ public class User implements Serializable {
         this.accounts = new ArrayList<Account>();
         this.transactions = new ArrayList<Transaction>();
         this.categories = new ArrayList<Category>();
+    }
+
+    public User() {
+        this.accounts = new ArrayList<>();
+        this.transactions = new ArrayList<>();
+        this.categories = new ArrayList<>();
+    }
+
+    public User(Parcel in) {
+        this();
+        this.username = in.readString();
+        this.password = in.readString();
+        in.readTypedList(this.accounts, Account.CREATOR);
+        in.readTypedList(this.transactions, Transaction.CREATOR);
+        in.readTypedList(this.categories, Category.CREATOR);
     }
 
     public User(String username, String password, ArrayList<Account> accounts,
@@ -112,4 +130,27 @@ public class User implements Serializable {
         return this.categories;
     }
 
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(this.username);
+        dest.writeString(this.password);
+        dest.writeTypedList(this.accounts);
+        dest.writeTypedList(this.transactions);
+        dest.writeTypedList(this.categories);
+    }
+
+    public static final Parcelable.Creator<User> CREATOR = new Parcelable.Creator<User>() {
+        public User createFromParcel(Parcel p) {
+            return new User(p);
+        }
+
+        public User[] newArray(int size) {
+            return new User[size];
+        }
+    };
 }
