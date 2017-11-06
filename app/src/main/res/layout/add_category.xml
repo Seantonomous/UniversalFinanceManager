@@ -29,6 +29,12 @@ Contributing Team Members:
         android:hint="Name"
         android:inputType="text" />
 
+    <Spinner
+        android:id="@+id/category_flow"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@android:drawable/btn_dropdown" />
+
     <Button
         android:id="@+id/Done"
         android:layout_width="match_parent"
