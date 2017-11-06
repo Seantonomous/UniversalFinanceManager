@@ -14,6 +14,8 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -31,7 +33,12 @@ public class Transaction_Add extends Activity {
     private EditText edit_name;
     private EditText edit_amount;
     private EditText edit_date;
-    private Spinner account_spinner;
+    private RadioGroup flow_radioGroup;
+    private RadioButton income_radioButton;
+    private RadioButton expense_radioButton;
+    private RadioButton transfer_radioButton;
+    private Spinner toAccount_spinner;
+    private Spinner fromAccount_spinner;
     private Spinner category_spinner;
     private EditText edit_notes;
     private Button done_button;
@@ -48,7 +55,12 @@ public class Transaction_Add extends Activity {
         edit_name = (EditText)findViewById(R.id.name);
         edit_amount = (EditText)findViewById(R.id.amount);
         edit_date = (EditText)findViewById(R.id.date);
-        account_spinner = (Spinner)findViewById(R.id.account);
+        flow_radioGroup = (RadioGroup) findViewById(R.id.flow);
+        income_radioButton = (RadioButton) findViewById(R.id.flow_income);
+        expense_radioButton = (RadioButton) findViewById(R.id.flow_expense);
+        transfer_radioButton = (RadioButton) findViewById(R.id.flow_transfer);
+        toAccount_spinner = (Spinner)findViewById(R.id.toaccount);
+        fromAccount_spinner = (Spinner)findViewById(R.id.fromaccount);
         category_spinner = (Spinner)findViewById(R.id.category);
         edit_notes = (EditText)findViewById(R.id.notes);
         done_button = (Button)findViewById(R.id.done);
@@ -64,7 +76,9 @@ public class Transaction_Add extends Activity {
             ArrayAdapter<Account> account_adapter = new ArrayAdapter<>(this,
                     android.R.layout.simple_spinner_item, sessionUser.getAccounts());
             account_adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-            account_spinner.setAdapter(account_adapter);
+            toAccount_spinner.setAdapter(account_adapter);
+            fromAccount_spinner.setAdapter(account_adapter);
+            
         }
 
 
@@ -117,6 +131,33 @@ public class Transaction_Add extends Activity {
                 finish();
             }
         });
+    }
+
+    public void onRadioButtonClicked(View view) {
+        // Is the button now checked?
+        boolean checked = ((RadioButton) view).isChecked();
+
+        // Check which radio button was clicked
+        switch(view.getId()) {
+            case R.id.flow_income:
+                if (checked)
+                    toAccount_spinner.setEnabled(true); // Enable ToAccount Spinner
+                    fromAccount_spinner.setEnabled(false); // Disable FromAccount Spinner
+                    // Change Category Spinner to show Income type Categories
+                    break;
+            case R.id.flow_expense:
+                if (checked)
+                    toAccount_spinner.setEnabled(false); // Disable ToAccount Spinner
+                    fromAccount_spinner.setEnabled(true); // Enable FromAccount Spinner
+                    // Change Category Spinner to show Expense type Categories
+                    break;
+            case R.id.flow_transfer:
+                if (checked)
+                    toAccount_spinner.setEnabled(true); // Enable ToAccount Spinner
+                    fromAccount_spinner.setEnabled(true); // Enable FromAccount Spinner
+                    category_spinner.setEnabled(false); // Disable Category Spinner
+                    break;
+        }
     }
 
     public boolean onCreateOptionsMenu(Menu menu) {
