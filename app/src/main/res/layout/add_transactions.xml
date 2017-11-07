@@ -47,6 +47,33 @@ Contributing Team Members:
             android:hint="$00.00"
             android:inputType="numberDecimal" />
 
+        <RadioGroup
+            android:id="@+id/flow"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <RadioButton
+                android:id="@+id/flow_income"
+                android:layout_width="110dp"
+                android:layout_height="wrap_content"
+                android:onClick="onRadioButtonClicked"
+                android:text="Income" />
+
+            <RadioButton android:id="@+id/flow_expense"
+                android:layout_width="115dp"
+                android:layout_height="wrap_content"
+                android:text="Expense"
+                android:onClick="onRadioButtonClicked"/>
+
+            <RadioButton android:id="@+id/flow_transfer"
+                android:layout_width="110dp"
+                android:layout_height="wrap_content"
+                android:text="Transfer"
+                android:onClick="onRadioButtonClicked"/>
+        </RadioGroup>
+
+
         <EditText
             android:id="@+id/date"
             android:layout_width="match_parent"
@@ -57,18 +84,25 @@ Contributing Team Members:
 
         <!--Drop Down menu for category selection-->
         <Spinner
-            android:id="@+id/account"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@android:drawable/btn_dropdown"/>
-
-        <!--Drop Down menu for account selection-->
-        <Spinner
             android:id="@+id/category"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@android:drawable/btn_dropdown"
             android:entries="@array/categories"/>
+
+        <!--Drop Down menu for toAccount selection-->
+        <Spinner
+            android:id="@+id/toaccount"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@android:drawable/btn_dropdown"/>
+
+        <!--Drop Down menu for fromAccount selection-->
+        <Spinner
+            android:id="@+id/fromaccount"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@android:drawable/btn_dropdown"/>
 
         <CheckBox
             android:id="@+id/frequency"
