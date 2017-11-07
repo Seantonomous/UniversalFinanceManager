@@ -74,13 +74,23 @@ Contributing Team Members:
         </RadioGroup>
 
 
-        <EditText
+        <Button
             android:id="@+id/date"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="0.05"
-            android:hint="mm/dd/yy"
-            android:inputType="date" />
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:layout_weight="0.02"
+            android:onClick="setDate"
+            android:text="Set Date" />
+        <TextView
+            android:id="@+id/textView3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignRight="@+id/button1"
+            android:layout_below="@+id/textView2"
+            android:textAppearance="?android:attr/textAppearanceMedium" />
+
 
         <!--Drop Down menu for category selection-->
         <Spinner
@@ -88,7 +98,7 @@ Contributing Team Members:
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@android:drawable/btn_dropdown"
-            android:entries="@array/categories"/>
+            android:entries="@array/categories" />
 
         <!--Drop Down menu for toAccount selection-->
         <Spinner
