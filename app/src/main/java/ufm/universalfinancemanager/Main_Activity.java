@@ -9,6 +9,7 @@
 */
 package ufm.universalfinancemanager;
 
+import android.app.Activity;
 import android.app.FragmentManager;
 import android.content.Intent;
 import android.content.res.Configuration;
@@ -197,7 +198,7 @@ public class Main_Activity extends AppCompatActivity{
            case R.id.action_add_transaction:
                Intent intent_trans = new Intent(this, Transaction_Add.class);
                intent_trans.putExtra(EXTRA_USER, sessionUser);
-               startActivity(intent_trans);
+               startActivityForResult(intent_trans, 1);
                return true;
             case R.id.action_add_account:
                 Intent intent_account = new Intent(this, Account_Add.class);
@@ -215,4 +216,14 @@ public class Main_Activity extends AppCompatActivity{
         }
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if(requestCode == 1) {
+            if(resultCode == Activity.RESULT_OK) {
+                Transaction newTransaction = data.getParcelableExtra("result");
+                sessionUser.addTransaction(newTransaction);
+
+            }
+        }
+    }
 }

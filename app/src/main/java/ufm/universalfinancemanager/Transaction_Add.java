@@ -2,6 +2,7 @@ package ufm.universalfinancemanager;
 
 import android.app.Activity;
 import android.app.Fragment;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
@@ -21,13 +22,15 @@ import android.widget.TextView;
 
 import java.io.StringBufferInputStream;
 import java.sql.Date;
+import java.util.Calendar;
 
 /**
  * Created by Areeba on 11/2/2017.
  */
 
 public class Transaction_Add extends Activity {
-    private boolean valid_input = false;
+    private boolean valid_name = false;
+    private boolean valid_amount = false;
     private User sessionUser;
 
     private EditText edit_name;
@@ -87,9 +90,9 @@ public class Transaction_Add extends Activity {
             public void validate(TextView textView, String text) {
                 if(text.length() == 0) {
                     textView.setError("Transaction must have a name");
-                    valid_input = false;
+                    valid_name = false;
                 }else {
-                    valid_input = true;
+                    valid_name = true;
                 }
             }
         });
@@ -99,9 +102,9 @@ public class Transaction_Add extends Activity {
             public void validate(TextView textView, String text) {
                 if(text.length() == 0) {
                     textView.setError("Transaction must have an amount");
-                    valid_input = false;
+                    valid_amount = false;
                 }else {
-                    valid_input = true;
+                    valid_amount = true;
                 }
             }
         });
@@ -109,7 +112,25 @@ public class Transaction_Add extends Activity {
         done_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(valid_input) {
+                if(valid_name && valid_amount) {
+                    if(income_radioButton.isChecked()) {
+
+                    }else if(expense_radioButton.isChecked()) {
+
+                        Transaction newTransaction = new Transaction(edit_name.getText().toString(),
+                                Flow.OUTCOME,
+                                Double.parseDouble(edit_amount.getText().toString()),
+                                sessionUser.getCategory(category_spinner.getSelectedItem().toString()),
+                                sessionUser.getAccount(fromAccount_spinner.getSelectedItem().toString()),
+                                Calendar.getInstance().getTime(),
+                                edit_notes.getText().toString());
+
+                        Intent returnIntent = new Intent();
+                        returnIntent.putExtra("result", newTransaction);
+                        setResult(Activity.RESULT_OK, returnIntent);
+                    }else { //transfer
+
+                    }
                     /*sessionUser.addTransaction(
                             new Transaction(edit_name.getText().toString(),
                                     1,
@@ -128,6 +149,8 @@ public class Transaction_Add extends Activity {
         cancel_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Intent returnIntent = new Intent();
+                setResult(Activity.RESULT_CANCELED);
                 finish();
             }
         });
