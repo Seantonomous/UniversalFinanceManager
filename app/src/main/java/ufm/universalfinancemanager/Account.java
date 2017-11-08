@@ -54,9 +54,9 @@ public class Account implements Parcelable {
 
     public void registerTransaction(Transaction t) {
         switch(type) {
-            case DEBIT:
+            case CHECKING:
                 break;
-            case CREDIT:
+            case CREDIT_CARD:
                 break;
         }
     }
