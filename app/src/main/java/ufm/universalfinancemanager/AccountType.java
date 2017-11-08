@@ -5,5 +5,5 @@ package ufm.universalfinancemanager;
  */
 
 public enum AccountType {
-    CREDIT, DEBIT, CASH
+    CREDIT_CARD, CHECKING, SAVINGS, CASH
 }

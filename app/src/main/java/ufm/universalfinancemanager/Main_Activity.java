@@ -66,7 +66,7 @@ public class Main_Activity extends AppCompatActivity{
         /**************TEST DATA*************/
         sessionUser = new User("Test");
         sessionUser.addCategory(new Category("Gas"));
-        sessionUser.addAccount(new Account("Checking", AccountType.DEBIT, 0, new Date()));
+        sessionUser.addAccount(new Account("Checking", AccountType.CHECKING, 0, new Date()));
 
         try {
             sessionUser.addTransaction(new Transaction("Gas", -1, 30.24, new Category("Transportation"),
@@ -195,12 +195,14 @@ public class Main_Activity extends AppCompatActivity{
         int id = item.getItemId();
         switch(id) {
            case R.id.action_add_transaction:
-               Intent intent = new Intent(this, Transaction_Add.class);
-               intent.putExtra(EXTRA_USER, sessionUser);
-               startActivity(intent);
+               Intent intent_trans = new Intent(this, Transaction_Add.class);
+               intent_trans.putExtra(EXTRA_USER, sessionUser);
+               startActivity(intent_trans);
                return true;
             case R.id.action_add_account:
-                startActivity(new Intent(this, Account_Add.class));
+                Intent intent_account = new Intent(this, Account_Add.class);
+                intent_account.putExtra(EXTRA_USER, sessionUser);
+                startActivity(intent_account);
                 return true;
             case R.id.action_add_category:
                 startActivity(new Intent(this, Category_Add.class));
