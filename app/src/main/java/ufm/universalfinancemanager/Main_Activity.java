@@ -208,6 +208,9 @@ public class Main_Activity extends AppCompatActivity{
             case R.id.action_add_reminder:
                 startActivity(new Intent(this, Reminder_Add.class));
                 return true;
+            case R.id.action_add_budget:
+                startActivity(new Intent(this, Budget_Add.class));
+                return true;
                default:
                    return super.onOptionsItemSelected(item);
         }
