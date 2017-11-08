@@ -5,4 +5,5 @@ package ufm.universalfinancemanager;
  */
 
 public enum Flow {
+    INCOME, OUTCOME, TRANSFER
 }

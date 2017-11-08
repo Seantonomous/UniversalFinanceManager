@@ -69,19 +69,19 @@ public class Main_Activity extends AppCompatActivity{
         sessionUser.addAccount(new Account("Checking", AccountType.CHECKING, 0, new Date()));
 
         try {
-            sessionUser.addTransaction(new Transaction("Gas", -1, 30.24, new Category("Transportation"),
+            sessionUser.addTransaction(new Transaction("Gas", Flow.OUTCOME, 30.24, new Category("Transportation"),
                     sessionUser.getAccount("Checking"), dateFormat.parse("10/28/2017")));
-            sessionUser.addTransaction(new Transaction("Ralphs", -1, 86.13, new Category("Food"),
+            sessionUser.addTransaction(new Transaction("Ralphs", Flow.OUTCOME, 86.13, new Category("Food"),
                     sessionUser.getAccount("Checking"), dateFormat.parse("10/28/2017")));
-            sessionUser.addTransaction(new Transaction("AMC", -1, 8.50, new Category("Fun"),
+            sessionUser.addTransaction(new Transaction("AMC", Flow.OUTCOME, 8.50, new Category("Fun"),
                     sessionUser.getAccount("Checking"), dateFormat.parse("10/29/2017")));
-            sessionUser.addTransaction(new Transaction("CSUN", -1, 57.00, new Category("Education"),
+            sessionUser.addTransaction(new Transaction("CSUN", Flow.OUTCOME, 57.00, new Category("Education"),
                     sessionUser.getAccount("Checking"), dateFormat.parse("10/30/2017")));
-            sessionUser.addTransaction(new Transaction("Amazon", -1, 24.15, new Category("Household"),
+            sessionUser.addTransaction(new Transaction("Amazon", Flow.OUTCOME, 24.15, new Category("Household"),
                     sessionUser.getAccount("Checking"), dateFormat.parse("10/30/2017")));
-            sessionUser.addTransaction(new Transaction("Autozone", -1, 11.15, new Category("Vehicle Maintenance"),
+            sessionUser.addTransaction(new Transaction("Autozone", Flow.OUTCOME, 11.15, new Category("Vehicle Maintenance"),
                     sessionUser.getAccount("Checking"), dateFormat.parse("10/30/2017")));
-            sessionUser.addTransaction(new Transaction("Gas", -1, 29.13, new Category("Transportation"),
+            sessionUser.addTransaction(new Transaction("Gas", Flow.OUTCOME, 29.13, new Category("Transportation"),
                     sessionUser.getAccount("Checking"), dateFormat.parse("10/30/2017")));
         }catch(ParseException e) {
             //shouldn't happen...
