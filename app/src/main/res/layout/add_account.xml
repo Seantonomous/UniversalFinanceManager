@@ -45,13 +45,13 @@ Contributing Team Members:
         android:entries="@array/accountsType" />
 
     <Button
-        android:id="@+id/button2"
+        android:id="@+id/submit_account"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Button" />
+        android:text="Submit" />
 
     <Button
-        android:id="@+id/Cancel"
+        android:id="@+id/cancel_account"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Cancel" />

@@ -54,9 +54,17 @@ public class Account implements Parcelable {
 
     public void registerTransaction(Transaction t) {
         switch(type) {
-            case DEBIT:
+            case CHECKING:
+                switch(t.getFlow()) {
+                    case OUTCOME:
+                        balance -= t.getAmount();
+                        break;
+                    case INCOME:
+                        balance += t.getAmount();
+                        break;
+                }
                 break;
-            case CREDIT:
+            case CREDIT_CARD:
                 break;
         }
     }
