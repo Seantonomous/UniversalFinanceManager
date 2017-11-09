@@ -203,7 +203,7 @@ public class Main_Activity extends AppCompatActivity{
             case R.id.action_add_account:
                 Intent intent_account = new Intent(this, Account_Add.class);
                 intent_account.putExtra(EXTRA_USER, sessionUser);
-                startActivity(intent_account);
+                startActivityForResult(intent_account, 2);
                 return true;
             case R.id.action_add_category:
                 startActivity(new Intent(this, Category_Add.class));
@@ -226,6 +226,11 @@ public class Main_Activity extends AppCompatActivity{
                 Transaction newTransaction = data.getParcelableExtra("result");
                 sessionUser.addTransaction(newTransaction);
 
+            }
+        }else if(requestCode == 2) {
+            if(resultCode == Activity.RESULT_OK) {
+                Account newAccount = data.getParcelableExtra("result");
+                sessionUser.addAccount(newAccount);
             }
         }
     }

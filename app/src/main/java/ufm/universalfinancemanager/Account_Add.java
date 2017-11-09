@@ -1,6 +1,7 @@
 package ufm.universalfinancemanager;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -79,28 +80,29 @@ public class Account_Add extends Activity {
                     } else {
                         stringSelectedType = type_spinner.getSelectedItem().toString();
                         switch(stringSelectedType) {
-                            case("Checking"):
+                            case ("Checking"):
                                 selectedType = AccountType.CHECKING;
                                 break;
-                            case("Savings"):
+                            case ("Savings"):
                                 selectedType = AccountType.SAVINGS;
                                 break;
-                            case("Cash"):
+                            case ("Cash"):
                                 selectedType = AccountType.CASH;
                                 break;
-                            case("Credit Card"):
+                            case ("Credit Card"):
                                 selectedType = AccountType.CREDIT_CARD;
                                 break;
                             default:
                                 selectedType = AccountType.CHECKING;
                         }
 
-                        sessionUser.addAccount(new Account(edit_name.getText().toString(),
+                        Account newAccount = new Account(edit_name.getText().toString(),
                                 selectedType,
                                 Double.parseDouble(edit_amount.getText().toString()),
-                                today.getTime())
-                        );
-
+                                today.getTime());
+                        Intent returnIntent = new Intent();
+                        returnIntent.putExtra("result", newAccount);
+                        setResult(Activity.RESULT_OK, returnIntent);
                         finish();
                     }
 
@@ -111,6 +113,7 @@ public class Account_Add extends Activity {
         cancel_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                setResult(Activity.RESULT_CANCELED);
                 finish();
             }
         });
