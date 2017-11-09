@@ -163,7 +163,6 @@ public class Transaction_Add extends Activity {
         cancel_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent returnIntent = new Intent();
                 setResult(Activity.RESULT_CANCELED);
                 finish();
             }
