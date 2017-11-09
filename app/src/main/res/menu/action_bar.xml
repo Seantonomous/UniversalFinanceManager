@@ -20,4 +20,8 @@
         android:id="@+id/action_add_reminder"
         android:title="Add Reminder"
         app:showAsAction="never"></item>
+    <item
+        android:id="@+id/action_add_budget"
+        android:title="Add Budget"
+        app:showAsAction="never"></item>
 </menu>

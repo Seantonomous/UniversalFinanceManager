@@ -90,6 +90,16 @@ public class User implements Parcelable {
         throw new RuntimeException(String.format(Locale.getDefault(), "Account %s not found", name));
     }
 
+    public boolean hasAccount(String name) {
+        for(int i=0;i<accounts.size();i++) {
+            if(accounts.get(i).getName().equals(name)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
     public ArrayList<Account> getAccounts() {
         return this.accounts;
     }

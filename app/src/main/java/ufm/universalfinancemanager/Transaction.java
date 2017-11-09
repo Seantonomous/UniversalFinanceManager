@@ -23,7 +23,7 @@ import java.util.Locale;
 
 public class Transaction implements Parcelable, ListItem {
     private String name;
-    private int flow;
+    private Flow flow;
     private double amount;
     private Category category;
     private Account account;
@@ -34,7 +34,7 @@ public class Transaction implements Parcelable, ListItem {
     private static SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd", Locale.ENGLISH);
     private NumberFormat num_format = NumberFormat.getCurrencyInstance();
 
-    public Transaction(String name, int flow, double amount, Category category,
+    public Transaction(String name, Flow flow, double amount, Category category,
                        Account account, Date date, String notes) {
 
         this.name = name;
@@ -46,7 +46,7 @@ public class Transaction implements Parcelable, ListItem {
         this.notes = notes;
     }
 
-    public Transaction(String name, int flow, double amount, Category category,
+    public Transaction(String name, Flow flow, double amount, Category category,
                        Account account, Date date) {
         this.name = name;
         this.flow = flow;
@@ -58,7 +58,7 @@ public class Transaction implements Parcelable, ListItem {
 
     public Transaction(Parcel in) {
         name = in.readString();
-        flow = in.readInt();
+        flow = Flow.valueOf(in.readString());
         amount = in.readDouble();
         category = new Category(in.readString());
         account = in.readParcelable(Account.class.getClassLoader());
@@ -73,7 +73,7 @@ public class Transaction implements Parcelable, ListItem {
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(this.name);
-        dest.writeInt(this.flow);
+        dest.writeString(flow.name());
         dest.writeDouble(this.amount);
         dest.writeString(this.category.toString());
         dest.writeParcelable(this.account, flags);
@@ -123,7 +123,7 @@ public class Transaction implements Parcelable, ListItem {
 
     /********Getters**********************/
     public String getName() {return name;}
-    public int getFlow() {return flow;}
+    public Flow getFlow() {return flow;}
     public double getAmount() {return amount;}
     public Category getCategory() {return category;}
     public Account getAccount() {return account;}
@@ -133,7 +133,7 @@ public class Transaction implements Parcelable, ListItem {
 
     /********Setters*************************************/
     public void setName(String name) {this.name = name;}
-    public void setFlow(int flow) {this.flow = flow;}
+    public void setFlow(Flow flow) {this.flow = flow;}
     public void setAmount(double amount) {this.amount = amount;}
     public void setCategory(Category category) {this.category = category;}
     public void setAccount(Account account) {this.account = account;}

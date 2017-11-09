@@ -29,5 +29,6 @@ Contributing Team Members:-->
         <activity android:name=".Account_Add"></activity>
         <activity android:name=".Category_Add"></activity>
         <activity android:name=".Reminder_Add"></activity>
+        <activity android:name=".Budget_Add"></activity>
     </application>
 </manifest>
