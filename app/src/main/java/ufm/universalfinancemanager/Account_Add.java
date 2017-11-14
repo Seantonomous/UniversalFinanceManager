@@ -3,6 +3,7 @@ package ufm.universalfinancemanager;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -101,7 +102,7 @@ public class Account_Add extends Activity {
                                 Double.parseDouble(edit_amount.getText().toString()),
                                 today.getTime());
                         Intent returnIntent = new Intent();
-                        returnIntent.putExtra("result", newAccount);
+                        returnIntent.putExtra("result", (Parcelable)newAccount);
                         setResult(Activity.RESULT_OK, returnIntent);
                         finish();
                     }

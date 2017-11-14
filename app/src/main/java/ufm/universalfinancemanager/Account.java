@@ -12,9 +12,10 @@ package ufm.universalfinancemanager;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import java.io.Serializable;
 import java.util.Date;
 
-public class Account implements Parcelable {
+public class Account implements Parcelable, Serializable {
 
     private String name;
     AccountType type;

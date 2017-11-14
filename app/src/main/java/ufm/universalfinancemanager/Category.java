@@ -12,7 +12,9 @@ package ufm.universalfinancemanager;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-public class Category implements Parcelable{
+import java.io.Serializable;
+
+public class Category implements Parcelable, Serializable {
     private String name;
 
     public Category(String name) {

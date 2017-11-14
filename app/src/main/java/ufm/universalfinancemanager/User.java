@@ -18,7 +18,7 @@ import ufm.universalfinancemanager.Transaction;
 import java.util.ArrayList;
 import java.util.Locale;
 
-public class User implements Parcelable {
+public class User implements Parcelable, Serializable {
     private String username;
 
     //Placeholder, won't actually be string

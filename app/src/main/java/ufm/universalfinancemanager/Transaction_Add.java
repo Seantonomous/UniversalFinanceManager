@@ -6,6 +6,7 @@ import android.app.Dialog;
 import android.app.Fragment;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
@@ -140,7 +141,7 @@ public class Transaction_Add extends Activity {
                                 edit_notes.getText().toString());
 
                         Intent returnIntent = new Intent();
-                        returnIntent.putExtra("result", newTransaction);
+                        returnIntent.putExtra("result", (Parcelable)newTransaction);
                         setResult(Activity.RESULT_OK, returnIntent);
                     }else { //transfer
 

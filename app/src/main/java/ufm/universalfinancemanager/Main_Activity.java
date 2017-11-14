@@ -11,14 +11,17 @@ package ufm.universalfinancemanager;
 
 import android.app.Activity;
 import android.app.FragmentManager;
+import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.app.Fragment;
+import android.os.Parcelable;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -28,6 +31,12 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -64,31 +73,38 @@ public class Main_Activity extends AppCompatActivity{
         }
         );
 
-        /**************TEST DATA*************/
-        sessionUser = new User("Test");
-        sessionUser.addCategory(new Category("Gas"));
-        sessionUser.addAccount(new Account("Checking", AccountType.CHECKING, 0, new Date()));
-
         try {
-            sessionUser.addTransaction(new Transaction("Gas", Flow.OUTCOME, 30.24, new Category("Transportation"),
-                    sessionUser.getAccount("Checking"), dateFormat.parse("10/28/2017")));
-            sessionUser.addTransaction(new Transaction("Ralphs", Flow.OUTCOME, 86.13, new Category("Food"),
-                    sessionUser.getAccount("Checking"), dateFormat.parse("10/28/2017")));
-            sessionUser.addTransaction(new Transaction("AMC", Flow.OUTCOME, 8.50, new Category("Fun"),
-                    sessionUser.getAccount("Checking"), dateFormat.parse("10/29/2017")));
-            sessionUser.addTransaction(new Transaction("CSUN", Flow.OUTCOME, 57.00, new Category("Education"),
-                    sessionUser.getAccount("Checking"), dateFormat.parse("10/30/2017")));
-            sessionUser.addTransaction(new Transaction("Amazon", Flow.OUTCOME, 24.15, new Category("Household"),
-                    sessionUser.getAccount("Checking"), dateFormat.parse("10/30/2017")));
-            sessionUser.addTransaction(new Transaction("Autozone", Flow.OUTCOME, 11.15, new Category("Vehicle Maintenance"),
-                    sessionUser.getAccount("Checking"), dateFormat.parse("10/30/2017")));
-            sessionUser.addTransaction(new Transaction("Gas", Flow.OUTCOME, 29.13, new Category("Transportation"),
-                    sessionUser.getAccount("Checking"), dateFormat.parse("10/30/2017")));
-        }catch(ParseException e) {
-            //shouldn't happen...
-        }
+            FileInputStream fis = getApplicationContext().openFileInput("testUser");
+            ObjectInputStream is = new ObjectInputStream(fis);
+            sessionUser = (User)is.readObject();
+            is.close();
+            fis.close();
+        }catch(FileNotFoundException e) {
+            sessionUser = new User("Test");
+            sessionUser.addCategory(new Category("Gas"));
+            sessionUser.addAccount(new Account("Checking", AccountType.CHECKING, 0, new Date()));
 
-        /**************TEST DATA*************/
+            try {
+                sessionUser.addTransaction(new Transaction("Gas", Flow.OUTCOME, 30.24, new Category("Transportation"),
+                        sessionUser.getAccount("Checking"), dateFormat.parse("10/28/2017")));
+                sessionUser.addTransaction(new Transaction("Ralphs", Flow.OUTCOME, 86.13, new Category("Food"),
+                        sessionUser.getAccount("Checking"), dateFormat.parse("10/28/2017")));
+                sessionUser.addTransaction(new Transaction("AMC", Flow.OUTCOME, 8.50, new Category("Fun"),
+                        sessionUser.getAccount("Checking"), dateFormat.parse("10/29/2017")));
+                sessionUser.addTransaction(new Transaction("CSUN", Flow.OUTCOME, 57.00, new Category("Education"),
+                        sessionUser.getAccount("Checking"), dateFormat.parse("10/30/2017")));
+                sessionUser.addTransaction(new Transaction("Amazon", Flow.OUTCOME, 24.15, new Category("Household"),
+                        sessionUser.getAccount("Checking"), dateFormat.parse("10/30/2017")));
+                sessionUser.addTransaction(new Transaction("Autozone", Flow.OUTCOME, 11.15, new Category("Vehicle Maintenance"),
+                        sessionUser.getAccount("Checking"), dateFormat.parse("10/30/2017")));
+                sessionUser.addTransaction(new Transaction("Gas", Flow.OUTCOME, 29.13, new Category("Transportation"),
+                        sessionUser.getAccount("Checking"), dateFormat.parse("10/30/2017")));
+            }catch(ParseException f) {
+                //shouldn't happen...
+            }
+        }catch(ClassNotFoundException | IOException e) {
+            Log.d("Main_Activity", e.getMessage());
+        }
 
         drawer_items = getResources().getStringArray(R.array.drawer_items);
 
@@ -197,12 +213,12 @@ public class Main_Activity extends AppCompatActivity{
         switch(id) {
            case R.id.action_add_transaction:
                Intent intent_trans = new Intent(this, Transaction_Add.class);
-               intent_trans.putExtra(EXTRA_USER, sessionUser);
+               intent_trans.putExtra(EXTRA_USER, (Parcelable)sessionUser);
                startActivityForResult(intent_trans, 1);
                return true;
             case R.id.action_add_account:
                 Intent intent_account = new Intent(this, Account_Add.class);
-                intent_account.putExtra(EXTRA_USER, sessionUser);
+                intent_account.putExtra(EXTRA_USER, (Parcelable)sessionUser);
                 startActivityForResult(intent_account, 2);
                 return true;
             case R.id.action_add_category:
@@ -233,5 +249,22 @@ public class Main_Activity extends AppCompatActivity{
                 sessionUser.addAccount(newAccount);
             }
         }
+    }
+
+    @Override
+    protected void onPause() {
+        try {
+            FileOutputStream fos = getApplicationContext().openFileOutput("testUser", Context.MODE_PRIVATE);
+            ObjectOutputStream os = new ObjectOutputStream(fos);
+            os.writeObject(sessionUser);
+            os.close();
+            fos.close();
+        }catch(FileNotFoundException e) {
+
+        }catch(IOException e) {
+
+        }
+
+        super.onPause();
     }
 }

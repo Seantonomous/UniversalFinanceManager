@@ -16,12 +16,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.TextView;
 
+import java.io.Serializable;
 import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 
-public class Transaction implements Parcelable, ListItem {
+public class Transaction implements Parcelable, ListItem, Serializable {
     private String name;
     private Flow flow;
     private double amount;
