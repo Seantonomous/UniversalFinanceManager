@@ -9,6 +9,7 @@
 */
 package ufm.universalfinancemanager;
 
+import android.app.Activity;
 import android.app.FragmentManager;
 import android.content.Intent;
 import android.content.res.Configuration;
@@ -66,26 +67,47 @@ public class Main_Activity extends AppCompatActivity{
         /**************TEST DATA*************/
         sessionUser = new User("Test");
         sessionUser.addCategory(new Category("Gas"));
-        sessionUser.addAccount(new Account("Checking", AccountType.DEBIT, 0, new Date()));
+        sessionUser.addAccount(new Account("Checking", AccountType.CHECKING, 0, new Date()));
+
 
         try {
-            sessionUser.addTransaction(new Transaction("Gas", -1, 30.24, new Category("Transportation"),
+            sessionUser.addTransaction(new Transaction("Gas", Flow.OUTCOME, 30.24, new Category("Transportation"),
                     sessionUser.getAccount("Checking"), dateFormat.parse("10/28/2017")));
-            sessionUser.addTransaction(new Transaction("Ralphs", -1, 86.13, new Category("Food"),
+            sessionUser.addTransaction(new Transaction("Ralphs", Flow.OUTCOME, 86.13, new Category("Food"),
                     sessionUser.getAccount("Checking"), dateFormat.parse("10/28/2017")));
-            sessionUser.addTransaction(new Transaction("AMC", -1, 8.50, new Category("Fun"),
+            sessionUser.addTransaction(new Transaction("AMC", Flow.OUTCOME, 8.50, new Category("Fun"),
                     sessionUser.getAccount("Checking"), dateFormat.parse("10/29/2017")));
-            sessionUser.addTransaction(new Transaction("CSUN", -1, 57.00, new Category("Education"),
+            sessionUser.addTransaction(new Transaction("CSUN", Flow.OUTCOME, 57.00, new Category("Education"),
                     sessionUser.getAccount("Checking"), dateFormat.parse("10/30/2017")));
-            sessionUser.addTransaction(new Transaction("Amazon", -1, 24.15, new Category("Household"),
+            sessionUser.addTransaction(new Transaction("Amazon", Flow.OUTCOME, 24.15, new Category("Household"),
                     sessionUser.getAccount("Checking"), dateFormat.parse("10/30/2017")));
-            sessionUser.addTransaction(new Transaction("Autozone", -1, 11.15, new Category("Vehicle Maintenance"),
+            sessionUser.addTransaction(new Transaction("Autozone", Flow.OUTCOME, 11.15, new Category("Vehicle Maintenance"),
                     sessionUser.getAccount("Checking"), dateFormat.parse("10/30/2017")));
-            sessionUser.addTransaction(new Transaction("Gas", -1, 29.13, new Category("Transportation"),
+            sessionUser.addTransaction(new Transaction("Gas", Flow.OUTCOME, 29.13, new Category("Transportation"),
                     sessionUser.getAccount("Checking"), dateFormat.parse("10/30/2017")));
         }catch(ParseException e) {
             //shouldn't happen...
         }
+
+        /**************TEST DATA*************/
+
+
+
+        /**************TEST DATA*************/
+        // Test data for net worth
+
+        sessionUser.addAccount(new Account("American Express", AccountType.CREDIT_CARD, 2400, new Date()));
+        sessionUser.addAccount(new Account("Bank of America ", AccountType.CREDIT_CARD, 650, new Date()));
+        sessionUser.addAccount(new Account("Capital One", AccountType.CREDIT_CARD, 100, new Date()));
+        sessionUser.addAccount(new Account("Chase", AccountType.CREDIT_CARD, 450, new Date()));
+        sessionUser.addAccount(new Account("CitiBank", AccountType.CREDIT_CARD, 800, new Date()));
+        sessionUser.addAccount(new Account("Etrade", AccountType.SAVINGS, 15000, new Date()));
+        sessionUser.addAccount(new Account("Federal Student Loan", AccountType.CREDIT_CARD, 3500, new Date()));
+        sessionUser.addAccount(new Account("Fidelity", AccountType.SAVINGS, 10000, new Date()));
+        sessionUser.addAccount(new Account("Matadors Credit Union Checking", AccountType.CHECKING, 2300, new Date()));
+        sessionUser.addAccount(new Account("Matadors Credit Union Savings", AccountType.SAVINGS, 7400, new Date()));
+        sessionUser.addAccount(new Account("Vanguard", AccountType.SAVINGS, 25000, new Date()));
+        sessionUser.addAccount(new Account("Wells Fargo", AccountType.CREDIT_CARD, 375, new Date()));
 
         /**************TEST DATA*************/
 
@@ -151,6 +173,36 @@ public class Main_Activity extends AppCompatActivity{
             case(3):    //INCOME/OUTCOME
                 break;
             case(4):    //NET WORTH
+
+                // Make new Net_Worth to place in main view container
+                fragment = new NetWorthFragment();
+
+                //Put the users transactions in a bundle, pass to fragment via setArguments()
+                b = new Bundle();
+                b.putParcelableArrayList("ACCOUNT", sessionUser.getAccounts());
+                // b.putParcelableArrayList("TRANSACTIONS", sessionUser.getTransactions());
+                fragment.setArguments(b);
+
+//                b = new Bundle();
+//                b.putParcelableArrayList("ACCOUNT", sessionUser.getAccounts());
+
+                // Get fragment manager
+                fragmentManager = getFragmentManager();
+
+                //Replace the current container with the fragment and commit changes
+                fragmentManager.beginTransaction().replace(R.id.fragment_container, fragment).commit();
+
+                //Set the action bar title to "Transaction History"
+                try {
+                    getSupportActionBar().setTitle(R.string.networth_title);
+                }catch(java.lang.NullPointerException e) {
+
+                }
+
+                //Highlight touched item in the nav drawer and then close the nav drawer
+                list_view.setItemChecked(position, true);
+                drawer_layout.closeDrawer(list_view);
+
                 break;
             case(5):    //Reminders
                 break;
@@ -195,12 +247,14 @@ public class Main_Activity extends AppCompatActivity{
         int id = item.getItemId();
         switch(id) {
            case R.id.action_add_transaction:
-               Intent intent = new Intent(this, Transaction_Add.class);
-               intent.putExtra(EXTRA_USER, sessionUser);
-               startActivity(intent);
+               Intent intent_trans = new Intent(this, Transaction_Add.class);
+               intent_trans.putExtra(EXTRA_USER, sessionUser);
+               startActivityForResult(intent_trans, 1);
                return true;
             case R.id.action_add_account:
-                startActivity(new Intent(this, Account_Add.class));
+                Intent intent_account = new Intent(this, Account_Add.class);
+                intent_account.putExtra(EXTRA_USER, sessionUser);
+                startActivity(intent_account);
                 return true;
             case R.id.action_add_category:
                 startActivity(new Intent(this, Category_Add.class));
@@ -213,4 +267,14 @@ public class Main_Activity extends AppCompatActivity{
         }
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if(requestCode == 1) {
+            if(resultCode == Activity.RESULT_OK) {
+                Transaction newTransaction = data.getParcelableExtra("result");
+                sessionUser.addTransaction(newTransaction);
+
+            }
+        }
+    }
 }

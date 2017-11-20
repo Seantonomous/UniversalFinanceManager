@@ -21,7 +21,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 
-public class Transaction implements Parcelable, ListItem {
+public class Networth implements Parcelable, ListItem {
     private String name;
     private Flow flow;
     private double amount;
@@ -34,8 +34,8 @@ public class Transaction implements Parcelable, ListItem {
     private static SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd", Locale.ENGLISH);
     private NumberFormat num_format = NumberFormat.getCurrencyInstance();
 
-    public Transaction(String name, Flow flow, double amount, Category category,
-                       Account account, Date date, String notes) {
+    public Networth(String name, Flow flow, double amount, Category category,
+                    Account account, Date date, String notes) {
 
         this.name = name;
         this.flow = flow;
@@ -46,8 +46,8 @@ public class Transaction implements Parcelable, ListItem {
         this.notes = notes;
     }
 
-    public Transaction(String name, Flow flow, double amount, Category category,
-                       Account account, Date date) {
+    public Networth(String name, Flow flow, double amount, Category category,
+                    Account account, Date date) {
         this.name = name;
         this.flow = flow;
         this.amount = amount;
@@ -56,7 +56,7 @@ public class Transaction implements Parcelable, ListItem {
         this.date = date;
     }
 
-    public Transaction(Parcel in) {
+    public Networth(Parcel in) {
         name = in.readString();
         flow = Flow.valueOf(in.readString());
         amount = in.readDouble();
@@ -81,13 +81,13 @@ public class Transaction implements Parcelable, ListItem {
     }
 
     //Needed for parcelable types
-    public static final Parcelable.Creator<Transaction> CREATOR = new Parcelable.Creator<Transaction>() {
-        public Transaction createFromParcel(Parcel p) {
-            return new Transaction(p);
+    public static final Creator<Networth> CREATOR = new Creator<Networth>() {
+        public Networth createFromParcel(Parcel p) {
+            return new Networth(p);
         }
 
-        public Transaction[] newArray(int size) {
-            return new Transaction[size];
+        public Networth[] newArray(int size) {
+            return new Networth[size];
         }
     };
 
@@ -100,44 +100,34 @@ public class Transaction implements Parcelable, ListItem {
     public View getView(LayoutInflater inflater, View convertView) {
         View view;
         if(convertView == null)
-            view = (View)inflater.inflate(R.layout.transaction_list_item, null);
+            view = (View)inflater.inflate(R.layout.net_worth_list_item, null);
         else
             view = convertView;
 
         //Instantiate all the textviews from the layout
-        TextView dateText = (TextView)view.findViewById(R.id.trans_date);
-        TextView nameText = (TextView)view.findViewById(R.id.trans_name);
-        TextView amountText = (TextView)view.findViewById(R.id.trans_amount);
-        TextView accountText = (TextView)view.findViewById(R.id.trans_account);
-        TextView categoryText = (TextView)view.findViewById(R.id.trans_category);
+        TextView amountText = (TextView)view.findViewById(R.id.account_balance);
+        TextView accountText = (TextView)view.findViewById(R.id.networth_account);
+        // TextView categoryText = (TextView)view.findViewById(R.id.trans_category);
 
         //Set the text of each textview based on its corresponding transaction attribute
-        dateText.setText(dateFormat.format(this.date));
-        nameText.setText(this.name);
         amountText.setText(num_format.format(this.amount));
         accountText.setText(this.account.toString());
-        categoryText.setText(this.category.toString());
+        // categoryText.setText(this.category.toString());
 
         return view;
     }
 
     /********Getters**********************/
     public String getName() {return name;}
-    public Flow getFlow() {return flow;}
     public double getAmount() {return amount;}
     public Category getCategory() {return category;}
     public Account getAccount() {return account;}
-    public boolean getFrequency() {return frequency;}
-    public Date getDate() {return date;}
-    public String getNotes() {return notes;}
+
 
     /********Setters*************************************/
     public void setName(String name) {this.name = name;}
-    public void setFlow(Flow flow) {this.flow = flow;}
     public void setAmount(double amount) {this.amount = amount;}
     public void setCategory(Category category) {this.category = category;}
     public void setAccount(Account account) {this.account = account;}
-    public void setFrequency(boolean frequency) {this.frequency = frequency;}
-    public void setDate(Date date) {this.date = date;}
-    public void setNotes(String notes) {this.notes = notes;}
+
 }
