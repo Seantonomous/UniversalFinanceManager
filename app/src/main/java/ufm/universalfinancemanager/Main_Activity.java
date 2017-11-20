@@ -94,20 +94,20 @@ public class Main_Activity extends AppCompatActivity{
 
 
         /**************TEST DATA*************/
-        // Test data for net worth
+        // Test data for net worth -Aaron
 
-        sessionUser.addAccount(new Account("American Express", AccountType.CREDIT_CARD, 2400, new Date()));
-        sessionUser.addAccount(new Account("Bank of America ", AccountType.CREDIT_CARD, 650, new Date()));
-        sessionUser.addAccount(new Account("Capital One", AccountType.CREDIT_CARD, 100, new Date()));
-        sessionUser.addAccount(new Account("Chase", AccountType.CREDIT_CARD, 450, new Date()));
-        sessionUser.addAccount(new Account("CitiBank", AccountType.CREDIT_CARD, 800, new Date()));
-        sessionUser.addAccount(new Account("Etrade", AccountType.SAVINGS, 15000, new Date()));
-        sessionUser.addAccount(new Account("Federal Student Loan", AccountType.CREDIT_CARD, 3500, new Date()));
-        sessionUser.addAccount(new Account("Fidelity", AccountType.SAVINGS, 10000, new Date()));
-        sessionUser.addAccount(new Account("Matadors Credit Union Checking", AccountType.CHECKING, 2300, new Date()));
-        sessionUser.addAccount(new Account("Matadors Credit Union Savings", AccountType.SAVINGS, 7400, new Date()));
-        sessionUser.addAccount(new Account("Vanguard", AccountType.SAVINGS, 25000, new Date()));
-        sessionUser.addAccount(new Account("Wells Fargo", AccountType.CREDIT_CARD, 375, new Date()));
+        sessionUser.addAccount(new Account("American Express", AccountType.CREDIT_CARD, 2353.95, new Date()));
+        sessionUser.addAccount(new Account("Bank of America Visa", AccountType.CREDIT_CARD, 631.31, new Date()));
+        sessionUser.addAccount(new Account("Capital One Visa", AccountType.CREDIT_CARD, 103.31, new Date()));
+        sessionUser.addAccount(new Account("Chase Visa", AccountType.CREDIT_CARD, 381.99, new Date()));
+        sessionUser.addAccount(new Account("CitiBank Mastercard", AccountType.CREDIT_CARD, 741.48, new Date()));
+        sessionUser.addAccount(new Account("Etrade Brokerage", AccountType.SAVINGS, 15534.33, new Date()));
+        sessionUser.addAccount(new Account("Federal Student Loan", AccountType.CREDIT_CARD, 3455.22, new Date()));
+        sessionUser.addAccount(new Account("Fidelity 401k", AccountType.SAVINGS, 11607.24, new Date()));
+        sessionUser.addAccount(new Account("Matadors Credit Union Checking", AccountType.CHECKING, 2481.93, new Date()));
+        sessionUser.addAccount(new Account("Matadors Credit Union Savings", AccountType.SAVINGS, 4950.07, new Date()));
+        sessionUser.addAccount(new Account("Vanguard 401k", AccountType.SAVINGS, 21657.95, new Date()));
+        sessionUser.addAccount(new Account("Wells Fargo", AccountType.CREDIT_CARD, 360.36, new Date()));
 
         /**************TEST DATA*************/
 

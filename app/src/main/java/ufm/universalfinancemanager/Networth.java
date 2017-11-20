@@ -1,6 +1,5 @@
-/* Author: Sean Hansen
-* ID: 108841276
-* Date Started: 10/13/17
+/* Author: Aaron O'Connor
+* Date Started: 11/19/17
 * Date Complete:
 * Peer Review:
 *   Date:
@@ -23,44 +22,44 @@ import java.util.Locale;
 
 public class Networth implements Parcelable, ListItem {
     private String name;
-    private Flow flow;
+    private double totalAssets;
+    private double totalLiabilities;
+    private double totalNetWorth;
     private double amount;
-    private Category category;
     private Account account;
-    private boolean frequency;
     private Date date;
-    private String notes;
 
     private static SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd", Locale.ENGLISH);
     private NumberFormat num_format = NumberFormat.getCurrencyInstance();
 
-    public Networth(String name, Flow flow, double amount, Category category,
-                    Account account, Date date, String notes) {
+    public Networth(String name, double totalAssets, double totalLiabilities,
+                    double totalNetWorth, double amount, Account account, Date date) {
 
         this.name = name;
-        this.flow = flow;
+        this.totalAssets = totalAssets;
+        this.totalLiabilities = totalLiabilities;
+        this.totalNetWorth = totalNetWorth;
         this.amount = amount;
-        this.category = category;
-        this.account = account;
-        this.date = date;
-        this.notes = notes;
-    }
-
-    public Networth(String name, Flow flow, double amount, Category category,
-                    Account account, Date date) {
-        this.name = name;
-        this.flow = flow;
-        this.amount = amount;
-        this.category = category;
         this.account = account;
         this.date = date;
     }
+
+//    public Networth(String name, Flow flow, double amount, Category category,
+//                    Account account, Date date) {
+//        this.name = name;
+//        this.flow = flow;
+//        this.amount = amount;
+//        this.category = category;
+//        this.account = account;
+//        this.date = date;
+//    }
 
     public Networth(Parcel in) {
         name = in.readString();
-        flow = Flow.valueOf(in.readString());
+        totalAssets = in.readDouble();
+        totalLiabilities = in.readDouble();
+        totalNetWorth = in.readDouble();
         amount = in.readDouble();
-        category = new Category(in.readString());
         account = in.readParcelable(Account.class.getClassLoader());
         date = new Date(in.readLong());
     }
@@ -73,9 +72,10 @@ public class Networth implements Parcelable, ListItem {
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(this.name);
-        dest.writeString(flow.name());
+        dest.writeDouble(this.totalAssets);
+        dest.writeDouble(this.totalLiabilities);
+        dest.writeDouble(this.totalNetWorth);
         dest.writeDouble(this.amount);
-        dest.writeString(this.category.toString());
         dest.writeParcelable(this.account, flags);
         dest.writeLong(this.date.getTime());
     }
@@ -120,14 +120,12 @@ public class Networth implements Parcelable, ListItem {
     /********Getters**********************/
     public String getName() {return name;}
     public double getAmount() {return amount;}
-    public Category getCategory() {return category;}
     public Account getAccount() {return account;}
 
 
     /********Setters*************************************/
     public void setName(String name) {this.name = name;}
     public void setAmount(double amount) {this.amount = amount;}
-    public void setCategory(Category category) {this.category = category;}
     public void setAccount(Account account) {this.account = account;}
 
 }

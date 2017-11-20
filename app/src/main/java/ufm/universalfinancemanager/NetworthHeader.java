@@ -1,29 +1,31 @@
-/* Author: Sean Hansen
-* ID: 108841276
-* Date Started: 10/29/17
+/* Author: Aaron O'Connor
+* Date Started: 11/19/17
 * Date Complete:
 * Peer Review:
 *   Date:
 *   Team Members:
 * Contributing Team Members:
 */
-
 package ufm.universalfinancemanager;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.TextView;
 
+import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 
 public class NetworthHeader implements ListItem {
-    private Date date;
-    private SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy", Locale.ENGLISH);
+    private double dblAmount;
+    private String title;
 
-    public NetworthHeader(Date d) {
-        this.date = d;
+    private NumberFormat num_format = NumberFormat.getCurrencyInstance();
+
+    public NetworthHeader(String title, double d) {
+        this.title = title;
+        this.dblAmount = d;
     }
 
     @Override
@@ -42,7 +44,7 @@ public class NetworthHeader implements ListItem {
         }
 
         TextView stringNetworth = (TextView)view.findViewById(R.id.networth_header);
-        stringNetworth.setText("Assets total: $");
+        stringNetworth.setText("Total " + this.title + num_format.format(this.dblAmount));
 
         return view;
     }

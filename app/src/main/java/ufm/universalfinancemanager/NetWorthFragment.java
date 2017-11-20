@@ -1,6 +1,5 @@
-/* Author: Sean Hansen
-* ID: 108841276
-* Date Started: 10/17/17
+/* Author: Aaron O'Connor
+* Date Started: 11/19/17
 * Date Complete:
 * Peer Review:
 *   Date:
@@ -44,10 +43,37 @@ public class NetWorthFragment extends ListFragment {
 
         ArrayList<ListItem> items = new ArrayList<>();
 
+        AccountType curAcctType;
+
+        double netWorthTotal = 0;
+        double assetTotal = 0;
+        double liabilityTotal = 0;
+
+        items.add(new NetworthHeader("Networth: ", 0));
 
         for (int i = 0; i < accounts.size(); i++) {
-            items.add(accounts.get(i));
+            curAcctType = accounts.get(i).getType();
+            if (curAcctType != AccountType.CREDIT_CARD) {
+                items.add(accounts.get(i));
+                assetTotal = assetTotal + accounts.get(i).getBalance();
+            }
         }
+
+        items.add(new NetworthHeader("Assets: ", assetTotal));
+
+        for (int i = 0; i < accounts.size(); i++) {
+            curAcctType = accounts.get(i).getType();
+            if (curAcctType == AccountType.CREDIT_CARD) {
+                items.add(accounts.get(i));
+                liabilityTotal = liabilityTotal + accounts.get(i).getBalance();
+            }
+        }
+
+        items.add(new NetworthHeader("Liabilities: ", liabilityTotal*(-1)));
+
+        netWorthTotal = assetTotal - liabilityTotal;
+
+        items.set(0, new NetworthHeader("Networth: ", netWorthTotal));
 
 //        // set list adapter 11/19 - Aaron
 //        ArrayAdapter<Account > adapter;
