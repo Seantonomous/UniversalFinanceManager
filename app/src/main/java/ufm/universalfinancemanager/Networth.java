@@ -21,46 +21,33 @@ import java.util.Date;
 import java.util.Locale;
 
 public class Networth implements Parcelable, ListItem {
-    private String name;
-    private double totalAssets;
-    private double totalLiabilities;
-    private double totalNetWorth;
+
+    public double totalAssets;
+    public double totalLiabilities;
+    public double totalNetWorth;
     private double amount;
-    private Account account;
     private Date date;
 
     private static SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd", Locale.ENGLISH);
     private NumberFormat num_format = NumberFormat.getCurrencyInstance();
 
-    public Networth(String name, double totalAssets, double totalLiabilities,
-                    double totalNetWorth, double amount, Account account, Date date) {
+    public Networth(double totalAssets, double totalLiabilities,
+                    double totalNetWorth, double amount, Date date) {
 
-        this.name = name;
+
         this.totalAssets = totalAssets;
         this.totalLiabilities = totalLiabilities;
         this.totalNetWorth = totalNetWorth;
         this.amount = amount;
-        this.account = account;
         this.date = date;
     }
 
-//    public Networth(String name, Flow flow, double amount, Category category,
-//                    Account account, Date date) {
-//        this.name = name;
-//        this.flow = flow;
-//        this.amount = amount;
-//        this.category = category;
-//        this.account = account;
-//        this.date = date;
-//    }
 
     public Networth(Parcel in) {
-        name = in.readString();
         totalAssets = in.readDouble();
         totalLiabilities = in.readDouble();
         totalNetWorth = in.readDouble();
         amount = in.readDouble();
-        account = in.readParcelable(Account.class.getClassLoader());
         date = new Date(in.readLong());
     }
 
@@ -71,12 +58,10 @@ public class Networth implements Parcelable, ListItem {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(this.name);
         dest.writeDouble(this.totalAssets);
         dest.writeDouble(this.totalLiabilities);
         dest.writeDouble(this.totalNetWorth);
         dest.writeDouble(this.amount);
-        dest.writeParcelable(this.account, flags);
         dest.writeLong(this.date.getTime());
     }
 
@@ -111,21 +96,26 @@ public class Networth implements Parcelable, ListItem {
 
         //Set the text of each textview based on its corresponding transaction attribute
         amountText.setText(num_format.format(this.amount));
-        accountText.setText(this.account.toString());
+//        accountText.setText(this.account.toString());
         // categoryText.setText(this.category.toString());
 
         return view;
     }
 
     /********Getters**********************/
-    public String getName() {return name;}
     public double getAmount() {return amount;}
-    public Account getAccount() {return account;}
+    public double getTotalAssets() {return totalAssets;}
+    private double getTotalLiabilities() {return totalLiabilities;}
+    private double getTotalNetowrth() { return totalNetWorth;}
+//    private Date date;
+//    public Account getAccount() {return account;}
 
 
     /********Setters*************************************/
-    public void setName(String name) {this.name = name;}
     public void setAmount(double amount) {this.amount = amount;}
-    public void setAccount(Account account) {this.account = account;}
+    public void setTotalAssets(double totalAssets) {this.totalAssets = totalAssets;}
+    public void setTotalLiabilities(double totalLiabilities) {this.totalLiabilities = totalLiabilities;}
+    public void setTotalNetWorth(double totalNetWorth) {this.totalNetWorth = totalNetWorth;}
+//    public void setAccount(Account account) {this.account = account;}
 
 }

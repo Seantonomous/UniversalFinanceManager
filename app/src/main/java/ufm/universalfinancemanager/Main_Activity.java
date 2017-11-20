@@ -67,7 +67,7 @@ public class Main_Activity extends AppCompatActivity{
         /**************TEST DATA*************/
         sessionUser = new User("Test");
         sessionUser.addCategory(new Category("Gas"));
-        sessionUser.addAccount(new Account("Checking", AccountType.CHECKING, 0, new Date()));
+        sessionUser.addAccount(new Account("Checking", AccountType.CHECKING, 500, new Date()));
 
 
         try {
@@ -177,14 +177,10 @@ public class Main_Activity extends AppCompatActivity{
                 // Make new Net_Worth to place in main view container
                 fragment = new NetWorthFragment();
 
-                //Put the users transactions in a bundle, pass to fragment via setArguments()
+                //Put the users accounts and totals in a bundle, pass to fragment via setArguments()
                 b = new Bundle();
                 b.putParcelableArrayList("ACCOUNT", sessionUser.getAccounts());
-                // b.putParcelableArrayList("TRANSACTIONS", sessionUser.getTransactions());
                 fragment.setArguments(b);
-
-//                b = new Bundle();
-//                b.putParcelableArrayList("ACCOUNT", sessionUser.getAccounts());
 
                 // Get fragment manager
                 fragmentManager = getFragmentManager();
