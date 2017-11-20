@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.text.InputType;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -111,7 +112,7 @@ public class Transaction_Add extends Activity {
                 }
             }
         });
-
+        edit_amount.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL);
         edit_amount.addTextChangedListener(new TextValidator(edit_amount) {
             @Override
             public void validate(TextView textView, String text) {

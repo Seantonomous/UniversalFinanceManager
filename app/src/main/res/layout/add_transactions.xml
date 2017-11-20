@@ -15,8 +15,7 @@ Contributing Team Members:
     android:padding="10dp"
     android:fillViewport="false">
 
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        android:orientation="vertical"
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:weightSum="1"
@@ -32,6 +31,7 @@ Contributing Team Members:
             android:visibility="visible" />
 
         <EditText
+            android:layout_below="@id/textView"
             android:id="@+id/name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -40,6 +40,7 @@ Contributing Team Members:
             android:inputType="textPersonName" />
 
         <EditText
+            android:layout_below="@id/name"
             android:id="@+id/amount"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -48,6 +49,7 @@ Contributing Team Members:
             android:inputType="numberDecimal" />
 
         <RadioGroup
+            android:layout_below="@id/amount"
             android:id="@+id/flow"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
@@ -73,63 +75,77 @@ Contributing Team Members:
                 android:onClick="onRadioButtonClicked"/>
         </RadioGroup>
 
-
         <Button
+            android:layout_below="@id/flow"
             android:id="@+id/date"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
             android:layout_centerHorizontal="true"
             android:layout_weight="0.02"
             android:onClick="setDate"
             android:text="Set Date" />
+
         <TextView
+            android:layout_below="@id/date"
             android:id="@+id/textView3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignRight="@+id/button1"
-            android:layout_below="@+id/textView2"
             android:textAppearance="?android:attr/textAppearanceMedium" />
 
-
         <!--Drop Down menu for category selection-->
-        <Spinner
-            android:id="@+id/category"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@android:drawable/btn_dropdown"
-            android:entries="@array/categories"
-            android:spinnerMode="dialog" />
+
 
         <!--Drop Down menu for toAccount selection-->
         <Spinner
+            android:layout_toLeftOf="@+id/fromaccount"
+            android:layout_alignParentLeft="true"
+            android:layout_below="@id/textView3"
             android:id="@+id/toaccount"
-            android:layout_width="match_parent"
+            android:layout_width="200dp"
             android:layout_height="wrap_content"
             android:background="@android:drawable/btn_dropdown"/>
 
         <!--Drop Down menu for fromAccount selection-->
         <Spinner
+            android:layout_below="@id/textView3"
+            android:layout_alignParentRight="true"
             android:id="@+id/fromaccount"
-            android:layout_width="match_parent"
+            android:layout_width="200dp"
             android:layout_height="wrap_content"
             android:background="@android:drawable/btn_dropdown"/>
 
+        <Spinner
+            android:id="@+id/category"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:layout_alignStart="@+id/done"
+            android:layout_below="@+id/toaccount"
+            android:layout_marginStart="71dp"
+            android:background="@android:drawable/btn_dropdown"
+            android:entries="@array/categories"
+            android:spinnerMode="dialog" />
+
         <CheckBox
+            android:layout_below="@id/category"
+            android:layout_toLeftOf="@+id/duration"
+            android:layout_alignParentLeft="true"
             android:id="@+id/frequency"
-            android:layout_width="match_parent"
+            android:layout_width="200dp"
             android:layout_height="wrap_content"
             android:text="Repeat" />
 
         <!--Drop Down menu for frequency selection-->
         <Spinner
+            android:layout_below="@id/category"
             android:id="@+id/duration"
-            android:layout_width="match_parent"
+            android:layout_alignParentRight="true"
+            android:layout_width="200dp"
             android:layout_height="wrap_content"
             android:background="@android:drawable/btn_dropdown"
             android:entries="@array/duration"/>
 
         <EditText
+            android:layout_below="@id/duration"
             android:id="@+id/notes"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -139,15 +155,20 @@ Contributing Team Members:
 
         <Button
             android:id="@+id/done"
-            android:layout_width="match_parent"
+            android:layout_width="100dp"
             android:layout_height="wrap_content"
-            android:text="Done" />
+            android:layout_below="@+id/notes"
+            android:layout_marginStart="21dp"
+            android:layout_toEndOf="@+id/textView3"
+            android:text="Submit" />
 
         <Button
             android:id="@+id/cancel"
-            android:layout_width="match_parent"
+            android:layout_width="200dp"
             android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_marginStart="20dp"
+            android:layout_toEndOf="@+id/date"
             android:text="Cancel" />
-
-    </LinearLayout>
+    </RelativeLayout>
 </ScrollView>
