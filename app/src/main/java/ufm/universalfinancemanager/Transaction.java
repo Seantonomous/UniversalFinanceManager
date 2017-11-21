@@ -60,7 +60,7 @@ public class Transaction implements Parcelable, ListItem {
         name = in.readString();
         flow = Flow.valueOf(in.readString());
         amount = in.readDouble();
-        category = new Category(in.readString(), flow);
+        category = new Category(in.readString());
         account = in.readParcelable(Account.class.getClassLoader());
         date = new Date(in.readLong());
     }

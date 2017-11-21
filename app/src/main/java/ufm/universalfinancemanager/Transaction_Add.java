@@ -5,7 +5,6 @@ import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.app.Fragment;
 import android.content.Intent;
-import android.graphics.Paint;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
@@ -18,7 +17,6 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.CheckBox;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.RadioButton;
@@ -42,7 +40,7 @@ public class Transaction_Add extends Activity {
 
     private EditText edit_name;
     private EditText edit_amount;
-    private EditText edit_date;
+    //private EditText edit_date;
     private RadioGroup flow_radioGroup;
     private RadioButton income_radioButton;
     private RadioButton expense_radioButton;
@@ -50,13 +48,12 @@ public class Transaction_Add extends Activity {
     private Spinner toAccount_spinner;
     private Spinner fromAccount_spinner;
     private Spinner category_spinner;
-    private Spinner duration_spinner;
     private EditText edit_notes;
     private Button done_button;
     private Button cancel_button;
-    private TextView date_textView;
     private DatePicker datePicker;
     private Calendar calendar;
+    private TextView dateView;
     private int year, month, day;
 
     private String selected_account;
@@ -69,8 +66,7 @@ public class Transaction_Add extends Activity {
 
         edit_name = (EditText)findViewById(R.id.name);
         edit_amount = (EditText)findViewById(R.id.amount);
-        edit_date = (EditText)findViewById(R.id.date);
-        edit_notes = (EditText)findViewById(R.id.notes);
+       // edit_date = (EditText)findViewById(R.id.date);
         flow_radioGroup = (RadioGroup) findViewById(R.id.flow);
         income_radioButton = (RadioButton) findViewById(R.id.flow_income);
         expense_radioButton = (RadioButton) findViewById(R.id.flow_expense);
@@ -78,21 +74,15 @@ public class Transaction_Add extends Activity {
         toAccount_spinner = (Spinner)findViewById(R.id.toaccount);
         fromAccount_spinner = (Spinner)findViewById(R.id.fromaccount);
         category_spinner = (Spinner)findViewById(R.id.category);
-        duration_spinner = (Spinner)findViewById(R.id.duration);
+        edit_notes = (EditText)findViewById(R.id.notes);
         done_button = (Button)findViewById(R.id.done);
         cancel_button = (Button)findViewById(R.id.cancel);
-        date_textView = (TextView)findViewById(R.id.dateTextView);
-
+        dateView = (TextView)findViewById(R.id.textView3);
         calendar = Calendar.getInstance();
         year = calendar.get(Calendar.YEAR);
         month = calendar.get(Calendar.MONTH);
         day = calendar.get(Calendar.DAY_OF_MONTH);
         showDate(year,month+1,day);
-
-        income_radioButton.setChecked(true);
-        toAccount_spinner.setEnabled(true);
-        fromAccount_spinner.setEnabled(false);
-        duration_spinner.setEnabled(false);
 
         Bundle args = getIntent().getExtras();
 
@@ -101,13 +91,12 @@ public class Transaction_Add extends Activity {
         else {
             sessionUser = args.getParcelable("ufm.universalfinancemanager.USER");
 
-            assert sessionUser != null;
             ArrayAdapter<Account> account_adapter = new ArrayAdapter<>(this,
                     android.R.layout.simple_spinner_item, sessionUser.getAccounts());
             account_adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
             toAccount_spinner.setAdapter(account_adapter);
             fromAccount_spinner.setAdapter(account_adapter);
-
+            
         }
 
 
@@ -141,19 +130,7 @@ public class Transaction_Add extends Activity {
                 if(valid_name && valid_amount) {
                     if(income_radioButton.isChecked()) {
 
-                        Transaction newTransaction = new Transaction(edit_name.getText().toString(),
-                                Flow.INCOME,
-                                Double.parseDouble(edit_amount.getText().toString()),
-                                sessionUser.getCategory(category_spinner.getSelectedItem().toString()),
-                                sessionUser.getAccount(toAccount_spinner.getSelectedItem().toString()),
-                                Calendar.getInstance().getTime(),
-                                edit_notes.getText().toString());
-
-                        Intent returnIntent = new Intent();
-                        returnIntent.putExtra("result", newTransaction);
-                        setResult(Activity.RESULT_OK, returnIntent);
-                    }
-                    else if(expense_radioButton.isChecked()) {
+                    }else if(expense_radioButton.isChecked()) {
 
                         Transaction newTransaction = new Transaction(edit_name.getText().toString(),
                                 Flow.OUTCOME,
@@ -193,7 +170,7 @@ public class Transaction_Add extends Activity {
         });
     }
 
-    public void onFlowChecked(View view) {
+    public void onRadioButtonClicked(View view) {
         // Is the button now checked?
         boolean checked = ((RadioButton) view).isChecked();
 
@@ -203,46 +180,27 @@ public class Transaction_Add extends Activity {
                 if (checked)
                     toAccount_spinner.setEnabled(true); // Enable ToAccount Spinner
                     fromAccount_spinner.setEnabled(false); // Disable FromAccount Spinner
-                    category_spinner.setEnabled(true);  //Enable Category Spinner
                     // Change Category Spinner to show Income type Categories
-                    edit_name.setEnabled(true);
-                    edit_name.setPaintFlags(edit_name.getPaintFlags()  & (~ Paint.STRIKE_THRU_TEXT_FLAG));
                     break;
             case R.id.flow_expense:
                 if (checked)
                     toAccount_spinner.setEnabled(false); // Disable ToAccount Spinner
                     fromAccount_spinner.setEnabled(true); // Enable FromAccount Spinner
-                    category_spinner.setEnabled(true);  //Enable Category Spinner
                     // Change Category Spinner to show Expense type Categories
-                    edit_name.setEnabled(true);
-                    edit_name.setPaintFlags(edit_name.getPaintFlags()  & (~ Paint.STRIKE_THRU_TEXT_FLAG));
                     break;
             case R.id.flow_transfer:
                 if (checked)
                     toAccount_spinner.setEnabled(true); // Enable ToAccount Spinner
                     fromAccount_spinner.setEnabled(true); // Enable FromAccount Spinner
                     category_spinner.setEnabled(false); // Disable Category Spinner
-                    edit_name.setEnabled(false);
-                    edit_name.setPaintFlags(edit_name.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
                     break;
-        }
-    }
-
-    public void onRepeatChecked(View view) {
-        if (((CheckBox) view).isChecked()) {
-            duration_spinner.setEnabled(true);
-            date_textView.setText("Starting Date:");
-        }
-        else {
-            duration_spinner.setEnabled(false);
-            date_textView.setText("Date:");
         }
     }
 
     @SuppressWarnings("deprecation")
     public void setDate(View view) {
         showDialog(999);
-        Toast.makeText(getApplicationContext(), "Select Date",
+        Toast.makeText(getApplicationContext(), "ca",
                 Toast.LENGTH_SHORT)
                 .show();
     }
@@ -270,8 +228,8 @@ public class Transaction_Add extends Activity {
             };
 
     private void showDate(int year, int month, int day) {
-        edit_date.setText(new StringBuilder().append(day).append(" / ")
-                .append(month).append(" / ").append(year));
+        dateView.setText(new StringBuilder().append(day).append("/")
+                .append(month).append("/").append(year));
     }
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();

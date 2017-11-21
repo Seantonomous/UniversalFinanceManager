@@ -23,12 +23,11 @@ Contributing Team Members:
 
         <TextView
             android:id="@+id/textView"
-            android:layout_marginBottom="5dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Add Transaction"
             android:textColor="@android:color/holo_red_dark"
-            android:textSize="25sp"
+            android:textSize="18sp"
             android:visibility="visible" />
 
         <EditText
@@ -38,172 +37,116 @@ Contributing Team Members:
             android:layout_height="wrap_content"
             android:layout_weight="0.05"
             android:hint="Name"
-            android:textSize="20sp"
-            android:inputType="text" />
+            android:inputType="textPersonName" />
 
         <EditText
             android:layout_below="@id/name"
             android:id="@+id/amount"
-            android:layout_marginTop="5dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="0.05"
             android:hint="$00.00"
-            android:textSize="20sp"
             android:inputType="numberDecimal" />
 
         <RadioGroup
-            android:id="@+id/flow"
             android:layout_below="@id/amount"
-            android:layout_centerHorizontal="true"
-            android:layout_marginLeft="20dp"
-            android:layout_marginTop="5dp"
-            android:layout_width="wrap_content"
+            android:id="@+id/flow"
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
 
             <RadioButton
                 android:id="@+id/flow_income"
-                android:layout_width="120dp"
+                android:layout_width="110dp"
                 android:layout_height="wrap_content"
-                android:onClick="onFlowChecked"
-                android:text="Income"
-                android:textSize="15sp" />
+                android:onClick="onRadioButtonClicked"
+                android:text="Income" />
 
             <RadioButton android:id="@+id/flow_expense"
-                android:layout_width="120dp"
+                android:layout_width="115dp"
                 android:layout_height="wrap_content"
                 android:text="Expense"
-                android:textSize="15sp"
-                android:onClick="onFlowChecked"/>
+                android:onClick="onRadioButtonClicked"/>
 
             <RadioButton android:id="@+id/flow_transfer"
-                android:layout_width="120dp"
+                android:layout_width="110dp"
                 android:layout_height="wrap_content"
                 android:text="Transfer"
-                android:textSize="15sp"
-                android:onClick="onFlowChecked"/>
+                android:onClick="onRadioButtonClicked"/>
         </RadioGroup>
 
-        <TextView
-            android:id="@+id/textView2"
+        <Button
             android:layout_below="@id/flow"
-            android:text="Category:"
-            android:textSize="20sp"
-            android:layout_marginTop="12dp"
-            android:layout_marginBottom="5dp"
+            android:id="@+id/date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_weight="0.02"
+            android:onClick="setDate"
+            android:text="Set Date" />
+
+        <TextView
+            android:layout_below="@id/date"
+            android:id="@+id/textView3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceMedium" />
 
         <!--Drop Down menu for category selection-->
-        <Spinner
-            android:id="@+id/category"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_toStartOf="@+id/fromaccount"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentEnd="true"
-            android:layout_below="@id/textView2"
-            android:background="@android:drawable/btn_dropdown"
-            android:entries="@array/categories" />
 
-        <TextView
-            android:id="@+id/textView3"
-            android:layout_below="@id/category"
-            android:text="To Account:"
-            android:textSize="20sp"
-            android:layout_toStartOf="@+id/fromaccount"
-            android:layout_alignParentStart="true"
-            android:layout_marginTop="12dp"
-            android:layout_marginBottom="5dp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceMedium" />
-
-        <TextView
-            android:id="@+id/textView4"
-            android:layout_below="@id/category"
-            android:layout_toEndOf="@+id/textView3"
-            android:text="From Account:"
-            android:textSize="20sp"
-            android:layout_marginTop="12dp"
-            android:layout_marginBottom="5dp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceMedium" />
 
         <!--Drop Down menu for toAccount selection-->
         <Spinner
-            android:id="@+id/toaccount"
-            android:layout_toStartOf="@id/fromaccount"
-            android:layout_alignParentStart="true"
+            android:layout_toLeftOf="@+id/fromaccount"
+            android:layout_alignParentLeft="true"
             android:layout_below="@id/textView3"
-            android:layout_width="205dp"
+            android:id="@+id/toaccount"
+            android:layout_width="200dp"
             android:layout_height="wrap_content"
             android:background="@android:drawable/btn_dropdown"/>
 
         <!--Drop Down menu for fromAccount selection-->
         <Spinner
-            android:id="@+id/fromaccount"
             android:layout_below="@id/textView3"
-            android:layout_toRightOf="@id/date"
+            android:layout_alignParentRight="true"
+            android:id="@+id/fromaccount"
             android:layout_width="200dp"
             android:layout_height="wrap_content"
             android:background="@android:drawable/btn_dropdown"/>
 
-        <TextView
-            android:id="@+id/dateTextView"
-            android:text="Date:"
-            android:textSize="20sp"
-            android:layout_below="@id/toaccount"
-            android:layout_alignParentStart="true"
-            android:layout_toStartOf="@+id/fromaccount"
-            android:layout_marginTop="12dp"
-            android:layout_marginBottom="5dp"
-            android:layout_width="wrap_content"
+        <Spinner
+            android:id="@+id/category"
+            android:layout_width="200dp"
             android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceMedium" />
+            android:layout_alignStart="@+id/done"
+            android:layout_below="@+id/toaccount"
+            android:layout_marginStart="71dp"
+            android:background="@android:drawable/btn_dropdown"
+            android:entries="@array/categories"
+            android:spinnerMode="dialog" />
 
         <CheckBox
+            android:layout_below="@id/category"
+            android:layout_toLeftOf="@+id/duration"
+            android:layout_alignParentLeft="true"
             android:id="@+id/frequency"
-            android:layout_below="@id/toaccount"
-            android:layout_toRightOf="@id/dateTextView"
-            android:layout_marginTop="12dp"
-            android:layout_marginBottom="5dp"
-            android:layout_width="wrap_content"
+            android:layout_width="200dp"
             android:layout_height="wrap_content"
-            android:text="Repeat?"
-            android:onClick="onRepeatChecked" />
-
-        <EditText
-            android:id="@+id/date"
-            android:layout_below="@id/dateTextView"
-            android:layout_alignParentStart="true"
-            android:layout_width="197dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="0.02"
-            android:contextClickable="false"
-            android:onClick="setDate"
-            android:inputType="date"
-            android:textSize="20sp"
-            android:textAlignment="center"
-            android:hint=" DD / MM / YYYY" />
+            android:text="Repeat" />
 
         <!--Drop Down menu for frequency selection-->
         <Spinner
-            android:layout_below="@id/dateTextView"
+            android:layout_below="@id/category"
             android:id="@+id/duration"
-            android:layout_toRightOf="@id/date"
+            android:layout_alignParentRight="true"
             android:layout_width="200dp"
             android:layout_height="wrap_content"
             android:background="@android:drawable/btn_dropdown"
-            android:entries="@array/duration" />
+            android:entries="@array/duration"/>
 
         <EditText
             android:layout_below="@id/duration"
             android:id="@+id/notes"
-            android:layout_marginTop="10dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="0.27"
@@ -212,24 +155,20 @@ Contributing Team Members:
 
         <Button
             android:id="@+id/done"
-            android:layout_alignParentStart="true"
-            android:layout_marginTop="10dp"
-            android:layout_width="197dp"
+            android:layout_width="100dp"
             android:layout_height="wrap_content"
             android:layout_below="@+id/notes"
+            android:layout_marginStart="21dp"
             android:layout_toEndOf="@+id/textView3"
-            android:textSize="17sp"
             android:text="Submit" />
 
         <Button
             android:id="@+id/cancel"
-            android:layout_marginTop="10dp"
-            android:layout_width="197dp"
-            android:layout_toEndOf="@+id/done"
+            android:layout_width="200dp"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/notes"
-            android:textSize="17sp"
+            android:layout_alignParentBottom="true"
+            android:layout_marginStart="20dp"
+            android:layout_toEndOf="@+id/date"
             android:text="Cancel" />
-
     </RelativeLayout>
 </ScrollView>
