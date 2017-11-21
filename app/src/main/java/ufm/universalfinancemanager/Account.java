@@ -21,7 +21,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 
-public class Account implements Parcelable, Serializable {
+public class Account implements Parcelable, Serializable, ListItem {
 
     private String name;
     AccountType type;
