@@ -91,12 +91,20 @@ public class User implements Parcelable, Serializable {
     }
 
     public boolean hasAccount(String name) {
-        for(int i=0;i<accounts.size();i++) {
-            if(accounts.get(i).getName().equals(name)) {
+        for (int i = 0; i < accounts.size(); i++) {
+            if (accounts.get(i).getName().equals(name)) {
                 return true;
             }
         }
+        return false;
+    }
 
+    public boolean hasCategory(String name) {
+        for(int i=0;i<categories.size();i++) {
+            if(categories.get(i).getName().equals(name)) {
+                return true;
+            }
+        }
         return false;
     }
 

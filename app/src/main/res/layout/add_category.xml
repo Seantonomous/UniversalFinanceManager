@@ -12,6 +12,7 @@ Contributing Team Members:
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
+
     <TextView
         android:id="@+id/textView"
         android:layout_width="match_parent"
@@ -30,18 +31,41 @@ Contributing Team Members:
         android:hint="Name"
         android:inputType="text" />
 
-    <Spinner
-        android:layout_below="@id/category_name"
+    <RadioGroup
         android:id="@+id/category_flow"
-        android:layout_width="200dp"
+        android:layout_below="@id/category_name"
+        android:layout_centerHorizontal="true"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="5dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="@android:drawable/btn_dropdown" />
+        android:orientation="horizontal">
+
+        <RadioButton
+            android:id="@+id/category_flow_income"
+            android:layout_width="120dp"
+            android:layout_height="wrap_content"
+            android:text="Income"
+            android:textSize="15sp" />
+
+        <RadioButton android:id="@+id/category_flow_expense"
+            android:layout_width="120dp"
+            android:layout_height="wrap_content"
+            android:text="Expense"
+            android:textSize="15sp" />
+
+        <RadioButton android:id="@+id/category_flow_transfer"
+            android:layout_width="120dp"
+            android:layout_height="wrap_content"
+            android:text="Transfer"
+            android:textSize="15sp" />
+    </RadioGroup>
 
     <Button
         android:layout_toLeftOf="@+id/cancel"
         android:layout_alignParentLeft="true"
         android:layout_below="@id/category_flow"
-        android:id="@+id/Done"
+        android:id="@+id/submit"
         android:layout_width="100dp"
         android:layout_height="wrap_content"
         android:text="Submit" />
@@ -49,7 +73,7 @@ Contributing Team Members:
     <Button
         android:layout_below="@id/category_flow"
         android:layout_alignParentRight="true"
-        android:id="@+id/Cancel"
+        android:id="@+id/cancel"
         android:layout_width="100dp"
         android:layout_height="wrap_content"
         android:text="Cancel" />

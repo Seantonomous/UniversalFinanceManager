@@ -293,6 +293,12 @@ public class Main_Activity extends AppCompatActivity{
                 sessionUser.addAccount(newAccount);
             }
         }
+        else if(requestCode == 3) {
+            if(resultCode == Activity.RESULT_OK) {
+                Category newCategory = data.getParcelableExtra("result");
+                sessionUser.addCategory(newCategory);
+            }
+        }
     }
 
     @Override

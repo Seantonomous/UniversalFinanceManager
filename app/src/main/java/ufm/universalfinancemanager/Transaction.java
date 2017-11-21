@@ -61,7 +61,7 @@ public class Transaction implements Parcelable, ListItem, Serializable {
         name = in.readString();
         flow = Flow.valueOf(in.readString());
         amount = in.readDouble();
-        category = new Category(in.readString());
+        category = new Category(in.readString(), flow);
         account = in.readParcelable(Account.class.getClassLoader());
         date = new Date(in.readLong());
     }
