@@ -47,7 +47,7 @@ public class Account_Add extends Activity {
             @Override
             public void validate(TextView textView, String text) {
                 if(text.length() == 0) {
-                    textView.setError("Transaction must have a name");
+                    textView.setError("Account must have a name");
                     valid_name = false;
                 }else {
                     valid_name = true;
@@ -59,7 +59,7 @@ public class Account_Add extends Activity {
             @Override
             public void validate(TextView textView, String text) {
                 if(text.length() == 0) {
-                    textView.setError("Transaction must have a name");
+                    textView.setError("Account must have a starting amount");
                     valid_amount = false;
                 }else {
                     valid_amount = true;
@@ -77,7 +77,8 @@ public class Account_Add extends Activity {
                 if(valid_amount && valid_name) {
                     if(sessionUser.hasAccount(edit_name.getText().toString())) {
                         //Can't add, user already has account
-                    } else {
+                    }
+                    else {
                         stringSelectedType = type_spinner.getSelectedItem().toString();
                         switch(stringSelectedType) {
                             case ("Checking"):

@@ -14,16 +14,22 @@ import android.os.Parcelable;
 
 public class Category implements Parcelable{
     private String name;
+    private Flow flow;
 
-    public Category(String name) {
+    public Category(String name, Flow flow) {
         this.name = name;
+        this.flow = flow;
     }
     public Category(Parcel in) {
+
         this.name = in.readString();
+        //flow = Flow.valueOf(in.readString());
     }
 
     public String getName() {return this.name;}
+    public Flow getFlow() {return this.flow;}
     public void setName(String name) {this.name = name;}
+    public void setFlow(Flow flow) {this.flow = flow;}
 
     @Override
     public String toString() {
