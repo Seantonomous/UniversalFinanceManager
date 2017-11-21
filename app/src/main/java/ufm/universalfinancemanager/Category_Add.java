@@ -3,6 +3,7 @@ package ufm.universalfinancemanager;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.v4.app.Fragment;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -67,21 +68,21 @@ public class Category_Add extends Activity {
                             Category newCategory = new Category(edit_name.getText().toString(), Flow.INCOME);
 
                             Intent returnIntent = new Intent();
-                            returnIntent.putExtra("result", newCategory);
+                            returnIntent.putExtra("result", (Parcelable)newCategory);
                             setResult(Activity.RESULT_OK, returnIntent);
                         } else if (expense_radioButton.isChecked()) {
 
                             Category newCategory = new Category(edit_name.getText().toString(), Flow.OUTCOME);
 
                             Intent returnIntent = new Intent();
-                            returnIntent.putExtra("result", newCategory);
+                            returnIntent.putExtra("result", (Parcelable)newCategory);
                             setResult(Activity.RESULT_OK, returnIntent);
                         } else {
 
                             Category newCategory = new Category(edit_name.getText().toString(), Flow.TRANSFER);
 
                             Intent returnIntent = new Intent();
-                            returnIntent.putExtra("result", newCategory);
+                            returnIntent.putExtra("result", (Parcelable)newCategory);
                             setResult(Activity.RESULT_OK, returnIntent);
 
                         }

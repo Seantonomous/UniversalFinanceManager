@@ -81,7 +81,7 @@ public class Main_Activity extends AppCompatActivity{
             fis.close();
         }catch(FileNotFoundException e) {
             sessionUser = new User("Test");
-            sessionUser.addCategory(new Category("Gas"));
+            sessionUser.addCategory(new Category("Gas", Flow.OUTCOME));
             sessionUser.addAccount(new Account("Checking", AccountType.CHECKING, 0, new Date()));
 
             /**************TEST DATA*************/
@@ -103,19 +103,19 @@ public class Main_Activity extends AppCompatActivity{
             /**************TEST DATA*************/
 
             try {
-                sessionUser.addTransaction(new Transaction("Gas", Flow.OUTCOME, 30.24, new Category("Transportation"),
+                sessionUser.addTransaction(new Transaction("Gas", Flow.OUTCOME, 30.24, new Category("Transportation",Flow.OUTCOME),
                         sessionUser.getAccount("Checking"), dateFormat.parse("10/28/2017")));
-                sessionUser.addTransaction(new Transaction("Ralphs", Flow.OUTCOME, 86.13, new Category("Food"),
+                sessionUser.addTransaction(new Transaction("Ralphs", Flow.OUTCOME, 86.13, new Category("Food",Flow.OUTCOME),
                         sessionUser.getAccount("Checking"), dateFormat.parse("10/28/2017")));
-                sessionUser.addTransaction(new Transaction("AMC", Flow.OUTCOME, 8.50, new Category("Fun"),
+                sessionUser.addTransaction(new Transaction("AMC", Flow.OUTCOME, 8.50, new Category("Fun",Flow.OUTCOME),
                         sessionUser.getAccount("Checking"), dateFormat.parse("10/29/2017")));
-                sessionUser.addTransaction(new Transaction("CSUN", Flow.OUTCOME, 57.00, new Category("Education"),
+                sessionUser.addTransaction(new Transaction("CSUN", Flow.OUTCOME, 57.00, new Category("Education",Flow.OUTCOME),
                         sessionUser.getAccount("Checking"), dateFormat.parse("10/30/2017")));
-                sessionUser.addTransaction(new Transaction("Amazon", Flow.OUTCOME, 24.15, new Category("Household"),
+                sessionUser.addTransaction(new Transaction("Amazon", Flow.OUTCOME, 24.15, new Category("Household",Flow.OUTCOME),
                         sessionUser.getAccount("Checking"), dateFormat.parse("10/30/2017")));
-                sessionUser.addTransaction(new Transaction("Autozone", Flow.OUTCOME, 11.15, new Category("Vehicle Maintenance"),
+                sessionUser.addTransaction(new Transaction("Autozone", Flow.OUTCOME, 11.15, new Category("Vehicle Maintenance",Flow.OUTCOME),
                         sessionUser.getAccount("Checking"), dateFormat.parse("10/30/2017")));
-                sessionUser.addTransaction(new Transaction("Gas", Flow.OUTCOME, 29.13, new Category("Transportation"),
+                sessionUser.addTransaction(new Transaction("Gas", Flow.OUTCOME, 29.13, new Category("Transportation",Flow.OUTCOME),
                         sessionUser.getAccount("Checking"), dateFormat.parse("10/30/2017")));
             }catch(ParseException f) {
                 //shouldn't happen...

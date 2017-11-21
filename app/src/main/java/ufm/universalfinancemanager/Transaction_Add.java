@@ -151,7 +151,7 @@ public class Transaction_Add extends Activity {
                                 edit_notes.getText().toString());
 
                         Intent returnIntent = new Intent();
-                        returnIntent.putExtra("result", newTransaction);
+                        returnIntent.putExtra("result", (Parcelable)newTransaction);
                         setResult(Activity.RESULT_OK, returnIntent);
                     }
                     else if(expense_radioButton.isChecked()) {
