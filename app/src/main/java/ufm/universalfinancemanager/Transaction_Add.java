@@ -97,7 +97,7 @@ public class Transaction_Add extends Activity {
             account_adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
             toAccount_spinner.setAdapter(account_adapter);
             fromAccount_spinner.setAdapter(account_adapter);
-            
+
         }
 
 

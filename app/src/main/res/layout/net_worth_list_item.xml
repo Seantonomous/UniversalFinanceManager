@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Author: Aaron O'Connor
+* Date Started: 11/19/17
+* Date Complete:
+* Peer Review:
+*   Date:
+*   Team Members:
+* Contributing Team Members: -->
+<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:stretchColumns="1">
+
+    <TableRow>
+        <TextView android:id="@+id/networth_account"
+            android:textSize="18sp"
+            android:ellipsize="end"
+            android:padding="4dp">
+        </TextView>
+
+        <TextView>
+
+        </TextView>
+
+        <TextView android:id="@+id/account_balance"
+            android:gravity="end"
+            android:textSize="18sp"
+            android:ellipsize="end"
+            android:padding="4dp">
+        </TextView>
+    </TableRow>
+
+</TableLayout>

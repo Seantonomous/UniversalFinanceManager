@@ -1,0 +1,12 @@
+<!-- Author: Aaron O'Connor
+* Date Started: 11/19/17
+* Date Complete:
+* Peer Review:
+*   Date:
+*   Team Members:
+* Contributing Team Members: -->
+<ListView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/networth_list"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+</ListView>

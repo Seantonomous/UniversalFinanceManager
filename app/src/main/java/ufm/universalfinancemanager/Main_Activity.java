@@ -106,6 +106,26 @@ public class Main_Activity extends AppCompatActivity{
             Log.d("Main_Activity", e.getMessage());
         }
 
+
+
+        /**************TEST DATA*************/
+        // Test data for net worth -Aaron
+
+        sessionUser.addAccount(new Account("American Express", AccountType.CREDIT_CARD, 2353.95, new Date()));
+        sessionUser.addAccount(new Account("Bank of America Visa", AccountType.CREDIT_CARD, 631.31, new Date()));
+        sessionUser.addAccount(new Account("Capital One Visa", AccountType.CREDIT_CARD, 103.31, new Date()));
+        sessionUser.addAccount(new Account("Chase Visa", AccountType.CREDIT_CARD, 381.99, new Date()));
+        sessionUser.addAccount(new Account("CitiBank Mastercard", AccountType.CREDIT_CARD, 741.48, new Date()));
+        sessionUser.addAccount(new Account("Etrade Brokerage", AccountType.SAVINGS, 15534.33, new Date()));
+        sessionUser.addAccount(new Account("Federal Student Loan", AccountType.CREDIT_CARD, 3455.22, new Date()));
+        sessionUser.addAccount(new Account("Fidelity 401k", AccountType.SAVINGS, 11607.24, new Date()));
+        sessionUser.addAccount(new Account("Matadors Credit Union Checking", AccountType.CHECKING, 2481.93, new Date()));
+        sessionUser.addAccount(new Account("Matadors Credit Union Savings", AccountType.SAVINGS, 4950.07, new Date()));
+        sessionUser.addAccount(new Account("Vanguard 401k", AccountType.SAVINGS, 21657.95, new Date()));
+        sessionUser.addAccount(new Account("Wells Fargo", AccountType.CREDIT_CARD, 360.36, new Date()));
+
+        /**************TEST DATA*************/
+
         drawer_items = getResources().getStringArray(R.array.drawer_items);
 
         drawer_toggle = new ActionBarDrawerToggle(this,drawer_layout,R.string.drawer_open,
@@ -168,6 +188,32 @@ public class Main_Activity extends AppCompatActivity{
             case(3):    //INCOME/OUTCOME
                 break;
             case(4):    //NET WORTH
+
+                // Make new Net_Worth to place in main view container
+                fragment = new NetWorthFragment();
+
+                //Put the users accounts and totals in a bundle, pass to fragment via setArguments()
+                b = new Bundle();
+                b.putParcelableArrayList("ACCOUNT", sessionUser.getAccounts());
+                fragment.setArguments(b);
+
+                // Get fragment manager
+                fragmentManager = getFragmentManager();
+
+                //Replace the current container with the fragment and commit changes
+                fragmentManager.beginTransaction().replace(R.id.fragment_container, fragment).commit();
+
+                //Set the action bar title to "Transaction History"
+                try {
+                    getSupportActionBar().setTitle(R.string.networth_title);
+                }catch(java.lang.NullPointerException e) {
+
+                }
+
+                //Highlight touched item in the nav drawer and then close the nav drawer
+                list_view.setItemChecked(position, true);
+                drawer_layout.closeDrawer(list_view);
+
                 break;
             case(5):    //Reminders
                 break;
