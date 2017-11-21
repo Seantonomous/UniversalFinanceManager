@@ -84,6 +84,24 @@ public class Main_Activity extends AppCompatActivity{
             sessionUser.addCategory(new Category("Gas"));
             sessionUser.addAccount(new Account("Checking", AccountType.CHECKING, 0, new Date()));
 
+            /**************TEST DATA*************/
+            // Test data for net worth -Aaron
+
+            sessionUser.addAccount(new Account("American Express", AccountType.CREDIT_CARD, 2353.95, new Date()));
+            sessionUser.addAccount(new Account("Bank of America Visa", AccountType.CREDIT_CARD, 631.31, new Date()));
+            sessionUser.addAccount(new Account("Capital One Visa", AccountType.CREDIT_CARD, 103.31, new Date()));
+            sessionUser.addAccount(new Account("Chase Visa", AccountType.CREDIT_CARD, 381.99, new Date()));
+            sessionUser.addAccount(new Account("CitiBank Mastercard", AccountType.CREDIT_CARD, 741.48, new Date()));
+            sessionUser.addAccount(new Account("Etrade Brokerage", AccountType.SAVINGS, 15534.33, new Date()));
+            sessionUser.addAccount(new Account("Federal Student Loan", AccountType.CREDIT_CARD, 3455.22, new Date()));
+            sessionUser.addAccount(new Account("Fidelity 401k", AccountType.SAVINGS, 11607.24, new Date()));
+            sessionUser.addAccount(new Account("Matadors Credit Union Checking", AccountType.CHECKING, 2481.93, new Date()));
+            sessionUser.addAccount(new Account("Matadors Credit Union Savings", AccountType.SAVINGS, 4950.07, new Date()));
+            sessionUser.addAccount(new Account("Vanguard 401k", AccountType.SAVINGS, 21657.95, new Date()));
+            sessionUser.addAccount(new Account("Wells Fargo", AccountType.CREDIT_CARD, 360.36, new Date()));
+
+            /**************TEST DATA*************/
+
             try {
                 sessionUser.addTransaction(new Transaction("Gas", Flow.OUTCOME, 30.24, new Category("Transportation"),
                         sessionUser.getAccount("Checking"), dateFormat.parse("10/28/2017")));
@@ -105,26 +123,6 @@ public class Main_Activity extends AppCompatActivity{
         }catch(ClassNotFoundException | IOException e) {
             Log.d("Main_Activity", e.getMessage());
         }
-
-
-
-        /**************TEST DATA*************/
-        // Test data for net worth -Aaron
-
-        sessionUser.addAccount(new Account("American Express", AccountType.CREDIT_CARD, 2353.95, new Date()));
-        sessionUser.addAccount(new Account("Bank of America Visa", AccountType.CREDIT_CARD, 631.31, new Date()));
-        sessionUser.addAccount(new Account("Capital One Visa", AccountType.CREDIT_CARD, 103.31, new Date()));
-        sessionUser.addAccount(new Account("Chase Visa", AccountType.CREDIT_CARD, 381.99, new Date()));
-        sessionUser.addAccount(new Account("CitiBank Mastercard", AccountType.CREDIT_CARD, 741.48, new Date()));
-        sessionUser.addAccount(new Account("Etrade Brokerage", AccountType.SAVINGS, 15534.33, new Date()));
-        sessionUser.addAccount(new Account("Federal Student Loan", AccountType.CREDIT_CARD, 3455.22, new Date()));
-        sessionUser.addAccount(new Account("Fidelity 401k", AccountType.SAVINGS, 11607.24, new Date()));
-        sessionUser.addAccount(new Account("Matadors Credit Union Checking", AccountType.CHECKING, 2481.93, new Date()));
-        sessionUser.addAccount(new Account("Matadors Credit Union Savings", AccountType.SAVINGS, 4950.07, new Date()));
-        sessionUser.addAccount(new Account("Vanguard 401k", AccountType.SAVINGS, 21657.95, new Date()));
-        sessionUser.addAccount(new Account("Wells Fargo", AccountType.CREDIT_CARD, 360.36, new Date()));
-
-        /**************TEST DATA*************/
 
         drawer_items = getResources().getStringArray(R.array.drawer_items);
 
