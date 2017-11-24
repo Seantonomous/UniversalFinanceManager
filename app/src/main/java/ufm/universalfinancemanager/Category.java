@@ -9,13 +9,20 @@
 */
 package ufm.universalfinancemanager;
 
+import android.arch.persistence.room.ColumnInfo;
+import android.arch.persistence.room.Ignore;
+import android.arch.persistence.room.TypeConverters;
 import android.os.Parcel;
 import android.os.Parcelable;
 
 import java.io.Serializable;
 
 public class Category implements Parcelable, Serializable {
+
     private String name;
+
+    @TypeConverters(FlowConverter.class)
+    @ColumnInfo(name = "category_flow")
     private Flow flow;
 
     public Category(String name, Flow flow) {

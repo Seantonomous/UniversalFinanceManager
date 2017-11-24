@@ -10,6 +10,12 @@
 
 package ufm.universalfinancemanager;
 
+import android.arch.persistence.room.ColumnInfo;
+import android.arch.persistence.room.Embedded;
+import android.arch.persistence.room.Entity;
+import android.arch.persistence.room.Ignore;
+import android.arch.persistence.room.PrimaryKey;
+import android.arch.persistence.room.TypeConverters;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.view.LayoutInflater;
@@ -22,18 +28,37 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 
+@Entity
 public class Transaction implements Parcelable, ListItem, Serializable {
+
+    @PrimaryKey(autoGenerate = true)
+    private int id;
+
     private String name;
+
+    @TypeConverters(FlowConverter.class)
+    @ColumnInfo(name = "transaction_flow")
     private Flow flow;
+
     private double amount;
+
+    @Embedded
     private Category category;
+
+    @Embedded
     private Account account;
+
     private boolean frequency;
+
+    @TypeConverters(DateConverter.class)
     private Date date;
+
     private String notes;
 
-    private static SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd", Locale.ENGLISH);
-    private NumberFormat num_format = NumberFormat.getCurrencyInstance();
+    @Ignore
+    private static SimpleDateFormat dateFormat;
+    @Ignore
+    private NumberFormat num_format;
 
     public Transaction(String name, Flow flow, double amount, Category category,
                        Account account, Date date, String notes) {
@@ -45,6 +70,9 @@ public class Transaction implements Parcelable, ListItem, Serializable {
         this.account = account;
         this.date = date;
         this.notes = notes;
+
+        dateFormat = new SimpleDateFormat("MM/dd", Locale.ENGLISH);
+        num_format = NumberFormat.getCurrencyInstance();
     }
 
     public Transaction(String name, Flow flow, double amount, Category category,
@@ -55,6 +83,9 @@ public class Transaction implements Parcelable, ListItem, Serializable {
         this.category = category;
         this.account = account;
         this.date = date;
+
+        dateFormat = new SimpleDateFormat("MM/dd", Locale.ENGLISH);
+        num_format = NumberFormat.getCurrencyInstance();
     }
 
     public Transaction(Parcel in) {
@@ -64,6 +95,9 @@ public class Transaction implements Parcelable, ListItem, Serializable {
         category = new Category(in.readString(), flow);
         account = in.readParcelable(Account.class.getClassLoader());
         date = new Date(in.readLong());
+
+        dateFormat = new SimpleDateFormat("MM/dd", Locale.ENGLISH);
+        num_format = NumberFormat.getCurrencyInstance();
     }
 
     @Override

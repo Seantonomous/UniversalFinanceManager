@@ -9,6 +9,9 @@
 */
 package ufm.universalfinancemanager;
 
+import android.arch.persistence.room.ColumnInfo;
+import android.arch.persistence.room.Ignore;
+import android.arch.persistence.room.TypeConverters;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.view.LayoutInflater;
@@ -23,13 +26,25 @@ import java.util.Locale;
 
 public class Account implements Parcelable, Serializable, ListItem {
 
+    @ColumnInfo(name = "account_name")
     private String name;
-    AccountType type;
+
+    @TypeConverters(AccountTypeConverter.class)
+    @ColumnInfo(name = "account_type")
+    private AccountType type;
+
+    @ColumnInfo(name = "account_balance")
     private double balance;
+
+    @TypeConverters(DateConverter.class)
+    @ColumnInfo(name = "account_opendate")
     private Date OpeningDate;
+
+    @ColumnInfo(name = "account_notes")
     private String notes;
 
-    private NumberFormat num_format = NumberFormat.getCurrencyInstance();
+    @Ignore
+    private NumberFormat num_format;
 
     public Account(String name, AccountType type, double balance, Date openingDate, String notes) {
         this.name = name;
@@ -37,6 +52,7 @@ public class Account implements Parcelable, Serializable, ListItem {
         this.balance = balance;
         OpeningDate = openingDate;
         this.notes = notes;
+        num_format = NumberFormat.getCurrencyInstance();
     }
 
     public Account(String name, AccountType type, double balance, Date openingDate) {
@@ -45,6 +61,7 @@ public class Account implements Parcelable, Serializable, ListItem {
         this.balance = balance;
         OpeningDate = openingDate;
         this.notes = "";
+        num_format = NumberFormat.getCurrencyInstance();
     }
 
     /******************Getters**********************/
@@ -84,6 +101,8 @@ public class Account implements Parcelable, Serializable, ListItem {
         balance = in.readDouble();
         OpeningDate = new Date(in.readLong());
         notes = in.readString();
+
+        num_format = NumberFormat.getCurrencyInstance();
     }
 
     @Override
