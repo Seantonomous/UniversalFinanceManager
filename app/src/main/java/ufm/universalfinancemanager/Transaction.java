@@ -32,7 +32,7 @@ import java.util.Locale;
 public class Transaction implements Parcelable, ListItem, Serializable {
 
     @PrimaryKey(autoGenerate = true)
-    private int id;
+    public int id;
 
     private String name;
 
@@ -75,6 +75,7 @@ public class Transaction implements Parcelable, ListItem, Serializable {
         num_format = NumberFormat.getCurrencyInstance();
     }
 
+    @Ignore
     public Transaction(String name, Flow flow, double amount, Category category,
                        Account account, Date date) {
         this.name = name;

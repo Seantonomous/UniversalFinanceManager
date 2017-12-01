@@ -11,6 +11,7 @@ package ufm.universalfinancemanager;
 
 import android.app.Activity;
 import android.app.FragmentManager;
+import android.arch.persistence.room.Room;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
@@ -39,8 +40,13 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
+import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.FutureTask;
 
 import ufm.universalfinancemanager.User;
 
@@ -50,6 +56,7 @@ public class Main_Activity extends AppCompatActivity{
     private ListView list_view;
     private ActionBarDrawerToggle drawer_toggle;
     private User sessionUser;
+    private UserDatabase db;
 
     public static final String EXTRA_USER = "ufm.universalfinancemanager.USER";
 
@@ -73,13 +80,16 @@ public class Main_Activity extends AppCompatActivity{
         }
         );
 
+        db = Room.databaseBuilder(getApplicationContext(), UserDatabase.class,
+                "user_db").build();
+
         try {
             FileInputStream fis = getApplicationContext().openFileInput("testUser");
             ObjectInputStream is = new ObjectInputStream(fis);
             sessionUser = (User)is.readObject();
             is.close();
             fis.close();
-        }catch(FileNotFoundException e) {
+        }catch(FileNotFoundException | ClassNotFoundException a) {
             sessionUser = new User("Test");
             sessionUser.addCategory(new Category("Gas", Flow.OUTCOME));
             sessionUser.addAccount(new Account("Checking", AccountType.CHECKING, 0, new Date()));
@@ -100,29 +110,30 @@ public class Main_Activity extends AppCompatActivity{
             sessionUser.addAccount(new Account("Vanguard 401k", AccountType.SAVINGS, 21657.95, new Date()));
             sessionUser.addAccount(new Account("Wells Fargo", AccountType.CREDIT_CARD, 360.36, new Date()));
 
-            /**************TEST DATA*************/
-
             try {
-                sessionUser.addTransaction(new Transaction("Gas", Flow.OUTCOME, 30.24, new Category("Transportation",Flow.OUTCOME),
+                insertTransaction(new Transaction("Gas", Flow.OUTCOME, 30.24, new Category("Transportation", Flow.OUTCOME),
                         sessionUser.getAccount("Checking"), dateFormat.parse("10/28/2017")));
-                sessionUser.addTransaction(new Transaction("Ralphs", Flow.OUTCOME, 86.13, new Category("Food",Flow.OUTCOME),
+                insertTransaction(new Transaction("Gas", Flow.OUTCOME, 30.24, new Category("Transportation", Flow.OUTCOME),
                         sessionUser.getAccount("Checking"), dateFormat.parse("10/28/2017")));
-                sessionUser.addTransaction(new Transaction("AMC", Flow.OUTCOME, 8.50, new Category("Fun",Flow.OUTCOME),
+                insertTransaction(new Transaction("Ralphs", Flow.OUTCOME, 86.13, new Category("Food", Flow.OUTCOME),
+                        sessionUser.getAccount("Checking"), dateFormat.parse("10/28/2017")));
+                insertTransaction(new Transaction("AMC", Flow.OUTCOME, 8.50, new Category("Fun", Flow.OUTCOME),
                         sessionUser.getAccount("Checking"), dateFormat.parse("10/29/2017")));
-                sessionUser.addTransaction(new Transaction("CSUN", Flow.OUTCOME, 57.00, new Category("Education",Flow.OUTCOME),
+                insertTransaction(new Transaction("CSUN", Flow.OUTCOME, 57.00, new Category("Education", Flow.OUTCOME),
                         sessionUser.getAccount("Checking"), dateFormat.parse("10/30/2017")));
-                sessionUser.addTransaction(new Transaction("Amazon", Flow.OUTCOME, 24.15, new Category("Household",Flow.OUTCOME),
+                insertTransaction(new Transaction("Amazon", Flow.OUTCOME, 24.15, new Category("Household", Flow.OUTCOME),
                         sessionUser.getAccount("Checking"), dateFormat.parse("10/30/2017")));
-                sessionUser.addTransaction(new Transaction("Autozone", Flow.OUTCOME, 11.15, new Category("Vehicle Maintenance",Flow.OUTCOME),
+                insertTransaction(new Transaction("Autozone", Flow.OUTCOME, 11.15, new Category("Vehicle Maintenance", Flow.OUTCOME),
                         sessionUser.getAccount("Checking"), dateFormat.parse("10/30/2017")));
-                sessionUser.addTransaction(new Transaction("Gas", Flow.OUTCOME, 29.13, new Category("Transportation",Flow.OUTCOME),
+                insertTransaction(new Transaction("Gas", Flow.OUTCOME, 29.13, new Category("Transportation", Flow.OUTCOME),
                         sessionUser.getAccount("Checking"), dateFormat.parse("10/30/2017")));
-            }catch(ParseException f) {
-                //shouldn't happen...
+            }catch(ParseException d) {
+
             }
-        }catch(ClassNotFoundException | IOException e) {
-            Log.d("Main_Activity", e.getMessage());
+        }catch(IOException b) {
+
         }
+        /**************TEST DATA*************/
 
         drawer_items = getResources().getStringArray(R.array.drawer_items);
 
@@ -162,9 +173,28 @@ public class Main_Activity extends AppCompatActivity{
                 //Create a new Transaction_Activity to place in main view container
                 Fragment fragment = new TransactionFragment();
 
+                //Create future task to fetch all the transactions from the database
+                //in a separate thread
+                FutureTask<ArrayList<Transaction>> futureTask;
+                futureTask = new FutureTask(new Callable() {
+                    @Override
+                    public Object call() {
+                        return db.transactionDao().getAll();
+                    };
+                });
+
+                new Thread(futureTask).start();
+
                 //Put the users transactions in a bundle, pass to fragment via setArguments()
                 Bundle b = new Bundle();
-                b.putParcelableArrayList("TRANSACTIONS", sessionUser.getTransactions());
+
+                //Get transaction arraylist from worker thread
+                try {
+                    b.putParcelableArrayList("TRANSACTIONS", ((ArrayList<Transaction>)futureTask.get()));
+                }catch(InterruptedException | ExecutionException e) {
+
+                }
+
                 fragment.setArguments(b);
 
                 FragmentManager fragmentManager = getFragmentManager();
@@ -316,5 +346,29 @@ public class Main_Activity extends AppCompatActivity{
         }
 
         super.onPause();
+    }
+
+    public void insertTransaction(final Transaction t) {
+        sessionUser.addTransaction(t);
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                db.transactionDao().insert(t);
+            }
+        }).start();
+    }
+
+    public boolean hasTransaction(final String name) throws InterruptedException, ExecutionException {
+        FutureTask future = new FutureTask(new Callable() {
+            @Override
+            public Object call() {
+                boolean hasIt = db.transactionDao().getTransactionByName(name).equals(null);
+                return hasIt;
+            }
+        });
+
+        new Thread(future).start();
+
+        return (boolean)future.get();
     }
 }

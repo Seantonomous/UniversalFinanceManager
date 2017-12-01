@@ -19,6 +19,7 @@ import java.io.Serializable;
 
 public class Category implements Parcelable, Serializable {
 
+    @ColumnInfo(name = "category_name")
     private String name;
 
     @TypeConverters(FlowConverter.class)

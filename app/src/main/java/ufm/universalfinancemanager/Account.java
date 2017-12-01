@@ -46,11 +46,11 @@ public class Account implements Parcelable, Serializable, ListItem {
     @Ignore
     private NumberFormat num_format;
 
-    public Account(String name, AccountType type, double balance, Date openingDate, String notes) {
+    public Account(String name, AccountType type, double balance, Date OpeningDate, String notes) {
         this.name = name;
         this.type = type;
         this.balance = balance;
-        OpeningDate = openingDate;
+        OpeningDate = OpeningDate;
         this.notes = notes;
         num_format = NumberFormat.getCurrencyInstance();
     }
