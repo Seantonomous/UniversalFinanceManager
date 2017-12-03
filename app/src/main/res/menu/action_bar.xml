@@ -4,24 +4,30 @@
 
     <item
         android:id="@+id/action_add_transaction"
+        android:textColor="@color/colorPrimary"
         android:checkable="false"
         android:title="Add Transaction"></item>
 
     <item
         android:id="@+id/action_add_account"
+        android:textColor="@color/colorPrimary"
         android:title="Add Account"></item>
 
     <item
         android:id="@+id/action_add_category"
+        android:textColor="@color/colorPrimary"
         android:title="Add Category"
         app:showAsAction="never"></item>
 
     <item
         android:id="@+id/action_add_reminder"
         android:title="Add Reminder"
+        android:textColor="@color/colorPrimary"
         app:showAsAction="never"></item>
+
     <item
         android:id="@+id/action_add_budget"
         android:title="Add Budget"
+        android:textColor="@color/colorPrimary"
         app:showAsAction="never"></item>
 </menu>

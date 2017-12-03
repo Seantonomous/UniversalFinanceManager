@@ -18,7 +18,7 @@ Contributing Team Members:
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Add Category"
-        android:textColor="@android:color/holo_red_dark"
+        android:textColor="@color/colorPrimary"
         android:textSize="18sp"
         android:visibility="visible" />
 
@@ -61,13 +61,13 @@ Contributing Team Members:
             android:textSize="15sp" />
     </RadioGroup>
 
+
     <Button
-        android:layout_toLeftOf="@+id/cancel"
-        android:layout_alignParentLeft="true"
-        android:layout_below="@id/category_flow"
         android:id="@+id/submit"
         android:layout_width="100dp"
         android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@id/category_flow"
         android:text="Submit" />
 
     <Button

@@ -16,7 +16,7 @@ Contributing Team Members:
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Add Account"
-        android:textColor="@android:color/holo_red_dark"
+        android:textColor="@color/colorPrimary"
         android:textSize="18sp"
         android:visibility="visible" />
 
@@ -40,10 +40,11 @@ Contributing Team Members:
     <!-- Drop Down menu for ACCOUNTS TYPE-->
 
     <Spinner
-        android:layout_below="@id/balance"
         android:id="@+id/accounttype"
         android:layout_width="200dp"
         android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/balance"
         android:background="@android:drawable/btn_dropdown"
         android:entries="@array/accountsType" />
 

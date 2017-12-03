@@ -20,7 +20,17 @@ Contributing Team Members:
         android:layout_height="match_parent"
         android:weightSum="1">
 
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Add Reminder"
+            android:textColor="@color/colorPrimary"
+            android:textSize="18sp"
+            android:visibility="visible" />
+
         <EditText
+            android:layout_below="@id/textView"
             android:id="@+id/label"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -41,16 +51,31 @@ Contributing Team Members:
             android:layout_height="wrap_content"
             android:text="Remind me on a day" />
 
+        <TextView
+            android:id="@+id/dateTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_below="@id/frequency"
+            android:text="Date:"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textSize="18sp" />
 
         <EditText
             android:id="@+id/date"
-            android:layout_width="200dp"
-            android:layout_height="wrap_content"
+            android:layout_below="@id/dateTextView"
             android:layout_alignParentStart="true"
-            android:layout_below="@+id/frequency"
-            android:ems="10"
+            android:layout_width="160dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.02"
+            android:contextClickable="false"
+            android:onClick="setDate"
             android:inputType="date"
-            android:text="mm/dd/yy" />
+            android:textSize="20sp"
+            android:textAlignment="center"
+            android:hint="DD / MM / YYYY" />
+
+
 
         <Spinner
             android:id="@+id/weekly"
@@ -72,21 +97,26 @@ Contributing Team Members:
             android:inputType="textShortMessage" />
 
         <Button
-            android:layout_toLeftOf="@+id/cancel"
-            android:layout_alignParentLeft="true"
-            android:layout_below="@id/notes"
             android:id="@+id/done"
             android:layout_width="200dp"
             android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/cancel"
+            android:layout_marginBottom="0dp"
+            android:layout_marginEnd="68dp"
+            android:layout_toStartOf="@+id/weekly"
             android:text="Submit" />
+
 
         <Button
             android:layout_alignParentRight="true"
             android:layout_below="@id/notes"
             android:id="@+id/cancel"
-            android:layout_width="200dp"
+            android:layout_width="100dp"
             android:layout_height="wrap_content"
             android:text="Cancel" />
+
+
+
     </RelativeLayout>
 
 </ScrollView>
