@@ -41,8 +41,11 @@ public class Category_Add extends Activity {
         income_radioButton.setChecked(true);
 
         Bundle args = getIntent().getExtras();
-        sessionUser = args.getParcelable("ufm.universalfinancemanager.USER");
-
+        if(args == null)
+            sessionUser = null;
+        else {
+            sessionUser = args.getParcelable("ufm.universalfinancemanager.USER");
+        }
         edit_name.addTextChangedListener(new TextValidator(edit_name) {
             @Override
             public void validate(TextView textView, String text) {
