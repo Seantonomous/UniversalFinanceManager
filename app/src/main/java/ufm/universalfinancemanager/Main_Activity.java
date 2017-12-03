@@ -316,7 +316,7 @@ public class Main_Activity extends AppCompatActivity{
         if(requestCode == 1) {
             if(resultCode == Activity.RESULT_OK) {
                 Transaction newTransaction = data.getParcelableExtra("result");
-                sessionUser.addTransaction(newTransaction);
+                insertTransaction(newTransaction);
 
             }
         }else if(requestCode == 2) {
@@ -358,19 +358,5 @@ public class Main_Activity extends AppCompatActivity{
                 db.transactionDao().insert(t);
             }
         }).start();
-    }
-
-    public boolean hasTransaction(final String name) throws InterruptedException, ExecutionException {
-        FutureTask future = new FutureTask(new Callable() {
-            @Override
-            public Object call() {
-                boolean hasIt = db.transactionDao().getTransactionByName(name).equals(null);
-                return hasIt;
-            }
-        });
-
-        new Thread(future).start();
-
-        return (boolean)future.get();
     }
 }
