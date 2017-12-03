@@ -10,6 +10,7 @@
 
 package ufm.universalfinancemanager;
 
+import android.arch.persistence.room.Room;
 import android.os.Parcel;
 import android.os.Parcelable;
 
@@ -25,7 +26,6 @@ public class User implements Parcelable, Serializable {
     private String password;
 
     private ArrayList<Account> accounts;
-    private ArrayList<Transaction> transactions;
     //private ArrayList<Budget> budgets;
     private ArrayList<Category> categories;
 
@@ -36,13 +36,11 @@ public class User implements Parcelable, Serializable {
         this.username = username;
         this.password = "";
         this.accounts = new ArrayList<Account>();
-        this.transactions = new ArrayList<Transaction>();
         this.categories = new ArrayList<Category>();
     }
 
     public User() {
         this.accounts = new ArrayList<>();
-        this.transactions = new ArrayList<>();
         this.categories = new ArrayList<>();
     }
 
@@ -51,16 +49,14 @@ public class User implements Parcelable, Serializable {
         this.username = in.readString();
         this.password = in.readString();
         in.readTypedList(this.accounts, Account.CREATOR);
-        in.readTypedList(this.transactions, Transaction.CREATOR);
         in.readTypedList(this.categories, Category.CREATOR);
     }
 
     public User(String username, String password, ArrayList<Account> accounts,
-                ArrayList<Transaction> transactions, ArrayList<Category> categories) {
+                ArrayList<Category> categories) {
         this.username = username;
         this.password = password;
         this.accounts = accounts;
-        this.transactions = transactions;
         this.categories = categories;
     }
 
@@ -112,17 +108,16 @@ public class User implements Parcelable, Serializable {
         return this.accounts;
     }
 
+    /**/
     public boolean addTransaction(Transaction t) {
-        transactions.add(t);
         t.getAccount().registerTransaction(t);
         return true;
     }
-
+    /*
     public ArrayList<Transaction> getTransactions() {
         return this.transactions;
     }
 
-    /*
     public boolean addBudget(Budget budget) {}
     public ArrayList<Budget> getBudgets() {}
     */
@@ -158,7 +153,6 @@ public class User implements Parcelable, Serializable {
         dest.writeString(this.username);
         dest.writeString(this.password);
         dest.writeTypedList(this.accounts);
-        dest.writeTypedList(this.transactions);
         dest.writeTypedList(this.categories);
     }
 

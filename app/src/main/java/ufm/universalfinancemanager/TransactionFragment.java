@@ -15,12 +15,15 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.Date;
 
-public class TransactionFragment extends ListFragment {
+
+public class TransactionFragment extends ListFragment implements AdapterView.OnItemClickListener {
 
     public TransactionFragment() {
         //Required to be empty since extends Fragment
@@ -35,12 +38,9 @@ public class TransactionFragment extends ListFragment {
     }*/
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        //Inflate the fragment with the corresponding layout
-        View rootView = inflater.inflate(R.layout.transaction_list_layout, container, false);
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
         ArrayList<Transaction> transactions = getArguments().getParcelableArrayList("TRANSACTIONS");
-
-        ListView transaction_list = rootView.findViewById(R.id.transaction_list);
 
         ArrayList<ListItem> items = new ArrayList<>();
         Date cur_date = transactions.get(transactions.size() - 1).getDate();
@@ -58,7 +58,19 @@ public class TransactionFragment extends ListFragment {
             items.add(transactions.get(i));
         }
 
-        transaction_list.setAdapter(new TransactionAdapter(getActivity(), items));
+        setListAdapter(new TransactionAdapter(getActivity(), items));
+        getListView().setOnItemClickListener(this);
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        //Inflate the fragment with the corresponding layout
+        View rootView = inflater.inflate(R.layout.transaction_list_layout, container, false);
         return rootView;
+    }
+
+    @Override
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
     }
 }

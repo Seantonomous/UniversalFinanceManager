@@ -109,8 +109,11 @@ public class Transaction_Add extends Activity {
             toAccount_spinner.setAdapter(account_adapter);
             fromAccount_spinner.setAdapter(account_adapter);
 
+            ArrayAdapter<Category> categoryAdapter = new ArrayAdapter<>(this,
+                    android.R.layout.simple_spinner_item, sessionUser.getCategories());
+            categoryAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+            category_spinner.setAdapter(categoryAdapter);
         }
-
 
         edit_name.addTextChangedListener(new TextValidator(edit_name) {
             @Override
@@ -123,6 +126,7 @@ public class Transaction_Add extends Activity {
                 }
             }
         });
+
         edit_amount.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL);
         edit_amount.addTextChangedListener(new TextValidator(edit_amount) {
             @Override

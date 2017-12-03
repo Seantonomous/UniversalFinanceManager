@@ -105,8 +105,7 @@ Contributing Team Members:
             android:layout_alignParentStart="true"
             android:layout_alignParentEnd="true"
             android:layout_below="@id/textView2"
-            android:background="@android:drawable/btn_dropdown"
-            android:entries="@array/categories" />
+            android:background="@android:drawable/btn_dropdown"/>
 
         <TextView
             android:id="@+id/textView3"
