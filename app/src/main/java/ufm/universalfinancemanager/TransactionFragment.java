@@ -35,12 +35,9 @@ public class TransactionFragment extends ListFragment {
     }*/
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        //Inflate the fragment with the corresponding layout
-        View rootView = inflater.inflate(R.layout.transaction_list_layout, container, false);
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
         ArrayList<Transaction> transactions = getArguments().getParcelableArrayList("TRANSACTIONS");
-
-        ListView transaction_list = rootView.findViewById(R.id.transaction_list);
 
         ArrayList<ListItem> items = new ArrayList<>();
         Date cur_date = transactions.get(transactions.size() - 1).getDate();
@@ -58,7 +55,34 @@ public class TransactionFragment extends ListFragment {
             items.add(transactions.get(i));
         }
 
-        transaction_list.setAdapter(new TransactionAdapter(getActivity(), items));
+        setListAdapter(new TransactionAdapter(getActivity(), items));
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        //Inflate the fragment with the corresponding layout
+        View rootView = inflater.inflate(R.layout.transaction_list_layout, container, false);
+        /*ArrayList<Transaction> transactions = getArguments().getParcelableArrayList("TRANSACTIONS");
+
+        //ListView transaction_list = rootView.findViewById(R.id.transaction_lis);
+
+        ArrayList<ListItem> items = new ArrayList<>();
+        Date cur_date = transactions.get(transactions.size() - 1).getDate();
+
+        //Add the header for the latest transaction
+        items.add(new TransactionDateHeader(cur_date));
+
+        for(int i=transactions.size()-1; i>=0; i--) {
+            Date t_date = transactions.get(i).getDate();
+            //If the current date is different the next transaction's date, create a new header
+            if(!cur_date.equals(t_date)) {
+                items.add(new TransactionDateHeader(t_date));
+                cur_date = t_date;
+            }
+            items.add(transactions.get(i));
+        }
+
+        setListAdapter(new TransactionAdapter(getActivity(), items));*/
         return rootView;
     }
 }

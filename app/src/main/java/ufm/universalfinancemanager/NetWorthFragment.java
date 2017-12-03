@@ -33,7 +33,7 @@ public class NetWorthFragment extends ListFragment {
 
         Networth networth = new Networth(0,0,0,0, new Date());
 
-        ListView accounts_list = rootView.findViewById(R.id.transaction_list);
+        ListView accounts_list = rootView.findViewById(android.R.id.list);
 
         ArrayList<ListItem> items = new ArrayList<>();
 

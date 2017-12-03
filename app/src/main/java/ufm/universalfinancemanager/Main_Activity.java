@@ -16,6 +16,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.app.Fragment;
+import android.os.AsyncTask;
 import android.os.Parcelable;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.widget.DrawerLayout;
@@ -84,12 +85,12 @@ public class Main_Activity extends AppCompatActivity{
                 "user_db").build();
 
         try {
-            FileInputStream fis = getApplicationContext().openFileInput("testUser");
+            FileInputStream fis = getApplicationContext().openFileInput("testUser2");
             ObjectInputStream is = new ObjectInputStream(fis);
             sessionUser = (User)is.readObject();
             is.close();
             fis.close();
-        }catch(FileNotFoundException | ClassNotFoundException a) {
+        }catch(FileNotFoundException a) {
             sessionUser = new User("Test");
             sessionUser.addCategory(new Category("Gas", Flow.OUTCOME));
             sessionUser.addAccount(new Account("Checking", AccountType.CHECKING, 0, new Date()));
@@ -130,8 +131,9 @@ public class Main_Activity extends AppCompatActivity{
             }catch(ParseException d) {
 
             }
-        }catch(IOException b) {
-
+        }
+        catch(IOException | ClassNotFoundException e) {
+            e.printStackTrace();
         }
         /**************TEST DATA*************/
 
@@ -334,7 +336,7 @@ public class Main_Activity extends AppCompatActivity{
     @Override
     protected void onPause() {
         try {
-            FileOutputStream fos = getApplicationContext().openFileOutput("testUser", Context.MODE_PRIVATE);
+            FileOutputStream fos = getApplicationContext().openFileOutput("testUser2", Context.MODE_PRIVATE);
             ObjectOutputStream os = new ObjectOutputStream(fos);
             os.writeObject(sessionUser);
             os.close();

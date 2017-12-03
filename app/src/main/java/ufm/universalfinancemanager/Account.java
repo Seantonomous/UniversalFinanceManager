@@ -50,7 +50,7 @@ public class Account implements Parcelable, Serializable, ListItem {
         this.name = name;
         this.type = type;
         this.balance = balance;
-        OpeningDate = OpeningDate;
+        this.OpeningDate = OpeningDate;
         this.notes = notes;
         num_format = NumberFormat.getCurrencyInstance();
     }
@@ -59,7 +59,7 @@ public class Account implements Parcelable, Serializable, ListItem {
         this.name = name;
         this.type = type;
         this.balance = balance;
-        OpeningDate = openingDate;
+        this.OpeningDate = openingDate;
         this.notes = "";
         num_format = NumberFormat.getCurrencyInstance();
     }
@@ -110,8 +110,8 @@ public class Account implements Parcelable, Serializable, ListItem {
         dest.writeString(this.name);
         dest.writeString(type.name());
         dest.writeDouble(this.balance);
-        dest.writeLong(OpeningDate.getTime());
-        dest.writeString(notes);
+        dest.writeLong(this.OpeningDate.getTime());
+        dest.writeString(this.notes);
     }
 
     @Override
