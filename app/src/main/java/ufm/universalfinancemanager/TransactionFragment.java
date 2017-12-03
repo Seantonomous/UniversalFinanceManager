@@ -20,6 +20,8 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 
 
@@ -41,6 +43,13 @@ public class TransactionFragment extends ListFragment implements AdapterView.OnI
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         ArrayList<Transaction> transactions = getArguments().getParcelableArrayList("TRANSACTIONS");
+
+        Collections.sort(transactions, new Comparator<Transaction>() {
+            @Override
+            public int compare(Transaction lhs, Transaction rhs) {
+                return lhs.getDate().getTime() < rhs.getDate().getTime() ? -1 : (lhs.getDate().getTime() > rhs.getDate().getTime()) ? 1 : 0;
+            }
+        });
 
         ArrayList<ListItem> items = new ArrayList<>();
         Date cur_date = transactions.get(transactions.size() - 1).getDate();

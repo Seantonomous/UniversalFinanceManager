@@ -27,7 +27,7 @@ Contributing Team Members: Areeba-->
             android:layout_height="100dp"
             android:layout_centerHorizontal="true"
             android:background="@android:color/transparent"
-            android:src="@drawable/logoufm1" />
+            android:src="@drawable/logoufm" />
 
         <TextView
             android:id="@+id/email_label"
