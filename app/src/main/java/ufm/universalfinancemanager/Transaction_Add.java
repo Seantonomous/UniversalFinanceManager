@@ -1,3 +1,13 @@
+/* Author: Areeba Waheed
+* ID:
+* Date Started: 11/2/17
+* Date Complete: 11/30/17
+* Peer Review:
+*   Date:
+*   Team Members:
+* Contributing Team Members: Sean Hansen, Muhammad Ansari, Simranjeet Kaur
+*/
+
 package ufm.universalfinancemanager;
 
 import android.app.Activity;

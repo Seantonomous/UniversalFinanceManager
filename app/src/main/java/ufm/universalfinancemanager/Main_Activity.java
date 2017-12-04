@@ -5,7 +5,7 @@
 * Peer Review:
 *   Date:
 *   Team Members:
-* Contributing Team Members:
+* Contributing Team Members: Aaron Oconnor, Daniel Karapetian, Muhammad Ansair, Simranjeet Kaur
 */
 package ufm.universalfinancemanager;
 

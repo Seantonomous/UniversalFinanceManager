@@ -1,3 +1,12 @@
+/* Author: Sean Hansen
+* ID: 108841276
+* Date Started: 11/3/17
+* Date Complete: 11/5/17
+* Peer Review:
+*   Date:
+*   Team Members:
+* Contributing Team Members:
+*/
 package ufm.universalfinancemanager;
 
 import android.text.Editable;

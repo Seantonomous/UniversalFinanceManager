@@ -5,7 +5,7 @@
 * Peer Review:
 *   Date:
 *   Team Members:
-* Contributing Team Members:
+* Contributing Team Members: Daniel Karapetian
 */
 
 package ufm.universalfinancemanager;
