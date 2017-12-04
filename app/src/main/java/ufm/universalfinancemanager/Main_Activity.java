@@ -178,7 +178,7 @@ public class Main_Activity extends AppCompatActivity{
                 //Create future task to fetch all the transactions from the database
                 //in a separate thread
                 FutureTask<ArrayList<Transaction>> futureTask;
-                futureTask = new FutureTask(new Callable() {
+                futureTask = new FutureTask<>(new Callable() {
                     @Override
                     public Object call() {
                         return db.transactionDao().getAll();
