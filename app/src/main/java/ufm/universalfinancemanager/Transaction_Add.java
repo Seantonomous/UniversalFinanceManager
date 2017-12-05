@@ -93,7 +93,6 @@ public class Transaction_Add extends Activity {
         done_button = (Button)findViewById(R.id.done);
         cancel_button = (Button)findViewById(R.id.cancel);
         date_textView = (TextView)findViewById(R.id.dateTextView);
-
         calendar = Calendar.getInstance();
         year = calendar.get(Calendar.YEAR);
         month = calendar.get(Calendar.MONTH);
@@ -216,6 +215,8 @@ public class Transaction_Add extends Activity {
         switch(view.getId()) {
             case R.id.flow_income:
                 if (checked)
+                    // Set focus to Name EditText.
+                    edit_name.requestFocus();
                     toAccount_spinner.setEnabled(true); // Enable ToAccount Spinner
                     fromAccount_spinner.setEnabled(false); // Disable FromAccount Spinner
                     category_spinner.setEnabled(true);  //Enable Category Spinner
@@ -225,6 +226,8 @@ public class Transaction_Add extends Activity {
                     break;
             case R.id.flow_expense:
                 if (checked)
+                    // Set focus to Name EditText.
+                    edit_name.requestFocus();
                     toAccount_spinner.setEnabled(false); // Disable ToAccount Spinner
                     fromAccount_spinner.setEnabled(true); // Enable FromAccount Spinner
                     category_spinner.setEnabled(true);  //Enable Category Spinner
@@ -234,6 +237,8 @@ public class Transaction_Add extends Activity {
                     break;
             case R.id.flow_transfer:
                 if (checked)
+                    //Set focus to Transfer EditText;
+                    edit_amount.requestFocus();
                     toAccount_spinner.setEnabled(true); // Enable ToAccount Spinner
                     fromAccount_spinner.setEnabled(true); // Enable FromAccount Spinner
                     category_spinner.setEnabled(false); // Disable Category Spinner
