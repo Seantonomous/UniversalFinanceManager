@@ -46,7 +46,8 @@ Contributing Team Members: Areeba-->
             android:layout_height="wrap_content"
             android:layout_below="@id/logo"
             android:layout_marginTop="20dp"
-            android:layout_toRightOf="@id/email_label" />
+            android:layout_toRightOf="@id/email_label"
+            android:inputType="textEmailAddress" />
 
         <TextView
             android:id="@+id/pass_label"

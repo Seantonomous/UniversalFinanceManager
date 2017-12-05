@@ -106,6 +106,9 @@ public class Transaction_Add extends Activity {
 
         Bundle args = getIntent().getExtras();
 
+        // Set focus to Name EditText.
+        edit_name.requestFocus();
+
         if(args == null)
             sessionUser = null;
         else {
