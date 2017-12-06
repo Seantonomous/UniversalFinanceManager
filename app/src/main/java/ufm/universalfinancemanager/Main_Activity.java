@@ -298,7 +298,9 @@ public class Main_Activity extends AppCompatActivity{
                 startActivityForResult(intent_account, 2);
                 return true;
             case R.id.action_add_category:
-                startActivity(new Intent(this, Category_Add.class));
+                Intent intent_category = new Intent(this, Category_Add.class);
+                intent_category.putExtra(EXTRA_USER, (Parcelable)sessionUser);
+                startActivityForResult(intent_category, 3);
                 return true;
             case R.id.action_add_reminder:
                 startActivity(new Intent(this, Reminder_Add.class));

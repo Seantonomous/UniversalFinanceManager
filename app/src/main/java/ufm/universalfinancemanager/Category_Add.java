@@ -32,7 +32,6 @@ import java.util.Calendar;
 
 public class Category_Add extends Activity {
     private boolean valid_name = false;
-    private boolean valid_amount = false;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -70,7 +69,7 @@ public class Category_Add extends Activity {
         submit_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(valid_name && valid_amount) {
+                if(valid_name) {
                     if(sessionUser.hasCategory(edit_name.getText().toString())) {
                         //Can't add, user already has category
                     }
