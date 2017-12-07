@@ -40,13 +40,6 @@ public class TransactionAdapter extends ArrayAdapter<ListItem> {
         return getItem(position).getViewType();
     }
 
-    /*
-    @Override
-    public long getItemId(int position) {
-        return position;
-    }
-    */
-
     public class Holder {
         public View view;
     }

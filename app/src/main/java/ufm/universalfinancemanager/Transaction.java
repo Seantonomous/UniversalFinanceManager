@@ -141,11 +141,11 @@ public class Transaction implements Parcelable, ListItem, Serializable {
             view = convertView;
 
         //Instantiate all the textviews from the layout
-        TextView dateText = (TextView)view.findViewById(R.id.trans_date);
-        TextView nameText = (TextView)view.findViewById(R.id.trans_name);
-        TextView amountText = (TextView)view.findViewById(R.id.trans_amount);
-        TextView accountText = (TextView)view.findViewById(R.id.trans_account);
-        TextView categoryText = (TextView)view.findViewById(R.id.trans_category);
+        TextView dateText = view.findViewById(R.id.trans_date);
+        TextView nameText = view.findViewById(R.id.trans_name);
+        TextView amountText = view.findViewById(R.id.trans_amount);
+        TextView accountText = view.findViewById(R.id.trans_account);
+        TextView categoryText = view.findViewById(R.id.trans_category);
 
         //Set the text of each textview based on its corresponding transaction attribute
         dateText.setText(dateFormat.format(this.date));

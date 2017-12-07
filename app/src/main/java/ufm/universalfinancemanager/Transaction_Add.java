@@ -78,25 +78,26 @@ public class Transaction_Add extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.add_transactions);
 
-        edit_name = (EditText)findViewById(R.id.name);
-        edit_amount = (EditText)findViewById(R.id.amount);
-        edit_date = (EditText)findViewById(R.id.date);
-        edit_notes = (EditText)findViewById(R.id.notes);
-        flow_radioGroup = (RadioGroup) findViewById(R.id.flow);
-        income_radioButton = (RadioButton) findViewById(R.id.flow_income);
-        expense_radioButton = (RadioButton) findViewById(R.id.flow_expense);
-        transfer_radioButton = (RadioButton) findViewById(R.id.flow_transfer);
-        toAccount_spinner = (Spinner)findViewById(R.id.toaccount);
-        fromAccount_spinner = (Spinner)findViewById(R.id.fromaccount);
-        category_spinner = (Spinner)findViewById(R.id.category);
-        duration_spinner = (Spinner)findViewById(R.id.duration);
-        done_button = (Button)findViewById(R.id.done);
-        cancel_button = (Button)findViewById(R.id.cancel);
-        date_textView = (TextView)findViewById(R.id.dateTextView);
+        edit_name = findViewById(R.id.name);
+        edit_amount = findViewById(R.id.amount);
+        edit_date = findViewById(R.id.date);
+        edit_notes = findViewById(R.id.notes);
+        flow_radioGroup = findViewById(R.id.flow);
+        income_radioButton = findViewById(R.id.flow_income);
+        expense_radioButton = findViewById(R.id.flow_expense);
+        transfer_radioButton = findViewById(R.id.flow_transfer);
+        toAccount_spinner = findViewById(R.id.toaccount);
+        fromAccount_spinner = findViewById(R.id.fromaccount);
+        category_spinner = findViewById(R.id.category);
+        duration_spinner = findViewById(R.id.duration);
+        done_button = findViewById(R.id.done);
+        cancel_button = findViewById(R.id.cancel);
+        date_textView = findViewById(R.id.dateTextView);
         calendar = Calendar.getInstance();
         year = calendar.get(Calendar.YEAR);
         month = calendar.get(Calendar.MONTH);
         day = calendar.get(Calendar.DAY_OF_MONTH);
+
         showDate(year,month+1,day);
 
         income_radioButton.setChecked(true);
@@ -114,7 +115,6 @@ public class Transaction_Add extends Activity {
         else {
             sessionUser = args.getParcelable("ufm.universalfinancemanager.USER");
 
-            assert sessionUser != null;
             ArrayAdapter<Account> account_adapter = new ArrayAdapter<>(this,
                     android.R.layout.simple_spinner_item, sessionUser.getAccounts());
             account_adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -140,6 +140,7 @@ public class Transaction_Add extends Activity {
         });
 
         edit_amount.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL);
+
         edit_amount.addTextChangedListener(new TextValidator(edit_amount) {
             @Override
             public void validate(TextView textView, String text) {
@@ -214,6 +215,7 @@ public class Transaction_Add extends Activity {
                     toAccount_spinner.setEnabled(true); // Enable ToAccount Spinner
                     fromAccount_spinner.setEnabled(false); // Disable FromAccount Spinner
                     category_spinner.setEnabled(true);  //Enable Category Spinner
+
                     // Change Category Spinner to show Income type Categories
                     edit_name.setEnabled(true);
                     edit_name.setPaintFlags(edit_name.getPaintFlags()  & (~ Paint.STRIKE_THRU_TEXT_FLAG));
@@ -225,6 +227,7 @@ public class Transaction_Add extends Activity {
                     toAccount_spinner.setEnabled(false); // Disable ToAccount Spinner
                     fromAccount_spinner.setEnabled(true); // Enable FromAccount Spinner
                     category_spinner.setEnabled(true);  //Enable Category Spinner
+
                     // Change Category Spinner to show Expense type Categories
                     edit_name.setEnabled(true);
                     edit_name.setPaintFlags(edit_name.getPaintFlags()  & (~ Paint.STRIKE_THRU_TEXT_FLAG));
@@ -236,6 +239,7 @@ public class Transaction_Add extends Activity {
                     toAccount_spinner.setEnabled(true); // Enable ToAccount Spinner
                     fromAccount_spinner.setEnabled(true); // Enable FromAccount Spinner
                     category_spinner.setEnabled(false); // Disable Category Spinner
+
                     edit_name.setEnabled(false);
                     edit_name.setPaintFlags(edit_name.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
                     break;
@@ -292,12 +296,4 @@ public class Transaction_Add extends Activity {
         inflater.inflate(R.menu.action_bar, menu);
         return true;
     }
-    //public Transaction_Add(){
-    //}
-    //@Nullable
-   // @Override
-   // public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
-     //   View view = inflater.inflate(R.layout.add_transactions, container, false);
-       //return view;
-    //}
 }
