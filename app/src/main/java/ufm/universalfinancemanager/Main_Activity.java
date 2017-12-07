@@ -69,8 +69,8 @@ public class Main_Activity extends AppCompatActivity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main_activity);
 
-        drawer_layout = (DrawerLayout)findViewById(R.id.drawer_layout);
-        list_view = (ListView)findViewById(R.id.drawer);
+        drawer_layout = findViewById(R.id.drawer_layout);
+        list_view = findViewById(R.id.drawer);
 
         //set the drawer
         list_view.setOnItemClickListener(new ListView.OnItemClickListener() {
@@ -90,7 +90,10 @@ public class Main_Activity extends AppCompatActivity{
             sessionUser = (User)is.readObject();
             is.close();
             fis.close();
+
         }catch(FileNotFoundException a) {
+            Log.d("Main_Activity: ","User file not found, creating...");
+
             sessionUser = new User("Test");
             sessionUser.addCategory(new Category("Gas", Flow.OUTCOME));
             sessionUser.addAccount(new Account("Checking", AccountType.CHECKING, 0, new Date()));
@@ -112,6 +115,7 @@ public class Main_Activity extends AppCompatActivity{
             sessionUser.addAccount(new Account("Wells Fargo", AccountType.CREDIT_CARD, 360.36, new Date()));
 
             try {
+
                 insertTransaction(new Transaction("Gas", Flow.OUTCOME, 30.24, new Category("Transportation", Flow.OUTCOME),
                         sessionUser.getAccount("Checking"), dateFormat.parse("10/28/2017")));
                 insertTransaction(new Transaction("Gas", Flow.OUTCOME, 30.24, new Category("Transportation", Flow.OUTCOME),
@@ -128,12 +132,17 @@ public class Main_Activity extends AppCompatActivity{
                         sessionUser.getAccount("Checking"), dateFormat.parse("10/30/2017")));
                 insertTransaction(new Transaction("Gas", Flow.OUTCOME, 29.13, new Category("Transportation", Flow.OUTCOME),
                         sessionUser.getAccount("Checking"), dateFormat.parse("10/30/2017")));
-            }catch(ParseException d) {
 
+            }catch(ParseException parseException) {
+                Log.e("Main Activity: ", parseException.getMessage());
+                finish();
+                System.exit(1);
             }
         }
         catch(IOException | ClassNotFoundException e) {
-            e.printStackTrace();
+            Log.e("Main Activity: ", e.getMessage());
+            finish();
+            System.exit(1);
         }
         /**************TEST DATA*************/
 
@@ -177,12 +186,12 @@ public class Main_Activity extends AppCompatActivity{
 
                 //Create future task to fetch all the transactions from the database
                 //in a separate thread
-                FutureTask<ArrayList<Transaction>> futureTask;
-                futureTask = new FutureTask<>(new Callable() {
+                FutureTask<List<Transaction>> futureTask;
+                futureTask = new FutureTask<>(new Callable<List<Transaction>>() {
                     @Override
-                    public Object call() {
+                    public List<Transaction> call() {
                         return db.transactionDao().getAll();
-                    };
+                    }
                 });
 
                 new Thread(futureTask).start();
@@ -192,7 +201,7 @@ public class Main_Activity extends AppCompatActivity{
 
                 //Get transaction arraylist from worker thread
                 try {
-                    b.putParcelableArrayList("TRANSACTIONS", ((ArrayList<Transaction>)futureTask.get()));
+                    b.putParcelableArrayList("TRANSACTIONS", (ArrayList<Transaction>)futureTask.get());
                 }catch(InterruptedException | ExecutionException e) {
 
                 }
@@ -236,8 +245,8 @@ public class Main_Activity extends AppCompatActivity{
                 //Set the action bar title to "Transaction History"
                 try {
                     getSupportActionBar().setTitle(R.string.networth_title);
-                }catch(java.lang.NullPointerException e) {
-
+                }catch(NullPointerException e) {
+                    Log.e("Main_Activity: ", e.getMessage());
                 }
 
                 //Highlight touched item in the nav drawer and then close the nav drawer
@@ -278,6 +287,11 @@ public class Main_Activity extends AppCompatActivity{
     }
 
     @Override
+    public void onBackPressed() {
+        //Do nothing, we don't want to go back to the login page
+    }
+
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Pass the event to ActionBarDrawerToggle, if it returns
         // true, then it has handled the app icon touch event
@@ -285,6 +299,7 @@ public class Main_Activity extends AppCompatActivity{
         if (drawer_toggle.onOptionsItemSelected(item)) {
             return true;
         }
+
         int id = item.getItemId();
         switch(id) {
            case R.id.action_add_transaction:
@@ -319,7 +334,6 @@ public class Main_Activity extends AppCompatActivity{
             if(resultCode == Activity.RESULT_OK) {
                 Transaction newTransaction = data.getParcelableExtra("result");
                 insertTransaction(newTransaction);
-
             }
         }else if(requestCode == 2) {
             if(resultCode == Activity.RESULT_OK) {
@@ -344,9 +358,13 @@ public class Main_Activity extends AppCompatActivity{
             os.close();
             fos.close();
         }catch(FileNotFoundException e) {
-
+            Log.e("Main_Activity: ", e.getMessage());
         }catch(IOException e) {
-
+            Log.e("Main_Activity: ", e.getMessage());
+            Toast.makeText(getApplicationContext(), "Failed writing user file! Exiting.",
+                    Toast.LENGTH_LONG).show();
+            finish();
+            System.exit(1);
         }
 
         super.onPause();
