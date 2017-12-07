@@ -32,19 +32,16 @@ public class TransactionFragment extends ListFragment implements AdapterView.OnI
     public TransactionFragment() {
         //Required to be empty since extends Fragment
     }
-    /*
-    public static Transaction_Activity newInstance(ArrayList<Transaction> t) {
-        Transaction_Activity fragment = new Transaction_Activity();
-
-        Bundle args = new Bundle();
-        args.putParcelableArrayList("TRANSACTIONS", t);
-        return fragment;
-    }*/
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         ArrayList<Transaction> transactions = getArguments().getParcelableArrayList("TRANSACTIONS");
+        ArrayList<ListItem> items = new ArrayList<>();
+
+        if(transactions == null) {
+            return;
+        }
 
         Collections.sort(transactions, new Comparator<Transaction>() {
             @Override
@@ -53,7 +50,6 @@ public class TransactionFragment extends ListFragment implements AdapterView.OnI
             }
         });
 
-        ArrayList<ListItem> items = new ArrayList<>();
         Date cur_date = transactions.get(transactions.size() - 1).getDate();
 
         //Add the header for the latest transaction

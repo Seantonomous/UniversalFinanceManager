@@ -186,15 +186,6 @@ public class Transaction_Add extends Activity {
                     }else { //transfer
 
                     }
-                    /*sessionUser.addTransaction(
-                            new Transaction(edit_name.getText().toString(),
-                                    1,
-                                    Double.parseDouble(edit_amount.getText().toString()),
-                                    sessionUser.getCategory(category_spinner.getSelectedItem().toString()),
-                                    sessionUser.getAccount(account_spinner.getSelectedItem().toString()),
-                                    ,
-                                    edit_notes.getText().toString())
-                    );*/
 
                     finish();
                 }
@@ -293,8 +284,8 @@ public class Transaction_Add extends Activity {
             };
 
     private void showDate(int year, int month, int day) {
-        edit_date.setText(new StringBuilder().append(day).append(" / ")
-                .append(month).append(" / ").append(year));
+        edit_date.setText(new StringBuilder().append(day).append("/")
+                .append(month).append("/").append(year));
     }
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();

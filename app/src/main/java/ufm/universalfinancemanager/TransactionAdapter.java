@@ -10,6 +10,7 @@
 package ufm.universalfinancemanager;
 
 import android.content.Context;
+import android.support.annotation.NonNull;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -51,27 +52,8 @@ public class TransactionAdapter extends ArrayAdapter<ListItem> {
     }
 
     @Override
-    public View getView(final int position, View convertView, ViewGroup parent) {
-        Holder holder = null;
-        int rowtype = getItemViewType(position);
-        View view;
-
-        if (convertView == null) {
-            holder = new Holder();
-            switch (rowtype) {
-                case TYPE_TRANSACTION:
-                    convertView = inflater.inflate(R.layout.transaction_list_item, null);
-                    holder.view = getItem(position).getView(inflater, convertView);
-                    break;
-                case TYPE_SEPARATOR:
-                    convertView = inflater.inflate(R.layout.transaction_header_item, null);
-                    holder.view = getItem(position).getView(inflater, convertView);
-                    break;
-            }
-            convertView.setTag(holder);
-        }else {
-            holder = (Holder)convertView.getTag();
-        }
-        return convertView;
+    @NonNull
+    public View getView(final int position, View convertView, @NonNull ViewGroup parent) {
+        return getItem(position).getView(inflater, null);
     }
 }
