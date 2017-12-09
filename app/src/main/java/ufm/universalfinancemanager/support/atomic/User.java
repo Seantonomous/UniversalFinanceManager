@@ -8,14 +8,15 @@
 * Contributing Team Members:
 */
 
-package ufm.universalfinancemanager;
+package ufm.universalfinancemanager.support.atomic;
 
-import android.arch.persistence.room.Room;
 import android.os.Parcel;
 import android.os.Parcelable;
 
 import java.io.Serializable;
-import ufm.universalfinancemanager.Transaction;
+
+import ufm.universalfinancemanager.db.entity.Transaction;
+
 import java.util.ArrayList;
 import java.util.Locale;
 

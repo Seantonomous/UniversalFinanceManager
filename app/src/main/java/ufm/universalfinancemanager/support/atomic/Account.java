@@ -7,7 +7,7 @@
 *   Team Members:
 * Contributing Team Members:
 */
-package ufm.universalfinancemanager;
+package ufm.universalfinancemanager.support.atomic;
 
 import android.arch.persistence.room.ColumnInfo;
 import android.arch.persistence.room.Ignore;
@@ -20,9 +20,15 @@ import android.widget.TextView;
 
 import java.io.Serializable;
 import java.text.NumberFormat;
-import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.Locale;
+
+import ufm.universalfinancemanager.R;
+import ufm.universalfinancemanager.db.entity.Transaction;
+import ufm.universalfinancemanager.db.converter.AccountTypeConverter;
+import ufm.universalfinancemanager.db.converter.DateConverter;
+import ufm.universalfinancemanager.support.AccountType;
+import ufm.universalfinancemanager.support.ListItem;
+import ufm.universalfinancemanager.support.RowType;
 
 public class Account implements Parcelable, Serializable, ListItem {
 

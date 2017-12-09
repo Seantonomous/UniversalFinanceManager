@@ -6,7 +6,7 @@
 *   Team Members:
 * Contributing Team Members:
 */
-package ufm.universalfinancemanager;
+package ufm.universalfinancemanager.support;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -15,6 +15,8 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 
 import java.util.ArrayList;
+
+import ufm.universalfinancemanager.R;
 
 public class NetworthAdapter extends ArrayAdapter<ListItem> {
     private static final int TYPE_TRANSACTION = 0;

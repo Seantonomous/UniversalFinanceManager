@@ -12,7 +12,7 @@ Contributing Team Members: Areeba-->
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/colorPrimary"
-    tools:context="ufm.universalfinancemanager.Login_Activity">
+    tools:context="ufm.universalfinancemanager.ui.Login_Activity">
 
     <RelativeLayout
         android:layout_width="match_parent"

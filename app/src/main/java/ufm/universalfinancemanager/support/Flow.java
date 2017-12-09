@@ -7,7 +7,7 @@
 *   Team Members:
 * Contributing Team Members:
 */
-package ufm.universalfinancemanager;
+package ufm.universalfinancemanager.support;
 
 /**
  * Created by smh7 on 11/8/17.

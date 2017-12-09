@@ -7,10 +7,11 @@
 *   Team Members:
 * Contributing Team Members:
 */
-package ufm.universalfinancemanager;
+package ufm.universalfinancemanager.db.converter;
 
 import android.arch.persistence.room.TypeConverter;
-import android.arch.persistence.room.TypeConverters;
+
+import ufm.universalfinancemanager.support.AccountType;
 
 /**
  * Created by smh7 on 11/22/17.

@@ -7,7 +7,7 @@
 *   Team Members:
 * Contributing Team Members:
 */
-package ufm.universalfinancemanager;
+package ufm.universalfinancemanager.ui;
 
 import android.app.Activity;
 import android.app.DatePickerDialog;
@@ -23,6 +23,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.Calendar;
+
+import ufm.universalfinancemanager.R;
 
 /**
  * Created by Areeba on 11/2/2017.

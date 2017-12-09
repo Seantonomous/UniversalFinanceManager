@@ -7,10 +7,12 @@
 *   Team Members:
 * Contributing Team Members: Daniel Karapetian
 */
-package ufm.universalfinancemanager;
+package ufm.universalfinancemanager.db;
 
 import android.arch.persistence.room.Database;
 import android.arch.persistence.room.RoomDatabase;
+
+import ufm.universalfinancemanager.db.entity.Transaction;
 
 /**
  * Created by smh7 on 11/22/17.

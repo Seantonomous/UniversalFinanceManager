@@ -8,7 +8,7 @@
 * Contributing Team Members:
 */
 
-package ufm.universalfinancemanager;
+package ufm.universalfinancemanager.support;
 
 
 public enum RowType {

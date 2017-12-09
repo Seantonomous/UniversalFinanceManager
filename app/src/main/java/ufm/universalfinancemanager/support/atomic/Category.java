@@ -7,15 +7,17 @@
 *   Team Members:
 * Contributing Team Members:
 */
-package ufm.universalfinancemanager;
+package ufm.universalfinancemanager.support.atomic;
 
 import android.arch.persistence.room.ColumnInfo;
-import android.arch.persistence.room.Ignore;
 import android.arch.persistence.room.TypeConverters;
 import android.os.Parcel;
 import android.os.Parcelable;
 
 import java.io.Serializable;
+
+import ufm.universalfinancemanager.db.converter.FlowConverter;
+import ufm.universalfinancemanager.support.Flow;
 
 public class Category implements Parcelable, Serializable {
 

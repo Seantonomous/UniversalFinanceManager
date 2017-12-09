@@ -7,24 +7,25 @@
 *   Team Members:
 * Contributing Team Members:
 */
-package ufm.universalfinancemanager;
+package ufm.universalfinancemanager.ui;
 
-import android.app.Fragment;
 import android.app.ListFragment;
-import android.content.Intent;
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.ListView;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
+
+import ufm.universalfinancemanager.support.ListItem;
+import ufm.universalfinancemanager.R;
+import ufm.universalfinancemanager.db.entity.Transaction;
+import ufm.universalfinancemanager.support.TransactionAdapter;
+import ufm.universalfinancemanager.support.TransactionDateHeader;
 
 
 public class TransactionFragment extends ListFragment implements AdapterView.OnItemClickListener {

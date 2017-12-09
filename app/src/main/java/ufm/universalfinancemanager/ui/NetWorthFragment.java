@@ -6,7 +6,7 @@
 *   Team Members:
 * Contributing Team Members:
 */
-package ufm.universalfinancemanager;
+package ufm.universalfinancemanager.ui;
 
 import android.app.ListFragment;
 import android.os.Bundle;
@@ -17,6 +17,14 @@ import android.widget.ListView;
 
 import java.util.ArrayList;
 import java.util.Date;
+
+import ufm.universalfinancemanager.support.atomic.Account;
+import ufm.universalfinancemanager.support.AccountType;
+import ufm.universalfinancemanager.support.ListItem;
+import ufm.universalfinancemanager.support.Networth;
+import ufm.universalfinancemanager.support.NetworthAdapter;
+import ufm.universalfinancemanager.R;
+import ufm.universalfinancemanager.support.NetworthHeader;
 
 public class NetWorthFragment extends ListFragment {
 

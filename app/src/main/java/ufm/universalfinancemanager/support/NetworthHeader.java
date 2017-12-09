@@ -6,16 +6,15 @@
 *   Team Members:
 * Contributing Team Members:
 */
-package ufm.universalfinancemanager;
+package ufm.universalfinancemanager.support;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.TextView;
 
 import java.text.NumberFormat;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Locale;
+
+import ufm.universalfinancemanager.R;
 
 public class NetworthHeader implements ListItem {
     private double dblAmount;

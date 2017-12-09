@@ -7,9 +7,11 @@
 *   Team Members:
 * Contributing Team Members: Daniel Karapetian
 */
-package ufm.universalfinancemanager;
+package ufm.universalfinancemanager.db.converter;
 
 import android.arch.persistence.room.TypeConverter;
+
+import ufm.universalfinancemanager.support.Flow;
 
 /**
  * Created by smh7 on 11/22/17.
@@ -18,7 +20,7 @@ import android.arch.persistence.room.TypeConverter;
 public class FlowConverter {
 
     @TypeConverter
-    public static ufm.universalfinancemanager.Flow toFlow(int flow) {
+    public static Flow toFlow(int flow) {
         if(flow == Flow.OUTCOME.ordinal())
             return Flow.OUTCOME;
         else if(flow == Flow.INCOME.ordinal())
@@ -28,7 +30,7 @@ public class FlowConverter {
     }
 
     @TypeConverter
-    public static int toInteger(ufm.universalfinancemanager.Flow flow) {
+    public static int toInteger(Flow flow) {
         return flow.ordinal();
     }
 }

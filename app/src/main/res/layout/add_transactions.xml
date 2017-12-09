@@ -19,7 +19,7 @@ Contributing Team Members:
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:weightSum="1"
-        tools:context=".Transaction_Add">
+        tools:context=".ui.Transaction_Add">
 
         <TextView
             android:id="@+id/textView"

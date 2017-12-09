@@ -7,26 +7,27 @@
 *   Team Members:
 * Contributing Team Members: Sean Hansen, Muhammad Ansari
 */
-package ufm.universalfinancemanager;
+package ufm.universalfinancemanager.ui;
 
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Parcelable;
-import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 
 import java.util.Calendar;
-import java.util.Date;
+
+import ufm.universalfinancemanager.support.AccountType;
+import ufm.universalfinancemanager.R;
+import ufm.universalfinancemanager.support.TextValidator;
+import ufm.universalfinancemanager.support.atomic.User;
+import ufm.universalfinancemanager.support.atomic.Account;
 
 /**
  * Created by Areeba on 11/2/2017.

@@ -7,7 +7,7 @@
 * Contributing Team Members:
 */
 
-package ufm.universalfinancemanager;
+package ufm.universalfinancemanager.support;
 
 import android.os.Parcel;
 import android.os.Parcelable;
@@ -19,6 +19,8 @@ import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
+
+import ufm.universalfinancemanager.R;
 
 public class Networth implements Parcelable, ListItem {
 

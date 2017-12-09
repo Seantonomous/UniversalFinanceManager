@@ -7,7 +7,7 @@
 *   Team Members:
 * Contributing Team Members:
 */
-package ufm.universalfinancemanager;
+package ufm.universalfinancemanager.support;
 
 import android.content.Context;
 import android.support.annotation.NonNull;

@@ -7,13 +7,15 @@
 *   Team Members:
 * Contributing Team Members:
 */
-package ufm.universalfinancemanager;
+package ufm.universalfinancemanager.ui;
 
 import android.app.Activity;
 import android.app.Fragment;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
+
+import ufm.universalfinancemanager.R;
 
 /**
  * Created by simranjeetkaur on 11/8/17.

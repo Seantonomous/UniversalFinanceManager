@@ -8,7 +8,7 @@
 * Contributing Team Members: Areeba Waheed
 */
 
-package ufm.universalfinancemanager;
+package ufm.universalfinancemanager.ui;
 
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
@@ -16,7 +16,9 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.content.Intent;
+
+import ufm.universalfinancemanager.R;
+import ufm.universalfinancemanager.ui.Main_Activity;
 
 public class Login_Activity extends AppCompatActivity {
     Button login_button, signup_button;

@@ -8,25 +8,19 @@
 * Contributing Team Members: Sean Hansen, Muhammad Ansari, Simranjeet Kaur
 */
 
-package ufm.universalfinancemanager;
+package ufm.universalfinancemanager.ui;
 
 import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
-import android.app.Fragment;
 import android.content.Intent;
 import android.graphics.Paint;
 import android.os.Bundle;
 import android.os.Parcelable;
-import android.support.annotation.Nullable;
-import android.support.v7.app.AppCompatActivity;
 import android.text.InputType;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -38,9 +32,15 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.io.StringBufferInputStream;
-import java.sql.Date;
 import java.util.Calendar;
+
+import ufm.universalfinancemanager.support.atomic.Account;
+import ufm.universalfinancemanager.support.atomic.Category;
+import ufm.universalfinancemanager.support.Flow;
+import ufm.universalfinancemanager.R;
+import ufm.universalfinancemanager.support.TextValidator;
+import ufm.universalfinancemanager.db.entity.Transaction;
+import ufm.universalfinancemanager.support.atomic.User;
 
 /**
  * Created by Areeba on 11/2/2017.

@@ -8,7 +8,7 @@
 * Contributing Team Members: Daniel Karapetian
 */
 
-package ufm.universalfinancemanager;
+package ufm.universalfinancemanager.db.entity;
 
 import android.arch.persistence.room.ColumnInfo;
 import android.arch.persistence.room.Embedded;
@@ -27,6 +27,15 @@ import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
+
+import ufm.universalfinancemanager.support.ListItem;
+import ufm.universalfinancemanager.R;
+import ufm.universalfinancemanager.support.RowType;
+import ufm.universalfinancemanager.support.atomic.Account;
+import ufm.universalfinancemanager.support.atomic.Category;
+import ufm.universalfinancemanager.support.Flow;
+import ufm.universalfinancemanager.db.converter.DateConverter;
+import ufm.universalfinancemanager.db.converter.FlowConverter;
 
 @Entity
 public class Transaction implements Parcelable, ListItem, Serializable {

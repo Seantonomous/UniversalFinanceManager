@@ -7,7 +7,7 @@
 *   Team Members:
 * Contributing Team Members: Aaron Oconnor, Daniel Karapetian, Muhammad Ansair, Simranjeet Kaur
 */
-package ufm.universalfinancemanager;
+package ufm.universalfinancemanager.ui;
 
 import android.app.Activity;
 import android.app.FragmentManager;
@@ -16,9 +16,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.app.Fragment;
-import android.os.AsyncTask;
 import android.os.Parcelable;
-import android.support.v4.app.FragmentActivity;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
@@ -49,7 +47,14 @@ import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.FutureTask;
 
-import ufm.universalfinancemanager.User;
+import ufm.universalfinancemanager.support.atomic.Account;
+import ufm.universalfinancemanager.support.AccountType;
+import ufm.universalfinancemanager.support.atomic.Category;
+import ufm.universalfinancemanager.support.Flow;
+import ufm.universalfinancemanager.R;
+import ufm.universalfinancemanager.db.entity.Transaction;
+import ufm.universalfinancemanager.support.atomic.User;
+import ufm.universalfinancemanager.db.UserDatabase;
 
 public class Main_Activity extends AppCompatActivity{
     private String[] drawer_items;

@@ -7,7 +7,7 @@
 *   Team Members:
 * Contributing Team Members: Daniel Karapetian
 */
-package ufm.universalfinancemanager;
+package ufm.universalfinancemanager.db;
 
 import android.arch.persistence.room.Dao;
 import android.arch.persistence.room.Delete;
@@ -15,8 +15,9 @@ import android.arch.persistence.room.Insert;
 import android.arch.persistence.room.Query;
 import android.arch.persistence.room.Update;
 
-import java.util.ArrayList;
 import java.util.List;
+
+import ufm.universalfinancemanager.db.entity.Transaction;
 
 /**
  * Created by smh7 on 11/22/17.

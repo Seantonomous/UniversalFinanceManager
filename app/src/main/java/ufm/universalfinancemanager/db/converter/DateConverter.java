@@ -7,7 +7,7 @@
 *   Team Members:
 * Contributing Team Members:
 */
-package ufm.universalfinancemanager;
+package ufm.universalfinancemanager.db.converter;
 
 import android.arch.persistence.room.TypeConverter;
 
