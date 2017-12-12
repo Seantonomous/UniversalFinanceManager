@@ -27,6 +27,7 @@ import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
+import java.util.UUID;
 
 import ufm.universalfinancemanager.support.ListItem;
 import ufm.universalfinancemanager.R;
@@ -34,14 +35,14 @@ import ufm.universalfinancemanager.support.RowType;
 import ufm.universalfinancemanager.support.atomic.Account;
 import ufm.universalfinancemanager.support.atomic.Category;
 import ufm.universalfinancemanager.support.Flow;
-import ufm.universalfinancemanager.db.source.local.DateConverter;
-import ufm.universalfinancemanager.db.source.local.FlowConverter;
+import ufm.universalfinancemanager.db.source.local.converter.DateConverter;
+import ufm.universalfinancemanager.db.source.local.converter.FlowConverter;
 
 @Entity
 public class Transaction implements Parcelable, ListItem, Serializable {
 
-    @PrimaryKey(autoGenerate = true)
-    public int id;
+    @PrimaryKey
+    public String id;
 
     private String name;
 
@@ -69,30 +70,28 @@ public class Transaction implements Parcelable, ListItem, Serializable {
     @Ignore
     private NumberFormat num_format;
 
+    @Ignore
     public Transaction(String name, Flow flow, double amount, Category category,
                        Account account, Date date, String notes) {
+        this(name, UUID.randomUUID().toString(),flow,amount,category,account,date,notes);
+    }
 
+    @Ignore
+    public Transaction(String name, Flow flow, double amount, Category category,
+                       Account account, Date date) {
+        this(name, UUID.randomUUID().toString(),flow,amount,category,account,date,"");
+    }
+
+    public Transaction(String name, String id,Flow flow, double amount, Category category,
+                       Account account, Date date, String notes) {
         this.name = name;
+        this.id = id;
         this.flow = flow;
         this.amount = amount;
         this.category = category;
         this.account = account;
         this.date = date;
         this.notes = notes;
-
-        dateFormat = new SimpleDateFormat("MM/dd", Locale.ENGLISH);
-        num_format = NumberFormat.getCurrencyInstance();
-    }
-
-    @Ignore
-    public Transaction(String name, Flow flow, double amount, Category category,
-                       Account account, Date date) {
-        this.name = name;
-        this.flow = flow;
-        this.amount = amount;
-        this.category = category;
-        this.account = account;
-        this.date = date;
 
         dateFormat = new SimpleDateFormat("MM/dd", Locale.ENGLISH);
         num_format = NumberFormat.getCurrencyInstance();
@@ -175,6 +174,7 @@ public class Transaction implements Parcelable, ListItem, Serializable {
     public boolean getFrequency() {return frequency;}
     public Date getDate() {return date;}
     public String getNotes() {return notes;}
+    public String getId() {return this.id;}
 
     /********Setters*************************************/
     public void setName(String name) {this.name = name;}
@@ -185,4 +185,5 @@ public class Transaction implements Parcelable, ListItem, Serializable {
     public void setFrequency(boolean frequency) {this.frequency = frequency;}
     public void setDate(Date date) {this.date = date;}
     public void setNotes(String notes) {this.notes = notes;}
+    public void setId(String id) {this.id = id;}
 }

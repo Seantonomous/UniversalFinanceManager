@@ -7,7 +7,7 @@
 *   Team Members:
 * Contributing Team Members: Daniel Karapetian
 */
-package ufm.universalfinancemanager.db.source.local;
+package ufm.universalfinancemanager.db.source.local.converter;
 
 import android.arch.persistence.room.TypeConverter;
 

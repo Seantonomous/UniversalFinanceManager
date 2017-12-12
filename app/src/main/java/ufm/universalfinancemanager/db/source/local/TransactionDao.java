@@ -35,7 +35,7 @@ public interface TransactionDao {
     Transaction getTransactionByName(String name);
 
     @Query("SELECT * FROM `Transaction` WHERE id = :id")
-    Transaction getTransactionById(int id);
+    Transaction getTransactionById(String id);
 
     @Query("SELECT * FROM `Transaction` WHERE date BETWEEN :date1 AND :date2")
     List<Transaction> getTransactionsInDateRange(long date1, long date2);
@@ -61,4 +61,10 @@ public interface TransactionDao {
 
     @Delete
     void delete(Transaction transaction);
+
+    @Query("DELETE FROM 'Transaction'")
+    void deleteAllTransactions();
+
+    @Query("DELETE FROM 'Transaction' WHERE id = :id")
+    void deleteById(String id);
 }
