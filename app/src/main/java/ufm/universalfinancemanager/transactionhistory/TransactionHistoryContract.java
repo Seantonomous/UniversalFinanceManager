@@ -18,7 +18,11 @@ public interface TransactionHistoryContract {
 
         void showNoTransactions();
 
-        void showAddTask();
+        void showAddEditTransaction();
+
+        void showAddEditTransaction(String transactionId);
+
+        void showEditTransaction();
     }
 
     interface Presenter extends BasePresenter<View> {
@@ -26,9 +30,9 @@ public interface TransactionHistoryContract {
 
         void loadTransactions();
 
-        void showAddTransaction();
+        void addTransaction();
 
-        void showEditTransaction(Transaction t);
+        void editTransaction(String transactionId);
 
         void takeView(TransactionHistoryContract.View view);
 

@@ -91,6 +91,15 @@ public class TransactionAdapter extends BaseAdapter {
     @Override
     @NonNull
     public View getView(final int position, View convertView, @NonNull ViewGroup parent) {
-        return getItem(position).getView(LayoutInflater.from(parent.getContext()), convertView);
+        View rowView = getItem(position).getView(LayoutInflater.from(parent.getContext()), convertView);
+
+        rowView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(getItem(position).getViewType() == TYPE_TRANSACTION)
+                mListener.onTransactionClicked((Transaction)getItem(position));
+            }
+        });
+        return rowView;
     }
 }

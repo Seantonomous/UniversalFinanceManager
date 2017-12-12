@@ -31,6 +31,7 @@ import dagger.android.support.DaggerFragment;
 import ufm.universalfinancemanager.support.ListItem;
 import ufm.universalfinancemanager.R;
 import ufm.universalfinancemanager.db.entity.Transaction;
+import ufm.universalfinancemanager.ui.Transaction_Add;
 
 
 public class TransactionHistoryFragment extends DaggerFragment implements TransactionHistoryContract.View {
@@ -41,7 +42,7 @@ public class TransactionHistoryFragment extends DaggerFragment implements Transa
     TransactionClickListener mClickListener = new TransactionClickListener() {
         @Override
         public void onTransactionClicked(Transaction t) {
-            mPresenter.showEditTransaction(t);
+            mPresenter.editTransaction(t);
         }
     };
 
@@ -93,8 +94,18 @@ public class TransactionHistoryFragment extends DaggerFragment implements Transa
     }
 
     @Override
-    public void showAddTask() {
+    public void showAddEditTransaction() {
+        //Todo: make request code in TransactionAddEditActivity for '1'
+        startActivityForResult(new Intent(getContext(), TransactionAddEditActivity.class), 1);
+    }
 
+    @Override
+    public void showAddEditTransaction(String transactionId) {
+        Intent intent = new Intent(getContext(), TransactionAddEditActivity.class);
+        //Todo: make EXTRA_ID in TransactionAddEditActivity
+        intent.putExtra("ID", transactionId);
+        //Todo: make request code in TransactionAddEditAcitivity for '2'
+        startActivityForResult(intent, 2);
     }
 
     @Override
@@ -106,7 +117,7 @@ public class TransactionHistoryFragment extends DaggerFragment implements Transa
         listview.setAdapter(mAdapter);
         mTransactionsView = root.findViewById(R.id.transactionsLayout);
         mNoTransactionsView = root.findViewById(R.id.noTransactionsLayout);
-        mNoTransactionTextView = root.findViewById(R.id.noTransactionsText);
+        mNoTransactionsTextView = root.findViewById(R.id.noTransactionsText);
 
         setHasOptionsMenu(true);
         return root;

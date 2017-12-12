@@ -3,6 +3,10 @@ package ufm.universalfinancemanager.transactionhistory;
 import javax.annotation.Nullable;
 import javax.inject.Inject;
 
+import ufm.universalfinancemanager.db.TransactionRepository;
+import ufm.universalfinancemanager.db.entity.Transaction;
+import ufm.universalfinancemanager.di.ActivityScoped;
+
 /**
  * Created by smh7 on 12/11/17.
  */
@@ -32,8 +36,17 @@ public class TransactionHistoryPresenter implements TransactionHistoryContract.P
     }
 
     @Override
-    public void addNewTransaction() {
+    public void addTransaction() {
+        if(mTransactionHistoryView != null) {
+            mTransactionHistoryView.showAddEditTransaction();
+        }
+    }
 
+    @Override
+    public void editTransaction(String transactionId) {
+        if(mTransactionHistoryView != null) {
+            mTransactionHistoryView.showAddEditTransaction(transactionId);
+        }
     }
 
     @Override
