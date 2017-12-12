@@ -8,7 +8,7 @@
 * Contributing Team Members:
 */
 
-package ufm.universalfinancemanager.support;
+package ufm.universalfinancemanager.transactionhistory;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,6 +19,8 @@ import java.util.Date;
 import java.util.Locale;
 
 import ufm.universalfinancemanager.R;
+import ufm.universalfinancemanager.support.ListItem;
+import ufm.universalfinancemanager.support.RowType;
 
 public class TransactionDateHeader implements ListItem {
     private Date date;
@@ -38,12 +40,12 @@ public class TransactionDateHeader implements ListItem {
         View view;
 
         if(convertView == null) {
-            view = (View)inflater.inflate(R.layout.transaction_header_item, null);
+            view = inflater.inflate(R.layout.transaction_header_item, null);
         }else {
             view = convertView;
         }
 
-        TextView textDate = (TextView)view.findViewById(R.id.trans_date_header);
+        TextView textDate = view.findViewById(R.id.trans_date_header);
         textDate.setText(dateFormat.format(this.date));
 
         return view;

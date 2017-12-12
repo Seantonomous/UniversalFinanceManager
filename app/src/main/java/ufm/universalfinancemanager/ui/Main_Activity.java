@@ -54,7 +54,8 @@ import ufm.universalfinancemanager.support.Flow;
 import ufm.universalfinancemanager.R;
 import ufm.universalfinancemanager.db.entity.Transaction;
 import ufm.universalfinancemanager.support.atomic.User;
-import ufm.universalfinancemanager.db.UserDatabase;
+import ufm.universalfinancemanager.db.source.local.TransactionDatabase;
+import ufm.universalfinancemanager.transactionhistory.TransactionHistoryFragment;
 
 public class Main_Activity extends AppCompatActivity{
     private String[] drawer_items;
@@ -62,7 +63,7 @@ public class Main_Activity extends AppCompatActivity{
     private ListView list_view;
     private ActionBarDrawerToggle drawer_toggle;
     private User sessionUser;
-    private UserDatabase db;
+    private TransactionDatabase db;
 
     public static final String EXTRA_USER = "ufm.universalfinancemanager.USER";
 
@@ -86,7 +87,7 @@ public class Main_Activity extends AppCompatActivity{
         }
         );
 
-        db = Room.databaseBuilder(getApplicationContext(), UserDatabase.class,
+        db = Room.databaseBuilder(getApplicationContext(), TransactionDatabase.class,
                 "user_db").build();
 
         try {
@@ -187,7 +188,7 @@ public class Main_Activity extends AppCompatActivity{
             case(2):    //TRANSACTIONS
 
                 //Create a new Transaction_Activity to place in main view container
-                Fragment fragment = new TransactionFragment();
+                Fragment fragment = new TransactionHistoryFragment();
 
                 //Create future task to fetch all the transactions from the database
                 //in a separate thread

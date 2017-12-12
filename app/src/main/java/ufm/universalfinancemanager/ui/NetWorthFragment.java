@@ -36,7 +36,7 @@ public class NetWorthFragment extends ListFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         //Inflate the fragment with the corresponding layout
-        View rootView = inflater.inflate(R.layout.transaction_list_layout, container, false);
+        View rootView = inflater.inflate(R.layout.transaction_history_fragment, container, false);
         ArrayList<Account> accounts = getArguments().getParcelableArrayList("ACCOUNT");
 
         Networth networth = new Networth(0,0,0,0, new Date());

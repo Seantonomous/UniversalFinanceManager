@@ -34,8 +34,8 @@ import ufm.universalfinancemanager.support.RowType;
 import ufm.universalfinancemanager.support.atomic.Account;
 import ufm.universalfinancemanager.support.atomic.Category;
 import ufm.universalfinancemanager.support.Flow;
-import ufm.universalfinancemanager.db.converter.DateConverter;
-import ufm.universalfinancemanager.db.converter.FlowConverter;
+import ufm.universalfinancemanager.db.source.local.DateConverter;
+import ufm.universalfinancemanager.db.source.local.FlowConverter;
 
 @Entity
 public class Transaction implements Parcelable, ListItem, Serializable {

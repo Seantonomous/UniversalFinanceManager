@@ -16,7 +16,7 @@ import android.os.Parcelable;
 
 import java.io.Serializable;
 
-import ufm.universalfinancemanager.db.converter.FlowConverter;
+import ufm.universalfinancemanager.db.source.local.FlowConverter;
 import ufm.universalfinancemanager.support.Flow;
 
 public class Category implements Parcelable, Serializable {

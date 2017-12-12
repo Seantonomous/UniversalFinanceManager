@@ -24,8 +24,8 @@ import java.util.Date;
 
 import ufm.universalfinancemanager.R;
 import ufm.universalfinancemanager.db.entity.Transaction;
-import ufm.universalfinancemanager.db.converter.AccountTypeConverter;
-import ufm.universalfinancemanager.db.converter.DateConverter;
+import ufm.universalfinancemanager.db.source.local.AccountTypeConverter;
+import ufm.universalfinancemanager.db.source.local.DateConverter;
 import ufm.universalfinancemanager.support.AccountType;
 import ufm.universalfinancemanager.support.ListItem;
 import ufm.universalfinancemanager.support.RowType;
