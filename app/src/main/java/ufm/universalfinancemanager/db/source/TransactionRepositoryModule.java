@@ -21,6 +21,7 @@ import ufm.universalfinancemanager.db.source.local.TransactionDatabase;
 import ufm.universalfinancemanager.db.source.local.TransactionLocalDataSource;
 import ufm.universalfinancemanager.util.AppExecutors;
 import ufm.universalfinancemanager.util.DiskIOThreadExecutor;
+import ufm.universalfinancemanager.db.source.FakeTransactionRemoteDataSource;
 
 /**
  * This is used by Dagger to inject the required arguments into the .

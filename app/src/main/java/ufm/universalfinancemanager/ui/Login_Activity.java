@@ -31,11 +31,11 @@ public class Login_Activity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login_);
 
-        login_button = (Button)findViewById(R.id.login_button);
-        signup_button = (Button)findViewById(R.id.signup_button);
+        login_button = findViewById(R.id.login_button);
+        signup_button = findViewById(R.id.signup_button);
 
-        email_field = (EditText)findViewById(R.id.email_field);
-        password_field = (EditText)findViewById(R.id.pass_field);
+        email_field = findViewById(R.id.email_field);
+        password_field = findViewById(R.id.pass_field);
 
         //Login button event listener
         login_button.setOnClickListener(

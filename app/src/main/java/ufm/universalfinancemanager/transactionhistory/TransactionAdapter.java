@@ -15,6 +15,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
@@ -32,6 +33,7 @@ public class TransactionAdapter extends BaseAdapter {
     private TransactionHistoryFragment.TransactionClickListener mListener;
 
     public TransactionAdapter(List<Transaction> items, TransactionHistoryFragment.TransactionClickListener clickListener) {
+        mItems = new ArrayList<>();
         setList(items);
         mListener = clickListener;
     }

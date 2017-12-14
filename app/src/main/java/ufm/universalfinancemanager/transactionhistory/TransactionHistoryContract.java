@@ -21,8 +21,6 @@ public interface TransactionHistoryContract {
         void showAddEditTransaction();
 
         void showAddEditTransaction(String transactionId);
-
-        void showEditTransaction();
     }
 
     interface Presenter extends BasePresenter<View> {

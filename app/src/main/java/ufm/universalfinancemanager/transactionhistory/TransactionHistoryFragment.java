@@ -12,6 +12,8 @@ package ufm.universalfinancemanager.transactionhistory;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
@@ -42,7 +44,7 @@ public class TransactionHistoryFragment extends DaggerFragment implements Transa
     TransactionClickListener mClickListener = new TransactionClickListener() {
         @Override
         public void onTransactionClicked(Transaction t) {
-            mPresenter.editTransaction(t);
+            mPresenter.editTransaction(t.getId());
         }
     };
 
@@ -88,24 +90,24 @@ public class TransactionHistoryFragment extends DaggerFragment implements Transa
 
     @Override
     public void showNoTransactions() {
-        mTransactionsView.setVisibility(View.VISIBLE);
-        mNoTransactionsView.setVisibility(View.GONE);
+        mTransactionsView.setVisibility(View.GONE);
+        mNoTransactionsView.setVisibility(View.VISIBLE);
         mNoTransactionsTextView.setText(R.string.no_transactions);
     }
 
     @Override
     public void showAddEditTransaction() {
         //Todo: make request code in TransactionAddEditActivity for '1'
-        startActivityForResult(new Intent(getContext(), TransactionAddEditActivity.class), 1);
+        //startActivityForResult(new Intent(getContext(), TransactionAddEditActivity.class), 1);
     }
 
     @Override
     public void showAddEditTransaction(String transactionId) {
-        Intent intent = new Intent(getContext(), TransactionAddEditActivity.class);
+        //Intent intent = new Intent(getContext(), TransactionAddEditActivity.class);
         //Todo: make EXTRA_ID in TransactionAddEditActivity
-        intent.putExtra("ID", transactionId);
+        // intent.putExtra("ID", transactionId);
         //Todo: make request code in TransactionAddEditAcitivity for '2'
-        startActivityForResult(intent, 2);
+        //startActivityForResult(intent, 2);
     }
 
     @Override
@@ -120,7 +122,13 @@ public class TransactionHistoryFragment extends DaggerFragment implements Transa
         mNoTransactionsTextView = root.findViewById(R.id.noTransactionsText);
 
         setHasOptionsMenu(true);
+
         return root;
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.action_bar, menu);
     }
 
     public interface TransactionClickListener {

@@ -18,6 +18,7 @@ import android.arch.persistence.room.PrimaryKey;
 import android.arch.persistence.room.TypeConverters;
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.support.annotation.NonNull;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.TextView;
@@ -42,6 +43,7 @@ import ufm.universalfinancemanager.db.source.local.converter.FlowConverter;
 public class Transaction implements Parcelable, ListItem, Serializable {
 
     @PrimaryKey
+    @NonNull
     public String id;
 
     private String name;

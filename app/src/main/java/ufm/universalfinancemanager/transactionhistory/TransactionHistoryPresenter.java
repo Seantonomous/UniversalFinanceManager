@@ -1,8 +1,11 @@
 package ufm.universalfinancemanager.transactionhistory;
 
+import java.util.List;
+
 import javax.annotation.Nullable;
 import javax.inject.Inject;
 
+import ufm.universalfinancemanager.db.TransactionDataSource;
 import ufm.universalfinancemanager.db.TransactionRepository;
 import ufm.universalfinancemanager.db.entity.Transaction;
 import ufm.universalfinancemanager.di.ActivityScoped;
@@ -32,7 +35,28 @@ public class TransactionHistoryPresenter implements TransactionHistoryContract.P
 
     @Override
     public void loadTransactions() {
+        mTransactionRepository.getTransactions(new TransactionDataSource.LoadTransactionsCallback() {
+            @Override
+            public void onTransactionsLoaded(List<Transaction> transactions) {
+                processTransactions(transactions);
+            }
 
+            @Override
+            public void onDataNotAvailable() {
+                //display loading transactions error message
+            }
+        });
+    }
+
+    public void processTransactions(List<Transaction> transactions) {
+        if(transactions.isEmpty()) {
+            if(mTransactionHistoryView != null)
+                mTransactionHistoryView.showNoTransactions();
+        }else {
+            if(mTransactionHistoryView != null) {
+                mTransactionHistoryView.showTransactions(transactions);
+            }
+        }
     }
 
     @Override

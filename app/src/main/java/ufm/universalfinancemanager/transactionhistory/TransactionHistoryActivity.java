@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
+import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -72,6 +73,21 @@ public class TransactionHistoryActivity extends DaggerAppCompatActivity {
             }
 
         };
+
+        mDrawerLayout.addDrawerListener(mDrawerToggle);
+
+        getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_menu);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch(item.getItemId()) {
+            case android.R.id.home:
+                if(mDrawerToggle.onOptionsItemSelected(item))
+                    return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     private void setupDrawerContent(NavigationView navigationView) {
@@ -81,14 +97,19 @@ public class TransactionHistoryActivity extends DaggerAppCompatActivity {
                     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                         switch(item.getItemId()) {
                             case R.id.home_menu_item:
+                                //switch to home activity
                                 break;
                             case R.id.budget_menu_item:
+                                //switch to budget overview activity
                                 break;
                             case R.id.trans_history_menu_item:
+                                //Do nothing we're already here
                                 break;
                             case R.id.inout_menu_item:
+                                //switch to input output activity
                                 break;
                             case R.id.networth_menu_item:
+                                //switch to networth activity
                                 break;
                             case R.id.reminder_menu_item:
                                 break;
@@ -104,47 +125,9 @@ public class TransactionHistoryActivity extends DaggerAppCompatActivity {
         );
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.action_bar, menu);
-        return true;
-    }
 
 
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Pass the event to ActionBarDrawerToggle, if it returns
-        // true, then it has handled the app icon touch event
 
-        if (mDrawerToggle.onOptionsItemSelected(item)) {
-            return true;
-        }
 
-        int id = item.getItemId();
-        switch(id) {
-            case R.id.action_add_transaction:
-                mPresenter.addTransaction();
-                return true;
-            case R.id.action_add_account:
-                //Intent intent_account = new Intent(this, Account_Add.class);
-                //intent_account.putExtra(EXTRA_USER, (Parcelable)sessionUser);
-                //startActivityForResult(intent_account, 2);
-                return true;
-            case R.id.action_add_category:
-                //Intent intent_category = new Intent(this, Category_Add.class);
-                //intent_category.putExtra(EXTRA_USER, (Parcelable)sessionUser);
-                //startActivityForResult(intent_category, 3);
-                return true;
-            case R.id.action_add_reminder:
-                //startActivity(new Intent(this, Reminder_Add.class));
-                return true;
-            case R.id.action_add_budget:
-                //startActivity(new Intent(this, Budget_Add.class));
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
-        }
-    }
 }

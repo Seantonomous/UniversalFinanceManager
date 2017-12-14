@@ -55,6 +55,7 @@ import ufm.universalfinancemanager.R;
 import ufm.universalfinancemanager.db.entity.Transaction;
 import ufm.universalfinancemanager.support.atomic.User;
 import ufm.universalfinancemanager.db.source.local.TransactionDatabase;
+import ufm.universalfinancemanager.transactionhistory.TransactionHistoryActivity;
 import ufm.universalfinancemanager.transactionhistory.TransactionHistoryFragment;
 
 public class Main_Activity extends AppCompatActivity{
@@ -187,44 +188,8 @@ public class Main_Activity extends AppCompatActivity{
                 break;
             case(2):    //TRANSACTIONS
 
-                //Create a new Transaction_Activity to place in main view container
-                Fragment fragment = new TransactionHistoryFragment();
-
-                //Create future task to fetch all the transactions from the database
-                //in a separate thread
-                FutureTask<List<Transaction>> futureTask;
-                futureTask = new FutureTask<>(new Callable<List<Transaction>>() {
-                    @Override
-                    public List<Transaction> call() {
-                        return db.transactionDao().getAll();
-                    }
-                });
-
-                new Thread(futureTask).start();
-
-                //Put the users transactions in a bundle, pass to fragment via setArguments()
-                Bundle b = new Bundle();
-
-                //Get transaction arraylist from worker thread
-                try {
-                    b.putParcelableArrayList("TRANSACTIONS", (ArrayList<Transaction>)futureTask.get());
-                }catch(InterruptedException | ExecutionException e) {
-
-                }
-
-                fragment.setArguments(b);
-
-                FragmentManager fragmentManager = getFragmentManager();
-
-                //Replace the current container with the fragment and commit changes
-                fragmentManager.beginTransaction().replace(R.id.fragment_container, fragment).commit();
-
+                startActivity(new Intent(this, TransactionHistoryActivity.class));
                 //Set the action bar title to "Transaction History"
-                try {
-                    getSupportActionBar().setTitle(R.string.transaction_title);
-                }catch(java.lang.NullPointerException e) {
-
-                }
 
                 //Highlight touched item in the nav drawer and then close the nav drawer
                 list_view.setItemChecked(position, true);
@@ -235,15 +200,15 @@ public class Main_Activity extends AppCompatActivity{
             case(4):    //NET WORTH
 
                 // Make new Net_Worth to place in main view container
-                fragment = new NetWorthFragment();
+                Fragment fragment = new NetWorthFragment();
 
                 //Put the users accounts and totals in a bundle, pass to fragment via setArguments()
-                b = new Bundle();
+                Bundle b = new Bundle();
                 b.putParcelableArrayList("ACCOUNT", sessionUser.getAccounts());
                 fragment.setArguments(b);
 
                 // Get fragment manager
-                fragmentManager = getFragmentManager();
+                FragmentManager fragmentManager = getFragmentManager();
 
                 //Replace the current container with the fragment and commit changes
                 fragmentManager.beginTransaction().replace(R.id.fragment_container, fragment).commit();

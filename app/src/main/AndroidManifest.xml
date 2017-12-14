@@ -19,15 +19,11 @@ Contributing Team Members:
         <activity
             android:name=".ui.Login_Activity"
             android:theme="@style/NoTitleBar">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <activity
             android:name=".ui.Main_Activity"
-            android:theme="@style/AppTheme"></activity>
+            android:theme="@style/AppTheme" />
         <activity
             android:name=".ui.Transaction_Add"
             android:theme="@style/AppTheme" />
@@ -43,6 +39,15 @@ Contributing Team Members:
         <activity
             android:name=".ui.Budget_Add"
             android:theme="@style/AppTheme" />
+        <activity
+            android:name=".transactionhistory.TransactionHistoryActivity"
+            android:theme="@style/AppTheme">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
     </application>
 
 </manifest>
