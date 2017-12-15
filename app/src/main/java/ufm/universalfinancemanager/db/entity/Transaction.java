@@ -40,7 +40,7 @@ import ufm.universalfinancemanager.db.source.local.converter.DateConverter;
 import ufm.universalfinancemanager.db.source.local.converter.FlowConverter;
 
 @Entity
-public class Transaction implements Parcelable, ListItem, Serializable {
+public class Transaction implements ListItem, Serializable {
 
     @PrimaryKey
     @NonNull
@@ -58,7 +58,10 @@ public class Transaction implements Parcelable, ListItem, Serializable {
     private Category category;
 
     @Embedded
-    private Account account;
+    private Account fromAccount;
+
+    @Embedded
+    private Account toAccount;
 
     private boolean frequency;
 
@@ -74,31 +77,32 @@ public class Transaction implements Parcelable, ListItem, Serializable {
 
     @Ignore
     public Transaction(String name, Flow flow, double amount, Category category,
-                       Account account, Date date, String notes) {
-        this(name, UUID.randomUUID().toString(),flow,amount,category,account,date,notes);
+                       Account fromAccount, Account toAccount, Date date, String notes) {
+        this(name, UUID.randomUUID().toString(),flow,amount,category,fromAccount,toAccount,date,notes);
     }
 
     @Ignore
     public Transaction(String name, Flow flow, double amount, Category category,
-                       Account account, Date date) {
-        this(name, UUID.randomUUID().toString(),flow,amount,category,account,date,"");
+                       Account fromAccount, Account toAccount, Date date) {
+        this(name, UUID.randomUUID().toString(),flow,amount,category,fromAccount,toAccount,date,"");
     }
 
     public Transaction(String name, String id,Flow flow, double amount, Category category,
-                       Account account, Date date, String notes) {
+                       Account fromAccount, Account toAccount, Date date, String notes) {
         this.name = name;
         this.id = id;
         this.flow = flow;
         this.amount = amount;
         this.category = category;
-        this.account = account;
+        this.fromAccount = fromAccount;
+        this.toAccount = toAccount;
         this.date = date;
         this.notes = notes;
 
         dateFormat = new SimpleDateFormat("MM/dd", Locale.ENGLISH);
         num_format = NumberFormat.getCurrencyInstance();
     }
-
+/*
     public Transaction(Parcel in) {
         name = in.readString();
         flow = Flow.valueOf(in.readString());
@@ -136,7 +140,7 @@ public class Transaction implements Parcelable, ListItem, Serializable {
             return new Transaction[size];
         }
     };
-
+*/
     @Override
     public int getViewType() {
         return RowType.LIST_ITEM.ordinal();
@@ -161,7 +165,11 @@ public class Transaction implements Parcelable, ListItem, Serializable {
         dateText.setText(dateFormat.format(this.date));
         nameText.setText(this.name);
         amountText.setText(num_format.format(this.amount));
-        accountText.setText(this.account.toString());
+
+        if(fromAccount != null)
+            accountText.setText(this.fromAccount.toString());
+        else
+            accountText.setText(this.toAccount.toString());
         categoryText.setText(this.category.toString());
 
         return view;
@@ -172,7 +180,8 @@ public class Transaction implements Parcelable, ListItem, Serializable {
     public Flow getFlow() {return flow;}
     public double getAmount() {return amount;}
     public Category getCategory() {return category;}
-    public Account getAccount() {return account;}
+    public Account getFromAccount() {return fromAccount;}
+    public Account getToAccount() {return toAccount;}
     public boolean getFrequency() {return frequency;}
     public Date getDate() {return date;}
     public String getNotes() {return notes;}
@@ -183,7 +192,8 @@ public class Transaction implements Parcelable, ListItem, Serializable {
     public void setFlow(Flow flow) {this.flow = flow;}
     public void setAmount(double amount) {this.amount = amount;}
     public void setCategory(Category category) {this.category = category;}
-    public void setAccount(Account account) {this.account = account;}
+    public void setFromAccount(Account account) {this.fromAccount = account;}
+    public void setToAccount(Account account) {this.toAccount = account;}
     public void setFrequency(boolean frequency) {this.frequency = frequency;}
     public void setDate(Date date) {this.date = date;}
     public void setNotes(String notes) {this.notes = notes;}

@@ -30,6 +30,7 @@ import java.util.List;
 import javax.inject.Inject;
 
 import dagger.android.support.DaggerFragment;
+import ufm.universalfinancemanager.addedittransaction.AddEditTransactionActivity;
 import ufm.universalfinancemanager.support.ListItem;
 import ufm.universalfinancemanager.R;
 import ufm.universalfinancemanager.db.entity.Transaction;
@@ -98,16 +99,16 @@ public class TransactionHistoryFragment extends DaggerFragment implements Transa
     @Override
     public void showAddEditTransaction() {
         //Todo: make request code in TransactionAddEditActivity for '1'
-        //startActivityForResult(new Intent(getContext(), TransactionAddEditActivity.class), 1);
+        startActivityForResult(new Intent(getContext(), AddEditTransactionActivity.class), 1);
     }
 
     @Override
     public void showAddEditTransaction(String transactionId) {
-        //Intent intent = new Intent(getContext(), TransactionAddEditActivity.class);
+        Intent intent = new Intent(getContext(), AddEditTransactionActivity.class);
         //Todo: make EXTRA_ID in TransactionAddEditActivity
-        // intent.putExtra("ID", transactionId);
+        intent.putExtra("ID", transactionId);
         //Todo: make request code in TransactionAddEditAcitivity for '2'
-        //startActivityForResult(intent, 2);
+        startActivityForResult(intent, 2);
     }
 
     @Override

@@ -76,7 +76,7 @@ public class Transaction_Add extends Activity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.add_transactions);
+        setContentView(R.layout.addedit_transaction_fragment);
 
         edit_name = findViewById(R.id.name);
         edit_amount = findViewById(R.id.amount);
