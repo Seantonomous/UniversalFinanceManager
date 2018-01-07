@@ -1,6 +1,7 @@
 package ufm.universalfinancemanager.addedittransaction;
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.NavigationView;
 import android.support.v4.widget.DrawerLayout;
@@ -23,7 +24,7 @@ public class AddEditTransactionActivity extends DaggerAppCompatActivity {
     @Inject
     AddEditTransactionPresenter mPresenter;
     @Inject
-    Lazy<AddEditTransactionFragment> transactionHistoryFragmentProvider;
+    AddEditTransactionFragment mFragment;
 
     @Inject
     @Nullable
@@ -43,13 +44,12 @@ public class AddEditTransactionActivity extends DaggerAppCompatActivity {
             setupDrawerContent(navigationView);
         }
 
-        if
-
         AddEditTransactionFragment addEditTransactionFragment =
                 (AddEditTransactionFragment)getSupportFragmentManager().findFragmentById(R.id.contentFrame);
 
         if(addEditTransactionFragment == null) {
-            addEditTransactionFragment  = transactionHistoryFragmentProvider.get();
+            addEditTransactionFragment = mFragment;
+
             ActivityUtils.addFragmentToActivity(getSupportFragmentManager(),
                     addEditTransactionFragment , R.id.contentFrame);
         }

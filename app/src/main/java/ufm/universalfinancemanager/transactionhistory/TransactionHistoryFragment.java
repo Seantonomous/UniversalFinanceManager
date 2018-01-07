@@ -14,6 +14,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
@@ -31,10 +32,8 @@ import javax.inject.Inject;
 
 import dagger.android.support.DaggerFragment;
 import ufm.universalfinancemanager.addedittransaction.AddEditTransactionActivity;
-import ufm.universalfinancemanager.support.ListItem;
 import ufm.universalfinancemanager.R;
 import ufm.universalfinancemanager.db.entity.Transaction;
-import ufm.universalfinancemanager.ui.Transaction_Add;
 
 
 public class TransactionHistoryFragment extends DaggerFragment implements TransactionHistoryContract.View {
@@ -106,7 +105,7 @@ public class TransactionHistoryFragment extends DaggerFragment implements Transa
     public void showAddEditTransaction(String transactionId) {
         Intent intent = new Intent(getContext(), AddEditTransactionActivity.class);
         //Todo: make EXTRA_ID in TransactionAddEditActivity
-        intent.putExtra("ID", transactionId);
+        intent.putExtra("EDIT_TRANSACTION_ID", transactionId);
         //Todo: make request code in TransactionAddEditAcitivity for '2'
         startActivityForResult(intent, 2);
     }
@@ -125,6 +124,15 @@ public class TransactionHistoryFragment extends DaggerFragment implements Transa
         setHasOptionsMenu(true);
 
         return root;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch(item.getItemId()) {
+            case R.id.action_add_transaction:
+                mPresenter.addTransaction();
+        }
+        return true;
     }
 
     @Override

@@ -18,7 +18,6 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import ufm.universalfinancemanager.R;
-import ufm.universalfinancemanager.ui.Main_Activity;
 
 public class Login_Activity extends AppCompatActivity {
     Button login_button, signup_button;
@@ -66,8 +65,8 @@ public class Login_Activity extends AppCompatActivity {
 
     void login() {
         //Switch to main application activity
-        Intent intent = new Intent(this, Main_Activity.class);
-        startActivity(intent);
+        //Intent intent = new Intent(this, Main_Activity.class);
+        //startActivity(intent);
     }
 
     @Override

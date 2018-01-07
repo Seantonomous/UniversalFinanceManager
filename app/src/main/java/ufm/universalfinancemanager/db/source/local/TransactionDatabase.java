@@ -19,7 +19,7 @@ import ufm.universalfinancemanager.db.source.local.TransactionDao;
  * Created by smh7 on 11/22/17.
  */
 
-@Database(entities = {Transaction.class}, version = 1)
+@Database(entities = {Transaction.class}, version = 2)
 public abstract class TransactionDatabase extends RoomDatabase {
     public abstract TransactionDao transactionDao();
 }

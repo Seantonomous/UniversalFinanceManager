@@ -22,12 +22,6 @@ Contributing Team Members:
 
         </activity>
         <activity
-            android:name=".ui.Main_Activity"
-            android:theme="@style/AppTheme" />
-        <activity
-            android:name=".ui.Transaction_Add"
-            android:theme="@style/AppTheme" />
-        <activity
             android:name=".ui.Account_Add"
             android:theme="@style/AppTheme" />
         <activity
@@ -48,6 +42,8 @@ Contributing Team Members:
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".addedittransaction.AddEditTransactionActivity"
+            android:theme="@style/AppTheme"/>
     </application>
 
 </manifest>

@@ -7,6 +7,8 @@
 *   Team Members:
 * Contributing Team Members: Aaron Oconnor, Daniel Karapetian, Muhammad Ansair, Simranjeet Kaur
 */
+
+
 package ufm.universalfinancemanager.ui;
 
 import android.app.Activity;
@@ -58,6 +60,7 @@ import ufm.universalfinancemanager.db.source.local.TransactionDatabase;
 import ufm.universalfinancemanager.transactionhistory.TransactionHistoryActivity;
 import ufm.universalfinancemanager.transactionhistory.TransactionHistoryFragment;
 
+/*
 public class Main_Activity extends AppCompatActivity{
     private String[] drawer_items;
     private DrawerLayout drawer_layout;
@@ -105,7 +108,7 @@ public class Main_Activity extends AppCompatActivity{
             sessionUser.addCategory(new Category("Gas", Flow.OUTCOME));
             sessionUser.addAccount(new Account("Checking", AccountType.CHECKING, 0, new Date()));
 
-            /**************TEST DATA*************/
+            //**************TEST DATA*************
             // Test data for net worth -Aaron
 
             sessionUser.addAccount(new Account("American Express", AccountType.CREDIT_CARD, 2353.95, new Date()));
@@ -151,7 +154,7 @@ public class Main_Activity extends AppCompatActivity{
             finish();
             System.exit(1);
         }
-        /**************TEST DATA*************/
+        //**************TEST DATA*************
 
         drawer_items = getResources().getStringArray(R.array.drawer_items);
 
@@ -351,3 +354,4 @@ public class Main_Activity extends AppCompatActivity{
         }).start();
     }
 }
+*/

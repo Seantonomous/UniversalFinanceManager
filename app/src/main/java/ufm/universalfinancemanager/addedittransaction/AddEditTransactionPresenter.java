@@ -29,23 +29,21 @@ public class AddEditTransactionPresenter implements AddEditTransactionContract.P
 
     @Inject
     AddEditTransactionPresenter(TransactionRepository repository, User user, @Nullable String id) {mTransactionRepository = repository;
-    mUser = user; mTransactionId = id;}
+        this.mUser = user; mTransactionId = id;}
 
     @Override
     public void saveTransaction(String name, Flow flow, Double amount,
                                String categoryName, String fromAccountName,
                                String toAccountName, Date date, String notes) {
 
-        if(processInput(name, amount, flow)) {
-            if(isNewTransaction())
-                createTransaction(name, flow, amount,
-                        categoryName, String fromAccountName,
-                        toAccountName, date, notes);
-            else
-                updateTransaction(name, flow, amount,
-                        categoryName, String fromAccountName,
-                        toAccountName, date, notes);
-        }
+        if(isNewTransaction())
+            createTransaction(name, flow, amount,
+                    categoryName, fromAccountName,
+                    toAccountName, date, notes);
+        else
+            updateTransaction(name, flow, amount,
+                    categoryName, fromAccountName,
+                    toAccountName, date, notes);
     }
 
     private void createTransaction(String name, Flow flow, Double amount,
@@ -78,18 +76,17 @@ public class AddEditTransactionPresenter implements AddEditTransactionContract.P
         }
     }
 
-    public boolean processInput(String name, Double amount, Flow flow) {
-        if(mAddEditTransactionView != null)
-            mAddEditTransactionView.displayInputError(name.isEmpty() && !(flow == Flow.TRANSFER), amount == 0);
-
-        return ((!name.isEmpty() && !(flow == Flow.TRANSFER)) && !(amount == 0));
+    public void populateTransaction() {
+        mTransactionRepository.getTransaction(mTransactionId, this);
     }
 
     @Override
     public void onTransactionLoaded(Transaction transaction) {
         if (mAddEditTransactionView != null && mAddEditTransactionView.isActive()) {
             mAddEditTransactionView.populateExistingFields(transaction.getName(),
-                    transaction.getAmount(), transaction.getFlow(), );
+                    transaction.getAmount(), transaction.getFlow(), transaction.getCategory(),
+                    transaction.getFromAccount(), transaction.getToAccount(),
+                    transaction.getDate(), transaction.getNotes());
         }
     }
 
@@ -105,6 +102,10 @@ public class AddEditTransactionPresenter implements AddEditTransactionContract.P
     @Override
     public void takeView(AddEditTransactionContract.View v) {
         mAddEditTransactionView =v;
+        mAddEditTransactionView.setupFragmentContent(mUser.getCategories(),
+                mUser.getAccounts());
+        if(!isNewTransaction())
+            populateTransaction();
     }
 
     @Override

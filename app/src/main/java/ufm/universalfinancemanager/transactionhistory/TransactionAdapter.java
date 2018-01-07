@@ -39,6 +39,7 @@ public class TransactionAdapter extends BaseAdapter {
     }
 
     public void replaceItems(List<Transaction> items) {
+        mItems.clear();
         setList(items);
         notifyDataSetChanged();
     }
@@ -51,7 +52,7 @@ public class TransactionAdapter extends BaseAdapter {
         Collections.sort(items, new Comparator<Transaction>() {
             @Override
             public int compare(Transaction lhs, Transaction rhs) {
-                return lhs.getDate().getTime() < rhs.getDate().getTime() ? -1 : (lhs.getDate().getTime() > rhs.getDate().getTime()) ? 1 : 0;
+                return lhs.getDate().getTime() > rhs.getDate().getTime() ? -1 : (lhs.getDate().getTime() < rhs.getDate().getTime()) ? 1 : 0;
             }
         });
 
@@ -59,7 +60,7 @@ public class TransactionAdapter extends BaseAdapter {
         mItems.add(new TransactionDateHeader(currentDate));
 
         for(Transaction t : items) {
-            if(t.getDate().getTime() > currentDate.getTime()) {
+            if(t.getDate().getTime() < currentDate.getTime()) {
                 currentDate = t.getDate();
                 mItems.add(new TransactionDateHeader(currentDate));
             }

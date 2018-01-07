@@ -57,10 +57,10 @@ public class Transaction implements ListItem, Serializable {
     @Embedded
     private Category category;
 
-    @Embedded
+    @Embedded(prefix = "from")
     private Account fromAccount;
 
-    @Embedded
+    @Embedded(prefix = "to")
     private Account toAccount;
 
     private boolean frequency;

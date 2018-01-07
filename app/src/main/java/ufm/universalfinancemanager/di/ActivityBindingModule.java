@@ -6,6 +6,8 @@ package ufm.universalfinancemanager.di;
 
 import dagger.Module;
 import dagger.android.ContributesAndroidInjector;
+import ufm.universalfinancemanager.addedittransaction.AddEditTransactionActivity;
+import ufm.universalfinancemanager.addedittransaction.AddEditTransactionModule;
 import ufm.universalfinancemanager.transactionhistory.TransactionHistoryActivity;
 import ufm.universalfinancemanager.transactionhistory.TransactionHistoryModule;
 
@@ -21,4 +23,8 @@ public abstract class ActivityBindingModule {
     @ActivityScoped
     @ContributesAndroidInjector(modules = TransactionHistoryModule.class)
     abstract TransactionHistoryActivity transactionHistoryActivity();
+
+    @ActivityScoped
+    @ContributesAndroidInjector(modules = AddEditTransactionModule.class)
+    abstract AddEditTransactionActivity addEditTransactionActivity();
 }

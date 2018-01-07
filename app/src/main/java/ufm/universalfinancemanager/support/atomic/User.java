@@ -111,7 +111,10 @@ public class User implements Parcelable, Serializable {
 
     /**/
     public boolean addTransaction(Transaction t) {
-        t.getAccount().registerTransaction(t);
+        if(t.getFromAccount() != null)
+            t.getFromAccount().registerTransaction(t);
+        if(t.getToAccount() != null)
+            t.getToAccount().registerTransaction(t);
         return true;
     }
     /*

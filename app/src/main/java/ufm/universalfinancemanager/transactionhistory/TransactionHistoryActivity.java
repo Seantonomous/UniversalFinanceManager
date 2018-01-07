@@ -1,16 +1,10 @@
 package ufm.universalfinancemanager.transactionhistory;
 
-import android.content.Intent;
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
-import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
-import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 
@@ -19,11 +13,6 @@ import javax.inject.Inject;
 import dagger.Lazy;
 import dagger.android.support.DaggerAppCompatActivity;
 import ufm.universalfinancemanager.R;
-import ufm.universalfinancemanager.ui.Account_Add;
-import ufm.universalfinancemanager.ui.Budget_Add;
-import ufm.universalfinancemanager.ui.Category_Add;
-import ufm.universalfinancemanager.ui.Reminder_Add;
-import ufm.universalfinancemanager.ui.Transaction_Add;
 import ufm.universalfinancemanager.util.ActivityUtils;
 
 /**

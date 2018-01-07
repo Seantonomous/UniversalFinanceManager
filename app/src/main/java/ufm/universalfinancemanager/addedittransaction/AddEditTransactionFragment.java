@@ -1,6 +1,7 @@
 package ufm.universalfinancemanager.addedittransaction;
 
 import android.app.Activity;
+import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.graphics.Paint;
 import android.os.Bundle;
@@ -9,23 +10,30 @@ import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
+import android.widget.SpinnerAdapter;
 import android.widget.TextView;
 
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
+import java.util.Locale;
 
 import javax.inject.Inject;
 
-import dagger.android.DaggerFragment;
+import dagger.android.support.DaggerFragment;
 import ufm.universalfinancemanager.R;
 import ufm.universalfinancemanager.db.entity.Transaction;
+import ufm.universalfinancemanager.di.ActivityScoped;
 import ufm.universalfinancemanager.support.Flow;
+import ufm.universalfinancemanager.support.TextValidator;
 import ufm.universalfinancemanager.support.atomic.Account;
 import ufm.universalfinancemanager.support.atomic.Category;
 
@@ -33,6 +41,7 @@ import ufm.universalfinancemanager.support.atomic.Category;
  * Created by smh7 on 12/14/17.
  */
 
+@ActivityScoped
 public class AddEditTransactionFragment extends DaggerFragment implements AddEditTransactionContract.View {
     @Inject
     AddEditTransactionPresenter mPresenter;
@@ -54,9 +63,28 @@ public class AddEditTransactionFragment extends DaggerFragment implements AddEdi
     private Button done_button;
     private Button cancel_button;
     private TextView date_textView;
-    private DatePicker datePicker;
 
     private Calendar calendar;
+    private DatePickerDialog.OnDateSetListener date = new DatePickerDialog.OnDateSetListener() {
+        @Override
+        public void onDateSet(DatePicker datePicker, int year, int monthOfYear, int dayOfMonth) {
+            calendar.set(Calendar.YEAR, year);
+            calendar.set(Calendar.MONTH, monthOfYear);
+            calendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+            updateDate();
+        }
+    };
+
+    private boolean valid_name = true;
+    private boolean valid_amount = true;
+
+    private ArrayAdapter<Category> categorySpinnerAdapter;
+    private ArrayAdapter<Account> accountSpinnerAdapter;
+
+    @Inject
+    public AddEditTransactionFragment() {
+        //Fragment constructors must be empty
+    }
 
     @Override
     public void onResume() {
@@ -96,31 +124,46 @@ public class AddEditTransactionFragment extends DaggerFragment implements AddEdi
         done_button = root.findViewById(R.id.done);
         cancel_button = root.findViewById(R.id.cancel);
         date_textView = root.findViewById(R.id.dateTextView);
+
         calendar = Calendar.getInstance();
+        calendar.set(Calendar.HOUR_OF_DAY, 0);
+        calendar.set(Calendar.MINUTE, 0);
+        calendar.set(Calendar.SECOND, 0);
+        calendar.set(Calendar.MILLISECOND, 0);
+        updateDate();
+
+        edit_date.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                new DatePickerDialog(getContext(), date, calendar.get(Calendar.YEAR),
+                        calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH)).show();
+            }
+        });
 
         done_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(income_radioButton.isChecked()) {
+                if(!valid_amount || !valid_name)
+                    return;
 
+                if(income_radioButton.isChecked()) {
                     mPresenter.saveTransaction(edit_name.getText().toString(),
                             Flow.INCOME,
                             Double.parseDouble(edit_amount.getText().toString()),
                             null,
                             null,
                             toAccount_spinner.getSelectedItem().toString(),
-                            Calendar.getInstance().getTime(),
+                            calendar.getTime(),
                             edit_notes.getText().toString());
                 }
                 else if(expense_radioButton.isChecked()) {
-
                     mPresenter.saveTransaction(edit_name.getText().toString(),
                             Flow.INCOME,
                             Double.parseDouble(edit_amount.getText().toString()),
                             category_spinner.getSelectedItem().toString(),
                             fromAccount_spinner.getSelectedItem().toString(),
                             null,
-                            Calendar.getInstance().getTime(),
+                            calendar.getTime(),
                             edit_notes.getText().toString());
                 }else { //transfer
                     mPresenter.saveTransaction(edit_name.getText().toString(),
@@ -129,12 +172,75 @@ public class AddEditTransactionFragment extends DaggerFragment implements AddEdi
                             null,
                             fromAccount_spinner.getSelectedItem().toString(),
                             toAccount_spinner.getSelectedItem().toString(),
-                            Calendar.getInstance().getTime(),
+                            calendar.getTime(),
                             edit_notes.getText().toString());
                 }
             }
         });
+
+        edit_name.addTextChangedListener(new TextValidator(edit_name) {
+            @Override
+            public void validate(TextView textView, String text) {
+                if(text.length() == 0 && !transfer_radioButton.isChecked()) {
+                    textView.setError("Transaction must have a name");
+                    valid_name = false;
+                }else {
+                    valid_name = true;
+                }
+            }
+        });
+
+        edit_amount.addTextChangedListener(new TextValidator(edit_amount) {
+            @Override
+            public void validate(TextView textView, String text) {
+                if(text.length() == 0) {
+                    textView.setError("Transaction must have an amount");
+                    valid_amount = false;
+                }else {
+                    valid_amount = true;
+                }
+            }
+        });
+
+        income_radioButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onFlowChecked(view);
+            }
+        });
+
+        expense_radioButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onFlowChecked(view);
+            }
+        });
+
+        transfer_radioButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onFlowChecked(view);
+            }
+        });
+
         return root;
+    }
+
+    @Override
+    public void setupFragmentContent(@Nullable List<Category> categories,
+        @Nullable List<Account> accounts) {
+
+        categorySpinnerAdapter = new ArrayAdapter<>(getContext(),
+                android.R.layout.simple_spinner_item, categories);
+        categorySpinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        category_spinner.setAdapter(categorySpinnerAdapter);
+
+        accountSpinnerAdapter = new ArrayAdapter<>(getContext(),
+                android.R.layout.simple_spinner_item, accounts);
+        accountSpinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+        fromAccount_spinner.setAdapter(accountSpinnerAdapter);
+        toAccount_spinner.setAdapter(accountSpinnerAdapter);
     }
 
     @Override
@@ -146,10 +252,17 @@ public class AddEditTransactionFragment extends DaggerFragment implements AddEdi
 
         if(flow == Flow.INCOME) {
             income_radioButton.setChecked(true);
+            toAccount_spinner.setSelection(accountSpinnerAdapter.getPosition(toAccountName));
+            category_spinner.setSelection(categorySpinnerAdapter.getPosition(categoryName));
         }else if(flow == Flow.OUTCOME) {
             expense_radioButton.setChecked(true);
+            fromAccount_spinner.setSelection(accountSpinnerAdapter.getPosition(fromAccountName));
+            category_spinner.setSelection(categorySpinnerAdapter.getPosition(categoryName));
         }else
             transfer_radioButton.setChecked(true);
+
+        calendar.setTime(date);
+        updateDate();
     }
 
     public void onFlowChecked(View view) {
@@ -192,6 +305,9 @@ public class AddEditTransactionFragment extends DaggerFragment implements AddEdi
 
                 edit_name.setEnabled(false);
                 edit_name.setPaintFlags(edit_name.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
+
+                //clear any text error from having no name
+                edit_name.setError(null);
                 break;
         }
     }
@@ -206,12 +322,11 @@ public class AddEditTransactionFragment extends DaggerFragment implements AddEdi
         getActivity().finish();
     }
 
-    @Override
-    public void displayInputError(boolean name, boolean amount) {
-        if(name)
-            edit_name.setError("Transaction must have a name!");
-        if(amount)
-            edit_amount.setError("Transaction must have an amount!");
+    public void updateDate() {
+        String myFormat = "MM/dd/yy"; //In which you need put here
+        SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
+
+        edit_date.setText(sdf.format(calendar.getTime()));
     }
 
     @Override

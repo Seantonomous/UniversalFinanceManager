@@ -66,7 +66,6 @@ Contributing Team Members:
                 android:id="@+id/flow_income"
                 android:layout_width="120dp"
                 android:layout_height="wrap_content"
-                android:onClick="onFlowChecked"
                 android:text="Income"
                 android:textSize="15sp" />
 
@@ -74,15 +73,13 @@ Contributing Team Members:
                 android:layout_width="120dp"
                 android:layout_height="wrap_content"
                 android:text="Expense"
-                android:textSize="15sp"
-                android:onClick="onFlowChecked"/>
+                android:textSize="15sp"/>
 
             <RadioButton android:id="@+id/flow_transfer"
                 android:layout_width="120dp"
                 android:layout_height="wrap_content"
                 android:text="Transfer"
-                android:textSize="15sp"
-                android:onClick="onFlowChecked"/>
+                android:textSize="15sp"/>
         </RadioGroup>
 
         <TextView
@@ -183,11 +180,12 @@ Contributing Team Members:
             android:layout_height="wrap_content"
             android:layout_weight="0.02"
             android:contextClickable="false"
+            android:focusable="false"
             android:onClick="setDate"
             android:inputType="date"
             android:textSize="20sp"
             android:textAlignment="center"
-            android:hint=" DD / MM / YYYY" />
+            android:hint=" DD / MM / YYYY"/>
 
         <!--Drop Down menu for frequency selection-->
         <Spinner

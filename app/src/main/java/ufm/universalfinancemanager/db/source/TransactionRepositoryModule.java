@@ -45,6 +45,7 @@ abstract public class TransactionRepositoryModule {
     @Provides
     static TransactionDatabase provideDb(Application context) {
         return Room.databaseBuilder(context.getApplicationContext(), TransactionDatabase.class, "Transactions.db")
+                .fallbackToDestructiveMigration()
                 .build();
     }
 

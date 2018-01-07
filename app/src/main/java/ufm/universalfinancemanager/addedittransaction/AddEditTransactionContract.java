@@ -4,6 +4,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import java.util.Date;
+import java.util.List;
 
 import ufm.universalfinancemanager.BasePresenter;
 import ufm.universalfinancemanager.BaseView;
@@ -22,11 +23,12 @@ public interface AddEditTransactionContract {
 
         void showLastActivity(boolean success);
 
-        void populateExistingFields(String name, Double amount, Flow flow,
-                                    Category categoryName, @Nullable Account fromAccountName,
-                                    @Nullable Account toAccountName, Date date, @Nullable String notes);
+        void setupFragmentContent(@Nullable List<Category> categories,
+                                  @Nullable List<Account> accounts);
 
-        void displayInputError(boolean name, boolean amount);
+        void populateExistingFields(String name, Double amount, Flow flow,
+                                  Category categoryName, @Nullable Account fromAccountName,
+                                  @Nullable Account toAccountName, Date date, @Nullable String notes);
     }
 
     interface Presenter extends BasePresenter<View> {

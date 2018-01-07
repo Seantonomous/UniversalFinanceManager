@@ -45,7 +45,7 @@ import ufm.universalfinancemanager.support.atomic.User;
 /**
  * Created by Areeba on 11/2/2017.
  */
-
+/*
 public class Transaction_Add extends Activity {
     private boolean valid_name = false;
     private boolean valid_amount = false;
@@ -297,3 +297,4 @@ public class Transaction_Add extends Activity {
         return true;
     }
 }
+*/
