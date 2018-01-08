@@ -24,7 +24,8 @@ public interface AddEditTransactionContract {
         void showLastActivity(boolean success);
 
         void setupFragmentContent(@Nullable List<Category> categories,
-                                  @Nullable List<Account> accounts);
+                                  @Nullable List<Account> accounts,
+                                  boolean editing);
 
         void populateExistingFields(String name, Double amount, Flow flow,
                                   Category categoryName, @Nullable Account fromAccountName,
@@ -36,6 +37,8 @@ public interface AddEditTransactionContract {
         void saveTransaction(String name, Flow flow, Double amount,
                             String categoryName, String fromAccountName,
                             String toAccountName, Date date, String notes);
+
+        void deleteTransaction();
 
         void takeView(View v);
 

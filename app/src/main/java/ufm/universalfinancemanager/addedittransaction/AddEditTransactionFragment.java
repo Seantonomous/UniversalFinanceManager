@@ -77,6 +77,7 @@ public class AddEditTransactionFragment extends DaggerFragment implements AddEdi
 
     private boolean valid_name = true;
     private boolean valid_amount = true;
+    private boolean isEditing = false;
 
     private ArrayAdapter<Category> categorySpinnerAdapter;
     private ArrayAdapter<Account> accountSpinnerAdapter;
@@ -226,7 +227,10 @@ public class AddEditTransactionFragment extends DaggerFragment implements AddEdi
         cancel_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                showLastActivity(false);
+                if(isEditing) {
+                    mPresenter.deleteTransaction();
+                }else
+                    showLastActivity(false);
             }
         });
 
@@ -235,7 +239,12 @@ public class AddEditTransactionFragment extends DaggerFragment implements AddEdi
 
     @Override
     public void setupFragmentContent(@Nullable List<Category> categories,
-        @Nullable List<Account> accounts) {
+        @Nullable List<Account> accounts, boolean editing) {
+
+        isEditing = editing;
+
+        if(isEditing)
+            cancel_button.setText("Delete");
 
         categorySpinnerAdapter = new ArrayAdapter<>(getContext(),
                 android.R.layout.simple_spinner_item, categories);

@@ -46,6 +46,15 @@ public class AddEditTransactionPresenter implements AddEditTransactionContract.P
                     toAccountName, date, notes);
     }
 
+    @Override
+    public void deleteTransaction() {
+        mTransactionRepository.deleteTransaction(mTransactionId);
+
+        if(mAddEditTransactionView != null) {
+            mAddEditTransactionView.showLastActivity(true);
+        }
+    }
+
     private void createTransaction(String name, Flow flow, Double amount,
                               String categoryName, String fromAccountName,
                               String toAccountName, Date date, String notes) {
@@ -102,10 +111,15 @@ public class AddEditTransactionPresenter implements AddEditTransactionContract.P
     @Override
     public void takeView(AddEditTransactionContract.View v) {
         mAddEditTransactionView =v;
-        mAddEditTransactionView.setupFragmentContent(mUser.getCategories(),
-                mUser.getAccounts());
-        if(!isNewTransaction())
+
+        if(isNewTransaction())
+            mAddEditTransactionView.setupFragmentContent(mUser.getCategories(),
+                    mUser.getAccounts(), false);
+        else {
+            mAddEditTransactionView.setupFragmentContent(mUser.getCategories(),
+                    mUser.getAccounts(), true);
             populateTransaction();
+        }
     }
 
     @Override
