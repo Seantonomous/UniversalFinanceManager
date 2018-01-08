@@ -25,6 +25,10 @@ import ufm.universalfinancemanager.db.entity.Transaction;
 import ufm.universalfinancemanager.support.ListItem;
 import ufm.universalfinancemanager.support.RowType;
 
+/*
+*   This class adapts transactions to be used in a listview, it also sorts them
+*   and inserts TransactionDateHeaders to separate transactions by date
+*/
 public class TransactionAdapter extends BaseAdapter {
     private static final int TYPE_TRANSACTION = 0;
     private static final int TYPE_SEPARATOR = 1;
@@ -49,6 +53,7 @@ public class TransactionAdapter extends BaseAdapter {
             return;
         }
 
+        //Sort the transactions based on their date
         Collections.sort(items, new Comparator<Transaction>() {
             @Override
             public int compare(Transaction lhs, Transaction rhs) {
@@ -60,6 +65,8 @@ public class TransactionAdapter extends BaseAdapter {
         mItems.add(new TransactionDateHeader(currentDate));
 
         for(Transaction t : items) {
+            //If the next transaction has a different date, update the current date
+            //and insert a new transaction date header
             if(t.getDate().getTime() < currentDate.getTime()) {
                 currentDate = t.getDate();
                 mItems.add(new TransactionDateHeader(currentDate));

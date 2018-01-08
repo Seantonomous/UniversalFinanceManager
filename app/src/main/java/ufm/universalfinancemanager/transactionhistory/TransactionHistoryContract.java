@@ -11,6 +11,9 @@ import ufm.universalfinancemanager.support.ListItem;
  * Created by smh7 on 12/11/17.
  */
 
+/*This contract (Model) defines how the presenter and view communicate
+* with each other
+*/
 public interface TransactionHistoryContract {
 
     interface View extends BaseView<Presenter> {

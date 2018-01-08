@@ -39,15 +39,18 @@ public class TransactionHistoryActivity extends DaggerAppCompatActivity {
             setupDrawerContent(navigationView);
         }
 
+        //See if the fragment is already inserted
         TransactionHistoryFragment transactionHistoryFragment =
                 (TransactionHistoryFragment)getSupportFragmentManager().findFragmentById(R.id.contentFrame);
 
+        //If it isn't, create a new one and add it to the activity
         if(transactionHistoryFragment == null) {
             transactionHistoryFragment = transactionHistoryFragmentProvider.get();
             ActivityUtils.addFragmentToActivity(getSupportFragmentManager(),
                     transactionHistoryFragment, R.id.contentFrame);
         }
 
+        //Set up the navigation drawer toggle
         mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout, R.string.drawer_open,
                 R.string.drawer_close) {
 

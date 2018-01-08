@@ -7,7 +7,8 @@ Peer Review:
 Contributing Team Members:-->
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/colorBackground">
     <LinearLayout
         android:id="@+id/transactionsLayout"
         android:layout_width="match_parent"
@@ -23,8 +24,8 @@ Contributing Team Members:-->
 
     <LinearLayout
         android:id="@+id/noTransactionsLayout"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
         android:layout_centerInParent="true"
         android:orientation="vertical">
 

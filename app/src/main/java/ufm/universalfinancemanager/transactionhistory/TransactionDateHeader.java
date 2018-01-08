@@ -22,6 +22,7 @@ import ufm.universalfinancemanager.R;
 import ufm.universalfinancemanager.support.ListItem;
 import ufm.universalfinancemanager.support.RowType;
 
+//A simple list header that separates transactions by date
 public class TransactionDateHeader implements ListItem {
     private Date date;
     private SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy", Locale.ENGLISH);
