@@ -150,7 +150,7 @@ public class AddEditTransactionFragment extends DaggerFragment implements AddEdi
                     mPresenter.saveTransaction(edit_name.getText().toString(),
                             Flow.INCOME,
                             Double.parseDouble(edit_amount.getText().toString()),
-                            null,
+                            category_spinner.getSelectedItem().toString(),
                             null,
                             toAccount_spinner.getSelectedItem().toString(),
                             calendar.getTime(),
@@ -158,7 +158,7 @@ public class AddEditTransactionFragment extends DaggerFragment implements AddEdi
                 }
                 else if(expense_radioButton.isChecked()) {
                     mPresenter.saveTransaction(edit_name.getText().toString(),
-                            Flow.INCOME,
+                            Flow.OUTCOME,
                             Double.parseDouble(edit_amount.getText().toString()),
                             category_spinner.getSelectedItem().toString(),
                             fromAccount_spinner.getSelectedItem().toString(),
@@ -167,7 +167,7 @@ public class AddEditTransactionFragment extends DaggerFragment implements AddEdi
                             edit_notes.getText().toString());
                 }else { //transfer
                     mPresenter.saveTransaction(edit_name.getText().toString(),
-                            Flow.INCOME,
+                            Flow.TRANSFER,
                             Double.parseDouble(edit_amount.getText().toString()),
                             null,
                             fromAccount_spinner.getSelectedItem().toString(),
@@ -223,6 +223,13 @@ public class AddEditTransactionFragment extends DaggerFragment implements AddEdi
             }
         });
 
+        cancel_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                showLastActivity(false);
+            }
+        });
+
         return root;
     }
 
@@ -254,12 +261,18 @@ public class AddEditTransactionFragment extends DaggerFragment implements AddEdi
             income_radioButton.setChecked(true);
             toAccount_spinner.setSelection(accountSpinnerAdapter.getPosition(toAccountName));
             category_spinner.setSelection(categorySpinnerAdapter.getPosition(categoryName));
+
+            onFlowChecked(income_radioButton);
         }else if(flow == Flow.OUTCOME) {
             expense_radioButton.setChecked(true);
             fromAccount_spinner.setSelection(accountSpinnerAdapter.getPosition(fromAccountName));
             category_spinner.setSelection(categorySpinnerAdapter.getPosition(categoryName));
-        }else
+
+            onFlowChecked(expense_radioButton);
+        }else {
             transfer_radioButton.setChecked(true);
+            onFlowChecked(transfer_radioButton);
+        }
 
         calendar.setTime(date);
         updateDate();

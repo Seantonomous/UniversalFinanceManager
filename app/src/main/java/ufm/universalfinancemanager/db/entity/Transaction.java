@@ -170,7 +170,11 @@ public class Transaction implements ListItem, Serializable {
             accountText.setText(this.fromAccount.toString());
         else
             accountText.setText(this.toAccount.toString());
-        categoryText.setText(this.category.toString());
+
+        if(category != null)
+            categoryText.setText(this.category.toString());
+        else
+            categoryText.setText("No Category");
 
         return view;
     }
