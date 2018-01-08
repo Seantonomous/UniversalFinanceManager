@@ -5,9 +5,10 @@ Peer Review:
     Date:
     Team Members:
 Contributing Team Members:-->
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     android:background="@color/colorBackground">
     <LinearLayout
         android:id="@+id/transactionsLayout"
@@ -24,16 +25,23 @@ Contributing Team Members:-->
 
     <LinearLayout
         android:id="@+id/noTransactionsLayout"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:layout_centerInParent="true"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
         android:orientation="vertical">
 
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:scaleX="4"
+            android:scaleY="4"
+            android:src="@android:drawable/stat_notify_error"/>
         <TextView
             android:id="@+id/noTransactionsText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal|center_vertical"
-            android:fontFamily="monospace"/>
+            android:textSize="20sp"
+            android:textColor="@color/colorLightText"
+            android:paddingTop="30dp"/>
     </LinearLayout>
-</RelativeLayout>
+</LinearLayout>
