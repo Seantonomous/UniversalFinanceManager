@@ -70,6 +70,7 @@ public class TransactionHistoryActivity extends DaggerAppCompatActivity {
 
         getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_menu);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setTitle(R.string.transaction_title);
     }
 
     @Override

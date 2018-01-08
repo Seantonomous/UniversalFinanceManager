@@ -20,6 +20,7 @@ import android.widget.Spinner;
 import android.widget.SpinnerAdapter;
 import android.widget.TextView;
 
+import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -75,12 +76,14 @@ public class AddEditTransactionFragment extends DaggerFragment implements AddEdi
         }
     };
 
-    private boolean valid_name = true;
-    private boolean valid_amount = true;
+    private boolean valid_name = false;
+    private boolean valid_amount = false;
     private boolean isEditing = false;
 
     private ArrayAdapter<Category> categorySpinnerAdapter;
     private ArrayAdapter<Account> accountSpinnerAdapter;
+
+    private NumberFormat num_format = NumberFormat.getCurrencyInstance();
 
     @Inject
     public AddEditTransactionFragment() {
@@ -144,8 +147,14 @@ public class AddEditTransactionFragment extends DaggerFragment implements AddEdi
         done_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(!valid_amount || !valid_name)
+                if(!valid_name || !valid_amount) {
+                    if(!valid_name)
+                        edit_name.setError("Transaction must have a name!");
+                    if(!valid_amount)
+                        edit_amount.setError("Transaction must have an amount!");
+
                     return;
+                }
 
                 if(income_radioButton.isChecked()) {
                     mPresenter.saveTransaction(edit_name.getText().toString(),
@@ -245,6 +254,10 @@ public class AddEditTransactionFragment extends DaggerFragment implements AddEdi
 
         if(isEditing)
             cancel_button.setText("Delete");
+        else {
+            expense_radioButton.setChecked(true);
+            onFlowChecked(expense_radioButton);
+        }
 
         categorySpinnerAdapter = new ArrayAdapter<>(getContext(),
                 android.R.layout.simple_spinner_item, categories);
@@ -264,7 +277,7 @@ public class AddEditTransactionFragment extends DaggerFragment implements AddEdi
                                        Category categoryName, @Nullable Account fromAccountName,
                                        @Nullable Account toAccountName, Date date, @Nullable String notes) {
         edit_name.setText(name);
-        edit_amount.setText(amount.toString());
+        edit_amount.setText(num_format.format(amount));
 
         if(flow == Flow.INCOME) {
             income_radioButton.setChecked(true);
@@ -345,7 +358,7 @@ public class AddEditTransactionFragment extends DaggerFragment implements AddEdi
     }
 
     public void updateDate() {
-        String myFormat = "MM/dd/yy"; //In which you need put here
+        String myFormat = "MM/dd/yy";
         SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
 
         edit_date.setText(sdf.format(calendar.getTime()));
