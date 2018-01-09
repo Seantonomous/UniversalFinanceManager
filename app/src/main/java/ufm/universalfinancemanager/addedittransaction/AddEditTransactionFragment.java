@@ -83,8 +83,6 @@ public class AddEditTransactionFragment extends DaggerFragment implements AddEdi
     private ArrayAdapter<Category> categorySpinnerAdapter;
     private ArrayAdapter<Account> accountSpinnerAdapter;
 
-    private NumberFormat num_format = NumberFormat.getCurrencyInstance();
-
     @Inject
     public AddEditTransactionFragment() {
         //Fragment constructors must be empty
@@ -277,7 +275,7 @@ public class AddEditTransactionFragment extends DaggerFragment implements AddEdi
                                        Category categoryName, @Nullable Account fromAccountName,
                                        @Nullable Account toAccountName, Date date, @Nullable String notes) {
         edit_name.setText(name);
-        edit_amount.setText(num_format.format(amount));
+        edit_amount.setText(Double.toString(amount));
 
         if(flow == Flow.INCOME) {
             income_radioButton.setChecked(true);

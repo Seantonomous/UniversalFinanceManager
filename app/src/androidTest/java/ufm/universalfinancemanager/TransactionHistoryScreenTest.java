@@ -1,6 +1,7 @@
 package ufm.universalfinancemanager;
 
 import android.support.test.InstrumentationRegistry;
+import android.support.test.espresso.Espresso;
 import android.support.test.espresso.IdlingRegistry;
 import android.support.test.espresso.action.ViewActions;
 import android.support.test.rule.ActivityTestRule;
@@ -17,17 +18,16 @@ import java.util.Date;
 import java.util.Locale;
 
 import ufm.universalfinancemanager.support.Flow;
-import ufm.universalfinancemanager.support.atomic.Account;
-import ufm.universalfinancemanager.support.atomic.Category;
 import ufm.universalfinancemanager.transactionhistory.TransactionHistoryActivity;
 import ufm.universalfinancemanager.util.EspressoIdlingResource;
 
 import static android.support.test.InstrumentationRegistry.getInstrumentation;
-import static android.support.test.espresso.Espresso.closeSoftKeyboard;
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.Espresso.openActionBarOverflowOrOptionsMenu;
 import static android.support.test.espresso.action.ViewActions.click;
-import static android.support.test.espresso.action.ViewActions.pressMenuKey;
+import static android.support.test.espresso.action.ViewActions.closeSoftKeyboard;
+import static android.support.test.espresso.action.ViewActions.replaceText;
+import static android.support.test.espresso.action.ViewActions.scrollTo;
 import static android.support.test.espresso.action.ViewActions.typeText;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
@@ -75,6 +75,7 @@ public class TransactionHistoryScreenTest {
                 "Test Category 1", null, "Checking", null);
 
         onView(withText("TRANSACTION 1")).check(matches(isDisplayed()));
+        deleteTransaction("TRANSACTION 1");
     }
 
     @Test
@@ -84,6 +85,28 @@ public class TransactionHistoryScreenTest {
 
         deleteTransaction("TRANSACTION 1");
         onView(withText("TRANSACTION 1")).check(matches(not(isDisplayed())));
+    }
+
+    @Test
+    public void testEditTransaction_isUpdated() {
+        addTestTransaction(1, 1.00, Flow.OUTCOME,
+                "Test Category 1", null, "Checking", null);
+
+        onView(withText("TRANSACTION 1")).perform(click());
+        onView(withId(R.id.name)).perform(replaceText("TRANSACTION 2"),
+                closeSoftKeyboard());
+
+        onView(withId(R.id.done)).perform(scrollTo());
+        onView(withId(R.id.done)).perform(click());
+        onView(withText("TRANSACTION 2")).check(matches(isDisplayed()));
+
+        onView(withText("TRANSACTION 2")).perform(click());
+        onView(withId(R.id.amount)).perform(replaceText("2.00"),
+                closeSoftKeyboard());
+        onView(withId(R.id.done)).perform(click());
+        onView(withText("$2.00")).check(matches(isDisplayed()));
+
+        deleteTransaction("TRANSACTION 2");
     }
 
     public void addTestTransaction(int number, double amount, Flow flow, String category,
