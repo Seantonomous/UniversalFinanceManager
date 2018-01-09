@@ -22,6 +22,9 @@ public class DiskIOThreadExecutor implements Executor {
 
     @Override
     public void execute(@NonNull Runnable command) {
+        EspressoIdlingResource.increment();
         mDiskIO.execute(command);
+        // decrement the idling resources once executing the command has been finished
+        EspressoIdlingResource.decrement();
     }
 }

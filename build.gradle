@@ -19,6 +19,11 @@ allprojects {
     }
 }
 
+// Define versions in a single place
+ext {
+    espressoVersion = '3.0.1'
+}
+
 task clean(type: Delete) {
     delete rootProject.buildDir
 }

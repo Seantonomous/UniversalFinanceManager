@@ -1,7 +1,12 @@
 package ufm.universalfinancemanager;
 
+import android.support.annotation.VisibleForTesting;
+
+import javax.inject.Inject;
+
 import dagger.android.AndroidInjector;
 import dagger.android.DaggerApplication;
+import ufm.universalfinancemanager.db.TransactionRepository;
 import ufm.universalfinancemanager.di.DaggerAppComponent;
 
 /**
@@ -10,9 +15,16 @@ import ufm.universalfinancemanager.di.DaggerAppComponent;
  */
 
 public class ufmApplication extends DaggerApplication {
+    @Inject
+    TransactionRepository transactionRepository;
 
     @Override
     protected AndroidInjector<? extends DaggerApplication> applicationInjector() {
         return DaggerAppComponent.builder().application(this).build();
+    }
+
+    @VisibleForTesting
+    public TransactionRepository getTransactionRepository() {
+        return transactionRepository;
     }
 }
