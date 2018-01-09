@@ -13,41 +13,33 @@ Contributing Team Members:-->
     android:background="@android:color/white">
 
     <TableRow>
-        <TextView android:id="@+id/trans_date"
-            android:textSize="18sp"
-            android:padding="4dp">
-        </TextView>
-
         <TextView
             android:id="@+id/trans_name"
             android:ellipsize="end"
             android:padding="4dp"
             android:textColor="@color/colorPrimary"
+            android:layout_gravity="start"
+            android:textStyle="bold"
             android:textSize="18sp"/>
 
         <TextView android:id="@+id/trans_amount"
-            android:textSize="18sp"
-            android:textColor="@color/colorPrimary"
-            android:padding="4dp"
-            android:gravity="end">
+            android:layout_gravity="end"
+            android:textSize="22sp"
+            android:layout_weight="1">
         </TextView> 
     </TableRow>
 
     <TableRow>
         <TextView android:id="@+id/trans_account"
-            android:textSize="18sp"
+            android:textSize="14sp"
             android:ellipsize="end"
             android:textColor="@color/colorPrimary"
             android:padding="4dp">
         </TextView>
 
-        <TextView>
-
-        </TextView>
-
         <TextView android:id="@+id/trans_category"
             android:gravity="end"
-            android:textSize="18sp"
+            android:textSize="14sp"
             android:ellipsize="end"
             android:textColor="@color/colorPrimary"
             android:padding="4dp">

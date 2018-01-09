@@ -16,6 +16,7 @@ import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.Ignore;
 import android.arch.persistence.room.PrimaryKey;
 import android.arch.persistence.room.TypeConverters;
+import android.graphics.Color;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.support.annotation.NonNull;
@@ -155,16 +156,22 @@ public class Transaction implements ListItem, Serializable {
             view = convertView;
 
         //Instantiate all the textviews from the layout
-        TextView dateText = view.findViewById(R.id.trans_date);
         TextView nameText = view.findViewById(R.id.trans_name);
         TextView amountText = view.findViewById(R.id.trans_amount);
         TextView accountText = view.findViewById(R.id.trans_account);
         TextView categoryText = view.findViewById(R.id.trans_category);
 
         //Set the text of each textview based on its corresponding transaction attribute
-        dateText.setText(dateFormat.format(this.date));
         nameText.setText(this.name);
         amountText.setText(num_format.format(this.amount));
+
+        //set text color based on flow type
+        if(flow == Flow.OUTCOME)
+            amountText.setTextColor(Color.RED); //red
+        else if(flow == Flow.INCOME)
+            amountText.setTextColor(Color.GREEN); //green
+        else if(flow == Flow.TRANSFER)
+            amountText.setTextColor(Color.BLUE); //blue
 
         if(fromAccount != null)
             accountText.setText(this.fromAccount.toString());
