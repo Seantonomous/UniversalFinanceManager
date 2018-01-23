@@ -103,45 +103,7 @@ public class Transaction implements ListItem, Serializable {
         dateFormat = new SimpleDateFormat("MM/dd", Locale.ENGLISH);
         num_format = NumberFormat.getCurrencyInstance();
     }
-/*
-    public Transaction(Parcel in) {
-        name = in.readString();
-        flow = Flow.valueOf(in.readString());
-        amount = in.readDouble();
-        category = new Category(in.readString(), flow);
-        account = in.readParcelable(Account.class.getClassLoader());
-        date = new Date(in.readLong());
 
-        dateFormat = new SimpleDateFormat("MM/dd", Locale.ENGLISH);
-        num_format = NumberFormat.getCurrencyInstance();
-    }
-
-    @Override
-    public int describeContents() {
-        return 0;
-    }
-
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(this.name);
-        dest.writeString(flow.name());
-        dest.writeDouble(this.amount);
-        dest.writeString(this.category.toString());
-        dest.writeParcelable(this.account, flags);
-        dest.writeLong(this.date.getTime());
-    }
-
-    //Needed for parcelable types
-    public static final Parcelable.Creator<Transaction> CREATOR = new Parcelable.Creator<Transaction>() {
-        public Transaction createFromParcel(Parcel p) {
-            return new Transaction(p);
-        }
-
-        public Transaction[] newArray(int size) {
-            return new Transaction[size];
-        }
-    };
-*/
     @Override
     public int getViewType() {
         return RowType.LIST_ITEM.ordinal();

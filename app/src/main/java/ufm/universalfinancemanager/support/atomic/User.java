@@ -16,11 +16,12 @@ import android.os.Parcelable;
 import java.io.Serializable;
 
 import ufm.universalfinancemanager.db.entity.Transaction;
+import ufm.universalfinancemanager.support.Flow;
 
 import java.util.ArrayList;
 import java.util.Locale;
 
-public class User implements Parcelable, Serializable {
+public class User implements Serializable {
     private String username;
 
     //Placeholder, won't actually be string
@@ -28,7 +29,8 @@ public class User implements Parcelable, Serializable {
 
     private ArrayList<Account> accounts;
     //private ArrayList<Budget> budgets;
-    private ArrayList<Category> categories;
+    private ArrayList<Category> incomeCategories;
+    private ArrayList<Category> expenseCategories;
 
     //Later
     //private ArrayList<Reminder> reminders;
@@ -36,21 +38,15 @@ public class User implements Parcelable, Serializable {
     public User(String username) {
         this.username = username;
         this.password = "";
-        this.accounts = new ArrayList<Account>();
-        this.categories = new ArrayList<Category>();
+        this.accounts = new ArrayList<>();
+        this.incomeCategories = new ArrayList<>();
+        this.expenseCategories = new ArrayList<>();
     }
 
     public User() {
         this.accounts = new ArrayList<>();
-        this.categories = new ArrayList<>();
-    }
-
-    public User(Parcel in) {
-        this();
-        this.username = in.readString();
-        this.password = in.readString();
-        in.readTypedList(this.accounts, Account.CREATOR);
-        in.readTypedList(this.categories, Category.CREATOR);
+        this.incomeCategories = new ArrayList<>();
+        this.expenseCategories = new ArrayList<>();
     }
 
     public User(String username, String password, ArrayList<Account> accounts,
@@ -58,7 +54,7 @@ public class User implements Parcelable, Serializable {
         this.username = username;
         this.password = password;
         this.accounts = accounts;
-        this.categories = categories;
+        this.incomeCategories = categories;
     }
 
     public void setUserName(String name) {
@@ -97,11 +93,18 @@ public class User implements Parcelable, Serializable {
     }
 
     public boolean hasCategory(String name) {
-        for(int i=0;i<categories.size();i++) {
-            if(categories.get(i).getName().equals(name)) {
+        for(int i=0;i<incomeCategories.size();i++) {
+            if(incomeCategories.get(i).getName().equals(name)) {
                 return true;
             }
         }
+
+        for(int i=0;i<expenseCategories.size();i++) {
+            if(expenseCategories.get(i).getName().equals(name)) {
+                return true;
+            }
+        }
+
         return false;
     }
 
@@ -127,46 +130,36 @@ public class User implements Parcelable, Serializable {
     */
 
     public boolean addCategory(Category c) throws RuntimeException {
-        for(int i=0;i<categories.size();i++)
-            if(categories.get(i).getName().equals(c.getName()))
-                throw new RuntimeException("Category with same name already exists");
+        if(c.getFlow() == Flow.INCOME) {
+            for(int i=0;i<incomeCategories.size();i++)
+                if(incomeCategories.get(i).getName().equals(c.getName()))
+                    throw new RuntimeException("Category with same name already exists");
+            incomeCategories.add(c);
+        }else {
+            for(int i=0;i<expenseCategories.size();i++)
+                if(expenseCategories.get(i).getName().equals(c.getName()))
+                    throw new RuntimeException("Category with same name already exists");
+            expenseCategories.add(c);
+        }
 
-        categories.add(c);
         return true;
     }
 
     public Category getCategory(String name) throws RuntimeException {
-        for(int i=0;i<categories.size();i++)
-            if(categories.get(i).getName().equals(name))
-                return categories.get(i);
+        for(int i=0;i<incomeCategories.size();i++)
+            if(incomeCategories.get(i).getName().equals(name))
+                return incomeCategories.get(i);
+
+        for(int i=0;i<expenseCategories.size();i++)
+            if(expenseCategories.get(i).getName().equals(name))
+                return expenseCategories.get(i);
 
         throw new RuntimeException(String.format("Category %s not found", name));
     }
 
-    public ArrayList<Category> getCategories() {
-        return this.categories;
+    public ArrayList<Category> getIncomeCategories() {
+        return this.incomeCategories;
     }
+    public ArrayList<Category> getExpenseCategories() { return this.expenseCategories; }
 
-    @Override
-    public int describeContents() {
-        return 0;
-    }
-
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(this.username);
-        dest.writeString(this.password);
-        dest.writeTypedList(this.accounts);
-        dest.writeTypedList(this.categories);
-    }
-
-    public static final Parcelable.Creator<User> CREATOR = new Parcelable.Creator<User>() {
-        public User createFromParcel(Parcel p) {
-            return new User(p);
-        }
-
-        public User[] newArray(int size) {
-            return new User[size];
-        }
-    };
 }

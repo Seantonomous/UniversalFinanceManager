@@ -94,10 +94,35 @@ public class Account implements Parcelable, Serializable, ListItem {
                     case INCOME:
                         balance += t.getAmount();
                         break;
+                    case TRANSFER:
+                        if(t.getFromAccount() == this)
+                            balance -= t.getAmount();
+                        else
+                            balance += t.getAmount();
                 }
                 break;
             case CREDIT_CARD:
                 break;
+        }
+    }
+
+    public void unregisterTransaction(Transaction t) {
+        switch(type) {
+            case CHECKING:
+                switch(t.getFlow()) {
+                    case OUTCOME:
+                        balance += t.getAmount();
+                        break;
+                    case INCOME:
+                        balance -= t.getAmount();
+                        break;
+                    case TRANSFER:
+                        if(t.getFromAccount() == this)
+                            balance -= t.getAmount();
+                        else
+                            balance += t.getAmount();
+
+                }
         }
     }
 

@@ -245,10 +245,12 @@ public class AddEditTransactionFragment extends DaggerFragment implements AddEdi
     }
 
     @Override
-    public void setupFragmentContent(@Nullable List<Category> categories,
-        @Nullable List<Account> accounts, boolean editing) {
+    public void setupFragmentContent(@Nullable List<Account> accounts, boolean editing) {
 
         isEditing = editing;
+
+        accountSpinnerAdapter = new ArrayAdapter<>(getContext(),
+                android.R.layout.simple_spinner_item, accounts);
 
         if(isEditing)
             cancel_button.setText("Delete");
@@ -257,17 +259,20 @@ public class AddEditTransactionFragment extends DaggerFragment implements AddEdi
             onFlowChecked(expense_radioButton);
         }
 
-        categorySpinnerAdapter = new ArrayAdapter<>(getContext(),
-                android.R.layout.simple_spinner_item, categories);
-        categorySpinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        category_spinner.setAdapter(categorySpinnerAdapter);
-
-        accountSpinnerAdapter = new ArrayAdapter<>(getContext(),
-                android.R.layout.simple_spinner_item, accounts);
         accountSpinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
         fromAccount_spinner.setAdapter(accountSpinnerAdapter);
         toAccount_spinner.setAdapter(accountSpinnerAdapter);
+    }
+
+    @Override
+    public void updateCategories(List<Category> categories) {
+        categorySpinnerAdapter = new ArrayAdapter<>(getContext(),
+                android.R.layout.simple_spinner_item, categories);
+
+        categorySpinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        category_spinner.setAdapter(categorySpinnerAdapter);
+
     }
 
     @Override
@@ -280,15 +285,15 @@ public class AddEditTransactionFragment extends DaggerFragment implements AddEdi
         if(flow == Flow.INCOME) {
             income_radioButton.setChecked(true);
             toAccount_spinner.setSelection(accountSpinnerAdapter.getPosition(toAccountName));
-            category_spinner.setSelection(categorySpinnerAdapter.getPosition(categoryName));
 
             onFlowChecked(income_radioButton);
+            category_spinner.setSelection(categorySpinnerAdapter.getPosition(categoryName));
         }else if(flow == Flow.OUTCOME) {
             expense_radioButton.setChecked(true);
             fromAccount_spinner.setSelection(accountSpinnerAdapter.getPosition(fromAccountName));
-            category_spinner.setSelection(categorySpinnerAdapter.getPosition(categoryName));
 
             onFlowChecked(expense_radioButton);
+            category_spinner.setSelection(categorySpinnerAdapter.getPosition(categoryName));
         }else {
             transfer_radioButton.setChecked(true);
             onFlowChecked(transfer_radioButton);
@@ -312,6 +317,9 @@ public class AddEditTransactionFragment extends DaggerFragment implements AddEdi
                 fromAccount_spinner.setEnabled(false); // Disable FromAccount Spinner
                 category_spinner.setEnabled(true);  //Enable Category Spinner
 
+                //Replace current categories w/ income categories
+                mPresenter.getUpdatedCategories(Flow.INCOME);
+
                 // Change Category Spinner to show Income type Categories
                 edit_name.setEnabled(true);
                 edit_name.setPaintFlags(edit_name.getPaintFlags()  & (~ Paint.STRIKE_THRU_TEXT_FLAG));
@@ -323,6 +331,9 @@ public class AddEditTransactionFragment extends DaggerFragment implements AddEdi
                 toAccount_spinner.setEnabled(false); // Disable ToAccount Spinner
                 fromAccount_spinner.setEnabled(true); // Enable FromAccount Spinner
                 category_spinner.setEnabled(true);  //Enable Category Spinner
+
+                //Replace current categories w/ expense categories
+                mPresenter.getUpdatedCategories(Flow.OUTCOME);
 
                 // Change Category Spinner to show Expense type Categories
                 edit_name.setEnabled(true);

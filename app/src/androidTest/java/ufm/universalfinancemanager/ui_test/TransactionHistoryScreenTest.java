@@ -1,9 +1,10 @@
-package ufm.universalfinancemanager;
+package ufm.universalfinancemanager.ui_test;
 
 import android.support.test.InstrumentationRegistry;
 import android.support.test.espresso.Espresso;
 import android.support.test.espresso.IdlingRegistry;
 import android.support.test.espresso.action.ViewActions;
+import android.support.test.espresso.matcher.ViewMatchers;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
 
@@ -17,8 +18,10 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 
+import ufm.universalfinancemanager.R;
 import ufm.universalfinancemanager.support.Flow;
 import ufm.universalfinancemanager.transactionhistory.TransactionHistoryActivity;
+import ufm.universalfinancemanager.ufmApplication;
 import ufm.universalfinancemanager.util.EspressoIdlingResource;
 
 import static android.support.test.InstrumentationRegistry.getInstrumentation;
@@ -66,7 +69,7 @@ public class TransactionHistoryScreenTest {
     @Test
     public void testClickAddTransactionMenuItem_opensAddEditUI() {
         openAddTransactionMenu();
-        onView(withId(R.id.name)).check(matches(isDisplayed()));
+        onView(ViewMatchers.withId(R.id.name)).check(matches(isDisplayed()));
     }
 
     @Test
