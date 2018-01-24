@@ -27,6 +27,12 @@ Contributing Team Members: Areeba Waheed 10/21/17-->
     <string name="nav_reminders">Reminders</string>
     <string name="nav_settings">Settings</string>
 
+    <!--Add Page Titles-->
+    <string name="account_add_title">Add Account</string>
+    <string name="account_edit_title">Edit Account</string>
+    <string name="transaction_add_title">Add Transaction</string>
+    <string name="transaction_edit_title">Edit Transaction</string>
+
     <!--Errors/Misc-->
     <string name="no_transactions">No Transactions to Show!</string>
 

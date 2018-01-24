@@ -40,7 +40,7 @@ public class Account_Add extends Activity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.add_account);
+        setContentView(R.layout.addedit_account_fragment);
 
         final EditText edit_name = (EditText)findViewById(R.id.name);
         final EditText edit_amount = (EditText)findViewById(R.id.balance);
@@ -144,7 +144,7 @@ public class Account_Add extends Activity {
     //@Nullable
     //@Override
     //public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
-      //  View view = inflater.inflate(R.layout.add_account, container, false);
+      //  View view = inflater.inflate(R.layout.addedit_account_fragment, container, false);
         //return view;
     //}
 }

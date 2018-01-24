@@ -1,4 +1,4 @@
-package ufm.universalfinancemanager.addedittransaction;
+package ufm.universalfinancemanager.addeditaccount;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -11,24 +11,26 @@ import android.view.View;
 
 import javax.inject.Inject;
 
-import dagger.Lazy;
 import dagger.android.support.DaggerAppCompatActivity;
 import ufm.universalfinancemanager.R;
+import ufm.universalfinancemanager.addedittransaction.AddEditTransactionFragment;
+import ufm.universalfinancemanager.di.ActivityScoped;
 import ufm.universalfinancemanager.util.ActivityUtils;
 
 /**
- * Created by smh7 on 12/14/17.
+ * Created by smh7 on 1/23/18.
  */
 
-public class AddEditTransactionActivity extends DaggerAppCompatActivity {
+@ActivityScoped
+public class AddEditAccountActivity extends DaggerAppCompatActivity {
     @Inject
-    AddEditTransactionPresenter mPresenter;
+    AddEditAccountPresenter mPresenter;
     @Inject
-    AddEditTransactionFragment mFragment;
+    AddEditAccountFragment mFragment;
 
-    @Inject
-    @Nullable
-    String transactionId;
+    //@Inject
+    //@Nullable
+    String accountName;
 
     private DrawerLayout mDrawerLayout;
     private ActionBarDrawerToggle mDrawerToggle;
@@ -36,22 +38,23 @@ public class AddEditTransactionActivity extends DaggerAppCompatActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.addedit_transaction_activity);
+        setContentView(R.layout.addedit_account_activity);
 
         mDrawerLayout = findViewById(R.id.drawer_layout);
         NavigationView navigationView = findViewById(R.id.nav_view);
+
         if(navigationView == null) {
             setupDrawerContent(navigationView);
         }
 
-        AddEditTransactionFragment addEditTransactionFragment =
-                (AddEditTransactionFragment)getSupportFragmentManager().findFragmentById(R.id.contentFrame);
+        AddEditAccountFragment addEditAccountFragment =
+                (AddEditAccountFragment)getSupportFragmentManager().findFragmentById(R.id.contentFrame);
 
-        if(addEditTransactionFragment == null) {
-            addEditTransactionFragment = mFragment;
+        if(addEditAccountFragment == null) {
+            addEditAccountFragment = mFragment;
 
             ActivityUtils.addFragmentToActivity(getSupportFragmentManager(),
-                    addEditTransactionFragment , R.id.contentFrame);
+                    addEditAccountFragment , R.id.contentFrame);
         }
 
         mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout, R.string.drawer_open,
@@ -71,16 +74,16 @@ public class AddEditTransactionActivity extends DaggerAppCompatActivity {
 
         mDrawerLayout.addDrawerListener(mDrawerToggle);
 
-        setToolbarTitle(transactionId);
+        setToolbarTitle(accountName);
         getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_menu);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
     private void setToolbarTitle(@Nullable String Id) {
         if(Id == null) {
-            setTitle(R.string.transaction_add_title);
+            setTitle(R.string.account_add_title);
         } else {
-            setTitle(R.string.transaction_edit_title);
+            setTitle(R.string.account_edit_title);
         }
     }
 
@@ -107,7 +110,7 @@ public class AddEditTransactionActivity extends DaggerAppCompatActivity {
                                 //switch to budget overview activity
                                 break;
                             case R.id.trans_history_menu_item:
-                                //Do nothing we're already here
+                                //switch to transaction history activity
                                 break;
                             case R.id.inout_menu_item:
                                 //switch to input output activity
@@ -128,11 +131,4 @@ public class AddEditTransactionActivity extends DaggerAppCompatActivity {
                 }
         );
     }
-
-
-
-
-
-
 }
-
