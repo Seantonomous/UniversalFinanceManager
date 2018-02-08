@@ -13,7 +13,6 @@ import javax.inject.Inject;
 
 import dagger.android.support.DaggerAppCompatActivity;
 import ufm.universalfinancemanager.R;
-import ufm.universalfinancemanager.addedittransaction.AddEditTransactionFragment;
 import ufm.universalfinancemanager.di.ActivityScoped;
 import ufm.universalfinancemanager.util.ActivityUtils;
 

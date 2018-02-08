@@ -1,9 +1,7 @@
 package ufm.universalfinancemanager.addeditaccount;
 
 import android.app.Activity;
-import android.content.Intent;
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
@@ -13,14 +11,12 @@ import dagger.android.support.DaggerFragment;
 import ufm.universalfinancemanager.R;
 import ufm.universalfinancemanager.support.AccountType;
 import ufm.universalfinancemanager.support.TextValidator;
-import ufm.universalfinancemanager.support.atomic.Account;
 
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
-import android.widget.SpinnerAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 

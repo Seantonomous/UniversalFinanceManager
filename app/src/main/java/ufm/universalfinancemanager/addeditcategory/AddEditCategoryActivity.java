@@ -13,8 +13,6 @@ import javax.inject.Inject;
 
 import dagger.android.support.DaggerAppCompatActivity;
 import ufm.universalfinancemanager.R;
-import ufm.universalfinancemanager.AddEditCategory.AddEditCategoryFragment;
-import ufm.universalfinancemanager.AddEditCategory.AddEditCategoryPresenter;
 import ufm.universalfinancemanager.di.ActivityScoped;
 import ufm.universalfinancemanager.util.ActivityUtils;
 
@@ -28,10 +26,6 @@ public class AddEditCategoryActivity extends DaggerAppCompatActivity {
     AddEditCategoryPresenter mPresenter;
     @Inject
     AddEditCategoryFragment mFragment;
-
-    //@Inject
-    //@Nullable
-    String accountName;
 
     private DrawerLayout mDrawerLayout;
     private ActionBarDrawerToggle mDrawerToggle;
@@ -75,17 +69,9 @@ public class AddEditCategoryActivity extends DaggerAppCompatActivity {
 
         mDrawerLayout.addDrawerListener(mDrawerToggle);
 
-        setToolbarTitle(accountName);
+        setTitle("Add Category");
         getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_menu);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-    }
-
-    private void setToolbarTitle(@Nullable String Id) {
-        if(Id == null) {
-            setTitle(R.string.account_add_title);
-        } else {
-            setTitle(R.string.account_edit_title);
-        }
     }
 
     @Override

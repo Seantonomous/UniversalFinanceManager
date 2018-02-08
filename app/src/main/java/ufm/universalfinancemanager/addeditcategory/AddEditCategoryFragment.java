@@ -8,13 +8,12 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RadioButton;
-import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import javax.inject.Inject;
 
-import dagger.android.DaggerFragment;
+import dagger.android.support.DaggerFragment;
 import ufm.universalfinancemanager.R;
 import ufm.universalfinancemanager.support.Flow;
 import ufm.universalfinancemanager.support.TextValidator;
@@ -26,13 +25,27 @@ public class AddEditCategoryFragment extends DaggerFragment implements AddEditCa
 
     private boolean valid_name = false;
 
+    @Inject
+    public AddEditCategoryFragment() {}
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        mPresenter.takeView(this);
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        mPresenter.dropView();
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View root = inflater.inflate(R.layout.addedit_account_fragment, container, false);
+        View root = inflater.inflate(R.layout.add_edit_category_fragment, container, false);
 
         final EditText edit_name = root.findViewById(R.id.category_name);
         final RadioButton income_radioButton = root.findViewById(R.id.category_flow_income);
-        final RadioButton expense_radioButton = root.findViewById(R.id.category_flow_expense);
         Button submit_button = root.findViewById(R.id.submit);
         Button cancel_button = root.findViewById(R.id.cancel);
 
@@ -55,9 +68,9 @@ public class AddEditCategoryFragment extends DaggerFragment implements AddEditCa
             public void onClick(View v) {
                 if(valid_name) {
                     if(income_radioButton.isChecked())
-                        mPresenter.saveCategory(edit_name.getText(),Flow.INCOME);
-                    else(expense_radioButton.isChecked())
-                        mPresenter.saveCategory(edit_name.getText(),Flow.OUTCOME);
+                        mPresenter.saveCategory(edit_name.getText().toString(),Flow.INCOME);
+                    else
+                        mPresenter.saveCategory(edit_name.getText().toString(),Flow.OUTCOME);
                 }
             }
         });

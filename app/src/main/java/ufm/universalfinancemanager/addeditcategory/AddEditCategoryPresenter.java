@@ -29,10 +29,10 @@ public class AddEditCategoryPresenter implements AddEditCategoryContract.Present
         if(name.length() > 25) {
             if(mAddEditCategoryview != null)
                 mAddEditCategoryview.showMessage("Category name too long!");
-        }else if(mUser.hasCategory(name))
-            if(mAddEditCategoryview !=null)
+        }else if(mUser.hasCategory(name)) {
+            if (mAddEditCategoryview != null)
                 mAddEditCategoryview.showMessage("A category by that name already exists.");
-        else {
+        }else {
             mUser.addCategory(new Category(name, flow));
             mAddEditCategoryview.showLastActivity(true);
         }
