@@ -1,4 +1,4 @@
-package ufm.universalfinancemanager.addeditaccount;
+package ufm.universalfinancemanager.addeditcategory;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -17,19 +17,15 @@ import ufm.universalfinancemanager.di.ActivityScoped;
 import ufm.universalfinancemanager.util.ActivityUtils;
 
 /**
- * Created by smh7 on 1/23/18.
+ * Created by smh7 on 2/7/18.
  */
 
 @ActivityScoped
-public class AddEditAccountActivity extends DaggerAppCompatActivity {
+public class AddEditCategoryActivity extends DaggerAppCompatActivity {
     @Inject
-    AddEditAccountPresenter mPresenter;
+    AddEditCategoryPresenter mPresenter;
     @Inject
-    AddEditAccountFragment mFragment;
-
-    //@Inject
-    //@Nullable
-    String accountName;
+    AddEditCategoryFragment mFragment;
 
     private DrawerLayout mDrawerLayout;
     private ActionBarDrawerToggle mDrawerToggle;
@@ -46,14 +42,14 @@ public class AddEditAccountActivity extends DaggerAppCompatActivity {
             setupDrawerContent(navigationView);
         }
 
-        AddEditAccountFragment addEditAccountFragment =
-                (AddEditAccountFragment)getSupportFragmentManager().findFragmentById(R.id.contentFrame);
+        AddEditCategoryFragment AddEditCategoryFragment =
+                (AddEditCategoryFragment)getSupportFragmentManager().findFragmentById(R.id.contentFrame);
 
-        if(addEditAccountFragment == null) {
-            addEditAccountFragment = mFragment;
+        if(AddEditCategoryFragment == null) {
+            AddEditCategoryFragment = mFragment;
 
             ActivityUtils.addFragmentToActivity(getSupportFragmentManager(),
-                    addEditAccountFragment , R.id.contentFrame);
+                    AddEditCategoryFragment , R.id.contentFrame);
         }
 
         mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout, R.string.drawer_open,
@@ -73,17 +69,9 @@ public class AddEditAccountActivity extends DaggerAppCompatActivity {
 
         mDrawerLayout.addDrawerListener(mDrawerToggle);
 
-        setToolbarTitle(accountName);
+        setTitle("Add Category");
         getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_menu);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-    }
-
-    private void setToolbarTitle(@Nullable String Id) {
-        if(Id == null) {
-            setTitle(R.string.account_add_title);
-        } else {
-            setTitle(R.string.account_edit_title);
-        }
     }
 
     @Override

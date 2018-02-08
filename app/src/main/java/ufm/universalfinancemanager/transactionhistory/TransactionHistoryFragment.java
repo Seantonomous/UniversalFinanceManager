@@ -32,6 +32,7 @@ import javax.inject.Inject;
 
 import dagger.android.support.DaggerFragment;
 import ufm.universalfinancemanager.addeditaccount.AddEditAccountActivity;
+import ufm.universalfinancemanager.addeditcategory.AddEditCategoryActivity;
 import ufm.universalfinancemanager.addedittransaction.AddEditTransactionActivity;
 import ufm.universalfinancemanager.R;
 import ufm.universalfinancemanager.db.entity.Transaction;
@@ -136,6 +137,8 @@ public class TransactionHistoryFragment extends DaggerFragment implements Transa
             case R.id.action_add_account:
                 startActivity(new Intent(getContext(), AddEditAccountActivity.class));
                 break;
+            case R.id.action_add_category:
+                startActivity(new Intent(getContext(), AddEditCategoryActivity.class));
         }
         return true;
     }

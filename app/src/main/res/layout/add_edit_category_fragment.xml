@@ -53,12 +53,6 @@ Contributing Team Members:
             android:layout_height="wrap_content"
             android:text="Expense"
             android:textSize="15sp" />
-
-        <RadioButton android:id="@+id/category_flow_transfer"
-            android:layout_width="120dp"
-            android:layout_height="wrap_content"
-            android:text="Transfer"
-            android:textSize="15sp" />
     </RadioGroup>
 
 
