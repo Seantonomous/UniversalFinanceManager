@@ -46,6 +46,8 @@ Contributing Team Members:
             android:theme="@style/AppTheme"/>
         <activity android:name=".addeditaccount.AddEditAccountActivity"
             android:theme="@style/AppTheme"/>
+        <activity android:name=".addeditcategory.AddEditCategoryActivity"
+            android:theme="@style/AppTheme"/>
     </application>
 
 </manifest>

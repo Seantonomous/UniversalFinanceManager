@@ -38,7 +38,7 @@ public class Category_Add extends Activity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.add_category);
+        setContentView(R.layout.add_edit_category_fragment);
         final User sessionUser;
 
         final EditText edit_name = (EditText)findViewById(R.id.category_name);
