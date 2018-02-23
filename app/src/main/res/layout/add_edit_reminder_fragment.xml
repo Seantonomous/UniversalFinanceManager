@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--Author: Areeba Waheed
+Date Started: 10/21/17
+Date Completed:
+Peer Review:
+    Date:
+    Team Members:
+Contributing Team Members:
+-->
+
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="10dp"
+    android:fillViewport="false">
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:orientation="vertical" android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:weightSum="1">
+
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Add Reminder"
+            android:textColor="@color/colorPrimary"
+            android:textSize="18sp"
+            android:visibility="visible" />
+
+        <EditText
+            android:layout_below="@id/textView"
+            android:id="@+id/label"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Label"
+            android:inputType="text" />
+
+        <!--Drop Down menu for frequency selection-->
+        <TimePicker
+            android:layout_below="@id/label"
+            android:id="@+id/timePicker"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <CheckBox
+            android:layout_below="@id/timePicker"
+            android:id="@+id/frequency"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Remind me on a day" />
+
+        <TextView
+            android:id="@+id/dateTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_below="@id/frequency"
+            android:text="Date:"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textSize="18sp" />
+
+        <EditText
+            android:id="@+id/date"
+            android:layout_below="@id/dateTextView"
+            android:layout_alignParentStart="true"
+            android:layout_width="160dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.02"
+            android:contextClickable="false"
+            android:onClick="setDate"
+            android:inputType="date"
+            android:textSize="20sp"
+            android:textAlignment="center"
+            android:hint="DD / MM / YYYY" />
+
+
+
+        <Spinner
+            android:id="@+id/weekly"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@+id/date"
+            android:layout_alignBottom="@+id/date"
+            android:layout_alignParentEnd="true"
+            android:background="@android:drawable/btn_dropdown"
+            android:entries="@array/duration" />
+
+        <EditText
+            android:layout_below="@id/weekly"
+            android:id="@+id/notes"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.27"
+            android:hint="Notes"
+            android:inputType="textShortMessage" />
+
+        <Button
+            android:id="@+id/done"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/cancel"
+            android:layout_marginBottom="0dp"
+            android:layout_marginEnd="68dp"
+            android:layout_toStartOf="@+id/weekly"
+            android:text="Submit" />
+
+
+        <Button
+            android:layout_alignParentRight="true"
+            android:layout_below="@id/notes"
+            android:id="@+id/cancel"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:text="Cancel" />
+
+
+
+    </RelativeLayout>
+
+</ScrollView>

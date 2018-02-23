@@ -18,21 +18,22 @@ Contributing Team Members:
         android:supportsRtl="true">
         <activity
             android:name=".ui.Login_Activity"
-            android:theme="@style/NoTitleBar">
+            android:theme="@style/NoTitleBar"/>
 
-        </activity>
-        <activity
-            android:name=".ui.Account_Add"
-            android:theme="@style/AppTheme" />
-        <activity
-            android:name=".ui.Category_Add"
-            android:theme="@style/AppTheme" />
-        <activity
-            android:name=".ui.Reminder_Add"
-            android:theme="@style/AppTheme" />
-        <activity
-            android:name=".ui.Budget_Add"
-            android:theme="@style/AppTheme" />
+    <activity
+        android:name=".ui.Account_Add"
+        android:theme="@style/AppTheme" />
+    <activity
+        android:name=".ui.Category_Add"
+        android:theme="@style/AppTheme" />
+
+    <activity
+        android:name=".ui.Reminder_Add"
+        android:theme="@style/AppTheme" />
+
+    <activity
+        android:name=".ui.Budget_Add"
+        android:theme="@style/AppTheme" />
         <activity
             android:name=".transactionhistory.TransactionHistoryActivity"
             android:theme="@style/AppTheme">
@@ -47,6 +48,8 @@ Contributing Team Members:
         <activity android:name=".addeditaccount.AddEditAccountActivity"
             android:theme="@style/AppTheme"/>
         <activity android:name=".addeditcategory.AddEditCategoryActivity"
+            android:theme="@style/AppTheme"/>
+        <activity android:name=".addeditreminder.AddEditReminderActivity"
             android:theme="@style/AppTheme"/>
     </application>
 
