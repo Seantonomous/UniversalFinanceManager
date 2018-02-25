@@ -15,10 +15,11 @@
         <TextView android:id="@+id/networth_account"
             android:textSize="18sp"
             android:ellipsize="end"
+            android:textColor="@color/colorPrimary"
             android:padding="4dp">
         </TextView>
 
-        <TextView>
+        <TextView >
 
         </TextView>
 
@@ -26,6 +27,7 @@
             android:gravity="end"
             android:textSize="18sp"
             android:ellipsize="end"
+            android:textColor="@color/colorPrimary"
             android:padding="4dp">
         </TextView>
     </TableRow>
