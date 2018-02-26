@@ -36,7 +36,9 @@ import android.widget.Toast;
  */
 
 public class AddEditReminderFragment extends DaggerFragment implements AddEditReminderContract.View {
-    public AddEditReminderPresenter mPresenter;
+    @Inject
+    AddEditReminderPresenter mPresenter;
+
     private EditText edit_name;
     private EditText edit_date;
     private TextView date_textView;
@@ -62,6 +64,7 @@ public class AddEditReminderFragment extends DaggerFragment implements AddEditRe
         year = calendar.get(Calendar.YEAR);
         month = calendar.get(Calendar.MONTH);
         day = calendar.get(Calendar.DAY_OF_MONTH);
+        Button cancel_button = root.findViewById(R.id.cancel);
 
         showDate(year,month+1,day);
 
@@ -76,9 +79,15 @@ public class AddEditReminderFragment extends DaggerFragment implements AddEditRe
                 }
             }
         });
-
+        cancel_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showLastActivity(false);
+            }
+        });
         return root;
     }
+
 
     private void showDate(int year, int month, int day) {
         edit_date.setText(new StringBuilder().append(day).append(" / ")
