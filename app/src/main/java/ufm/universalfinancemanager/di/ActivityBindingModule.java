@@ -8,6 +8,8 @@ import dagger.Module;
 import dagger.android.ContributesAndroidInjector;
 import ufm.universalfinancemanager.addeditaccount.AddEditAccountActivity;
 import ufm.universalfinancemanager.addeditaccount.AddEditAccountModule;
+import ufm.universalfinancemanager.addeditbudget.AddEditBudgetActivity;
+import ufm.universalfinancemanager.addeditbudget.AddEditBudgetModule;
 import ufm.universalfinancemanager.addeditcategory.AddEditCategoryActivity;
 import ufm.universalfinancemanager.addeditcategory.AddEditCategoryModule;
 import ufm.universalfinancemanager.addeditreminder.AddEditReminderActivity;
@@ -45,4 +47,8 @@ public abstract class ActivityBindingModule {
     @ActivityScoped
     @ContributesAndroidInjector(modules = AddEditReminderModule.class)
     abstract AddEditReminderActivity addEditReminderActivity();
+
+    @ActivityScoped
+    @ContributesAndroidInjector(modules = AddEditBudgetModule.class)
+    abstract AddEditBudgetActivity addEditBudgetActivity();
 }

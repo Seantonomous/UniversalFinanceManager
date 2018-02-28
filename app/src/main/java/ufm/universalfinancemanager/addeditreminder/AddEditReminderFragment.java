@@ -64,7 +64,7 @@ public class AddEditReminderFragment extends DaggerFragment implements AddEditRe
         year = calendar.get(Calendar.YEAR);
         month = calendar.get(Calendar.MONTH);
         day = calendar.get(Calendar.DAY_OF_MONTH);
-        Button cancel_button = root.findViewById(R.id.cancel);
+        cancel_button = root.findViewById(R.id.cancel);
 
         showDate(year,month+1,day);
 

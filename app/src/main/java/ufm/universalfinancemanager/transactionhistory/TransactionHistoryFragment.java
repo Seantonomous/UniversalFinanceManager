@@ -32,6 +32,7 @@ import javax.inject.Inject;
 
 import dagger.android.support.DaggerFragment;
 import ufm.universalfinancemanager.addeditaccount.AddEditAccountActivity;
+import ufm.universalfinancemanager.addeditbudget.AddEditBudgetActivity;
 import ufm.universalfinancemanager.addeditcategory.AddEditCategoryActivity;
 import ufm.universalfinancemanager.addeditreminder.AddEditReminderActivity;
 import ufm.universalfinancemanager.addedittransaction.AddEditTransactionActivity;
@@ -143,6 +144,9 @@ public class TransactionHistoryFragment extends DaggerFragment implements Transa
                 break;
             case R.id.action_add_reminder:
                 startActivity(new Intent(getContext(), AddEditReminderActivity.class));
+                break;
+            case R.id.action_add_budget:
+                startActivity(new Intent(getContext(), AddEditBudgetActivity.class));
                 break;
         }
         return true;
