@@ -9,8 +9,8 @@ import ufm.universalfinancemanager.support.atomic.User;
  */
 
 public class NetworthPresenter implements NetworthContract.Presenter {
-    NetworthContract.View mView;
-    User mUser;
+    private NetworthContract.View mView;
+    private User mUser;
 
     @Inject
     NetworthPresenter(User user) {
@@ -18,7 +18,7 @@ public class NetworthPresenter implements NetworthContract.Presenter {
     }
 
     private void getNetworth() {
-
+        mView.showNetworth(mUser.getAccounts());
     }
 
     @Override

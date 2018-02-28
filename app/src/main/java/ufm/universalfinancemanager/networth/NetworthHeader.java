@@ -39,12 +39,12 @@ public class NetworthHeader implements ListItem {
         View view;
 
         if(convertView == null) {
-            view = (View)inflater.inflate(R.layout.net_worth_header_item, null);
+            view = inflater.inflate(R.layout.net_worth_header_item, null);
         }else {
             view = convertView;
         }
 
-        TextView stringNetworth = (TextView)view.findViewById(R.id.networth_header);
+        TextView stringNetworth = view.findViewById(R.id.networth_header);
         stringNetworth.setText("Total " + this.title + num_format.format(this.dblAmount));
 
         return view;

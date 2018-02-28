@@ -31,7 +31,7 @@ public class NetworthFragment extends DaggerFragment implements NetworthContract
     @Inject
     NetworthPresenter mPresenter;
 
-    NetworthAdapter mAdapter;
+    private NetworthAdapter mAdapter;
 
     @Inject
     public NetworthFragment() {}
