@@ -10,6 +10,12 @@ Contributing Team Members:-->
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:background="@color/colorBackground">
+
+    <SearchView
+        android:id="@+id/searchView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
     <LinearLayout
         android:id="@+id/transactionsLayout"
         android:layout_width="match_parent"
@@ -20,6 +26,7 @@ Contributing Team Members:-->
             android:id="@+id/transactionlist"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
+
         </ListView>
     </LinearLayout>
 

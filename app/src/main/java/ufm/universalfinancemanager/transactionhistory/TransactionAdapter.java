@@ -14,6 +14,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.SearchView;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -110,6 +111,7 @@ public class TransactionAdapter extends BaseAdapter {
                 mListener.onTransactionClicked((Transaction)getItem(position));
             }
         });
+
         return rowView;
     }
 }

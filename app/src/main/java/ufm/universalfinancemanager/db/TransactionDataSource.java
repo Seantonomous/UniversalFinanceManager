@@ -25,6 +25,8 @@ public interface TransactionDataSource {
     }
 
     void getTransactions(@NonNull LoadTransactionsCallback callback);
+    //
+    void getTransactionsSearchByName(@Nonnull LoadTransactionsCallback callback, @Nonnull String name);
 
     void getTransaction(@NonNull String transactionId, @NonNull GetTransactionCallback callback);
 

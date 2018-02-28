@@ -9,8 +9,11 @@
 */
 package ufm.universalfinancemanager.transactionhistory;
 
+import android.arch.persistence.room.Dao;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -18,7 +21,9 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
+import android.widget.SearchView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import org.w3c.dom.Text;
 
@@ -35,7 +40,12 @@ import ufm.universalfinancemanager.addeditaccount.AddEditAccountActivity;
 import ufm.universalfinancemanager.addeditcategory.AddEditCategoryActivity;
 import ufm.universalfinancemanager.addedittransaction.AddEditTransactionActivity;
 import ufm.universalfinancemanager.R;
+import ufm.universalfinancemanager.db.TransactionDataSource;
+import ufm.universalfinancemanager.db.TransactionRepository;
 import ufm.universalfinancemanager.db.entity.Transaction;
+import ufm.universalfinancemanager.db.source.local.TransactionDao;
+import ufm.universalfinancemanager.db.source.local.TransactionDao_Impl;
+import ufm.universalfinancemanager.db.source.local.TransactionDatabase;
 
 
 public class TransactionHistoryFragment extends DaggerFragment implements TransactionHistoryContract.View {
@@ -54,6 +64,7 @@ public class TransactionHistoryFragment extends DaggerFragment implements Transa
     private View mNoTransactionsView;
     private TextView mNoTransactionsTextView;
     private View mTransactionsView;
+    private SearchView mSearchView;
 
     @Inject
     public TransactionHistoryFragment() {
@@ -71,6 +82,7 @@ public class TransactionHistoryFragment extends DaggerFragment implements Transa
         super.onResume();
         mPresenter.takeView(this);
     }
+
 
     @Override
     public void onDestroy() {
@@ -117,11 +129,42 @@ public class TransactionHistoryFragment extends DaggerFragment implements Transa
         //Inflate the fragment with the corresponding layout
         View root = inflater.inflate(R.layout.transaction_history_fragment, container, false);
 
-        ListView listview = root.findViewById(R.id.transactionlist);
+        final ListView listview = root.findViewById(R.id.transactionlist);
         listview.setAdapter(mAdapter);
         mTransactionsView = root.findViewById(R.id.transactionsLayout);
         mNoTransactionsView = root.findViewById(R.id.noTransactionsLayout);
         mNoTransactionsTextView = root.findViewById(R.id.noTransactionsText);
+
+        //
+        mSearchView = root.findViewById(R.id.searchView);
+
+        mSearchView.setOnSearchClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast toast = Toast.makeText(getContext(),"CLICKED",Toast.LENGTH_SHORT);
+                toast.show();
+            }
+        });
+
+        mSearchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                Toast toast = Toast.makeText(getContext(),"Searched: " + mSearchView.getQuery().toString(),Toast.LENGTH_SHORT);
+                toast.show();
+                mPresenter.loadTransactions();
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                if(!newText.equals("")){
+                    mPresenter.loadTransactionsByName(mSearchView.getQuery().toString());
+                }else{
+                    mPresenter.loadTransactions();
+                }
+                return false;
+            }
+        });
 
         setHasOptionsMenu(true);
 
@@ -151,4 +194,6 @@ public class TransactionHistoryFragment extends DaggerFragment implements Transa
     public interface TransactionClickListener {
         void onTransactionClicked(Transaction t);
     }
+
+
 }
