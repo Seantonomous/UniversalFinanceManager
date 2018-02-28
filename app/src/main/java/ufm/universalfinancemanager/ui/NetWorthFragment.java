@@ -22,9 +22,9 @@ import ufm.universalfinancemanager.support.atomic.Account;
 import ufm.universalfinancemanager.support.AccountType;
 import ufm.universalfinancemanager.support.ListItem;
 import ufm.universalfinancemanager.support.Networth;
-import ufm.universalfinancemanager.support.NetworthAdapter;
+import ufm.universalfinancemanager.networth.NetworthAdapter;
 import ufm.universalfinancemanager.R;
-import ufm.universalfinancemanager.support.NetworthHeader;
+import ufm.universalfinancemanager.networth.NetworthHeader;
 
 public class NetWorthFragment extends ListFragment {
 
