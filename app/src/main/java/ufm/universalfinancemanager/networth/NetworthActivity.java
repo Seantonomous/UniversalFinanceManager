@@ -1,4 +1,4 @@
-package ufm.universalfinancemanager.transactionhistory;
+package ufm.universalfinancemanager.networth;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -6,7 +6,6 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 
@@ -15,18 +14,18 @@ import javax.inject.Inject;
 import dagger.Lazy;
 import dagger.android.support.DaggerAppCompatActivity;
 import ufm.universalfinancemanager.R;
-import ufm.universalfinancemanager.networth.NetworthActivity;
+import ufm.universalfinancemanager.transactionhistory.TransactionHistoryActivity;
 import ufm.universalfinancemanager.util.ActivityUtils;
 
 /**
- * Created by smh7 on 12/11/17.
+ * Created by smh7 on 2/28/18.
  */
 
-public class TransactionHistoryActivity extends DaggerAppCompatActivity {
+public class NetworthActivity extends DaggerAppCompatActivity {
     @Inject
-    TransactionHistoryPresenter mPresenter;
+    NetworthPresenter mPresenter;
     @Inject
-    Lazy<TransactionHistoryFragment> transactionHistoryFragmentProvider;
+    Lazy<NetworthFragment> mFragmentProvider;
 
     private DrawerLayout mDrawerLayout;
     private ActionBarDrawerToggle mDrawerToggle;
@@ -34,7 +33,7 @@ public class TransactionHistoryActivity extends DaggerAppCompatActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.transaction_history_activity);
+        setContentView(R.layout.networth_activity);
 
         mDrawerLayout = findViewById(R.id.drawer_layout);
         NavigationView navigationView = findViewById(R.id.nav_view);
@@ -43,14 +42,14 @@ public class TransactionHistoryActivity extends DaggerAppCompatActivity {
         }
 
         //See if the fragment is already inserted
-        TransactionHistoryFragment transactionHistoryFragment =
-                (TransactionHistoryFragment)getSupportFragmentManager().findFragmentById(R.id.contentFrame);
+        NetworthFragment networthFragment =
+                (NetworthFragment)getSupportFragmentManager().findFragmentById(R.id.contentFrame);
 
         //If it isn't, create a new one and add it to the activity
-        if(transactionHistoryFragment == null) {
-            transactionHistoryFragment = transactionHistoryFragmentProvider.get();
+        if(networthFragment == null) {
+            networthFragment = mFragmentProvider.get();
             ActivityUtils.addFragmentToActivity(getSupportFragmentManager(),
-                    transactionHistoryFragment, R.id.contentFrame);
+                    networthFragment, R.id.contentFrame);
         }
 
         //Set up the navigation drawer toggle
@@ -73,7 +72,7 @@ public class TransactionHistoryActivity extends DaggerAppCompatActivity {
 
         getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_menu);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setTitle(R.string.transaction_title);
+        getSupportActionBar().setTitle(R.string.networth_title);
     }
 
     @Override
@@ -91,7 +90,6 @@ public class TransactionHistoryActivity extends DaggerAppCompatActivity {
                 new NavigationView.OnNavigationItemSelectedListener() {
                     @Override
                     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                        Log.d("Navigation: ", "selected");
                         switch(item.getItemId()) {
                             case R.id.home_menu_item:
                                 //switch to home activity
@@ -100,14 +98,13 @@ public class TransactionHistoryActivity extends DaggerAppCompatActivity {
                                 //switch to budget overview activity
                                 break;
                             case R.id.trans_history_menu_item:
-                                //Do nothing we're already here
+                                startActivity(new Intent(getApplicationContext(), TransactionHistoryActivity.class));
                                 break;
                             case R.id.inout_menu_item:
                                 //switch to input output activity
                                 break;
                             case R.id.networth_menu_item:
-                                //switch to networth activity
-                                startActivity(new Intent(getApplicationContext(), NetworthActivity.class));
+                                //DO NOTHING
                                 break;
                             case R.id.reminder_menu_item:
                                 break;
@@ -122,10 +119,4 @@ public class TransactionHistoryActivity extends DaggerAppCompatActivity {
                 }
         );
     }
-
-
-
-
-
-
 }

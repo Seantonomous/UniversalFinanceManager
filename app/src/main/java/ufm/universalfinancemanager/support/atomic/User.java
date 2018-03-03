@@ -68,7 +68,7 @@ public class User implements Serializable {
     public boolean addAccount(Account account) throws RuntimeException {
         for(int i=0;i<accounts.size();i++)
             if(accounts.get(i).getName().equals(account.getName())) {
-                throw new RuntimeException("Account with same name already exists");
+                throw new RuntimeException("Account with same name already exists: " + account.toString());
             }
 
         accounts.add(account);
