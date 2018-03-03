@@ -102,6 +102,14 @@ public class Account implements Parcelable, Serializable, ListItem {
                 }
                 break;
             case CREDIT_CARD:
+                switch(t.getFlow()) {
+                    case OUTCOME:
+                        balance += t.getAmount();
+                        break;
+                    case TRANSFER:
+                        //Pay off credit card balance
+                        balance -= t.getAmount();
+                }
                 break;
         }
     }
@@ -122,6 +130,16 @@ public class Account implements Parcelable, Serializable, ListItem {
                         else
                             balance += t.getAmount();
 
+                }
+                break;
+            case CREDIT_CARD:
+                switch(t.getFlow()) {
+                    case OUTCOME:
+                        balance -= t.getAmount();
+                        break;
+                    case TRANSFER:
+                        //Undo credit card payment
+                        balance += t.getAmount();
                 }
         }
     }
@@ -154,13 +172,13 @@ public class Account implements Parcelable, Serializable, ListItem {
     public View getView(LayoutInflater inflater, View convertView) {
         View view;
         if(convertView == null)
-            view = (View)inflater.inflate(R.layout.net_worth_list_item, null);
+            view = inflater.inflate(R.layout.net_worth_list_item, null);
         else
             view = convertView;
 
         //Instantiate all the textviews from the layout
-        TextView accountName = (TextView)view.findViewById(R.id.networth_account);
-        TextView accountBalance = (TextView)view.findViewById(R.id.account_balance);
+        TextView accountName = view.findViewById(R.id.networth_account);
+        TextView accountBalance = view.findViewById(R.id.account_balance);
 
 
         //Set the text of each textview based on its corresponding transaction attribute

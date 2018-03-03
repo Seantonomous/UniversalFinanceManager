@@ -1,7 +1,11 @@
 package ufm.universalfinancemanager.networth;
 
+import java.util.Date;
+
 import javax.inject.Inject;
 
+import ufm.universalfinancemanager.support.AccountType;
+import ufm.universalfinancemanager.support.atomic.Account;
 import ufm.universalfinancemanager.support.atomic.User;
 
 /**
@@ -11,6 +15,8 @@ import ufm.universalfinancemanager.support.atomic.User;
 public class NetworthPresenter implements NetworthContract.Presenter {
     private NetworthContract.View mView;
     private User mUser;
+
+    private boolean DEBUG = true;
 
     @Inject
     NetworthPresenter(User user) {
