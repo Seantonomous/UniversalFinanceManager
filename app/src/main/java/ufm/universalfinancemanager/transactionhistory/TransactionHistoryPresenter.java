@@ -88,13 +88,14 @@ public class TransactionHistoryPresenter implements TransactionHistoryContract.P
             public void onDataNotAvailable() {
                 //display loading transactions error message
             }
-        },name);
+        },"%"+name+"%");
     }
 
     public void processTransactions(List<Transaction> transactions) {
         if(transactions.isEmpty()) {
-            if(mTransactionHistoryView != null)
+            if(mTransactionHistoryView != null) {
                 mTransactionHistoryView.showNoTransactions();
+            }
         }else {
             if(mTransactionHistoryView != null) {
                 mTransactionHistoryView.showTransactions(transactions);

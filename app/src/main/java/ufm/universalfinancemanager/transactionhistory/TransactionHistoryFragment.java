@@ -13,6 +13,8 @@ import android.arch.persistence.room.Dao;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.text.TextUtils;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -59,7 +61,6 @@ public class TransactionHistoryFragment extends DaggerFragment implements Transa
             mPresenter.editTransaction(t.getId());
         }
     };
-
     private TransactionAdapter mAdapter;
     private View mNoTransactionsView;
     private TextView mNoTransactionsTextView;
@@ -136,31 +137,44 @@ public class TransactionHistoryFragment extends DaggerFragment implements Transa
         mNoTransactionsTextView = root.findViewById(R.id.noTransactionsText);
 
         //
-        mSearchView = root.findViewById(R.id.searchView);
+        mSearchView =root.findViewById(R.id.searchView);
 
         mSearchView.setOnSearchClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast toast = Toast.makeText(getContext(),"CLICKED",Toast.LENGTH_SHORT);
-                toast.show();
+                Log.d("Opened","Click");
+            }
+
+
+        });
+
+        mSearchView.setOnCloseListener(new SearchView.OnCloseListener() {
+            @Override
+            public boolean onClose() {
+                Log.d("Showing:","All Transactions");
+                mPresenter.loadTransactions();
+                return false;
             }
         });
 
         mSearchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
-            public boolean onQueryTextSubmit(String query) {
-                Toast toast = Toast.makeText(getContext(),"Searched: " + mSearchView.getQuery().toString(),Toast.LENGTH_SHORT);
-                toast.show();
-                mPresenter.loadTransactions();
+            public boolean onQueryTextSubmit(String query){
+                Log.d("Searching for: ",query);
+                mPresenter.loadTransactionsByName(query);
                 return false;
             }
 
             @Override
             public boolean onQueryTextChange(String newText) {
-                if(!newText.equals("")){
-                    mPresenter.loadTransactionsByName(mSearchView.getQuery().toString());
+
+                if(mSearchView.getQuery().toString()!=null && TextUtils.getTrimmedLength(mSearchView.getQuery()) > 0){
+                   // mPresenter.loadTransactionsByName(newText);
+                    Log.d("Changed: -->",newText);
                 }else{
                     mPresenter.loadTransactions();
+                    //mPresenter.mTransactionHistoryView.showNoTransactions();
+                    Log.d("Showing:", "No Transactions");
                 }
                 return false;
             }
