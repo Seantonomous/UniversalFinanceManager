@@ -14,6 +14,7 @@ Contributing Team Members: Areeba Waheed 10/21/17-->
     <!--Page Titles-->
     <string name="home_title">UFM Home</string>
     <string name="transaction_title">Transaction History</string>
+    <string name="earnings_title">Earnings History</string>
     <string name="budget_title">Budget Overview</string>
     <string name="account_title">Accounts</string>
     <string name="networth_title">Net Worth</string>
@@ -23,7 +24,7 @@ Contributing Team Members: Areeba Waheed 10/21/17-->
     <string name="nav_trans_history">Transaction History</string>
     <string name="nav_budget">Budget Overview</string>
     <string name="nav_networth">Net Worth</string>
-    <string name="nav_inoutcome">Income/Outcome</string>
+    <string name="nav_inoutcome">Earnings</string>
     <string name="nav_reminders">Reminders</string>
     <string name="nav_settings">Settings</string>
 
