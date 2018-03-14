@@ -1,0 +1,90 @@
+<!-- Author: Faiz Ansari
+Date Started: 2/26/18
+Date Completed:
+Peer Review:
+    Date:
+    Team Members:
+Contributing Team Members:-->
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/colorBackground">
+
+    <RelativeLayout
+        android:id="@+id/earningsLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/lastMonthTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_marginBottom="5dp"
+            android:layout_marginLeft="130dp"
+            android:text="Last Month:"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textSize="18sp" />
+
+        <TextView
+            android:id="@+id/thisMonthTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="5dp"
+            android:layout_marginLeft="270dp"
+            android:text="This Month:"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textSize="18sp" />
+
+        <TextView
+            android:id="@+id/incomeTextView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/thisMonthTextView"
+            android:layout_marginBottom="5dp"
+            android:text="INCOME:"
+            android:textSize="18sp"
+            android:visibility="visible" />
+
+        <ListView
+            android:id="@+id/incomeCategoryList"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/incomeTextView">
+        </ListView>
+
+        <TextView
+            android:id="@+id/expenseTextView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="5dp"
+            android:layout_below="@id/incomeCategoryList"
+            android:text="EXPENSES:"
+            android:textColor="@color/colorPrimary"
+            android:textSize="18sp"
+            android:visibility="visible" />
+
+        <ListView
+            android:id="@+id/expenseCategorylist"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/expenseTextView">
+        </ListView>
+
+        <TextView
+            android:id="@+id/netTextView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="5dp"
+            android:layout_below="@id/expenseCategorylist"
+            android:text="NET EARNINGS:"
+            android:textColor="@color/colorPrimary"
+            android:textSize="18sp"
+            android:visibility="visible" />
+
+    </RelativeLayout>
+
+</LinearLayout>
