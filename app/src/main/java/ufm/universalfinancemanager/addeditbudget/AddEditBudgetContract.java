@@ -8,7 +8,7 @@ import ufm.universalfinancemanager.BaseView;
  */
 
 public interface AddEditBudgetContract {
-    interface View extends BaseView<ufm.universalfinancemanager.addeditbudget.AddEditBudgetPresenter> {
+    interface View extends BaseView<AddEditBudgetContract.Presenter> {
 
         void showLastActivity(boolean success);
 
