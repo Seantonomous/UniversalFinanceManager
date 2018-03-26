@@ -65,7 +65,7 @@ public class TransactionRepository implements TransactionDataSource {
 
     //
     @Override
-    public void getTransactionsSearchByName(@NonNull final LoadTransactionsCallback callback, @Nonnull String name) {
+    public void getTransactionsSearchByName(@NonNull final LoadTransactionsCallback callback, @Nonnull final String name) {
         /*if(mCachedTransactions != null && !mCacheDirty) {
             callback.onTransactionsLoaded(new ArrayList<>(mCachedTransactions.values()));
             return;
@@ -73,7 +73,7 @@ public class TransactionRepository implements TransactionDataSource {
         */
 
         if(mCacheDirty) {
-            getTransactionsFromRemoteDataSource(callback);
+            getTransactionsSearchByName(callback,name);
         }else {
             mLocalSource.getTransactionsSearchByName(new LoadTransactionsCallback() {
                 @Override
@@ -85,7 +85,7 @@ public class TransactionRepository implements TransactionDataSource {
 
                 @Override
                 public void onDataNotAvailable() {
-                    getTransactionsFromRemoteDataSource(callback);
+                    getTransactionsFromRemoteDataSourceByName(callback,name);
                 }
             },name);
         }
@@ -107,6 +107,22 @@ public class TransactionRepository implements TransactionDataSource {
         });
     }
 
+    //-----Testing if this resolves caching issue-----
+    private void getTransactionsFromRemoteDataSourceByName(@NonNull final LoadTransactionsCallback callback, @Nonnull String name) {
+        mRemoteSource.getTransactionsSearchByName(new LoadTransactionsCallback() {
+            @Override
+            public void onTransactionsLoaded(List<Transaction> transactions) {
+                refreshCache(transactions);
+                refreshLocalDataSource(transactions);
+                callback.onTransactionsLoaded(new ArrayList<>(mCachedTransactions.values()));
+            }
+
+            @Override
+            public void onDataNotAvailable() {
+                callback.onDataNotAvailable();
+            }
+        },name);
+    }
     private void refreshCache(List<Transaction> transactions) {
         if (mCachedTransactions == null) {
             mCachedTransactions = new LinkedHashMap<>();

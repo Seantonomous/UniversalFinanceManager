@@ -9,7 +9,9 @@
 */
 package ufm.universalfinancemanager.transactionhistory;
 
+import android.app.AlertDialog;
 import android.arch.persistence.room.Dao;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -22,6 +24,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.SearchView;
 import android.widget.TextView;
@@ -66,6 +69,9 @@ public class TransactionHistoryFragment extends DaggerFragment implements Transa
     private TextView mNoTransactionsTextView;
     private View mTransactionsView;
     private SearchView mSearchView;
+    public int filter;
+
+    public Button mSortButton;
 
     @Inject
     public TransactionHistoryFragment() {
@@ -75,7 +81,7 @@ public class TransactionHistoryFragment extends DaggerFragment implements Transa
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mAdapter = new TransactionAdapter(new ArrayList<Transaction>(0), mClickListener);
+        mAdapter = new TransactionAdapter(new ArrayList<Transaction>(0), mClickListener,filter);
     }
 
     @Override
@@ -98,7 +104,7 @@ public class TransactionHistoryFragment extends DaggerFragment implements Transa
 
     @Override
     public void showTransactions(List<Transaction> items) {
-        mAdapter.replaceItems(items);
+        mAdapter.replaceItems(items,filter);
         mTransactionsView.setVisibility(View.VISIBLE);
         mNoTransactionsView.setVisibility(View.GONE);
     }
@@ -126,7 +132,7 @@ public class TransactionHistoryFragment extends DaggerFragment implements Transa
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(final LayoutInflater inflater, final ViewGroup container, final Bundle savedInstanceState) {
         //Inflate the fragment with the corresponding layout
         View root = inflater.inflate(R.layout.transaction_history_fragment, container, false);
 
@@ -135,6 +141,60 @@ public class TransactionHistoryFragment extends DaggerFragment implements Transa
         mTransactionsView = root.findViewById(R.id.transactionsLayout);
         mNoTransactionsView = root.findViewById(R.id.noTransactionsLayout);
         mNoTransactionsTextView = root.findViewById(R.id.noTransactionsText);
+
+        mSortButton = root.findViewById(R.id.buttonSort);
+
+
+        mSortButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                  AlertDialog.Builder options = new AlertDialog.Builder(getContext());
+                  options.setTitle("Sort By: ");
+
+                final CharSequence[] sortOptions = new String[]{"Category(A-Z)","Category(Z-A)","Amount($$$-$)","Amount($-$$$)"};
+
+
+                options.setTitle("Select Your Choice");
+
+                options.setSingleChoiceItems(sortOptions, -1, new DialogInterface.OnClickListener() {
+
+                    public void onClick(DialogInterface dialog, int item) {
+
+                        switch(item)
+                        {
+                            case 0:
+                                Toast.makeText(getContext(), "Sort By: Category(A-Z)", Toast.LENGTH_LONG).show();
+                                filter = 1;
+                                break;
+                            case 1:
+                                Toast.makeText(getContext(), "Sort By: Category(Z-A)", Toast.LENGTH_LONG).show();
+                                filter = 2;
+                                break;
+
+                            case 2:
+                                Toast.makeText(getContext(), "Sort By: Amount($$$-$)", Toast.LENGTH_LONG).show();
+                                filter = 3;
+                                listview.setAdapter(mAdapter);
+                                break;
+
+                            case 3:
+                                Toast.makeText(getContext(), "Sort By: Amount($-$$$)", Toast.LENGTH_LONG).show();
+                                filter = 4;
+                                break;
+                        }
+
+                    }
+                });
+
+
+                options.create();
+
+                AlertDialog alert = options.create();
+                alert.getWindow().setLayout(100,100);
+                alert.show();
+
+            }
+        });
 
         //
         mSearchView =root.findViewById(R.id.searchView);
@@ -151,7 +211,7 @@ public class TransactionHistoryFragment extends DaggerFragment implements Transa
         mSearchView.setOnCloseListener(new SearchView.OnCloseListener() {
             @Override
             public boolean onClose() {
-                Log.d("Showing:","All Transactions");
+                Log.d("Showing on close:","All Transactions");
                 mPresenter.loadTransactions();
                 return false;
             }
@@ -174,7 +234,7 @@ public class TransactionHistoryFragment extends DaggerFragment implements Transa
                 }else{
                     mPresenter.loadTransactions();
                     //mPresenter.mTransactionHistoryView.showNoTransactions();
-                    Log.d("Showing:", "No Transactions");
+                    Log.d("Showing on change:", "Transactions");
                 }
                 return false;
             }

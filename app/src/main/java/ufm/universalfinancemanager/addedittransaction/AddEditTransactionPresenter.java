@@ -2,6 +2,7 @@ package ufm.universalfinancemanager.addedittransaction;
 
 import android.support.annotation.Nullable;
 import android.support.annotation.VisibleForTesting;
+import android.view.WindowManager;
 
 import java.util.Date;
 import java.util.List;

@@ -30,11 +30,12 @@ public interface TransactionDao {
     @Query("SELECT * FROM `Transaction`")
     List<Transaction> getAll();
 
-    //@Query("SELECT * FROM `Transaction` WHERE name =:names")
+    // --SORTING--
 
     //names = %names%
-    @Query( "SELECT * FROM `Transaction` WHERE name LIKE :names UNION ALL " +
-            "SELECT * FROM 'Transaction' WHERE amount LIKE :names")
+    @Query( "SELECT * FROM `Transaction` WHERE name LIKE :names UNION " +
+            "SELECT * FROM `Transaction` WHERE amount LIKE :names UNION " +
+            "SELECT * FROM `Transaction` WHERE category_name LIKE :names")
     List<Transaction> getTransactionsByName(String names);
 
     @Query("SELECT * FROM `Transaction` WHERE name LIKE :name LIMIT 1")

@@ -9,12 +9,18 @@
 */
 package ufm.universalfinancemanager.transactionhistory;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.support.annotation.NonNull;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.Button;
+import android.widget.ListView;
 import android.widget.SearchView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -37,22 +43,25 @@ public class TransactionAdapter extends BaseAdapter {
     private List<ListItem> mItems;
     private TransactionHistoryFragment.TransactionClickListener mListener;
 
-    public TransactionAdapter(List<Transaction> items, TransactionHistoryFragment.TransactionClickListener clickListener) {
+    public TransactionAdapter(List<Transaction> items, TransactionHistoryFragment.TransactionClickListener clickListener,int filter) {
         mItems = new ArrayList<>();
-        setList(items);
+        setList(items,filter);
         mListener = clickListener;
     }
 
-    public void replaceItems(List<Transaction> items) {
+
+    public void replaceItems(List<Transaction> items,int filter) {
         mItems.clear();
-        setList(items);
+        setList(items,filter);
         notifyDataSetChanged();
     }
 
-    private void setList(List<Transaction> items) {
+    private void setList(List<Transaction> items,int filter) {
         if(items.isEmpty()) {
             return;
         }
+
+        /*
 
         //Sort the transactions based on their date
         Collections.sort(items, new Comparator<Transaction>() {
@@ -61,6 +70,11 @@ public class TransactionAdapter extends BaseAdapter {
                 return lhs.getDate().getTime() > rhs.getDate().getTime() ? -1 : (lhs.getDate().getTime() < rhs.getDate().getTime()) ? 1 : 0;
             }
         });
+        */
+
+
+
+        sortTransactionsByFilter(items,filter);
 
         Date currentDate = items.get(0).getDate();
         mItems.add(new TransactionDateHeader(currentDate));
@@ -68,11 +82,63 @@ public class TransactionAdapter extends BaseAdapter {
         for(Transaction t : items) {
             //If the next transaction has a different date, update the current date
             //and insert a new transaction date header
-            if(t.getDate().getTime() < currentDate.getTime()) {
+            if(t.getDate().getTime() < currentDate.getTime() || t.getDate().getTime() > currentDate.getTime()) {
                 currentDate = t.getDate();
                 mItems.add(new TransactionDateHeader(currentDate));
             }
             mItems.add(t);
+        }
+    }
+
+    public void sortTransactionsByFilter(List<Transaction> items, final int filter){
+
+        switch(filter){
+
+            case 0:     // DEFAULT: SORTED BY DATE (Recent - Old)
+                Log.d("filter",filter+"");
+                Collections.sort(items, new Comparator<Transaction>() {
+                    @Override
+                    public int compare(Transaction lhs, Transaction rhs) {
+                        return lhs.getDate().getTime() > rhs.getDate().getTime() ? -1 : (lhs.getDate().getTime() < rhs.getDate().getTime()) ? 1 : 0;
+                    }
+                });
+
+            case 1:     // SORTED BY CATEGORY (A-Z)
+                Log.d("filter",filter+"");
+                Collections.sort(items, new Comparator<Transaction>() {
+                    @Override
+                    public int compare(Transaction o1, Transaction o2) {
+                        return o1.getCategory().getName().hashCode() < o2.getCategory().getName().hashCode()? -1 : (o1.getCategory().getName().hashCode() > o2.getCategory().getName().hashCode() ? 1: 0) ;
+                    }
+                });
+
+            case 2:     // SORTED BY CATEGORY (Z-A)
+                Log.d("filter",filter+"");
+                Collections.sort(items, new Comparator<Transaction>() {
+                    @Override
+                    public int compare(Transaction o1, Transaction o2) {
+                        return o1.getCategory().getName().hashCode() > o2.getCategory().getName().hashCode()? -1 : (o1.getCategory().getName().hashCode() < o2.getCategory().getName().hashCode() ? 1: 0) ;
+                    }
+                });
+
+            case 3:     // SORTED BY AMOUNT ($$$-$)
+                Log.d("filter",filter+"");
+                Collections.sort(items, new Comparator<Transaction>() {
+                    @Override
+                    public int compare(Transaction o1, Transaction o2) {
+                        return o1.getAmount() > o2.getAmount()? -1 : (o1.getAmount() < o2.getAmount() ? 1: 0) ;
+                    }
+                });
+
+            case 4:     // SORTED BY AMOUNT ($-$$$)
+                Log.d("filter",filter+"");
+                Collections.sort(items, new Comparator<Transaction>() {
+                    @Override
+                    public int compare(Transaction o1, Transaction o2) {
+                        return o1.getAmount() < o2.getAmount()? -1 : (o1.getAmount() > o2.getAmount() ? 1: 0) ;
+                    }
+                });
+
         }
     }
 

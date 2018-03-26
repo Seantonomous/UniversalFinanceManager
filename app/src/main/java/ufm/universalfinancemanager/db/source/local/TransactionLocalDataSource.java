@@ -94,6 +94,7 @@ public class TransactionLocalDataSource implements TransactionDataSource {
         mAppExecutors.diskIO().execute(runnable);
     }
 
+
     @Override
     public void saveTransaction(@NonNull final Transaction transaction) {
         Runnable saveRunnable = new Runnable() {

@@ -10,6 +10,9 @@ import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
@@ -103,7 +106,6 @@ public class AddEditTransactionFragment extends DaggerFragment implements AddEdi
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         calendar = Calendar.getInstance();
     }
     
@@ -133,6 +135,7 @@ public class AddEditTransactionFragment extends DaggerFragment implements AddEdi
         calendar.set(Calendar.SECOND, 0);
         calendar.set(Calendar.MILLISECOND, 0);
         updateDate();
+
 
         edit_date.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -252,8 +255,9 @@ public class AddEditTransactionFragment extends DaggerFragment implements AddEdi
         accountSpinnerAdapter = new ArrayAdapter<>(getContext(),
                 android.R.layout.simple_spinner_item, accounts);
 
-        if(isEditing)
+        if(isEditing) {
             cancel_button.setText("Delete");
+        }
         else {
             expense_radioButton.setChecked(true);
             onFlowChecked(expense_radioButton);
@@ -281,7 +285,8 @@ public class AddEditTransactionFragment extends DaggerFragment implements AddEdi
                                        @Nullable Account toAccountName, Date date, @Nullable String notes) {
         edit_name.setText(name);
         edit_amount.setText(Double.toString(amount));
-
+        getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
+        
         if(flow == Flow.INCOME) {
             income_radioButton.setChecked(true);
             toAccount_spinner.setSelection(accountSpinnerAdapter.getPosition(toAccountName));
@@ -312,6 +317,7 @@ public class AddEditTransactionFragment extends DaggerFragment implements AddEdi
             case R.id.flow_income:
                 if (checked)
                     // Set focus to Name EditText.
+
                     edit_name.requestFocus();
                 toAccount_spinner.setEnabled(true); // Enable ToAccount Spinner
                 fromAccount_spinner.setEnabled(false); // Disable FromAccount Spinner
