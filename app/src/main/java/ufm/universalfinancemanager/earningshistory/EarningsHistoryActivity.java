@@ -1,5 +1,6 @@
 package ufm.universalfinancemanager.earningshistory;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
@@ -13,6 +14,8 @@ import javax.inject.Inject;
 import dagger.Lazy;
 import dagger.android.support.DaggerAppCompatActivity;
 import ufm.universalfinancemanager.R;
+import ufm.universalfinancemanager.networth.NetworthActivity;
+import ufm.universalfinancemanager.transactionhistory.TransactionHistoryActivity;
 import ufm.universalfinancemanager.util.ActivityUtils;
 
 /**
@@ -96,13 +99,13 @@ public class EarningsHistoryActivity extends DaggerAppCompatActivity {
                                 //switch to budget overview activity
                                 break;
                             case R.id.trans_history_menu_item:
-                                //Do nothing we're already here
+                                startActivity(new Intent(getApplicationContext(), TransactionHistoryActivity.class));
                                 break;
-                            case R.id.inout_menu_item:
+                            case R.id.earnings_menu_item:
                                 //switch to input output activity
                                 break;
                             case R.id.networth_menu_item:
-                                //switch to networth activity
+                                startActivity(new Intent(getApplicationContext(), NetworthActivity.class));
                                 break;
                             case R.id.reminder_menu_item:
                                 break;
@@ -117,10 +120,6 @@ public class EarningsHistoryActivity extends DaggerAppCompatActivity {
                 }
         );
     }
-
-
-
-
 
 
 

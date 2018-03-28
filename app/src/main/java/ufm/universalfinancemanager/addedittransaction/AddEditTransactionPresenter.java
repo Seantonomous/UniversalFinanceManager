@@ -31,7 +31,8 @@ public class AddEditTransactionPresenter implements AddEditTransactionContract.P
     AddEditTransactionContract.View mAddEditTransactionView = null;
 
     @Inject
-    public AddEditTransactionPresenter(TransactionRepository repository, User user, @Nullable String id) {mTransactionRepository = repository;
+    public AddEditTransactionPresenter(TransactionRepository repository, User user, @Nullable String id)
+    {mTransactionRepository = repository;
         this.mUser = user; mTransactionId = id;}
 
     @Override

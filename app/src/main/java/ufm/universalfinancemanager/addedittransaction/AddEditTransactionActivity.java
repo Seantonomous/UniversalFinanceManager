@@ -109,7 +109,7 @@ public class AddEditTransactionActivity extends DaggerAppCompatActivity {
                             case R.id.trans_history_menu_item:
                                 //Do nothing we're already here
                                 break;
-                            case R.id.inout_menu_item:
+                            case R.id.earnings_menu_item:
                                 //switch to input output activity
                                 break;
                             case R.id.networth_menu_item:

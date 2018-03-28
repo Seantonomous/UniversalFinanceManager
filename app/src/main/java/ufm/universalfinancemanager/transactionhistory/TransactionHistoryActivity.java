@@ -15,6 +15,7 @@ import javax.inject.Inject;
 import dagger.Lazy;
 import dagger.android.support.DaggerAppCompatActivity;
 import ufm.universalfinancemanager.R;
+import ufm.universalfinancemanager.earningshistory.EarningsHistoryActivity;
 import ufm.universalfinancemanager.networth.NetworthActivity;
 import ufm.universalfinancemanager.util.ActivityUtils;
 
@@ -102,9 +103,12 @@ public class TransactionHistoryActivity extends DaggerAppCompatActivity {
                             case R.id.trans_history_menu_item:
                                 //Do nothing we're already here
                                 break;
-                            case R.id.inout_menu_item:
-                                //switch to input output activity
+                            case R.id.earnings_menu_item:
+                                startActivity(new Intent(getApplicationContext(), EarningsHistoryActivity.class));
                                 break;
+                            //case R.id.earnings_menu_item:
+                                //switch to input output activity
+                             //   break;
                             case R.id.networth_menu_item:
                                 //switch to networth activity
                                 startActivity(new Intent(getApplicationContext(), NetworthActivity.class));
