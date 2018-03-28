@@ -151,7 +151,7 @@ public class TransactionHistoryFragment extends DaggerFragment implements Transa
                   AlertDialog.Builder options = new AlertDialog.Builder(getContext());
                   options.setTitle("Sort By: ");
 
-                final CharSequence[] sortOptions = new String[]{"Category(A-Z)","Category(Z-A)","Amount($$$-$)","Amount($-$$$)"};
+                final CharSequence[] sortOptions = new String[]{"Default","Category(A-Z)","Category(Z-A)","Amount($$$-$)","Amount($-$$$)"};
 
 
                 options.setTitle("Select Your Choice");
@@ -163,24 +163,31 @@ public class TransactionHistoryFragment extends DaggerFragment implements Transa
                         switch(item)
                         {
                             case 0:
+                                Toast.makeText(getContext(), "Sort By: Default", Toast.LENGTH_LONG).show();
+                                filter = 0;
+                                break;
+                            case 1:
                                 Toast.makeText(getContext(), "Sort By: Category(A-Z)", Toast.LENGTH_LONG).show();
                                 filter = 1;
                                 break;
-                            case 1:
+                            case 2:
                                 Toast.makeText(getContext(), "Sort By: Category(Z-A)", Toast.LENGTH_LONG).show();
                                 filter = 2;
                                 break;
-
-                            case 2:
+                            case 3:
                                 Toast.makeText(getContext(), "Sort By: Amount($$$-$)", Toast.LENGTH_LONG).show();
                                 filter = 3;
-                                listview.setAdapter(mAdapter);
                                 break;
-
-                            case 3:
+                            case 4:
                                 Toast.makeText(getContext(), "Sort By: Amount($-$$$)", Toast.LENGTH_LONG).show();
                                 filter = 4;
                                 break;
+                        }
+
+                        if(mSearchView.getQuery().toString()==null){
+                            mPresenter.loadTransactions();
+                        }else{
+                            mPresenter.loadTransactionsByName(mSearchView.getQuery().toString());
                         }
 
                     }
