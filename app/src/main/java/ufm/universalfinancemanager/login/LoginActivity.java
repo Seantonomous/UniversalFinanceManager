@@ -14,15 +14,13 @@ import ufm.universalfinancemanager.util.ActivityUtils;
 
 public class LoginActivity extends DaggerAppCompatActivity {
     @Inject
-    LoginPresenter mPresenter;
-    @Inject
     LoginFragment mFragment;
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.login_activity);
 
-        LoginFragment loginFragment = getSupportFragmentManager().findFragmentById(R.id.contentFrame);
+        LoginFragment loginFragment = (LoginFragment)getSupportFragmentManager().findFragmentById(R.id.contentFrame);
 
         if(loginFragment == null) {
             loginFragment = mFragment;

@@ -1,5 +1,6 @@
 package ufm.universalfinancemanager.login;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,11 +14,14 @@ import javax.inject.Inject;
 
 import dagger.android.support.DaggerFragment;
 import ufm.universalfinancemanager.R;
+import ufm.universalfinancemanager.di.ActivityScoped;
+import ufm.universalfinancemanager.transactionhistory.TransactionHistoryActivity;
 
 /**
  * Created by smh7 on 3/3/18.
  */
 
+@ActivityScoped
 public class LoginFragment extends DaggerFragment implements LoginContract.View {
     @Inject
     LoginPresenter mPresenter;
@@ -88,9 +92,25 @@ public class LoginFragment extends DaggerFragment implements LoginContract.View 
     }
 
     @Override
-    public void showUserExistsError() {
+    public void showSuccessfulLogin() {
         Toast.makeText(getContext(),
-                "A User with that email already exists!",
-                Toast.LENGTH_LONG).show();
+                "Login Successful",
+                Toast.LENGTH_SHORT).show();
+
+        switchToHomeActivity(false);
+    }
+
+    @Override
+    public void showSuccessfulSignup() {
+        Toast.makeText(getContext(),
+                "Sign up Successful",
+                Toast.LENGTH_SHORT).show();
+        switchToHomeActivity(true);
+    }
+
+    private void switchToHomeActivity(boolean firstTime) {
+        //TODO: pass in flag indicating a first time login
+        //TODO: Switch to HOME activity once merged to dev
+        startActivity(new Intent(getContext(), TransactionHistoryActivity.class));
     }
 }

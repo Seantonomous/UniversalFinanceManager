@@ -15,7 +15,9 @@ public class LoginContract {
 
         void showSignupError();
 
-        void showUserExistsError();
+        void showSuccessfulLogin();
+
+        void showSuccessfulSignup();
     }
 
     public interface Presenter extends BasePresenter<View> {
