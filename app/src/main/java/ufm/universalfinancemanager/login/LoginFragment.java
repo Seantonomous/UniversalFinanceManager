@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import javax.inject.Inject;
@@ -15,6 +16,7 @@ import javax.inject.Inject;
 import dagger.android.support.DaggerFragment;
 import ufm.universalfinancemanager.R;
 import ufm.universalfinancemanager.di.ActivityScoped;
+import ufm.universalfinancemanager.support.TextValidator;
 import ufm.universalfinancemanager.transactionhistory.TransactionHistoryActivity;
 
 /**
@@ -25,6 +27,11 @@ import ufm.universalfinancemanager.transactionhistory.TransactionHistoryActivity
 public class LoginFragment extends DaggerFragment implements LoginContract.View {
     @Inject
     LoginPresenter mPresenter;
+
+    private boolean valid_email = false;
+    private boolean valid_password = false;
+
+    private static final boolean DEBUG = true;
 
     @Inject
     public LoginFragment() {
@@ -53,19 +60,55 @@ public class LoginFragment extends DaggerFragment implements LoginContract.View 
         Button signupButton = root.findViewById(R.id.signup_button);
         final CheckBox rememberBox = root.findViewById(R.id.remember_box);
 
+        email.addTextChangedListener(new TextValidator(email) {
+            @Override
+            public void validate(TextView textView, String text) {
+                if(text.length() == 0)
+                    valid_email = false;
+                else
+                    valid_email = true;
+            }
+        });
+
+        password.addTextChangedListener(new TextValidator(password) {
+            @Override
+            public void validate(TextView textView, String text) {
+                if(text.length() == 0)
+                    valid_password = false;
+                else
+                    valid_password = true;
+            }
+        });
+
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mPresenter.login(email.getText().toString(), password.getText().toString(), rememberBox.isChecked());
+                if(valid_email && valid_password)
+                    mPresenter.login(email.getText().toString(), password.getText().toString(), rememberBox.isChecked());
+                else
+                    if(!valid_email)
+                        email.setError("Invalid email");
+                    if(!valid_password)
+                        password.setError("Empty password");
+
             }
         });
 
         signupButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mPresenter.signup(email.getText().toString(), password.getText().toString(), rememberBox.isChecked());
+                if(valid_email && valid_password)
+                    mPresenter.signup(email.getText().toString(), password.getText().toString(), rememberBox.isChecked());
+                else
+                    if(!valid_email)
+                        email.setError("Invalid email");
+                    if(!valid_password)
+                        password.setError("Empty password");
             }
         });
+
+        if(DEBUG)
+            switchToHomeActivity(false);
 
         return root;
     }

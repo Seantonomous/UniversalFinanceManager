@@ -23,7 +23,7 @@ public class LoginManager {
 
     private Socket socket = null;
     private static final int port = 5000;
-    private static final String ip = "";
+    private static final String ip = "54.67.43.213";
 
     @Inject
     public LoginManager(@NonNull AppExecutors executors) {
@@ -67,7 +67,6 @@ public class LoginManager {
                     out.println("LOGIN");
                     out.println(username);
                     out.println(password);
-
                     final String response = in.readLine();
 
                     mExecutors.mainThread().execute(new Runnable() {
