@@ -4,9 +4,10 @@ import java.util.Date;
 
 import javax.inject.Singleton;
 
-import dagger.Binds;
 import dagger.Module;
 import dagger.Provides;
+import ufm.universalfinancemanager.db.entity.Account;
+import ufm.universalfinancemanager.db.entity.Category;
 import ufm.universalfinancemanager.support.AccountType;
 import ufm.universalfinancemanager.support.Flow;
 

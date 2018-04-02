@@ -5,7 +5,7 @@ import android.support.annotation.Nullable;
 import javax.inject.Inject;
 
 import ufm.universalfinancemanager.support.Flow;
-import ufm.universalfinancemanager.support.atomic.Category;
+import ufm.universalfinancemanager.db.entity.Category;
 import ufm.universalfinancemanager.support.atomic.User;
 
 /**

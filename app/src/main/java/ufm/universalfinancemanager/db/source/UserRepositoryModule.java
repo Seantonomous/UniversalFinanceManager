@@ -15,45 +15,49 @@ import javax.inject.Singleton;
 import dagger.Binds;
 import dagger.Module;
 import dagger.Provides;
-import ufm.universalfinancemanager.db.TransactionDataSource;
+import ufm.universalfinancemanager.db.UserDataSource;
+import ufm.universalfinancemanager.db.source.local.AccountDao;
 import ufm.universalfinancemanager.db.source.local.TransactionDao;
-import ufm.universalfinancemanager.db.source.local.TransactionDatabase;
-import ufm.universalfinancemanager.db.source.local.TransactionLocalDataSource;
+import ufm.universalfinancemanager.db.source.local.UserDatabase;
+import ufm.universalfinancemanager.db.source.local.UserLocalDataSource;
 import ufm.universalfinancemanager.util.AppExecutors;
 import ufm.universalfinancemanager.util.DiskIOThreadExecutor;
-import ufm.universalfinancemanager.db.source.FakeTransactionRemoteDataSource;
 
 /**
  * This is used by Dagger to inject the required arguments into the .
  */
 @Module
-abstract public class TransactionRepositoryModule {
+abstract public class UserRepositoryModule {
 
     private static final int THREAD_COUNT = 3;
 
     @Singleton
     @Binds
     @Local
-    abstract TransactionDataSource provideTransactionLocalDataSource(TransactionLocalDataSource dataSource);
+    abstract UserDataSource provideTransactionLocalDataSource(UserLocalDataSource dataSource);
 
     @Singleton
     @Binds
     @Remote
-    abstract TransactionDataSource provideTransactionRemoteDataSource(FakeTransactionRemoteDataSource dataSource);
+    abstract UserDataSource provideTransactionRemoteDataSource(FakeUserRemoteDataSource dataSource);
 
     @Singleton
     @Provides
-    static TransactionDatabase provideDb(Application context) {
-        return Room.databaseBuilder(context.getApplicationContext(), TransactionDatabase.class, "Transactions.db")
+    static UserDatabase provideDb(Application context) {
+        return Room.databaseBuilder(context.getApplicationContext(), UserDatabase.class, "user.db")
                 .fallbackToDestructiveMigration()
                 .build();
     }
 
     @Singleton
     @Provides
-    static TransactionDao provideTasksDao(TransactionDatabase db) {
+    static TransactionDao provideTasksDao(UserDatabase db) {
         return db.transactionDao();
     }
+
+    @Singleton
+    @Provides
+    static AccountDao provideAccountsDao(UserDatabase db) { return db.accountDao(); }
 
     @Singleton
     @Provides

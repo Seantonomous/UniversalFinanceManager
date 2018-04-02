@@ -21,7 +21,7 @@ import ufm.universalfinancemanager.addeditaccount.AddEditAccountActivity;
 import ufm.universalfinancemanager.addeditcategory.AddEditCategoryActivity;
 import ufm.universalfinancemanager.addeditreminder.AddEditReminderActivity;
 import ufm.universalfinancemanager.addedittransaction.AddEditTransactionActivity;
-import ufm.universalfinancemanager.support.atomic.Account;
+import ufm.universalfinancemanager.db.entity.Account;
 
 /**
  * Created by smh7 on 2/28/18.

@@ -8,7 +8,7 @@ import java.util.Date;
 import javax.inject.Inject;
 
 import ufm.universalfinancemanager.support.AccountType;
-import ufm.universalfinancemanager.support.atomic.Account;
+import ufm.universalfinancemanager.db.entity.Account;
 import ufm.universalfinancemanager.support.atomic.User;
 
 /**

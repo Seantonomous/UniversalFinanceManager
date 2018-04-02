@@ -20,7 +20,7 @@ import java.util.List;
 import ufm.universalfinancemanager.support.AccountType;
 import ufm.universalfinancemanager.support.ListItem;
 import ufm.universalfinancemanager.support.RowType;
-import ufm.universalfinancemanager.support.atomic.Account;
+import ufm.universalfinancemanager.db.entity.Account;
 
 public class NetworthAdapter extends BaseAdapter {
     private static final int TYPE_TRANSACTION = 0;

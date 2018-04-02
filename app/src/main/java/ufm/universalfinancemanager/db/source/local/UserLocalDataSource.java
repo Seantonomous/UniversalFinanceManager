@@ -6,7 +6,8 @@ import java.util.List;
 
 import javax.inject.Inject;
 
-import ufm.universalfinancemanager.db.TransactionDataSource;
+import ufm.universalfinancemanager.db.UserDataSource;
+import ufm.universalfinancemanager.db.entity.Account;
 import ufm.universalfinancemanager.db.entity.Transaction;
 import ufm.universalfinancemanager.util.AppExecutors;
 
@@ -14,13 +15,16 @@ import ufm.universalfinancemanager.util.AppExecutors;
  * Created by smh7 on 12/11/17.
  */
 
-public class TransactionLocalDataSource implements TransactionDataSource {
+public class UserLocalDataSource implements UserDataSource {
     private final TransactionDao mTransactionDao;
+    private final AccountDao mAccountDao;
     private final AppExecutors mAppExecutors;
 
     @Inject
-    TransactionLocalDataSource(@NonNull AppExecutors executors, @NonNull TransactionDao transactionDao) {
+    UserLocalDataSource(@NonNull AppExecutors executors, @NonNull TransactionDao transactionDao,
+                        @NonNull AccountDao accountDao) {
         mTransactionDao = transactionDao;
+        mAccountDao = accountDao;
         mAppExecutors = executors;
     }
 
@@ -128,6 +132,75 @@ public class TransactionLocalDataSource implements TransactionDataSource {
             @Override
             public void run() {
                 mTransactionDao.deleteById(transactionId);
+            }
+        };
+
+        mAppExecutors.diskIO().execute(deleteRunnable);
+    }
+
+    @Override
+    public void getAccounts(@NonNull final LoadAccountsCallback callback) {
+        Runnable runnable = new Runnable() {
+            @Override
+            public void run() {
+                final List<Account> accounts = mAccountDao.getAll();
+                mAppExecutors.mainThread().execute(new Runnable() {
+                    @Override
+                    public void run() {
+                        if (accounts.isEmpty()) {
+                            // This will be called if the table is new or just empty.
+                            callback.onDataNotAvailable();
+                        } else {
+                            callback.onAccountsLoaded(accounts);
+                        }
+                    }
+                });
+            }
+        };
+
+        mAppExecutors.diskIO().execute(runnable);
+    }
+
+    @Override
+    public void getAccount(@NonNull final String accountName, @NonNull final GetAccountCallback callback) {
+        Runnable runnable = new Runnable() {
+            @Override
+            public void run() {
+                final Account account = mAccountDao.getAccountByName(accountName);
+                mAppExecutors.mainThread().execute(new Runnable() {
+                    @Override
+                    public void run() {
+                        if (account == null) {
+                            // This will be called if the table is new or just empty.
+                            callback.onDataNotAvailable();
+                        } else {
+                            callback.onAccountLoaded(account);
+                        }
+                    }
+                });
+            }
+        };
+
+        mAppExecutors.diskIO().execute(runnable);
+    }
+
+    @Override
+    public void saveAccount(@NonNull final Account account) {
+        Runnable saveRunnable = new Runnable() {
+            @Override
+            public void run() {
+                mAccountDao.insert(account);
+            }
+        };
+        mAppExecutors.diskIO().execute(saveRunnable);
+    }
+
+    @Override
+    public void deleteAccount(@NonNull final String accountName) {
+        Runnable deleteRunnable = new Runnable() {
+            @Override
+            public void run() {
+                mAccountDao.deleteByName(accountName);
             }
         };
 

@@ -7,7 +7,7 @@
 *   Team Members:
 * Contributing Team Members:
 */
-package ufm.universalfinancemanager.support.atomic;
+package ufm.universalfinancemanager.db.entity;
 
 import android.arch.persistence.room.ColumnInfo;
 import android.arch.persistence.room.TypeConverters;

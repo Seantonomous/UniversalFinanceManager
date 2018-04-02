@@ -1,27 +1,25 @@
 package ufm.universalfinancemanager.addedittransaction;
 
 import android.support.annotation.Nullable;
-import android.support.annotation.VisibleForTesting;
 
 import java.util.Date;
 import java.util.List;
 
 import javax.inject.Inject;
 
-import ufm.universalfinancemanager.db.TransactionDataSource;
-import ufm.universalfinancemanager.db.TransactionRepository;
+import ufm.universalfinancemanager.db.UserDataSource;
+import ufm.universalfinancemanager.db.UserRepository;
+import ufm.universalfinancemanager.db.entity.Account;
 import ufm.universalfinancemanager.db.entity.Transaction;
 import ufm.universalfinancemanager.support.Flow;
-import ufm.universalfinancemanager.support.atomic.Account;
-import ufm.universalfinancemanager.support.atomic.Category;
 import ufm.universalfinancemanager.support.atomic.User;
 
 /**
  * Created by smh7 on 12/14/17.
  */
 
-public class AddEditTransactionPresenter implements AddEditTransactionContract.Presenter, TransactionDataSource.GetTransactionCallback {
-    private final TransactionRepository mTransactionRepository;
+public class AddEditTransactionPresenter implements AddEditTransactionContract.Presenter, UserDataSource.GetTransactionCallback {
+    private final UserRepository mUserRepository;
     private final User mUser;
     private final String mTransactionId;
 
@@ -31,8 +29,8 @@ public class AddEditTransactionPresenter implements AddEditTransactionContract.P
     AddEditTransactionContract.View mAddEditTransactionView = null;
 
     @Inject
-    public AddEditTransactionPresenter(TransactionRepository repository, User user, @Nullable String id)
-    {mTransactionRepository = repository;
+    public AddEditTransactionPresenter(UserRepository repository, User user, @Nullable String id)
+    {mUserRepository = repository;
         this.mUser = user; mTransactionId = id;}
 
     @Override
@@ -52,7 +50,7 @@ public class AddEditTransactionPresenter implements AddEditTransactionContract.P
 
     @Override
     public void deleteTransaction() {
-        mTransactionRepository.deleteTransaction(mTransactionId);
+        mUserRepository.deleteTransaction(mTransactionId);
 
         if(mAddEditTransactionView != null) {
             mAddEditTransactionView.showLastActivity(true);
@@ -63,21 +61,66 @@ public class AddEditTransactionPresenter implements AddEditTransactionContract.P
                               String categoryName, String fromAccountName,
                               String toAccountName, Date date, String notes) {
 
-        Transaction t = new Transaction(name, flow, amount,
+        final Transaction t = new Transaction(name, flow, amount,
                 categoryName == null ? null : mUser.getCategory(categoryName),
-                fromAccountName == null ? null : mUser.getAccount(fromAccountName),
-                toAccountName == null ? null : mUser.getAccount(toAccountName), date, notes);
+                fromAccountName, toAccountName, date, notes);
 
-        mTransactionRepository.saveTransaction(t);
+        mUserRepository.saveTransaction(t);
+
 
         //Update account balances
         if(flow == Flow.INCOME)
-            mUser.getAccount(toAccountName).registerTransaction(t);
+            mUserRepository.getAccount(toAccountName, new UserDataSource.GetAccountCallback() {
+                @Override
+                public void onAccountLoaded(Account account) {
+                    account.registerTransaction(t);
+                    mUserRepository.saveAccount(account);
+                }
+
+                @Override
+                public void onDataNotAvailable() {
+
+                }
+            });
         else if(flow == Flow.OUTCOME)
-            mUser.getAccount(fromAccountName).registerTransaction(t);
+            mUserRepository.getAccount(fromAccountName, new UserDataSource.GetAccountCallback() {
+                @Override
+                public void onAccountLoaded(Account account) {
+                    account.registerTransaction(t);
+                    mUserRepository.saveAccount(account);
+                }
+
+                @Override
+                public void onDataNotAvailable() {
+
+                }
+            });
         else {
-            mUser.getAccount(toAccountName).registerTransaction(t);
-            mUser.getAccount(fromAccountName).registerTransaction(t);
+            mUserRepository.getAccount(toAccountName, new UserDataSource.GetAccountCallback() {
+                @Override
+                public void onAccountLoaded(Account account) {
+                    account.registerTransaction(t);
+                    mUserRepository.saveAccount(account);
+                }
+
+                @Override
+                public void onDataNotAvailable() {
+
+                }
+            });
+
+            mUserRepository.getAccount(fromAccountName, new UserDataSource.GetAccountCallback() {
+                @Override
+                public void onAccountLoaded(Account account) {
+                    account.registerTransaction(t);
+                    mUserRepository.saveAccount(account);
+                }
+
+                @Override
+                public void onDataNotAvailable() {
+
+                }
+            });
         }
 
         if (mAddEditTransactionView != null) {
@@ -89,35 +132,78 @@ public class AddEditTransactionPresenter implements AddEditTransactionContract.P
                                    String categoryName, String fromAccountName,
                                    String toAccountName, Date date, String notes) {
 
-        Transaction t = new Transaction(name, mTransactionId, flow, amount,
+        final Transaction t = new Transaction(name, mTransactionId, flow, amount,
                 categoryName == null ? null : mUser.getCategory(categoryName),
-                fromAccountName == null ? null : mUser.getAccount(fromAccountName),
-                toAccountName == null ? null : mUser.getAccount(toAccountName), date, notes);
+                fromAccountName, toAccountName, date, notes);
 
         if(beforeEditAmount != amount) {
             if(flow == Flow.INCOME) {
-                mUser.getAccount(toAccountName).unregisterTransaction(t);
-                mUser.getAccount(toAccountName).registerTransaction(t);
-            } else if(flow == Flow.OUTCOME) {
-                mUser.getAccount(fromAccountName).unregisterTransaction(t);
-                mUser.getAccount(fromAccountName).registerTransaction(t);
-            } else {
-                mUser.getAccount(toAccountName).unregisterTransaction(t);
-                mUser.getAccount(toAccountName).registerTransaction(t);
+                mUserRepository.getAccount(toAccountName, new UserDataSource.GetAccountCallback() {
+                    @Override
+                    public void onAccountLoaded(Account account) {
+                        account.unregisterTransaction(t);
+                        account.registerTransaction(t);
+                        mUserRepository.saveAccount(account);
+                    }
 
-                mUser.getAccount(fromAccountName).unregisterTransaction(t);
-                mUser.getAccount(fromAccountName).registerTransaction(t);
+                    @Override
+                    public void onDataNotAvailable() {
+
+                    }
+                });
+            } else if(flow == Flow.OUTCOME) {
+                mUserRepository.getAccount(fromAccountName, new UserDataSource.GetAccountCallback() {
+                    @Override
+                    public void onAccountLoaded(Account account) {
+                        account.unregisterTransaction(t);
+                        account.registerTransaction(t);
+                        mUserRepository.saveAccount(account);
+                    }
+
+                    @Override
+                    public void onDataNotAvailable() {
+
+                    }
+                });
+            } else {
+                mUserRepository.getAccount(fromAccountName, new UserDataSource.GetAccountCallback() {
+                    @Override
+                    public void onAccountLoaded(Account account) {
+                        account.unregisterTransaction(t);
+                        account.registerTransaction(t);
+                        mUserRepository.saveAccount(account);
+                    }
+
+                    @Override
+                    public void onDataNotAvailable() {
+
+                    }
+                });
+
+                mUserRepository.getAccount(toAccountName, new UserDataSource.GetAccountCallback() {
+                    @Override
+                    public void onAccountLoaded(Account account) {
+                        account.unregisterTransaction(t);
+                        account.registerTransaction(t);
+                        mUserRepository.saveAccount(account);
+                    }
+
+                    @Override
+                    public void onDataNotAvailable() {
+
+                    }
+                });
             }
         }
 
-        mTransactionRepository.saveTransaction(t);
+        mUserRepository.saveTransaction(t);
         if (mAddEditTransactionView != null) {
             mAddEditTransactionView.showLastActivity(true);
         }
     }
 
     public void populateTransaction() {
-        mTransactionRepository.getTransaction(mTransactionId, this);
+        mUserRepository.getTransaction(mTransactionId, this);
     }
 
     @Override
@@ -160,13 +246,21 @@ public class AddEditTransactionPresenter implements AddEditTransactionContract.P
         if(v == null)
             return;
 
-        if(isNewTransaction())
-            //Start w/ expense chosen
-            mAddEditTransactionView.setupFragmentContent(mUser.getAccounts(), false);
-        else {
-            mAddEditTransactionView.setupFragmentContent(mUser.getAccounts(), true);
-            populateTransaction();
-        }
+        mUserRepository.getAccounts(new UserDataSource.LoadAccountsCallback() {
+            @Override
+            public void onAccountsLoaded(List<Account> accounts) {
+                if(isNewTransaction())
+                    mAddEditTransactionView.setupFragmentContent(accounts, false);
+                else
+                    mAddEditTransactionView.setupFragmentContent(accounts, true);
+                    populateTransaction();
+            }
+
+            @Override
+            public void onDataNotAvailable() {
+
+            }
+        });
     }
 
     @Override

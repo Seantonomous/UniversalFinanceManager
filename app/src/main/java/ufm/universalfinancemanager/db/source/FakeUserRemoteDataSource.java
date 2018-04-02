@@ -13,18 +13,18 @@ import java.util.Map;
 
 import javax.inject.Inject;
 
-import ufm.universalfinancemanager.db.TransactionDataSource;
+import ufm.universalfinancemanager.db.UserDataSource;
 import ufm.universalfinancemanager.db.entity.Transaction;
 
 /**
  * Implementation of a remote data source with static access to the data for easy testing.
  */
-public class FakeTransactionRemoteDataSource implements TransactionDataSource {
+public class FakeUserRemoteDataSource implements UserDataSource {
 
     private static final Map<String, Transaction> TRANSACTIONS_SERVICE_DATA = new LinkedHashMap<>();
 
     @Inject
-    public FakeTransactionRemoteDataSource() {}
+    public FakeUserRemoteDataSource() {}
 
     @Override
     public void getTransactions(@NonNull LoadTransactionsCallback callback) {

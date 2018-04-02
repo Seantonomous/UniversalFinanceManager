@@ -2,10 +2,8 @@ package ufm.universalfinancemanager.addedittransaction;
 
 import android.app.Activity;
 import android.app.DatePickerDialog;
-import android.content.Intent;
 import android.graphics.Paint;
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,6 +18,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -29,12 +28,11 @@ import javax.inject.Inject;
 
 import dagger.android.support.DaggerFragment;
 import ufm.universalfinancemanager.R;
-import ufm.universalfinancemanager.db.entity.Transaction;
 import ufm.universalfinancemanager.di.ActivityScoped;
 import ufm.universalfinancemanager.support.Flow;
 import ufm.universalfinancemanager.support.TextValidator;
-import ufm.universalfinancemanager.support.atomic.Account;
-import ufm.universalfinancemanager.support.atomic.Category;
+import ufm.universalfinancemanager.db.entity.Account;
+import ufm.universalfinancemanager.db.entity.Category;
 
 /**
  * Created by smh7 on 12/14/17.
@@ -79,7 +77,7 @@ public class AddEditTransactionFragment extends DaggerFragment implements AddEdi
     private boolean isEditing = false;
 
     private ArrayAdapter<Category> categorySpinnerAdapter;
-    private ArrayAdapter<Account> accountSpinnerAdapter;
+    private ArrayAdapter<String> accountSpinnerAdapter;
 
     @Inject
     public AddEditTransactionFragment() {
@@ -246,9 +244,14 @@ public class AddEditTransactionFragment extends DaggerFragment implements AddEdi
     public void setupFragmentContent(@Nullable List<Account> accounts, boolean editing) {
 
         isEditing = editing;
+        ArrayList<String> accountNames = new ArrayList<>();
+
+        if(accounts != null)
+            for (Account account : accounts)
+                accountNames.add(account.toString());
 
         accountSpinnerAdapter = new ArrayAdapter<>(getContext(),
-                android.R.layout.simple_spinner_item, accounts);
+                android.R.layout.simple_spinner_item, accountNames);
 
         if(isEditing)
             cancel_button.setText("Delete");
@@ -275,8 +278,8 @@ public class AddEditTransactionFragment extends DaggerFragment implements AddEdi
 
     @Override
     public void populateExistingFields(String name, Double amount, Flow flow,
-                                       Category categoryName, @Nullable Account fromAccountName,
-                                       @Nullable Account toAccountName, Date date, @Nullable String notes) {
+                                       Category categoryName, @Nullable String fromAccountName,
+                                       @Nullable String toAccountName, Date date, @Nullable String notes) {
         edit_name.setText(name);
         edit_amount.setText(Double.toString(amount));
 

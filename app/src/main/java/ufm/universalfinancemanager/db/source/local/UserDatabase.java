@@ -12,6 +12,7 @@ package ufm.universalfinancemanager.db.source.local;
 import android.arch.persistence.room.Database;
 import android.arch.persistence.room.RoomDatabase;
 
+import ufm.universalfinancemanager.db.entity.Account;
 import ufm.universalfinancemanager.db.entity.Transaction;
 import ufm.universalfinancemanager.db.source.local.TransactionDao;
 
@@ -19,7 +20,9 @@ import ufm.universalfinancemanager.db.source.local.TransactionDao;
  * Created by smh7 on 11/22/17.
  */
 
-@Database(entities = {Transaction.class}, version = 2)
-public abstract class TransactionDatabase extends RoomDatabase {
+@Database(entities = {Transaction.class,
+                        Account.class}, version = 2)
+public abstract class UserDatabase extends RoomDatabase {
     public abstract TransactionDao transactionDao();
+    public abstract AccountDao accountDao();
 }

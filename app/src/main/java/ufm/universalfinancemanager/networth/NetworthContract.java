@@ -4,7 +4,7 @@ import java.util.List;
 
 import ufm.universalfinancemanager.BasePresenter;
 import ufm.universalfinancemanager.BaseView;
-import ufm.universalfinancemanager.support.atomic.Account;
+import ufm.universalfinancemanager.db.entity.Account;
 
 /**
  * Created by smh7 on 2/28/18.

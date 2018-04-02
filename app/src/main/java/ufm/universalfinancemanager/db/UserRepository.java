@@ -10,6 +10,7 @@ import java.util.Map;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
+import ufm.universalfinancemanager.db.entity.Account;
 import ufm.universalfinancemanager.db.entity.Transaction;
 import ufm.universalfinancemanager.db.source.Local;
 import ufm.universalfinancemanager.db.source.Remote;
@@ -19,18 +20,18 @@ import ufm.universalfinancemanager.db.source.Remote;
  */
 
 @Singleton
-public class TransactionRepository implements TransactionDataSource {
+public class UserRepository implements UserDataSource {
 
-    private final TransactionDataSource mLocalSource;
-    private final TransactionDataSource mRemoteSource;
+    private final UserDataSource mLocalSource;
+    private final UserDataSource mRemoteSource;
 
     Map<String, Transaction> mCachedTransactions;
 
     boolean mCacheDirty = false;
 
     @Inject
-    TransactionRepository(@Local TransactionDataSource localSource,
-                          @Remote TransactionDataSource remoteSource) {
+    UserRepository(@Local UserDataSource localSource,
+                   @Remote UserDataSource remoteSource) {
         mLocalSource = localSource;
         mRemoteSource = remoteSource;
     }
@@ -201,5 +202,47 @@ public class TransactionRepository implements TransactionDataSource {
         mRemoteSource.deleteTransaction(transactionId);
 
         mCachedTransactions.remove(transactionId);
+    }
+
+
+
+    @Override
+    public void getAccounts(@NonNull final LoadAccountsCallback callback) {
+        mLocalSource.getAccounts(new LoadAccountsCallback() {
+            @Override
+            public void onAccountsLoaded(List<Account> accounts) {
+                callback.onAccountsLoaded(accounts);
+            }
+
+            @Override
+            public void onDataNotAvailable() {
+                //TODO: THROW EXCEPTION
+            }
+        });
+    }
+
+    @Override
+    public void getAccount(@NonNull String accountName, @NonNull final GetAccountCallback callback) {
+        mLocalSource.getAccount(accountName, new GetAccountCallback() {
+            @Override
+            public void onAccountLoaded(Account account) {
+                callback.onAccountLoaded(account);
+            }
+
+            @Override
+            public void onDataNotAvailable() {
+                //TODO: THROW EXCEPTION
+            }
+        });
+    }
+
+    @Override
+    public void saveAccount(@NonNull Account account) {
+        mLocalSource.saveAccount(account);
+    }
+
+    @Override
+    public void deleteAccount(@NonNull String accountName) {
+        mLocalSource.deleteAccount(accountName);
     }
 }

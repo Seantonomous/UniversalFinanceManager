@@ -5,8 +5,8 @@ import java.util.List;
 import javax.annotation.Nullable;
 import javax.inject.Inject;
 
-import ufm.universalfinancemanager.db.TransactionDataSource;
-import ufm.universalfinancemanager.db.TransactionRepository;
+import ufm.universalfinancemanager.db.UserDataSource;
+import ufm.universalfinancemanager.db.UserRepository;
 import ufm.universalfinancemanager.db.entity.Transaction;
 import ufm.universalfinancemanager.di.ActivityScoped;
 import ufm.universalfinancemanager.util.EspressoIdlingResource;
@@ -17,7 +17,7 @@ import ufm.universalfinancemanager.util.EspressoIdlingResource;
 
 @ActivityScoped
 public class TransactionHistoryPresenter implements TransactionHistoryContract.Presenter {
-    private final TransactionRepository mTransactionRepository;
+    private final UserRepository mTransactionRepository;
 
     @Nullable
     TransactionHistoryContract.View mTransactionHistoryView;
@@ -25,7 +25,7 @@ public class TransactionHistoryPresenter implements TransactionHistoryContract.P
     private boolean firstLoad = true;
 
     @Inject
-    TransactionHistoryPresenter(TransactionRepository transactionRepository) {
+    TransactionHistoryPresenter(UserRepository transactionRepository) {
         mTransactionRepository = transactionRepository;
     }
 
@@ -39,7 +39,7 @@ public class TransactionHistoryPresenter implements TransactionHistoryContract.P
         //Performing database/network call, forbid ui test activity until it's done
         EspressoIdlingResource.increment();
 
-        mTransactionRepository.getTransactions(new TransactionDataSource.LoadTransactionsCallback() {
+        mTransactionRepository.getTransactions(new UserDataSource.LoadTransactionsCallback() {
             @Override
             public void onTransactionsLoaded(List<Transaction> transactions) {
 
