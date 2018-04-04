@@ -34,8 +34,8 @@ public class LoginManager {
         Runnable runnable = new Runnable() {
             @Override
             public void run() {
-                PrintWriter out = null;
-                BufferedReader in = null;
+                PrintWriter out;
+                BufferedReader in;
 
                 try {
                     InetAddress serverAddr = InetAddress.getByName(ip);

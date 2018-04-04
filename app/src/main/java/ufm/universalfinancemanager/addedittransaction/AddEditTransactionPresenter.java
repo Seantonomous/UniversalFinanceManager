@@ -2,6 +2,7 @@ package ufm.universalfinancemanager.addedittransaction;
 
 import android.support.annotation.Nullable;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -10,6 +11,7 @@ import javax.inject.Inject;
 import ufm.universalfinancemanager.db.UserDataSource;
 import ufm.universalfinancemanager.db.UserRepository;
 import ufm.universalfinancemanager.db.entity.Account;
+import ufm.universalfinancemanager.db.entity.Category;
 import ufm.universalfinancemanager.db.entity.Transaction;
 import ufm.universalfinancemanager.support.Flow;
 import ufm.universalfinancemanager.support.atomic.User;
@@ -62,8 +64,7 @@ public class AddEditTransactionPresenter implements AddEditTransactionContract.P
                               String toAccountName, Date date, String notes) {
 
         final Transaction t = new Transaction(name, flow, amount,
-                categoryName == null ? null : mUser.getCategory(categoryName),
-                fromAccountName, toAccountName, date, notes);
+                categoryName, fromAccountName, toAccountName, date, notes);
 
         mUserRepository.saveTransaction(t);
 
@@ -133,8 +134,7 @@ public class AddEditTransactionPresenter implements AddEditTransactionContract.P
                                    String toAccountName, Date date, String notes) {
 
         final Transaction t = new Transaction(name, mTransactionId, flow, amount,
-                categoryName == null ? null : mUser.getCategory(categoryName),
-                fromAccountName, toAccountName, date, notes);
+                categoryName, fromAccountName, toAccountName, date, notes);
 
         if(beforeEditAmount != amount) {
             if(flow == Flow.INCOME) {
@@ -210,8 +210,10 @@ public class AddEditTransactionPresenter implements AddEditTransactionContract.P
     public void onTransactionLoaded(Transaction transaction) {
         if (mAddEditTransactionView != null && mAddEditTransactionView.isActive()) {
             mAddEditTransactionView.populateExistingFields(transaction.getName(),
-                    transaction.getAmount(), transaction.getFlow(), transaction.getCategory(),
-                    transaction.getFromAccount(), transaction.getToAccount(),
+                    transaction.getAmount(), transaction.getFlow(),
+                    mUser.getCategory(transaction.getCategory()),
+                    mUser.getAccount(transaction.getFromAccount()),
+                    mUser.getAccount(transaction.getToAccount()),
                     transaction.getDate(), transaction.getNotes());
 
             beforeEditAmount = transaction.getAmount();

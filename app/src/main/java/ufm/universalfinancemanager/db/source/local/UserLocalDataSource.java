@@ -8,6 +8,7 @@ import javax.inject.Inject;
 
 import ufm.universalfinancemanager.db.UserDataSource;
 import ufm.universalfinancemanager.db.entity.Account;
+import ufm.universalfinancemanager.db.entity.Category;
 import ufm.universalfinancemanager.db.entity.Transaction;
 import ufm.universalfinancemanager.util.AppExecutors;
 
@@ -18,13 +19,16 @@ import ufm.universalfinancemanager.util.AppExecutors;
 public class UserLocalDataSource implements UserDataSource {
     private final TransactionDao mTransactionDao;
     private final AccountDao mAccountDao;
+    private final CategoryDao mCategoryDao;
     private final AppExecutors mAppExecutors;
 
     @Inject
     UserLocalDataSource(@NonNull AppExecutors executors, @NonNull TransactionDao transactionDao,
-                        @NonNull AccountDao accountDao) {
+                        @NonNull AccountDao accountDao,
+                        @NonNull CategoryDao categoryDao) {
         mTransactionDao = transactionDao;
         mAccountDao = accountDao;
+        mCategoryDao = categoryDao;
         mAppExecutors = executors;
     }
 
@@ -204,6 +208,74 @@ public class UserLocalDataSource implements UserDataSource {
             }
         };
 
+        mAppExecutors.diskIO().execute(deleteRunnable);
+    }
+
+    @Override
+    public void getCategories(@NonNull final LoadCategoriesCallback callback) {
+        Runnable runnable = new Runnable() {
+            @Override
+            public void run() {
+                final List<Category> categories = mCategoryDao.getAll();
+                mAppExecutors.mainThread().execute(new Runnable() {
+                    @Override
+                    public void run() {
+                        if (categories.isEmpty()) {
+                            // This will be called if the table is new or just empty.
+                            callback.onDataNotAvailable();
+                        } else {
+                            callback.onCategoriesLoaded(categories);
+                        }
+                    }
+                });
+            }
+        };
+
+        mAppExecutors.diskIO().execute(runnable);
+    }
+
+    @Override
+    public void getCategory(@NonNull final String categoryName, @NonNull final GetCategoryCallback callback) {
+        Runnable runnable = new Runnable() {
+            @Override
+            public void run() {
+                final Category category = mCategoryDao.getCategoryByName(categoryName);
+                mAppExecutors.mainThread().execute(new Runnable() {
+                    @Override
+                    public void run() {
+                        if (category == null) {
+                            // This will be called if the table is new or just empty.
+                            callback.onDataNotAvailable();
+                        } else {
+                            callback.onCategoryLoaded(category);
+                        }
+                    }
+                });
+            }
+        };
+
+        mAppExecutors.diskIO().execute(runnable);
+    }
+
+    @Override
+    public void saveCategory(@NonNull final Category category) {
+        Runnable saveRunnable = new Runnable() {
+            @Override
+            public void run() {
+                mCategoryDao.insert(category);
+            }
+        };
+        mAppExecutors.diskIO().execute(saveRunnable);
+    }
+
+    @Override
+    public void deleteCategory(@NonNull final String categoryName) {
+        Runnable deleteRunnable = new Runnable() {
+            @Override
+            public void run() {
+                mCategoryDao.deleteByName(categoryName);
+            }
+        };
         mAppExecutors.diskIO().execute(deleteRunnable);
     }
 }

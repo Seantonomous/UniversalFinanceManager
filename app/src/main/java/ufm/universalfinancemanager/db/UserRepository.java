@@ -11,6 +11,7 @@ import javax.inject.Inject;
 import javax.inject.Singleton;
 
 import ufm.universalfinancemanager.db.entity.Account;
+import ufm.universalfinancemanager.db.entity.Category;
 import ufm.universalfinancemanager.db.entity.Transaction;
 import ufm.universalfinancemanager.db.source.Local;
 import ufm.universalfinancemanager.db.source.Remote;
@@ -244,5 +245,45 @@ public class UserRepository implements UserDataSource {
     @Override
     public void deleteAccount(@NonNull String accountName) {
         mLocalSource.deleteAccount(accountName);
+    }
+
+    @Override
+    public void getCategories(@NonNull final LoadCategoriesCallback callback) {
+        mLocalSource.getCategories(new LoadCategoriesCallback() {
+            @Override
+            public void onCategoriesLoaded(List<Category> categories) {
+                callback.onCategoriesLoaded(categories);
+            }
+
+            @Override
+            public void onDataNotAvailable() {
+
+            }
+        });
+    }
+
+    @Override
+    public void getCategory(@NonNull String categoryName, final GetCategoryCallback callback) {
+        mLocalSource.getCategory(categoryName, new GetCategoryCallback() {
+            @Override
+            public void onCategoryLoaded(Category category) {
+                callback.onCategoryLoaded(category);
+            }
+
+            @Override
+            public void onDataNotAvailable() {
+
+            }
+        });
+    }
+
+    @Override
+    public void saveCategory(@NonNull Category category) {
+        mLocalSource.saveCategory(category);
+    }
+
+    @Override
+    public void deleteCategory(@NonNull String categoryName) {
+        mLocalSource.deleteCategory(categoryName);
     }
 }

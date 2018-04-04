@@ -39,20 +39,7 @@ import ufm.universalfinancemanager.db.source.local.converter.FlowConverter;
 
 import static android.arch.persistence.room.ForeignKey.SET_NULL;
 
-@Entity(
-foreignKeys =
-{
-    @ForeignKey(entity = Account.class,
-            parentColumns = "account_name",
-            childColumns = "fromAccount",
-            onDelete = SET_NULL),
-
-    @ForeignKey(entity = Account.class,
-            parentColumns = "account_name",
-            childColumns = "toAccount",
-            onDelete = SET_NULL)
-}
-)
+@Entity
 public class Transaction implements ListItem, Serializable {
 
     @PrimaryKey
@@ -67,8 +54,7 @@ public class Transaction implements ListItem, Serializable {
 
     private double amount;
 
-    @Embedded
-    private Category category;
+    private String category;
 
     private String fromAccount;
 
@@ -87,18 +73,18 @@ public class Transaction implements ListItem, Serializable {
     private NumberFormat num_format;
 
     @Ignore
-    public Transaction(String name, Flow flow, double amount, Category category,
+    public Transaction(String name, Flow flow, double amount, String category,
                        String fromAccount, String toAccount, Date date, String notes) {
         this(name, UUID.randomUUID().toString(),flow,amount,category,fromAccount,toAccount,date,notes);
     }
 
     @Ignore
-    public Transaction(String name, Flow flow, double amount, Category category,
+    public Transaction(String name, Flow flow, double amount, String category,
                        String fromAccount, String toAccount, Date date) {
         this(name, UUID.randomUUID().toString(),flow,amount,category,fromAccount,toAccount,date,"");
     }
 
-    public Transaction(String name, String id,Flow flow, double amount, Category category,
+    public Transaction(String name, String id,Flow flow, double amount, String category,
                        String fromAccount, String toAccount, Date date, String notes) {
         this.name = name;
         this.id = id;
@@ -123,7 +109,7 @@ public class Transaction implements ListItem, Serializable {
     public View getView(LayoutInflater inflater, View convertView) {
         View view;
         if(convertView == null)
-            view = (View)inflater.inflate(R.layout.transaction_list_item, null);
+            view = inflater.inflate(R.layout.transaction_list_item, null);
         else
             view = convertView;
 
@@ -146,12 +132,12 @@ public class Transaction implements ListItem, Serializable {
             amountText.setTextColor(Color.BLUE); //blue
 
         if(fromAccount != null)
-            accountText.setText(this.fromAccount.toString());
+            accountText.setText(this.fromAccount);
         else
-            accountText.setText(this.toAccount.toString());
+            accountText.setText(this.toAccount);
 
         if(category != null)
-            categoryText.setText(this.category.toString());
+            categoryText.setText(this.category);
         else
             categoryText.setText("No Category");
 
@@ -162,7 +148,7 @@ public class Transaction implements ListItem, Serializable {
     public String getName() {return name;}
     public Flow getFlow() {return flow;}
     public double getAmount() {return amount;}
-    public Category getCategory() {return category;}
+    public String getCategory() {return category;}
     public String getFromAccount() {return fromAccount;}
     public String getToAccount() {return toAccount;}
     public boolean getFrequency() {return frequency;}
@@ -174,7 +160,7 @@ public class Transaction implements ListItem, Serializable {
     public void setName(String name) {this.name = name;}
     public void setFlow(Flow flow) {this.flow = flow;}
     public void setAmount(double amount) {this.amount = amount;}
-    public void setCategory(Category category) {this.category = category;}
+    public void setCategory(String category) {this.category = category;}
     public void setFromAccount(String account) {this.fromAccount = account;}
     public void setToAccount(String account) {this.toAccount = account;}
     public void setFrequency(boolean frequency) {this.frequency = frequency;}

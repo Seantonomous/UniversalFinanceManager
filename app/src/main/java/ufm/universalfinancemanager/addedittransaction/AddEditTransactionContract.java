@@ -28,8 +28,8 @@ public interface AddEditTransactionContract {
         void updateCategories(@Nullable List<Category> categories);
 
         void populateExistingFields(String name, Double amount, Flow flow,
-                                  Category categoryName, @Nullable String fromAccountName,
-                                  @Nullable String toAccountName, Date date, @Nullable String notes);
+                                  Category categoryName, @Nullable Account fromAccountName,
+                                  @Nullable Account toAccountName, Date date, @Nullable String notes);
     }
 
     interface Presenter extends BasePresenter<View> {

@@ -18,7 +18,6 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -77,7 +76,7 @@ public class AddEditTransactionFragment extends DaggerFragment implements AddEdi
     private boolean isEditing = false;
 
     private ArrayAdapter<Category> categorySpinnerAdapter;
-    private ArrayAdapter<String> accountSpinnerAdapter;
+    private ArrayAdapter<Account> accountSpinnerAdapter;
 
     @Inject
     public AddEditTransactionFragment() {
@@ -244,14 +243,9 @@ public class AddEditTransactionFragment extends DaggerFragment implements AddEdi
     public void setupFragmentContent(@Nullable List<Account> accounts, boolean editing) {
 
         isEditing = editing;
-        ArrayList<String> accountNames = new ArrayList<>();
-
-        if(accounts != null)
-            for (Account account : accounts)
-                accountNames.add(account.toString());
 
         accountSpinnerAdapter = new ArrayAdapter<>(getContext(),
-                android.R.layout.simple_spinner_item, accountNames);
+                android.R.layout.simple_spinner_item, accounts);
 
         if(isEditing)
             cancel_button.setText("Delete");
@@ -278,8 +272,8 @@ public class AddEditTransactionFragment extends DaggerFragment implements AddEdi
 
     @Override
     public void populateExistingFields(String name, Double amount, Flow flow,
-                                       Category categoryName, @Nullable String fromAccountName,
-                                       @Nullable String toAccountName, Date date, @Nullable String notes) {
+                                       Category categoryName, @Nullable Account fromAccountName,
+                                       @Nullable Account toAccountName, Date date, @Nullable String notes) {
         edit_name.setText(name);
         edit_amount.setText(Double.toString(amount));
 

@@ -34,7 +34,7 @@ public class AddEditAccountPresenter implements AddEditAccountContract.Presenter
         if(isEditing()) {
             //Just save the name, don't want them to adjust the balance or type
             //It's possible but would be a lot of work to accomodate imo
-            mUser.getAccount(mAccountName).setName(accountName);
+            mUser.editAccountName(mAccountName, accountName);
         }else {
             //Save new account
             try {
