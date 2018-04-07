@@ -44,6 +44,12 @@ public class Budget implements Parcelable, Serializable, ListItem {
         this.frequency = frequency;
         num_format = NumberFormat.getCurrencyInstance();
     }
+    public Budget(String name, Category category, double amount) {
+        this.name = name;
+        this.category = category;
+        this.amount = amount;
+        num_format = NumberFormat.getCurrencyInstance();
+    }
 
     /******************Getters**********************/
     public String getName() {return name;}

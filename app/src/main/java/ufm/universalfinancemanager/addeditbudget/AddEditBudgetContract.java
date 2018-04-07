@@ -2,6 +2,8 @@ package ufm.universalfinancemanager.addeditbudget;
 
 import ufm.universalfinancemanager.BasePresenter;
 import ufm.universalfinancemanager.BaseView;
+import ufm.universalfinancemanager.support.Flow;
+import ufm.universalfinancemanager.support.atomic.Category;
 
 /**
  * Created by Areeba on 2/23/2018.
@@ -16,6 +18,9 @@ public interface AddEditBudgetContract {
     }
 
     interface Presenter extends BasePresenter<AddEditBudgetContract.View> {
+        void saveBudget(String name, String category, double amount);
+
+        void deleteBudget();
 
         void takeView(AddEditBudgetContract.View v);
 

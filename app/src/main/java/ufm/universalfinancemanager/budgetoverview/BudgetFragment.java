@@ -17,6 +17,7 @@ import javax.inject.Inject;
 import dagger.android.support.DaggerFragment;
 import ufm.universalfinancemanager.R;
 import ufm.universalfinancemanager.addeditaccount.AddEditAccountActivity;
+import ufm.universalfinancemanager.addeditbudget.AddEditBudgetActivity;
 import ufm.universalfinancemanager.addeditcategory.AddEditCategoryActivity;
 import ufm.universalfinancemanager.addeditreminder.AddEditReminderActivity;
 import ufm.universalfinancemanager.addedittransaction.AddEditTransactionActivity;
@@ -49,7 +50,7 @@ public class BudgetFragment extends DaggerFragment implements BudgetContract.Vie
         listview.setAdapter(mAdapter);
 
         setHasOptionsMenu(true);
-        return listview;
+        return root;
     }
 
     @Override
@@ -79,6 +80,9 @@ public class BudgetFragment extends DaggerFragment implements BudgetContract.Vie
             case R.id.action_add_reminder:
                 startActivity(new Intent(getContext(), AddEditReminderActivity.class));
                 break;
+            case R.id.action_add_budget:
+                startActivity(new Intent(getContext(), AddEditBudgetActivity.class));
+                break;
         }
         return true;
     }
@@ -86,6 +90,10 @@ public class BudgetFragment extends DaggerFragment implements BudgetContract.Vie
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         inflater.inflate(R.menu.action_bar, menu);
+    }
+
+    public interface TransactionClickListener {
+        void onTransactionClicked(Transaction t);
     }
 
 }

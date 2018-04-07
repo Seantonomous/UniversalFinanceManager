@@ -46,8 +46,7 @@ public class AddEditBudgetFragment extends DaggerFragment implements AddEditBudg
     public View onCreate(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.add_edit_budget_fragment, container, false);
         edit_amount = root.findViewById(R.id.add_amount);
-        cancel_button = root.findViewById(R.id.cancel);
-        /*edit_name = root.findViewById(R.id.name);
+        edit_name = root.findViewById(R.id.name);
         category = root.findViewById(R.id.category);
         duration = root.findViewById(R.id.duration);
         cancel_button = root.findViewById(R.id.cancel);
@@ -80,33 +79,20 @@ public class AddEditBudgetFragment extends DaggerFragment implements AddEditBudg
         submit_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String stringSelectedType;
-                AccountType selectedType;
-                Calendar today = Calendar.getInstance();
-
-                if(!valid_amount || !valid_name)
+                if (!valid_amount || !valid_name) {
+                    if(!valid_name)
+                        edit_name.setError("Budget must have a name!");
+                    if(!valid_amount)
+                        edit_amount.setError("Budget must have an amount!");
                     return;
-
-
-                stringSelectedType = category.getSelectedItem().toString();
-                switch(stringSelectedType) {
-                    case ("Travel"):
-                        selectedType = AccountType.CHECKING;
-                        break;
-                    case ("Entertainment"):
-                        selectedType = AccountType.SAVINGS;
-                        break;
-                    case ("Food"):
-                        selectedType = AccountType.CASH;
-                        break;
-                    default:
-                        selectedType = AccountType.CHECKING;
                 }
-
-                //save the budget to the user's account and display it on the overview
+            mPresenter.saveBudget(edit_name.getText().toString(),
+                    category.getSelectedItem().toString(),
+                    Double.parseDouble(edit_amount.getText().toString())
+            );
             }
         });
-        */
+
         cancel_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

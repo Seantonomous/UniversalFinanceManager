@@ -10,9 +10,6 @@
 
 package ufm.universalfinancemanager.support.atomic;
 
-import android.os.Parcel;
-import android.os.Parcelable;
-
 import java.io.Serializable;
 
 import ufm.universalfinancemanager.db.entity.Transaction;
@@ -28,7 +25,7 @@ public class User implements Serializable {
     private String password;
 
     private ArrayList<Account> accounts;
-    //private ArrayList<Budget> budgets;
+    private ArrayList<Budget> budgets;
     private ArrayList<Category> incomeCategories;
     private ArrayList<Category> expenseCategories;
 
@@ -41,12 +38,14 @@ public class User implements Serializable {
         this.accounts = new ArrayList<>();
         this.incomeCategories = new ArrayList<>();
         this.expenseCategories = new ArrayList<>();
+        this.budgets = new ArrayList<>();
     }
 
     public User() {
         this.accounts = new ArrayList<>();
         this.incomeCategories = new ArrayList<>();
         this.expenseCategories = new ArrayList<>();
+        this.budgets = new ArrayList<>();
     }
 
     public User(String username, String password, ArrayList<Account> accounts,
@@ -124,10 +123,23 @@ public class User implements Serializable {
     public ArrayList<Transaction> getTransactions() {
         return this.transactions;
     }
+*/
+    public boolean addBudget(Budget budget) throws RuntimeException {
+        for(int i=0;i<budgets.size();i++)
+            if(budgets.get(i).getName().equals(budget.getName())) {
+                throw new RuntimeException("Budget with same name already exists: " + budget.toString());
+            }
+        budgets.add(budget);
+        return true;
+    }
+    public Budget getBudgets(String name) throws RuntimeException {
+        for(int i=0;i<budgets.size();i++)
+            if(budgets.get(i).getName().equals(name))
+                return budgets.get(i);
 
-    public boolean addBudget(Budget budget) {}
-    public ArrayList<Budget> getBudgets() {}
-    */
+        throw new RuntimeException(String.format(Locale.getDefault(), "Budget %s not found", name));
+    }
+
 
     public boolean addCategory(Category c) throws RuntimeException {
         if(c.getFlow() == Flow.INCOME) {

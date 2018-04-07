@@ -96,8 +96,7 @@ public class NetworthActivity extends DaggerAppCompatActivity {
                                 //switch to home activity
                                 break;
                             case R.id.budget_menu_item:
-                                //startActivity(new Intent(getApplicationContext(), BudgetActivity.class));
-                                //switch to budget overview activity
+                                startActivity(new Intent(getApplicationContext(), BudgetActivity.class));
                                 break;
                             case R.id.trans_history_menu_item:
                                 startActivity(new Intent(getApplicationContext(), TransactionHistoryActivity.class));

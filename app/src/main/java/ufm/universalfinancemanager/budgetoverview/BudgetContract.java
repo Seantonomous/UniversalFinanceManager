@@ -13,6 +13,8 @@ import ufm.universalfinancemanager.support.atomic.Account;
 
 public class BudgetContract {
     public interface Presenter extends BasePresenter<BudgetContract.View> {
+        void result();
+        void loadBudgets();
 
         void takeView(BudgetContract.View view);
 

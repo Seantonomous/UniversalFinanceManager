@@ -91,7 +91,6 @@ public class BudgetActivity extends DaggerAppCompatActivity {
                 new NavigationView.OnNavigationItemSelectedListener() {
                     @Override
                     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                        Log.d("Navigation: ", "selected");
                         switch(item.getItemId()) {
                             case R.id.home_menu_item:
                                 //switch to home activity
