@@ -10,38 +10,34 @@ Contributing Team Members:
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="ufm.universalfinancemanager">
 
+    <uses-permission android:name="android.permission.INTERNET">
+    </uses-permission>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE">
+    </uses-permission>
+    
     <application
         android:name=".ufmApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true">
+
         <activity
-            android:name=".ui.Login_Activity"
-            android:theme="@style/NoTitleBar"/>
-
-    <activity
-        android:name=".ui.Account_Add"
-        android:theme="@style/AppTheme" />
-    <activity
-        android:name=".ui.Category_Add"
-        android:theme="@style/AppTheme" />
-
-    <activity
-        android:name=".ui.Reminder_Add"
-        android:theme="@style/AppTheme" />
-
-    <activity
-        android:name=".ui.Budget_Add"
-        android:theme="@style/AppTheme" />
+            android:name=".login.LoginActivity"
+            android:theme="@style/AppTheme">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
         <activity
             android:name=".transactionhistory.TransactionHistoryActivity"
             android:theme="@style/AppTheme">
-            <intent-filter>
+            <!--<intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+            </intent-filter>!-->
         </activity>
         <activity android:name=".addedittransaction.AddEditTransactionActivity"
             android:theme="@style/AppTheme"/>
@@ -50,6 +46,14 @@ Contributing Team Members:
         <activity android:name=".addeditcategory.AddEditCategoryActivity"
             android:theme="@style/AppTheme"/>
         <activity android:name=".addeditreminder.AddEditReminderActivity"
+            android:theme="@style/AppTheme"/>
+        <activity android:name=".home.HomeActivity"
+            android:theme="@style/AppTheme"/>
+        <activity android:name=".addeditbudget.AddEditBudgetActivity"
+            android:theme="@style/AppTheme"/>
+        <activity android:name=".networth.NetworthActivity"
+            android:theme="@style/AppTheme"/>
+        <activity android:name=".earningshistory.EarningsHistoryActivity"
             android:theme="@style/AppTheme"/>
     </application>
 

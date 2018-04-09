@@ -6,7 +6,7 @@
 *   Team Members:
 * Contributing Team Members:
 */
-package ufm.universalfinancemanager.support;
+package ufm.universalfinancemanager.networth;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,6 +15,8 @@ import android.widget.TextView;
 import java.text.NumberFormat;
 
 import ufm.universalfinancemanager.R;
+import ufm.universalfinancemanager.support.ListItem;
+import ufm.universalfinancemanager.support.RowType;
 
 public class NetworthHeader implements ListItem {
     private double dblAmount;
@@ -37,12 +39,12 @@ public class NetworthHeader implements ListItem {
         View view;
 
         if(convertView == null) {
-            view = (View)inflater.inflate(R.layout.net_worth_header_item, null);
+            view = inflater.inflate(R.layout.net_worth_header_item, null);
         }else {
             view = convertView;
         }
 
-        TextView stringNetworth = (TextView)view.findViewById(R.id.networth_header);
+        TextView stringNetworth = view.findViewById(R.id.networth_header);
         stringNetworth.setText("Total " + this.title + num_format.format(this.dblAmount));
 
         return view;

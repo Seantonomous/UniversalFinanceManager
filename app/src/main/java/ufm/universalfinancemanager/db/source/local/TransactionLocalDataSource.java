@@ -96,6 +96,30 @@ public class TransactionLocalDataSource implements TransactionDataSource {
 
 
     @Override
+    public void getTransactionsInDateRange(@NonNull final long date1, @NonNull final long date2, @NonNull final LoadTransactionsCallback callback) {
+        Runnable runnable = new Runnable() {
+            @Override
+            public void run() {
+                final List<Transaction> transactions = mTransactionDao.getTransactionsInDateRange(date1, date2);
+
+                mAppExecutors.mainThread().execute(new Runnable() {
+                    @Override
+                    public void run() {
+                        if (transactions.isEmpty()) {
+                            // This will be called if the table is new or just empty.
+                            callback.onDataNotAvailable();
+                        } else {
+                            callback.onTransactionsLoaded(transactions);
+                        }
+                    }
+                });
+            }
+        };
+
+        mAppExecutors.diskIO().execute(runnable);
+    }
+
+    @Override
     public void saveTransaction(@NonNull final Transaction transaction) {
         Runnable saveRunnable = new Runnable() {
             @Override

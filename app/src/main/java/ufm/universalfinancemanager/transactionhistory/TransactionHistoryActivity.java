@@ -1,10 +1,12 @@
 package ufm.universalfinancemanager.transactionhistory;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.SearchView;
@@ -14,6 +16,8 @@ import javax.inject.Inject;
 import dagger.Lazy;
 import dagger.android.support.DaggerAppCompatActivity;
 import ufm.universalfinancemanager.R;
+import ufm.universalfinancemanager.earningshistory.EarningsHistoryActivity;
+import ufm.universalfinancemanager.networth.NetworthActivity;
 import ufm.universalfinancemanager.util.ActivityUtils;
 
 /**
@@ -36,7 +40,7 @@ public class TransactionHistoryActivity extends DaggerAppCompatActivity {
 
         mDrawerLayout = findViewById(R.id.drawer_layout);
         NavigationView navigationView = findViewById(R.id.nav_view);
-        if(navigationView == null) {
+        if(navigationView != null) {
             setupDrawerContent(navigationView);
         }
 
@@ -89,6 +93,7 @@ public class TransactionHistoryActivity extends DaggerAppCompatActivity {
                 new NavigationView.OnNavigationItemSelectedListener() {
                     @Override
                     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                        Log.d("Navigation: ", "selected");
                         switch(item.getItemId()) {
                             case R.id.home_menu_item:
                                 //switch to home activity
@@ -99,11 +104,12 @@ public class TransactionHistoryActivity extends DaggerAppCompatActivity {
                             case R.id.trans_history_menu_item:
                                 //Do nothing we're already here
                                 break;
-                            case R.id.inout_menu_item:
-                                //switch to input output activity
+                            case R.id.earnings_menu_item:
+                                startActivity(new Intent(getApplicationContext(), EarningsHistoryActivity.class));
                                 break;
                             case R.id.networth_menu_item:
                                 //switch to networth activity
+                                startActivity(new Intent(getApplicationContext(), NetworthActivity.class));
                                 break;
                             case R.id.reminder_menu_item:
                                 break;
