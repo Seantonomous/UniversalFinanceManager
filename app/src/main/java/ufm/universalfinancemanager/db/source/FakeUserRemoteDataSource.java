@@ -14,6 +14,8 @@ import java.util.Map;
 import javax.inject.Inject;
 
 import ufm.universalfinancemanager.db.UserDataSource;
+import ufm.universalfinancemanager.db.entity.Account;
+import ufm.universalfinancemanager.db.entity.Category;
 import ufm.universalfinancemanager.db.entity.Transaction;
 
 /**
@@ -67,5 +69,45 @@ public class FakeUserRemoteDataSource implements UserDataSource {
         for (Transaction transaction : transactions) {
             TRANSACTIONS_SERVICE_DATA.put(transaction.getId(), transaction);
         }
+    }
+
+    @Override
+    public void saveAccount(@NonNull Account account) {
+        //TODO: Implement (Stub)
+    }
+
+    @Override
+    public void deleteAccount(@NonNull String accountName) {
+        //TODO: Implement (Stub)
+    }
+
+    @Override
+    public void getAccounts(@NonNull LoadAccountsCallback callback) {
+        //TODO: Implement (Stub)
+    }
+
+    @Override
+    public void getAccount(@NonNull String accountName, @NonNull GetAccountCallback callback) {
+        //TODO: Implement (Stub)
+    }
+
+    @Override
+    public void saveCategory(@NonNull Category category) {
+        //TODO: Implement (Stub)
+    }
+
+    @Override
+    public void deleteCategory(@NonNull String categoryname) {
+        //TODO: Implement (Stub)
+    }
+
+    @Override
+    public void getCategories(@NonNull LoadCategoriesCallback callback) {
+        //TODO: Implement (Stub)
+    }
+
+    @Override
+    public void getCategory(@NonNull String categoryName, @NonNull GetCategoryCallback callback) {
+        //TODO: Implement (Stub)
     }
 }

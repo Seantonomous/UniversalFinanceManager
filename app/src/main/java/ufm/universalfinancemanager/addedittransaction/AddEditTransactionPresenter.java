@@ -212,8 +212,8 @@ public class AddEditTransactionPresenter implements AddEditTransactionContract.P
             mAddEditTransactionView.populateExistingFields(transaction.getName(),
                     transaction.getAmount(), transaction.getFlow(),
                     mUser.getCategory(transaction.getCategory()),
-                    mUser.getAccount(transaction.getFromAccount()),
-                    mUser.getAccount(transaction.getToAccount()),
+                    transaction.getFromAccount() == null ? null : mUser.getAccount(transaction.getFromAccount()),
+                    transaction.getToAccount() == null ? null : mUser.getAccount(transaction.getToAccount()),
                     transaction.getDate(), transaction.getNotes());
 
             beforeEditAmount = transaction.getAmount();
@@ -248,14 +248,12 @@ public class AddEditTransactionPresenter implements AddEditTransactionContract.P
         if(v == null)
             return;
 
+        mUser.refresh();
+
         mUserRepository.getAccounts(new UserDataSource.LoadAccountsCallback() {
             @Override
             public void onAccountsLoaded(List<Account> accounts) {
-                if(isNewTransaction())
-                    mAddEditTransactionView.setupFragmentContent(accounts, false);
-                else
-                    mAddEditTransactionView.setupFragmentContent(accounts, true);
-                    populateTransaction();
+                System.out.println("lkasd");
             }
 
             @Override
@@ -263,6 +261,15 @@ public class AddEditTransactionPresenter implements AddEditTransactionContract.P
 
             }
         });
+
+        if(isNewTransaction())
+            mAddEditTransactionView.setupFragmentContent(mUser.getAccounts(), false);
+        else {
+            mAddEditTransactionView.setupFragmentContent(mUser.getAccounts(), true);
+            populateTransaction();
+        }
+
+
     }
 
     @Override

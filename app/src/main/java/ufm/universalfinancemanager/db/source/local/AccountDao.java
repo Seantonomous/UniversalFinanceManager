@@ -16,13 +16,13 @@ import ufm.universalfinancemanager.db.entity.Account;
 
 @Dao
 public interface AccountDao {
-    @Query("SELECT * FROM Account")
+    @Query("SELECT * FROM `Account`")
     List<Account> getAll();
 
-    @Query("SELECT * FROM Account WHERE account_name = :name LIMIT 1")
+    @Query("SELECT * FROM `Account` WHERE account_name = :name LIMIT 1")
     Account getAccountByName(String name);
 
-    @Query("UPDATE Account SET account_balance = :newBalance WHERE account_name = :name")
+    @Query("UPDATE `Account` SET account_balance = :newBalance WHERE account_name = :name")
     void updateBalance(String name, double newBalance);
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
@@ -34,9 +34,9 @@ public interface AccountDao {
     @Delete
     void delete(Account account);
 
-    @Query("DELETE FROM Account")
+    @Query("DELETE FROM `Account`")
     void deleteAll();
 
-    @Query("DELETE FROM Account WHERE account_name = :name")
+    @Query("DELETE FROM `Account` WHERE account_name = :name")
     void deleteByName(String name);
 }

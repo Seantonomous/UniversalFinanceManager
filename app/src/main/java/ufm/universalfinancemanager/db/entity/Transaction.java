@@ -54,6 +54,7 @@ public class Transaction implements ListItem, Serializable {
 
     private double amount;
 
+    @ColumnInfo(name = "category_name")
     private String category;
 
     private String fromAccount;

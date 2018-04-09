@@ -36,19 +36,18 @@ public class User implements Serializable {
     private ArrayList<Category> expenseCategories;
     //private ArrayList<Reminder> reminders;
 
-    @Inject
-    public UserRepository mUserRepository;
+    UserRepository mUserRepository;
 
-    //@Inject
-    public User(String username) {
+    public User(String username, UserRepository userRepository) {
         this.username = username;
         this.accounts = new ArrayList<>();
         this.incomeCategories = new ArrayList<>();
         this.expenseCategories = new ArrayList<>();
 
-        //mUserRepository = userRepository;
+        mUserRepository = userRepository;
 
-        refreshAccounts();
+        //refreshAccounts();
+        //refreshCategories();
     }
 
     public User() {
@@ -166,6 +165,10 @@ public class User implements Serializable {
         return this.incomeCategories;
     }
     public ArrayList<Category> getExpenseCategories() { return this.expenseCategories; }
+
+    public void refresh() {
+        refreshAccounts();
+    }
 
     private void refreshAccounts() {
         mUserRepository.getAccounts(new UserDataSource.LoadAccountsCallback() {

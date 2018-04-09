@@ -10,7 +10,7 @@ import dagger.Component;
 import dagger.android.AndroidInjector;
 import dagger.android.support.AndroidSupportInjectionModule;
 import ufm.universalfinancemanager.db.UserRepository;
-import ufm.universalfinancemanager.db.source.UserRepositoryModule;
+import ufm.universalfinancemanager.db.UserRepositoryModule;
 import ufm.universalfinancemanager.support.atomic.User;
 import ufm.universalfinancemanager.support.atomic.UserModule;
 import ufm.universalfinancemanager.ufmApplication;
