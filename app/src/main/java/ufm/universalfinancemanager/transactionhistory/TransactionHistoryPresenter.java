@@ -1,5 +1,7 @@
 package ufm.universalfinancemanager.transactionhistory;
 
+import android.widget.SearchView;
+
 import java.util.List;
 
 import javax.annotation.Nullable;
@@ -60,10 +62,40 @@ public class TransactionHistoryPresenter implements TransactionHistoryContract.P
         });
     }
 
+
+
+    @Override
+    public void loadTransactionsByName(String name) {
+        //Performing database/network call, forbid ui test activity until it's done
+        EspressoIdlingResource.increment();
+
+
+        mTransactionRepository.getTransactionsSearchByName(new TransactionDataSource.LoadTransactionsCallback() {
+            @Override
+            public void onTransactionsLoaded(List<Transaction> transactions) {
+
+                // This callback may be called twice, once for the cache and once for loading
+                // the data from the server API, so we check before decrementing, otherwise
+                // it throws "Counter has been corrupted!" exception.
+                if (!EspressoIdlingResource.getIdlingResource().isIdleNow()) {
+                    EspressoIdlingResource.decrement(); // Set app as idle.
+                }
+
+                processTransactions(transactions);
+            }
+
+            @Override
+            public void onDataNotAvailable() {
+                //display loading transactions error message
+            }
+        },"%"+name+"%");
+    }
+
     public void processTransactions(List<Transaction> transactions) {
         if(transactions.isEmpty()) {
-            if(mTransactionHistoryView != null)
+            if(mTransactionHistoryView != null) {
                 mTransactionHistoryView.showNoTransactions();
+            }
         }else {
             if(mTransactionHistoryView != null) {
                 mTransactionHistoryView.showTransactions(transactions);
@@ -90,7 +122,7 @@ public class TransactionHistoryPresenter implements TransactionHistoryContract.P
         this.mTransactionHistoryView = view;
         loadTransactions();
     }
-
+    
     @Override
     public void dropView() {
         this.mTransactionHistoryView = null;

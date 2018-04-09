@@ -9,16 +9,26 @@
 */
 package ufm.universalfinancemanager.transactionhistory;
 
+import android.app.AlertDialog;
+import android.arch.persistence.room.Dao;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
+import android.text.TextUtils;
+import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ListView;
+import android.widget.SearchView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import org.w3c.dom.Text;
 
@@ -37,7 +47,12 @@ import ufm.universalfinancemanager.addeditcategory.AddEditCategoryActivity;
 import ufm.universalfinancemanager.addeditreminder.AddEditReminderActivity;
 import ufm.universalfinancemanager.addedittransaction.AddEditTransactionActivity;
 import ufm.universalfinancemanager.R;
+import ufm.universalfinancemanager.db.TransactionDataSource;
+import ufm.universalfinancemanager.db.TransactionRepository;
 import ufm.universalfinancemanager.db.entity.Transaction;
+import ufm.universalfinancemanager.db.source.local.TransactionDao;
+import ufm.universalfinancemanager.db.source.local.TransactionDao_Impl;
+import ufm.universalfinancemanager.db.source.local.TransactionDatabase;
 
 
 public class TransactionHistoryFragment extends DaggerFragment implements TransactionHistoryContract.View {
@@ -51,11 +66,14 @@ public class TransactionHistoryFragment extends DaggerFragment implements Transa
             mPresenter.editTransaction(t.getId());
         }
     };
-
     private TransactionAdapter mAdapter;
     private View mNoTransactionsView;
     private TextView mNoTransactionsTextView;
     private View mTransactionsView;
+    private SearchView mSearchView;
+    public int filter;
+
+    public Button mSortButton;
 
     @Inject
     public TransactionHistoryFragment() {
@@ -65,7 +83,7 @@ public class TransactionHistoryFragment extends DaggerFragment implements Transa
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mAdapter = new TransactionAdapter(new ArrayList<Transaction>(0), mClickListener);
+        mAdapter = new TransactionAdapter(new ArrayList<Transaction>(0), mClickListener,filter);
     }
 
     @Override
@@ -73,6 +91,7 @@ public class TransactionHistoryFragment extends DaggerFragment implements Transa
         super.onResume();
         mPresenter.takeView(this);
     }
+
 
     @Override
     public void onDestroy() {
@@ -87,7 +106,7 @@ public class TransactionHistoryFragment extends DaggerFragment implements Transa
 
     @Override
     public void showTransactions(List<Transaction> items) {
-        mAdapter.replaceItems(items);
+        mAdapter.replaceItems(items,filter);
         mTransactionsView.setVisibility(View.VISIBLE);
         mNoTransactionsView.setVisibility(View.GONE);
     }
@@ -115,15 +134,118 @@ public class TransactionHistoryFragment extends DaggerFragment implements Transa
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(final LayoutInflater inflater, final ViewGroup container, final Bundle savedInstanceState) {
         //Inflate the fragment with the corresponding layout
         View root = inflater.inflate(R.layout.transaction_history_fragment, container, false);
 
-        ListView listview = root.findViewById(R.id.transactionlist);
+        final ListView listview = root.findViewById(R.id.transactionlist);
         listview.setAdapter(mAdapter);
         mTransactionsView = root.findViewById(R.id.transactionsLayout);
         mNoTransactionsView = root.findViewById(R.id.noTransactionsLayout);
         mNoTransactionsTextView = root.findViewById(R.id.noTransactionsText);
+
+        mSortButton = root.findViewById(R.id.buttonSort);
+
+        mSortButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                  AlertDialog.Builder options = new AlertDialog.Builder(getContext());
+                  options.setTitle("Sort By: ");
+
+                final CharSequence[] sortOptions = new String[]{"Default","Category(A-Z)","Category(Z-A)","Amount($$$-$)","Amount($-$$$)"};
+
+
+                options.setTitle("Select Your Choice");
+
+                options.setSingleChoiceItems(sortOptions, -1, new DialogInterface.OnClickListener() {
+
+                    public void onClick(DialogInterface dialog, int item) {
+
+                        switch(item)
+                        {
+                            case 0:
+                                Toast.makeText(getContext(), "Sort By: Default", Toast.LENGTH_SHORT).show();
+                                filter = 0;
+                                break;
+                            case 1:
+                                Toast.makeText(getContext(), "Sort By: Category(A-Z)", Toast.LENGTH_SHORT).show();
+                                filter = 1;
+                                break;
+                            case 2:
+                                Toast.makeText(getContext(), "Sort By: Category(Z-A)", Toast.LENGTH_SHORT).show();
+                                filter = 2;
+                                break;
+                            case 3:
+                                Toast.makeText(getContext(), "Sort By: Amount($$$-$)", Toast.LENGTH_SHORT).show();
+                                filter = 3;
+                                break;
+                            case 4:
+                                Toast.makeText(getContext(), "Sort By: Amount($-$$$)", Toast.LENGTH_SHORT).show();
+                                filter = 4;
+                                break;
+                        }
+
+                        if(mSearchView.getQuery().toString()==null){
+                            mPresenter.loadTransactions();
+                        }else{
+                            mPresenter.loadTransactionsByName(mSearchView.getQuery().toString());
+                        }
+
+                    }
+                });
+
+                options.create();
+
+                AlertDialog alert = options.create();
+                alert.getWindow().setLayout(100,100);
+                alert.show();
+
+            }
+        });
+
+        //
+        mSearchView =root.findViewById(R.id.searchView);
+
+        mSearchView.setOnSearchClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.d("Opened","Click");
+            }
+
+
+        });
+
+        mSearchView.setOnCloseListener(new SearchView.OnCloseListener() {
+            @Override
+            public boolean onClose() {
+                Log.d("Showing on close:","All Transactions");
+                mPresenter.loadTransactions();
+                return false;
+            }
+        });
+
+        mSearchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query){
+                Log.d("Searching for: ",query);
+                mPresenter.loadTransactionsByName(query);
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+
+                if(mSearchView.getQuery().toString()!=null && TextUtils.getTrimmedLength(mSearchView.getQuery()) > 0){
+                   // mPresenter.loadTransactionsByName(newText);
+                    Log.d("Changed: -->",newText);
+                }else{
+                    mPresenter.loadTransactions();
+                    //mPresenter.mTransactionHistoryView.showNoTransactions();
+                    Log.d("Showing on change:", "Transactions");
+                }
+                return false;
+            }
+        });
 
         setHasOptionsMenu(true);
 
@@ -160,4 +282,6 @@ public class TransactionHistoryFragment extends DaggerFragment implements Transa
     public interface TransactionClickListener {
         void onTransactionClicked(Transaction t);
     }
+
+
 }

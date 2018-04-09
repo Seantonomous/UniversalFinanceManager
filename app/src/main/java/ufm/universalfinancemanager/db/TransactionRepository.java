@@ -7,6 +7,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.annotation.Nonnull;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
@@ -37,19 +38,21 @@ public class TransactionRepository implements TransactionDataSource {
 
     @Override
     public void getTransactions(@NonNull final LoadTransactionsCallback callback) {
-        if(mCachedTransactions != null && !mCacheDirty) {
+        /*if(mCachedTransactions != null && !mCacheDirty) {
             callback.onTransactionsLoaded(new ArrayList<>(mCachedTransactions.values()));
             return;
         }
-
+    */
         if(mCacheDirty) {
             getTransactionsFromRemoteDataSource(callback);
         }else {
             mLocalSource.getTransactions(new LoadTransactionsCallback() {
                 @Override
+
                 public void onTransactionsLoaded(List<Transaction> transactions) {
-                    refreshCache(transactions);
-                    callback.onTransactionsLoaded(new ArrayList<>(mCachedTransactions.values()));
+                  //  refreshCache(transactions);
+                   // callback.onTransactionsLoaded(new ArrayList<>(mCachedTransactions.values()));
+                    callback.onTransactionsLoaded(transactions);
                 }
 
                 @Override
@@ -57,6 +60,34 @@ public class TransactionRepository implements TransactionDataSource {
                     getTransactionsFromRemoteDataSource(callback);
                 }
             });
+        }
+    }
+
+    //
+    @Override
+    public void getTransactionsSearchByName(@NonNull final LoadTransactionsCallback callback, @Nonnull final String name) {
+        /*if(mCachedTransactions != null && !mCacheDirty) {
+            callback.onTransactionsLoaded(new ArrayList<>(mCachedTransactions.values()));
+            return;
+        }
+        */
+
+        if(mCacheDirty) {
+            getTransactionsSearchByName(callback,name);
+        }else {
+            mLocalSource.getTransactionsSearchByName(new LoadTransactionsCallback() {
+                @Override
+                public void onTransactionsLoaded(List<Transaction> transactions) {
+                    //refreshCache(transactions);
+                   // callback.onTransactionsLoaded(new ArrayList<>(mCachedTransactions.values()));
+                    callback.onTransactionsLoaded(transactions);
+                }
+
+                @Override
+                public void onDataNotAvailable() {
+                    getTransactionsFromRemoteDataSourceByName(callback,name);
+                }
+            },name);
         }
     }
 
@@ -76,6 +107,22 @@ public class TransactionRepository implements TransactionDataSource {
         });
     }
 
+    //-----Testing if this resolves caching issue-----
+    private void getTransactionsFromRemoteDataSourceByName(@NonNull final LoadTransactionsCallback callback, @Nonnull String name) {
+        mRemoteSource.getTransactionsSearchByName(new LoadTransactionsCallback() {
+            @Override
+            public void onTransactionsLoaded(List<Transaction> transactions) {
+                refreshCache(transactions);
+                refreshLocalDataSource(transactions);
+                callback.onTransactionsLoaded(new ArrayList<>(mCachedTransactions.values()));
+            }
+
+            @Override
+            public void onDataNotAvailable() {
+                callback.onDataNotAvailable();
+            }
+        },name);
+    }
     private void refreshCache(List<Transaction> transactions) {
         if (mCachedTransactions == null) {
             mCachedTransactions = new LinkedHashMap<>();
@@ -119,6 +166,7 @@ public class TransactionRepository implements TransactionDataSource {
                     @Override
                     public void onTransactionLoaded(Transaction transaction) {
                         // Do in memory cache update to keep the app UI up to date
+
                         if (mCachedTransactions == null) {
                             mCachedTransactions = new LinkedHashMap<>();
                         }
