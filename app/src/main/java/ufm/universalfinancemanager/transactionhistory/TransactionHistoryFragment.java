@@ -144,7 +144,6 @@ public class TransactionHistoryFragment extends DaggerFragment implements Transa
 
         mSortButton = root.findViewById(R.id.buttonSort);
 
-
         mSortButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -163,23 +162,23 @@ public class TransactionHistoryFragment extends DaggerFragment implements Transa
                         switch(item)
                         {
                             case 0:
-                                Toast.makeText(getContext(), "Sort By: Default", Toast.LENGTH_LONG).show();
+                                Toast.makeText(getContext(), "Sort By: Default", Toast.LENGTH_SHORT).show();
                                 filter = 0;
                                 break;
                             case 1:
-                                Toast.makeText(getContext(), "Sort By: Category(A-Z)", Toast.LENGTH_LONG).show();
+                                Toast.makeText(getContext(), "Sort By: Category(A-Z)", Toast.LENGTH_SHORT).show();
                                 filter = 1;
                                 break;
                             case 2:
-                                Toast.makeText(getContext(), "Sort By: Category(Z-A)", Toast.LENGTH_LONG).show();
+                                Toast.makeText(getContext(), "Sort By: Category(Z-A)", Toast.LENGTH_SHORT).show();
                                 filter = 2;
                                 break;
                             case 3:
-                                Toast.makeText(getContext(), "Sort By: Amount($$$-$)", Toast.LENGTH_LONG).show();
+                                Toast.makeText(getContext(), "Sort By: Amount($$$-$)", Toast.LENGTH_SHORT).show();
                                 filter = 3;
                                 break;
                             case 4:
-                                Toast.makeText(getContext(), "Sort By: Amount($-$$$)", Toast.LENGTH_LONG).show();
+                                Toast.makeText(getContext(), "Sort By: Amount($-$$$)", Toast.LENGTH_SHORT).show();
                                 filter = 4;
                                 break;
                         }
@@ -192,7 +191,6 @@ public class TransactionHistoryFragment extends DaggerFragment implements Transa
 
                     }
                 });
-
 
                 options.create();
 

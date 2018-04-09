@@ -2,11 +2,16 @@ package ufm.universalfinancemanager.addedittransaction;
 
 import android.app.Activity;
 import android.app.DatePickerDialog;
+import android.app.SharedElementCallback;
 import android.content.Intent;
 import android.graphics.Paint;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.annotation.Nullable;
+import android.text.Editable;
+import android.text.Selection;
+import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,10 +28,13 @@ import android.widget.Spinner;
 import android.widget.SpinnerAdapter;
 import android.widget.TextView;
 
+import java.math.BigDecimal;
+import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.DuplicateFormatFlagsException;
 import java.util.List;
 import java.util.Locale;
 
@@ -110,7 +118,7 @@ public class AddEditTransactionFragment extends DaggerFragment implements AddEdi
     }
     
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, final ViewGroup container, Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.addedit_transaction_fragment, container, false);
 
         edit_name = root.findViewById(R.id.name);
@@ -157,6 +165,7 @@ public class AddEditTransactionFragment extends DaggerFragment implements AddEdi
                     return;
                 }
 
+                double amount = Double.parseDouble(edit_amount.getText().toString().replace("$","").replace(",",""));
                 if(income_radioButton.isChecked()) {
                     mPresenter.saveTransaction(edit_name.getText().toString(),
                             Flow.INCOME,
@@ -170,7 +179,8 @@ public class AddEditTransactionFragment extends DaggerFragment implements AddEdi
                 else if(expense_radioButton.isChecked()) {
                     mPresenter.saveTransaction(edit_name.getText().toString(),
                             Flow.OUTCOME,
-                            Double.parseDouble(edit_amount.getText().toString()),
+                            amount,
+                           // Double.parseDouble(edit_amount.getText().toString()),
                             category_spinner.getSelectedItem().toString(),
                             fromAccount_spinner.getSelectedItem().toString(),
                             null,
@@ -201,10 +211,53 @@ public class AddEditTransactionFragment extends DaggerFragment implements AddEdi
             }
         });
 
+
+        // Error with values ending in .00 
+        /*
+        edit_amount.addTextChangedListener(new TextWatcher() {
+            private String current= "";
+
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                Log.d("s:-->",s.toString());
+                Log.d("current:-->",current);
+
+                edit_amount.addTextChangedListener(this);
+
+                if(!(s.toString().equals(current))) {
+                    edit_amount.removeTextChangedListener(this);
+
+                    //String replaceable = String.format("[$,.]","");
+                    String cleanString = s.toString().replaceAll("[$,.]", "");
+                    Log.d(" cleanString: ", cleanString);
+
+                    BigDecimal parsed = new BigDecimal(cleanString).setScale(2, BigDecimal.ROUND_FLOOR).divide(new BigDecimal(10), BigDecimal.ROUND_FLOOR);
+                    String formatted = NumberFormat.getCurrencyInstance().format(parsed);
+
+                    current = cleanString;
+                    edit_amount.setText(formatted);
+                    edit_amount.setSelection(formatted.length());
+                    edit_amount.addTextChangedListener(this);
+                }
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+        */
+
         edit_amount.addTextChangedListener(new TextValidator(edit_amount) {
+
             @Override
             public void validate(TextView textView, String text) {
-                if(text.length() == 0) {
+                if(text.equals("$0.00")) {
                     textView.setError("Transaction must have an amount");
                     valid_amount = false;
                 }else {
@@ -212,6 +265,7 @@ public class AddEditTransactionFragment extends DaggerFragment implements AddEdi
                 }
             }
         });
+
 
         income_radioButton.setOnClickListener(new View.OnClickListener() {
             @Override
