@@ -106,9 +106,6 @@ public class TransactionHistoryActivity extends DaggerAppCompatActivity {
                             case R.id.earnings_menu_item:
                                 startActivity(new Intent(getApplicationContext(), EarningsHistoryActivity.class));
                                 break;
-                            //case R.id.earnings_menu_item:
-                                //switch to input output activity
-                             //   break;
                             case R.id.networth_menu_item:
                                 //switch to networth activity
                                 startActivity(new Intent(getApplicationContext(), NetworthActivity.class));
