@@ -1,8 +1,27 @@
 package ufm.universalfinancemanager.home;
 
-/**
- * Created by aaronoconnor on 4/9/18.
- */
+import dagger.Binds;
+import dagger.Module;
+import dagger.android.ContributesAndroidInjector;
+import ufm.universalfinancemanager.di.ActivityScoped;
+import ufm.universalfinancemanager.di.FragmentScoped;
 
-public class HomeFragmentChart3 {
+@Module
+public abstract class HomeModule {
+
+    @FragmentScoped
+    @ContributesAndroidInjector
+    abstract HomeFragmentChart1 homeFragment1();
+
+    @FragmentScoped
+    @ContributesAndroidInjector
+    abstract HomeFragmentChart2 homeFragment2();
+
+    @FragmentScoped
+    @ContributesAndroidInjector
+    abstract HomeFragmentChart3 homeFragment3();
+
+    @ActivityScoped
+    @Binds
+    abstract HomeContract.Presenter homePresenter(HomePresenter presenter);
 }

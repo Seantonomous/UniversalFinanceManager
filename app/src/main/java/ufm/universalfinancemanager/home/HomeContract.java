@@ -1,8 +1,18 @@
 package ufm.universalfinancemanager.home;
 
-/**
- * Created by aaronoconnor on 4/9/18.
- */
+import ufm.universalfinancemanager.BasePresenter;
+import ufm.universalfinancemanager.BaseView;
 
-public class HomeActivity {
+public interface HomeContract {
+
+    interface View extends BaseView<Presenter> {
+        // boolean isActive();
+    }
+
+    interface Presenter extends BasePresenter<View> {
+
+        void takeView(View v);
+
+        void dropView();
+    }
 }

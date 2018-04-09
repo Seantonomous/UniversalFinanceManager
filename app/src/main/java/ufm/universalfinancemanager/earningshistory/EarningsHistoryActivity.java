@@ -14,6 +14,7 @@ import javax.inject.Inject;
 import dagger.Lazy;
 import dagger.android.support.DaggerAppCompatActivity;
 import ufm.universalfinancemanager.R;
+import ufm.universalfinancemanager.home.HomeActivity;
 import ufm.universalfinancemanager.networth.NetworthActivity;
 import ufm.universalfinancemanager.transactionhistory.TransactionHistoryActivity;
 import ufm.universalfinancemanager.util.ActivityUtils;
@@ -38,9 +39,9 @@ public class EarningsHistoryActivity extends DaggerAppCompatActivity {
 
         mDrawerLayout = findViewById(R.id.drawer_layout);
         NavigationView navigationView = findViewById(R.id.nav_view);
-        if(navigationView == null) {
+//        if(navigationView == null) {
             setupDrawerContent(navigationView);
-        }
+//        }
 
         //See if the fragment is already inserted
         EarningsHistoryFragment earningsHistoryFragment =
@@ -94,6 +95,7 @@ public class EarningsHistoryActivity extends DaggerAppCompatActivity {
                         switch(item.getItemId()) {
                             case R.id.home_menu_item:
                                 //switch to home activity
+                                startActivity(new Intent(getApplicationContext(), HomeActivity.class));
                                 break;
                             case R.id.budget_menu_item:
                                 //switch to budget overview activity

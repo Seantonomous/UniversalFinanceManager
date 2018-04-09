@@ -47,6 +47,8 @@ Contributing Team Members:
             android:theme="@style/AppTheme"/>
         <activity android:name=".addeditreminder.AddEditReminderActivity"
             android:theme="@style/AppTheme"/>
+        <activity android:name=".home.HomeActivity"
+            android:theme="@style/AppTheme"/>
         <activity android:name=".addeditbudget.AddEditBudgetActivity"
             android:theme="@style/AppTheme"/>
         <activity android:name=".networth.NetworthActivity"
