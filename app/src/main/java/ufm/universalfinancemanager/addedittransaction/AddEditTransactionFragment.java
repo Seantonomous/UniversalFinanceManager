@@ -18,6 +18,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -244,8 +245,14 @@ public class AddEditTransactionFragment extends DaggerFragment implements AddEdi
 
         isEditing = editing;
 
-        accountSpinnerAdapter = new ArrayAdapter<>(getContext(),
-                android.R.layout.simple_spinner_item, accounts);
+        if(accounts != null) {
+            accountSpinnerAdapter = new ArrayAdapter<>(getContext(),
+                    android.R.layout.simple_spinner_item, accounts);
+
+            accountSpinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+            fromAccount_spinner.setAdapter(accountSpinnerAdapter);
+            toAccount_spinner.setAdapter(accountSpinnerAdapter);
+        }
 
         if(isEditing)
             cancel_button.setText("Delete");
@@ -253,11 +260,6 @@ public class AddEditTransactionFragment extends DaggerFragment implements AddEdi
             expense_radioButton.setChecked(true);
             onFlowChecked(expense_radioButton);
         }
-
-        accountSpinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-
-        fromAccount_spinner.setAdapter(accountSpinnerAdapter);
-        toAccount_spinner.setAdapter(accountSpinnerAdapter);
     }
 
     @Override

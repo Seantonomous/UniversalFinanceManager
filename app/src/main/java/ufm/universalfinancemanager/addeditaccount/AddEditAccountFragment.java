@@ -38,6 +38,7 @@ public class AddEditAccountFragment extends DaggerFragment implements AddEditAcc
 
     boolean valid_name = false;
     boolean valid_amount = false;
+    boolean isediting = false;
 
     @Inject
     public AddEditAccountFragment() {}
@@ -133,7 +134,10 @@ public class AddEditAccountFragment extends DaggerFragment implements AddEditAcc
         cancel_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                showLastActivity(false);
+                if(isediting)
+                    mPresenter.deleteAccount();
+                else
+                    showLastActivity(false);
             }
         });
 
@@ -158,6 +162,9 @@ public class AddEditAccountFragment extends DaggerFragment implements AddEditAcc
 
     @Override
     public void populateExistingAccountInfo(String name, double balance, AccountType type) {
+        isediting = true;
+        cancel_button.setText("Delete");
+
         edit_name.setText(name);
 
         edit_amount.setText(Double.toString(balance));

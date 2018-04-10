@@ -24,9 +24,9 @@ public class AddEditAccountPresenter implements AddEditAccountContract.Presenter
     private AddEditAccountContract.View mAddEditAccountView = null;
 
     @Inject
-    AddEditAccountPresenter(User user) {
+    AddEditAccountPresenter(User user, @Nullable String accountName) {
         mUser = user;
-        //mAccountName = accountName;
+        mAccountName = accountName;
     }
 
     @Override
@@ -51,6 +51,15 @@ public class AddEditAccountPresenter implements AddEditAccountContract.Presenter
             if(mAddEditAccountView != null)
                 mAddEditAccountView.showLastActivity(true);
         }
+    }
+
+    @Override
+    public void deleteAccount() {
+        Account account = mUser.getAccount(mAccountName);
+        mUser.deleteAccount(account);
+
+        if(mAddEditAccountView != null)
+            mAddEditAccountView.showLastActivity(true);
     }
 
     @Override

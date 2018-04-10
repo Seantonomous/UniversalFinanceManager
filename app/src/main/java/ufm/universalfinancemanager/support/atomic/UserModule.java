@@ -10,6 +10,7 @@ import dagger.Provides;
 import ufm.universalfinancemanager.db.UserRepository;
 import ufm.universalfinancemanager.db.entity.Account;
 import ufm.universalfinancemanager.db.entity.Category;
+import ufm.universalfinancemanager.di.ActivityScoped;
 import ufm.universalfinancemanager.support.AccountType;
 import ufm.universalfinancemanager.support.Flow;
 
@@ -24,7 +25,8 @@ public class UserModule {
     @Provides
     static User provideUser(UserRepository userRepository) {
         User testUser = new User("user", userRepository);
-/*
+
+        /*
         if(!testUser.hasAccount("Checking"))
             testUser.addAccount(new Account("Checking", AccountType.CHECKING, 1089, new Date()));
         if(!testUser.hasAccount("Checking2"))

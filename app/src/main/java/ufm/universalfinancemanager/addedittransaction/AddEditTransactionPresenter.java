@@ -31,9 +31,11 @@ public class AddEditTransactionPresenter implements AddEditTransactionContract.P
     AddEditTransactionContract.View mAddEditTransactionView = null;
 
     @Inject
-    public AddEditTransactionPresenter(UserRepository repository, User user, @Nullable String id)
-    {mUserRepository = repository;
-        this.mUser = user; mTransactionId = id;}
+    public AddEditTransactionPresenter(UserRepository repository, User user, @Nullable String id) {
+        mUserRepository = repository;
+        mUser = user;
+        mTransactionId = id;
+    }
 
     @Override
     public void saveTransaction(String name, Flow flow, Double amount,
@@ -144,6 +146,7 @@ public class AddEditTransactionPresenter implements AddEditTransactionContract.P
                         account.unregisterTransaction(t);
                         account.registerTransaction(t);
                         mUserRepository.saveAccount(account);
+                        mUser.refreshAccounts();
                     }
 
                     @Override
@@ -158,6 +161,7 @@ public class AddEditTransactionPresenter implements AddEditTransactionContract.P
                         account.unregisterTransaction(t);
                         account.registerTransaction(t);
                         mUserRepository.saveAccount(account);
+                        mUser.refreshAccounts();
                     }
 
                     @Override
@@ -172,6 +176,7 @@ public class AddEditTransactionPresenter implements AddEditTransactionContract.P
                         account.unregisterTransaction(t);
                         account.registerTransaction(t);
                         mUserRepository.saveAccount(account);
+                        mUser.refreshAccounts();
                     }
 
                     @Override
@@ -186,6 +191,7 @@ public class AddEditTransactionPresenter implements AddEditTransactionContract.P
                         account.unregisterTransaction(t);
                         account.registerTransaction(t);
                         mUserRepository.saveAccount(account);
+                        mUser.refreshAccounts();
                     }
 
                     @Override
@@ -249,18 +255,6 @@ public class AddEditTransactionPresenter implements AddEditTransactionContract.P
             return;
 
         mUser.refresh();
-
-        mUserRepository.getAccounts(new UserDataSource.LoadAccountsCallback() {
-            @Override
-            public void onAccountsLoaded(List<Account> accounts) {
-                System.out.println("lkasd");
-            }
-
-            @Override
-            public void onDataNotAvailable() {
-
-            }
-        });
 
         if(isNewTransaction())
             mAddEditTransactionView.setupFragmentContent(mUser.getAccounts(), false);

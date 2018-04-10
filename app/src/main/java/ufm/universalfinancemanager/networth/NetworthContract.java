@@ -12,10 +12,15 @@ import ufm.universalfinancemanager.db.entity.Account;
 
 public class NetworthContract {
     interface View extends BaseView<Presenter> {
+
         void showNetworth(List<Account> accounts);
+
+        void showEditAccount(String accountName);
     }
 
     interface Presenter extends BasePresenter<View> {
+
+        void editAccount(Account account);
 
         void takeView(NetworthContract.View view);
 

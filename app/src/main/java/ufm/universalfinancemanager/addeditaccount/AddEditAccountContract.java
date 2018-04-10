@@ -10,6 +10,7 @@ import ufm.universalfinancemanager.support.AccountType;
 
 public interface AddEditAccountContract {
     interface View extends BaseView<Presenter> {
+
         void populateExistingAccountInfo(String name, double balance, AccountType type);
 
         void showLastActivity(boolean success);
@@ -18,6 +19,8 @@ public interface AddEditAccountContract {
     }
 
     interface Presenter extends BasePresenter<View> {
+        void deleteAccount();
+
         void saveAccount(String name, double balance, AccountType type);
 
         void takeView(View v);

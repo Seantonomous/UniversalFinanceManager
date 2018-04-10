@@ -46,8 +46,8 @@ public class User implements Serializable {
 
         mUserRepository = userRepository;
 
-        //refreshAccounts();
-        //refreshCategories();
+        refreshAccounts();
+        refreshCategories();
     }
 
     public User() {
@@ -71,15 +71,27 @@ public class User implements Serializable {
         return username;
     }
 
-    public boolean addAccount(Account account) throws RuntimeException {
-        for(int i=0;i<accounts.size();i++)
-            if(accounts.get(i).getName().equals(account.getName())) {
-                throw new RuntimeException("Account with same name already exists: " + account.toString());
-            }
+    public ArrayList<Account> getAccounts() {
+        return this.accounts;
+    }
+    public ArrayList<Category> getIncomeCategories() {
+        return this.incomeCategories;
+    }
+    public ArrayList<Category> getExpenseCategories() { return this.expenseCategories; }
+
+    public void addAccount(Account account) throws RuntimeException {
+        for(Account c_account: accounts)
+            if(c_account.getName().equals(account.getName()))
+                throw new RuntimeException("Account with same name already exists: " +
+                        account.toString());
 
         accounts.add(account);
         mUserRepository.saveAccount(account);
-        return true;
+    }
+
+    public void deleteAccount(Account account) {
+        accounts.remove(account);
+        mUserRepository.deleteAccount(account.getName());
     }
 
     public void editAccountName(String oldName, String newName) {
@@ -90,40 +102,19 @@ public class User implements Serializable {
     }
 
     public Account getAccount(String name) throws RuntimeException {
-        for(int i=0;i<accounts.size();i++)
-            if(accounts.get(i).getName().equals(name))
-                return accounts.get(i);
+        for(Account account : accounts)
+            if(account.getName().equals(name))
+                return account;
 
         throw new RuntimeException(String.format(Locale.getDefault(), "Account %s not found", name));
     }
 
     public boolean hasAccount(String name) {
-        for (int i = 0; i < accounts.size(); i++) {
-            if (accounts.get(i).getName().equals(name)) {
+        for(Account account : accounts)
+            if(account.getName().equals(name))
                 return true;
-            }
-        }
-        return false;
-    }
-
-    public boolean hasCategory(String name) {
-        for(int i=0;i<incomeCategories.size();i++) {
-            if(incomeCategories.get(i).getName().equals(name)) {
-                return true;
-            }
-        }
-
-        for(int i=0;i<expenseCategories.size();i++) {
-            if(expenseCategories.get(i).getName().equals(name)) {
-                return true;
-            }
-        }
 
         return false;
-    }
-
-    public ArrayList<Account> getAccounts() {
-        return this.accounts;
     }
 
     /*
@@ -133,13 +124,13 @@ public class User implements Serializable {
 
     public boolean addCategory(Category c) throws RuntimeException {
         if(c.getFlow() == Flow.INCOME) {
-            for(int i=0;i<incomeCategories.size();i++)
-                if(incomeCategories.get(i).getName().equals(c.getName()))
+            for(Category category : incomeCategories)
+                if(category.getName().equals(c.getName()))
                     throw new RuntimeException("Category with same name already exists");
             incomeCategories.add(c);
         }else {
-            for(int i=0;i<expenseCategories.size();i++)
-                if(expenseCategories.get(i).getName().equals(c.getName()))
+            for(Category category : expenseCategories)
+                if(category.getName().equals(c.getName()))
                     throw new RuntimeException("Category with same name already exists");
             expenseCategories.add(c);
         }
@@ -147,6 +138,18 @@ public class User implements Serializable {
         mUserRepository.saveCategory(c);
 
         return true;
+    }
+
+    public boolean hasCategory(String name) {
+        for(Category category : incomeCategories)
+            if(category.getName().equals(name))
+                return true;
+
+        for(Category category : expenseCategories)
+            if(category.getName().equals(name))
+                return true;
+
+        return false;
     }
 
     public Category getCategory(String name) throws RuntimeException {
@@ -161,19 +164,24 @@ public class User implements Serializable {
         throw new RuntimeException(String.format("Category %s not found", name));
     }
 
-    public ArrayList<Category> getIncomeCategories() {
-        return this.incomeCategories;
+    public void deleteCategory(Category category) {
+        if(category.getFlow() == Flow.INCOME)
+            incomeCategories.remove(category);
+        else
+            expenseCategories.remove(category);
+
+        mUserRepository.deleteAccount(category.getName());
     }
-    public ArrayList<Category> getExpenseCategories() { return this.expenseCategories; }
 
     public void refresh() {
         refreshAccounts();
     }
 
-    private void refreshAccounts() {
+    public void refreshAccounts() {
         mUserRepository.getAccounts(new UserDataSource.LoadAccountsCallback() {
             @Override
             public void onAccountsLoaded(List<Account> loaded_accounts) {
+                accounts.clear();
                 accounts = (ArrayList<Account>)loaded_accounts;
             }
 
@@ -184,7 +192,7 @@ public class User implements Serializable {
         });
     }
 
-    private void refreshCategories() {
+    public void refreshCategories() {
         mUserRepository.getCategories(new UserDataSource.LoadCategoriesCallback() {
             @Override
             public void onCategoriesLoaded(List<Category> loaded_categories) {

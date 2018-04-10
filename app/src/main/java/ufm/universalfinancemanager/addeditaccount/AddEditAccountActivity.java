@@ -27,8 +27,8 @@ public class AddEditAccountActivity extends DaggerAppCompatActivity {
     @Inject
     AddEditAccountFragment mFragment;
 
-    //@Inject
-    //@Nullable
+    @Inject
+    @Nullable
     String accountName;
 
     private DrawerLayout mDrawerLayout;
