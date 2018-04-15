@@ -40,8 +40,8 @@ public class AddEditBudgetPresenter implements AddEditBudgetContract.Presenter{
         }
     }*/
     @Override
-    public void saveBudget(String name, String categoryName, double amount) {
-        Budget budget = new Budget(name, categoryName == null ? null : mUser.getCategory(categoryName), amount);
+    public void saveBudget(String name, String categoryName, double amount, double current) {
+        Budget budget = new Budget(name, categoryName == null ? null : mUser.getCategory(categoryName), amount, current);
         mUser.addBudget(budget);
         if(mAddEditBudgetview != null) {
             mAddEditBudgetview.showMessage("Budget successfully saved.");

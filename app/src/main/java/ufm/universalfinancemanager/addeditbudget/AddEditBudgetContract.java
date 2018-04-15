@@ -18,7 +18,7 @@ public interface AddEditBudgetContract {
     }
 
     interface Presenter extends BasePresenter<AddEditBudgetContract.View> {
-        void saveBudget(String name, String category, double amount);
+        void saveBudget(String name, String category, double amount, double currentValue);
 
         void deleteBudget();
 

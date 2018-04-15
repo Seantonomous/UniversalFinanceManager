@@ -11,44 +11,51 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 
 import javax.inject.Inject;
 
 import dagger.android.support.DaggerFragment;
 import ufm.universalfinancemanager.R;
 import ufm.universalfinancemanager.addeditcategory.AddEditCategoryPresenter;
+import ufm.universalfinancemanager.db.TransactionRepository;
+import ufm.universalfinancemanager.db.entity.Transaction;
 import ufm.universalfinancemanager.support.AccountType;
+import ufm.universalfinancemanager.support.Flow;
 import ufm.universalfinancemanager.support.TextValidator;
+import ufm.universalfinancemanager.support.atomic.User;
 
 /**
  * Created by Areeba on 2/23/2018.
  */
 
 public class AddEditBudgetFragment extends DaggerFragment implements AddEditBudgetContract.View{
+    private User mUser;
     Button cancel_button;
     Button submit_button;
     private Spinner category;
     private EditText edit_amount;
     private EditText edit_name;
-    private Spinner duration;
+   // private Spinner duration;
     boolean valid_amount = false;
     boolean valid_name = false;
-
+    private double currentValue;
+    Transaction t;
     @Inject
     AddEditBudgetPresenter mPresenter;
-
+    TransactionRepository transactionRepository;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
     }
 
-    public View onCreate(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.add_edit_budget_fragment, container, false);
         edit_amount = root.findViewById(R.id.add_amount);
         edit_name = root.findViewById(R.id.name);
         category = root.findViewById(R.id.category);
-        duration = root.findViewById(R.id.duration);
         cancel_button = root.findViewById(R.id.cancel);
         submit_button = root.findViewById(R.id.submit);
 
@@ -86,9 +93,11 @@ public class AddEditBudgetFragment extends DaggerFragment implements AddEditBudg
                         edit_amount.setError("Budget must have an amount!");
                     return;
                 }
+            currentValue = getExpenseTransactions(category.getSelectedItem().toString());
             mPresenter.saveBudget(edit_name.getText().toString(),
                     category.getSelectedItem().toString(),
-                    Double.parseDouble(edit_amount.getText().toString())
+                    Double.parseDouble(edit_amount.getText().toString()),
+                    currentValue
             );
             }
         });
@@ -101,6 +110,20 @@ public class AddEditBudgetFragment extends DaggerFragment implements AddEditBudg
         });
         return root;
     }
+
+    private double getExpenseTransactions(String categoryName) {
+        List<Transaction> allTransactionList = null; // load all transactions= transactionRepository.getTransactions();
+        List<Transaction> budgetTransactionList = new ArrayList<>();
+        double sum = 0.0;
+        for(Transaction t: allTransactionList) {
+            if((t.getCategory() == (categoryName == null ? null : mUser.getCategory(categoryName))) && t.getFlow() == Flow.INCOME) {
+                budgetTransactionList.add(t);
+                sum += t.getAmount();
+            }
+        }
+        return sum;
+    }
+
     @Inject
     public AddEditBudgetFragment() {}
 

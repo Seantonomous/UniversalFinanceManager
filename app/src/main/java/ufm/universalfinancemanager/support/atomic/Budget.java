@@ -32,22 +32,17 @@ public class Budget implements Parcelable, Serializable, ListItem {
 
     @ColumnInfo(name = "amount")
     private double amount;
-
-    private boolean frequency;
+    private double currentValue;
+   // private boolean frequency;
     @Ignore
     private NumberFormat num_format;
 
-    public Budget(String name, Category category, double amount, boolean frequency) {
+
+    public Budget(String name, Category category, double amount, double current) {
         this.name = name;
         this.category = category;
         this.amount = amount;
-        this.frequency = frequency;
-        num_format = NumberFormat.getCurrencyInstance();
-    }
-    public Budget(String name, Category category, double amount) {
-        this.name = name;
-        this.category = category;
-        this.amount = amount;
+        this.currentValue= current;
         num_format = NumberFormat.getCurrencyInstance();
     }
 
@@ -55,20 +50,22 @@ public class Budget implements Parcelable, Serializable, ListItem {
     public String getName() {return name;}
     public Category getCategory() {return category;}
     public double getAmount() {return amount;}
-    public boolean getFrequency() {return frequency;}
+    public double getCurrentValue() {return currentValue;}
+    //public boolean getFrequency() {return frequency;}
 
     /*****************Setters***********************/
     public void setName(String name) {this.name = name;}
     public void setCategory(Category category) {this.category = category;}
     public void setAmount(double amount) {this.amount = amount;}
-    public void setFrequency(Boolean frequency) {this.frequency = frequency;}
+    public void setCurrentValue(double current) {this.currentValue = current;}
+    //public void setFrequency(Boolean frequency) {this.frequency = frequency;}
 
 
     protected Budget(Parcel in) {
         this.name = in.readString();
         this.amount = in.readDouble();
         this.category = in.readParcelable(Category.class.getClassLoader());
-        this.frequency = in.readByte() != 0;
+        //this.frequency = in.readByte() != 0;
         num_format = NumberFormat.getCurrencyInstance();
     }
 
@@ -77,7 +74,7 @@ public class Budget implements Parcelable, Serializable, ListItem {
         dest.writeString(name);
         dest.writeDouble(this.amount);
         dest.writeParcelable(category,flags);
-        dest.writeByte((byte) (frequency ? 1 : 0));
+        //dest.writeByte((byte) (frequency ? 1 : 0));
     }
 
 
@@ -110,20 +107,20 @@ public class Budget implements Parcelable, Serializable, ListItem {
         else
             view = convertView;
 
-        TextView categoryName = view.findViewById(R.id.category);
+        //TextView categoryName = view.findViewById(R.id.category);
         TextView budgetName = view.findViewById(R.id.name);
-        TextView usedMoney = view.findViewById(R.id.spent); //set this textview
-        TextView leftover = view.findViewById(R.id.left); //set this textview
+        TextView current = view.findViewById(R.id.spent); //set this textview
+        TextView left = view.findViewById(R.id.left); //set this textview
         TextView totalBudget = view.findViewById(R.id.total);
         TextView overBudget = view.findViewById(R.id.over); //set this textview
 
         budgetName.setText(this.name);
         totalBudget.setText(num_format.format(this.amount));
-        if(category != null)
-            categoryName.setText(this.category.toString());
-        else
-            categoryName.setText("No Category");
-
+        current.setText(num_format.format(this.currentValue));
+        left.setText(num_format.format(R.id.total - R.id.spent));
+        if(R.id.spent>R.id.total) {
+            overBudget.setText(num_format.format(R.id.spent - R.id.total));
+        }
         return view;
     }
 }

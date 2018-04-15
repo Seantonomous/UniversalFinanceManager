@@ -132,7 +132,7 @@ public class User implements Serializable {
         budgets.add(budget);
         return true;
     }
-    public Budget getBudgets(String name) throws RuntimeException {
+    public Budget getBudget(String name) throws RuntimeException {
         for(int i=0;i<budgets.size();i++)
             if(budgets.get(i).getName().equals(name))
                 return budgets.get(i);
@@ -140,7 +140,7 @@ public class User implements Serializable {
         throw new RuntimeException(String.format(Locale.getDefault(), "Budget %s not found", name));
     }
 
-
+    public ArrayList<Budget> getBudgets() {return this.budgets;}
     public boolean addCategory(Category c) throws RuntimeException {
         if(c.getFlow() == Flow.INCOME) {
             for(int i=0;i<incomeCategories.size();i++)

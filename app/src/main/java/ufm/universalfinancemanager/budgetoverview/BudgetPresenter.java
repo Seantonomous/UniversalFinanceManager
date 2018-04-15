@@ -5,6 +5,7 @@ import android.support.annotation.Nullable;
 import javax.inject.Inject;
 
 import ufm.universalfinancemanager.networth.NetworthContract;
+import ufm.universalfinancemanager.support.atomic.User;
 
 /**
  * Created by Areeba on 3/24/2018.
@@ -13,25 +14,22 @@ import ufm.universalfinancemanager.networth.NetworthContract;
 public class BudgetPresenter implements BudgetContract.Presenter {
     @Nullable
     BudgetContract.View mBudgetView;
+    private User mUser;
 
     @Inject
-    BudgetPresenter(){
-    }
-
-
-    @Override
-    public void result() {
-
+    BudgetPresenter(User mUser){
+        this.mUser = mUser;
     }
 
     @Override
     public void loadBudgets() {
-
+        mBudgetView.showBudgets(mUser.getBudgets());
     }
 
     @Override
     public void takeView(BudgetContract.View view) {
         this.mBudgetView = view;
+        loadBudgets();
     }
 
     @Override

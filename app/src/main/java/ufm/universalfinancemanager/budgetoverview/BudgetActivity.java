@@ -96,7 +96,6 @@ public class BudgetActivity extends DaggerAppCompatActivity {
                                 //switch to home activity
                                 break;
                             case R.id.budget_menu_item:
-
                                 //switch to budget overview activity
                                 break;
                             case R.id.trans_history_menu_item:

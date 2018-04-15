@@ -6,6 +6,7 @@ import ufm.universalfinancemanager.BasePresenter;
 import ufm.universalfinancemanager.BaseView;
 import ufm.universalfinancemanager.networth.NetworthContract;
 import ufm.universalfinancemanager.support.atomic.Account;
+import ufm.universalfinancemanager.support.atomic.Budget;
 
 /**
  * Created by Areeba on 3/24/2018.
@@ -13,7 +14,6 @@ import ufm.universalfinancemanager.support.atomic.Account;
 
 public class BudgetContract {
     public interface Presenter extends BasePresenter<BudgetContract.View> {
-        void result();
         void loadBudgets();
 
         void takeView(BudgetContract.View view);
@@ -21,6 +21,6 @@ public class BudgetContract {
         void dropView();
     }
     interface View extends BaseView<BudgetContract.Presenter> {
-       // void showBudgets(List<Budget> budgets);
+       void showBudgets(List<Budget> budgets);
     }
 }

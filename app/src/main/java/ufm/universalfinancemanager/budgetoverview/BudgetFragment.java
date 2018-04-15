@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -41,7 +42,9 @@ public class BudgetFragment extends DaggerFragment implements BudgetContract.Vie
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        mAdapter = new BudgetAdapter(new ArrayList<Budget>());
     }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.budget_overview_fragment, container, false);
@@ -92,8 +95,9 @@ public class BudgetFragment extends DaggerFragment implements BudgetContract.Vie
         inflater.inflate(R.menu.action_bar, menu);
     }
 
-    public interface TransactionClickListener {
-        void onTransactionClicked(Transaction t);
+    @Override
+    public void showBudgets(List<Budget> budgets) {
+        mAdapter.replaceItems(budgets);
     }
 
 }
