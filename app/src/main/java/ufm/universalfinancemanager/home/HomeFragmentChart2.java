@@ -5,6 +5,8 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.SearchView;
+import android.widget.Toast;
 
 
 import com.github.mikephil.charting.charts.CombinedChart;
@@ -23,14 +25,17 @@ import com.github.mikephil.charting.formatter.IAxisValueFormatter;
 import com.github.mikephil.charting.utils.ColorTemplate;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 import javax.inject.Inject;
 
 import dagger.android.support.DaggerFragment;
 import ufm.universalfinancemanager.R;
+import ufm.universalfinancemanager.db.entity.Transaction;
 
 public class HomeFragmentChart2 extends DaggerFragment implements HomeContract.View {
+
 
 
     float arrData[][] = new float[3][6];
@@ -38,6 +43,10 @@ public class HomeFragmentChart2 extends DaggerFragment implements HomeContract.V
     protected String[] mMonths = new String[] {
             "Jul", "Aug", "Sep", "Oct", "Nov", "Dec", "Jan"
     };
+
+    private View mTransactionsView;
+    private SearchView mSearchView;
+    private List<Transaction> tlist;
 
     @Inject
     public HomePresenter mPresenter;
@@ -50,11 +59,24 @@ public class HomeFragmentChart2 extends DaggerFragment implements HomeContract.V
         super.onResume();
         mPresenter.takeView(this);
     }
+    @Override
+    public void populateList(List<Transaction> items) {
+        tlist = items;
+        Toast.makeText(getContext(), "Category: " + items.get(0).getName(), Toast.LENGTH_SHORT).show();
+
+    }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
         mPresenter.dropView();
+    }
+
+    public void showTransactions(List<Transaction> items) {
+
+        Toast.makeText(getContext(), "Am I here? ", Toast.LENGTH_SHORT).show();
+
+        Toast.makeText(getContext(), "show Transactions " + items.get(0).getName(), Toast.LENGTH_SHORT).show();
     }
 
     @Override
@@ -66,6 +88,20 @@ public class HomeFragmentChart2 extends DaggerFragment implements HomeContract.V
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.home_fragment_chart2, container, false);
 
+
+        // Need to load transactions:
+        //showTransactions(List<Transaction> items);
+        Toast.makeText(getContext(), "Am I here 2? ", Toast.LENGTH_SHORT).show();
+
+        mPresenter.loadTransactions();
+       // mPresenter.populateList();
+
+
+//        if(mSearchView.getQuery().toString()==null){
+//            mPresenter.loadTransactions();
+//            showTransactions(List<Transaction> items);
+            // giveTransactions()
+//        }
 
         // Set starting data for net worth (Assets[0][], Liabilities[1][], NetWorth[2][]
         arrData[0][0] = 60f;

@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 
 import com.github.mikephil.charting.charts.PieChart;
@@ -22,6 +23,7 @@ import javax.inject.Inject;
 
 import dagger.android.support.DaggerFragment;
 import ufm.universalfinancemanager.R;
+import ufm.universalfinancemanager.db.entity.Transaction;
 
 public class HomeFragmentChart3 extends DaggerFragment implements HomeContract.View {
 
@@ -29,6 +31,7 @@ public class HomeFragmentChart3 extends DaggerFragment implements HomeContract.V
     private float[] yData = {10.0f, 17.0f, 16.0f, 20.0f, 20.0f, 7.0f, 10.0f};
     private String[] xData = {"Rent", "Gas", "Groceries", "Household", "Entertaiment", "Savings", "401k"};
 
+    private List<Transaction> tlist;
 
     @Inject
     public HomePresenter mPresenter;
@@ -47,6 +50,18 @@ public class HomeFragmentChart3 extends DaggerFragment implements HomeContract.V
         super.onDestroy();
         mPresenter.dropView();
     }
+
+    @Override
+    public void populateList(List<Transaction> items) {
+        tlist = items;
+//        Toast.makeText(getContext(), "Category: " + items.get(0).getName(), Toast.LENGTH_SHORT).show();
+
+    }
+
+//    @Override
+//    public void showTransactions(List<Transaction> items) {
+//        Toast.makeText(getContext(), "show Transactions " + items.get(0).getName(), Toast.LENGTH_SHORT).show();
+//    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {

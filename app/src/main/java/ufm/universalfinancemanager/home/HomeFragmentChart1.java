@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.github.mikephil.charting.charts.HorizontalBarChart;
 import com.github.mikephil.charting.components.Legend;
@@ -18,15 +19,18 @@ import com.github.mikephil.charting.formatter.LargeValueFormatter;
 import com.github.mikephil.charting.utils.ColorTemplate;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.inject.Inject;
 
 import dagger.android.support.DaggerFragment;
 import ufm.universalfinancemanager.R;
+import ufm.universalfinancemanager.db.entity.Transaction;
 
 public class HomeFragmentChart1 extends DaggerFragment implements HomeContract.View {
     @Inject
     public HomePresenter mPresenter;
+    private List<Transaction> tlist;
 
     @Inject
     public HomeFragmentChart1() {}
@@ -38,10 +42,22 @@ public class HomeFragmentChart1 extends DaggerFragment implements HomeContract.V
     }
 
     @Override
+    public void populateList(List<Transaction> items) {
+        tlist = items;
+//        Toast.makeText(getContext(), "Category: " + items.get(0).getName(), Toast.LENGTH_SHORT).show();
+
+    }
+
+    @Override
     public void onDestroy() {
         super.onDestroy();
         mPresenter.dropView();
     }
+
+//    @Override
+//    public void showTransactions(List<Transaction> items) {
+//        Toast.makeText(getContext(), "show Transactions " + items.get(0).getName(), Toast.LENGTH_SHORT).show();
+//    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
