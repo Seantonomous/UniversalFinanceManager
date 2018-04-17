@@ -17,6 +17,7 @@ import dagger.android.support.DaggerAppCompatActivity;
 import ufm.universalfinancemanager.R;
 import ufm.universalfinancemanager.earningshistory.EarningsHistoryActivity;
 import ufm.universalfinancemanager.networth.NetworthActivity;
+import ufm.universalfinancemanager.support.atomic.User;
 import ufm.universalfinancemanager.util.ActivityUtils;
 
 /**
@@ -28,6 +29,10 @@ public class TransactionHistoryActivity extends DaggerAppCompatActivity {
     TransactionHistoryPresenter mPresenter;
     @Inject
     Lazy<TransactionHistoryFragment> transactionHistoryFragmentProvider;
+
+    //STUPID FIX
+    @Inject
+    User mUser;
 
     private DrawerLayout mDrawerLayout;
     private ActionBarDrawerToggle mDrawerToggle;

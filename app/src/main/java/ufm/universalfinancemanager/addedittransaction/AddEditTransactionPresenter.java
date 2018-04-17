@@ -254,16 +254,28 @@ public class AddEditTransactionPresenter implements AddEditTransactionContract.P
         if(v == null)
             return;
 
-        mUser.refresh();
-
         if(isNewTransaction())
             mAddEditTransactionView.setupFragmentContent(mUser.getAccounts(), false);
         else {
             mAddEditTransactionView.setupFragmentContent(mUser.getAccounts(), true);
             populateTransaction();
         }
+/*
+        mUserRepository.getAccounts(new UserDataSource.LoadAccountsCallback() {
+            @Override
+            public void onAccountsLoaded(List<Account> accounts) {
+                if(isNewTransaction())
+                    mAddEditTransactionView.setupFragmentContent(accounts, false);
+                else
+                    mAddEditTransactionView.setupFragmentContent(accounts, true);
+                    populateTransaction();
+            }
 
+            @Override
+            public void onDataNotAvailable() {
 
+            }
+        });*/
     }
 
     @Override

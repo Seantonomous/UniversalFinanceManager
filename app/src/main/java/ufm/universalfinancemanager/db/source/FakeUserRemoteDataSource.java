@@ -36,7 +36,10 @@ public class FakeUserRemoteDataSource implements UserDataSource {
     @Override
     public void getTransaction(@NonNull String taskId, @NonNull GetTransactionCallback callback) {
         Transaction transaction = TRANSACTIONS_SERVICE_DATA.get(taskId);
-        callback.onTransactionLoaded(transaction);
+        if(transaction == null)
+            callback.onDataNotAvailable();
+        else
+            callback.onTransactionLoaded(transaction);
     }
 
     @Override

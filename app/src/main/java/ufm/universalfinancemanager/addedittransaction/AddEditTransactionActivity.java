@@ -14,6 +14,7 @@ import javax.inject.Inject;
 import dagger.Lazy;
 import dagger.android.support.DaggerAppCompatActivity;
 import ufm.universalfinancemanager.R;
+import ufm.universalfinancemanager.support.atomic.User;
 import ufm.universalfinancemanager.util.ActivityUtils;
 
 /**

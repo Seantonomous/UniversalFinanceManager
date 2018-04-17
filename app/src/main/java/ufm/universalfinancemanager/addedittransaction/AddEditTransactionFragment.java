@@ -104,7 +104,7 @@ public class AddEditTransactionFragment extends DaggerFragment implements AddEdi
     }
     
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, final ViewGroup container, Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.addedit_transaction_fragment, container, false);
 
         edit_name = root.findViewById(R.id.name);
