@@ -27,7 +27,8 @@ public class UserModule {
         testUser.addAccount(new Account("CreditCard2", AccountType.CREDIT_CARD, 3945, new Date()));
         testUser.addCategory(new Category("Test Category 1", Flow.OUTCOME));
         testUser.addCategory(new Category("Test Category 2", Flow.INCOME));
-
+        testUser.addBudget(new Budget("Budget: 1","Test Category 1", 200, 30));
+        testUser.addBudget(new Budget("Budget: 3","Test Category 3", 100, 300));
         return testUser;
     }
 }

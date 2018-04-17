@@ -11,11 +11,13 @@
             android:textColor="@color/colorPrimary"
             android:padding="4dp">
         </TextView>
-    </TableRow>
 
-    <TableRow>
+        <TextView >
+
+        </TextView>
+
         <TextView android:id="@+id/category"
-            android:textSize="12sp"
+            android:textSize="18sp"
             android:ellipsize="end"
             android:textColor="@color/colorPrimary"
             android:padding="4dp">
@@ -23,38 +25,61 @@
     </TableRow>
 
 
-
     <TableRow>
-        <TextView android:id="@+id/spent"
-            android:textSize="8sp"
-            android:ellipsize="end"
+        <TextView
+            android:text="Spent: "
+            android:textSize="12sp"
+            android:textColor="@color/colorPrimary"
+            android:padding="4dp">
+        </TextView>
+        <TextView
+            android:id="@+id/spent"
+            android:gravity="end"
+            android:textSize="12sp"
             android:textColor="@color/colorPrimary"
             android:padding="4dp">
 
         </TextView>
-
-
+    </TableRow>
+    <TableRow>
+        <TextView
+            android:text="Remaining: "
+            android:textSize="12sp"
+            android:textColor="@color/colorPrimary"
+            android:padding="4dp">
+        </TextView>
         <TextView android:id="@+id/left"
             android:gravity="end"
-            android:textSize="8sp"
-            android:ellipsize="end"
+            android:textSize="12sp"
             android:textColor="@color/colorPrimary"
             android:padding="4dp">
         </TextView>
-
+    </TableRow>
+    <TableRow>
+        <TextView
+            android:text="Total: "
+            android:textSize="12sp"
+            android:textColor="@color/colorPrimary"
+            android:padding="4dp">
+        </TextView>
         <TextView android:id="@+id/total"
             android:gravity="end"
-            android:textSize="8sp"
-            android:ellipsize="end"
+            android:textSize="12sp"
             android:textColor="@color/colorPrimary"
             android:padding="4dp">
         </TextView>
-
+    </TableRow>
+    <TableRow>
+        <TextView
+            android:text="Over Budget: "
+            android:textSize="12sp"
+            android:textColor="#FF0000"
+            android:padding="4dp">
+        </TextView>
         <TextView android:id="@+id/over"
             android:gravity="end"
-            android:textSize="8sp"
-            android:ellipsize="end"
-            android:textColor="@color/colorPrimary"
+            android:textSize="12sp"
+            android:textColor="#FF0000"
             android:padding="4dp">
         </TextView>
     </TableRow>

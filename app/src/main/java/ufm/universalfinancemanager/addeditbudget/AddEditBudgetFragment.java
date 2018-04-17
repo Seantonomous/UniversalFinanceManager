@@ -2,9 +2,11 @@ package ufm.universalfinancemanager.addeditbudget;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
@@ -25,6 +27,7 @@ import ufm.universalfinancemanager.db.entity.Transaction;
 import ufm.universalfinancemanager.support.AccountType;
 import ufm.universalfinancemanager.support.Flow;
 import ufm.universalfinancemanager.support.TextValidator;
+import ufm.universalfinancemanager.support.atomic.Category;
 import ufm.universalfinancemanager.support.atomic.User;
 
 /**
@@ -41,11 +44,11 @@ public class AddEditBudgetFragment extends DaggerFragment implements AddEditBudg
    // private Spinner duration;
     boolean valid_amount = false;
     boolean valid_name = false;
-    private double currentValue;
+   // private double currentValue;
     Transaction t;
     @Inject
     AddEditBudgetPresenter mPresenter;
-    TransactionRepository transactionRepository;
+    private ArrayAdapter<Category> categorySpinnerAdapter;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -93,11 +96,10 @@ public class AddEditBudgetFragment extends DaggerFragment implements AddEditBudg
                         edit_amount.setError("Budget must have an amount!");
                     return;
                 }
-            currentValue = getExpenseTransactions(category.getSelectedItem().toString());
-            mPresenter.saveBudget(edit_name.getText().toString(),
+           // currentValue = getExpenseTransactions(category.getSelectedItem().toString());
+            mPresenter.loadTransactions(edit_name.getText().toString(),
                     category.getSelectedItem().toString(),
-                    Double.parseDouble(edit_amount.getText().toString()),
-                    currentValue
+                    Double.parseDouble(edit_amount.getText().toString())
             );
             }
         });
@@ -109,19 +111,6 @@ public class AddEditBudgetFragment extends DaggerFragment implements AddEditBudg
             }
         });
         return root;
-    }
-
-    private double getExpenseTransactions(String categoryName) {
-        List<Transaction> allTransactionList = null; // load all transactions= transactionRepository.getTransactions();
-        List<Transaction> budgetTransactionList = new ArrayList<>();
-        double sum = 0.0;
-        for(Transaction t: allTransactionList) {
-            if((t.getCategory() == (categoryName == null ? null : mUser.getCategory(categoryName))) && t.getFlow() == Flow.INCOME) {
-                budgetTransactionList.add(t);
-                sum += t.getAmount();
-            }
-        }
-        return sum;
     }
 
     @Inject
@@ -154,4 +143,28 @@ public class AddEditBudgetFragment extends DaggerFragment implements AddEditBudg
     public void showMessage(String message) {
         Toast.makeText(getContext(), message, Toast.LENGTH_LONG).show();
     }
+
+    @Override
+    public void updateCategories(@Nullable List<Category> categories) {
+        categorySpinnerAdapter = new ArrayAdapter<>(getContext(),
+                android.R.layout.simple_spinner_item, categories);
+
+        categorySpinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        category.setAdapter(categorySpinnerAdapter);
+    }
+    private ArrayList getCategories() {
+
+        ArrayList categories = new ArrayList();
+
+        categories.add("Rent");
+        categories.add("Gas");
+        categories.add("Groceries");
+        categories.add("Household");
+        categories.add("Entertainment");
+        categories.add("Savings");
+        categories.add("401K");
+
+        return categories;
+    }
+
 }

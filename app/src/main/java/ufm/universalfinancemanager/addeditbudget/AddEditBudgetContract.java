@@ -1,5 +1,9 @@
 package ufm.universalfinancemanager.addeditbudget;
 
+import android.support.annotation.Nullable;
+
+import java.util.List;
+
 import ufm.universalfinancemanager.BasePresenter;
 import ufm.universalfinancemanager.BaseView;
 import ufm.universalfinancemanager.support.Flow;
@@ -15,10 +19,12 @@ public interface AddEditBudgetContract {
         void showLastActivity(boolean success);
 
         void showMessage(String message);
+        void updateCategories(@Nullable List<Category> categories);
     }
 
     interface Presenter extends BasePresenter<AddEditBudgetContract.View> {
-        void saveBudget(String name, String category, double amount, double currentValue);
+        void makeBudget(String name, String category, double amount);
+        void loadTransactions(String name, String category, double amount);
 
         void deleteBudget();
 

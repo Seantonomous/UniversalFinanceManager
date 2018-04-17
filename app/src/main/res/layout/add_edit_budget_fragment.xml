@@ -59,7 +59,7 @@
         android:layout_alignBottom="@+id/add_category"
         android:layout_alignParentEnd="true"
         android:background="@android:drawable/btn_dropdown"
-        android:entries="@array/categories" />
+         />
 
     <TextView
         android:id="@+id/amount"

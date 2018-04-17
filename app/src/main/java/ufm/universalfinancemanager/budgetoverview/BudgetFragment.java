@@ -48,10 +48,9 @@ public class BudgetFragment extends DaggerFragment implements BudgetContract.Vie
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.budget_overview_fragment, container, false);
-
         ListView listview = root.findViewById(R.id.budget_list);
         listview.setAdapter(mAdapter);
-
+       // HorizontalBarChart mChart;
         setHasOptionsMenu(true);
         return root;
     }

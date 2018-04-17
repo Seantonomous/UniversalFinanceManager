@@ -33,7 +33,7 @@ public class Budget implements Parcelable, Serializable, ListItem {
     @ColumnInfo(name = "amount")
     private double amount;
     private double currentValue;
-   // private boolean frequency;
+    private String cat;
     @Ignore
     private NumberFormat num_format;
 
@@ -41,6 +41,14 @@ public class Budget implements Parcelable, Serializable, ListItem {
     public Budget(String name, Category category, double amount, double current) {
         this.name = name;
         this.category = category;
+        this.amount = amount;
+        this.currentValue= current;
+        num_format = NumberFormat.getCurrencyInstance();
+    }
+
+    public Budget(String name, String category, double amount, double current) {
+        this.name = name;
+        this.cat = category;
         this.amount = amount;
         this.currentValue= current;
         num_format = NumberFormat.getCurrencyInstance();
@@ -107,20 +115,28 @@ public class Budget implements Parcelable, Serializable, ListItem {
         else
             view = convertView;
 
-        //TextView categoryName = view.findViewById(R.id.category);
+        TextView categoryName = view.findViewById(R.id.category);
         TextView budgetName = view.findViewById(R.id.name);
-        TextView current = view.findViewById(R.id.spent); //set this textview
-        TextView left = view.findViewById(R.id.left); //set this textview
+        TextView spentMoney = view.findViewById(R.id.spent); //set this textview
+        TextView overBudget = view.findViewById(R.id.over);
         TextView totalBudget = view.findViewById(R.id.total);
-        TextView overBudget = view.findViewById(R.id.over); //set this textview
+        TextView remainingBalance = view.findViewById(R.id.left); //set this textview
 
+        categoryName.setText(this.cat);
         budgetName.setText(this.name);
         totalBudget.setText(num_format.format(this.amount));
-        current.setText(num_format.format(this.currentValue));
-        left.setText(num_format.format(R.id.total - R.id.spent));
-        if(R.id.spent>R.id.total) {
-            overBudget.setText(num_format.format(R.id.spent - R.id.total));
+        spentMoney.setText(num_format.format(this.currentValue));
+
+        if(this.currentValue>this.amount) {
+            overBudget.setText(num_format.format(this.currentValue - this.amount));
+            remainingBalance.setText(num_format.format(0));
         }
+        else{
+            overBudget.setText(num_format.format(0));
+            remainingBalance.setText(num_format.format(this.amount - this.currentValue));
+        }
+
+
         return view;
     }
 }
