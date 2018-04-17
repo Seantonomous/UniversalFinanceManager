@@ -11,14 +11,21 @@ import android.view.ViewGroup;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.List;
+
 import javax.inject.Inject;
 
 import dagger.android.support.DaggerFragment;
 import ufm.universalfinancemanager.addeditaccount.AddEditAccountActivity;
 import ufm.universalfinancemanager.addeditcategory.AddEditCategoryActivity;
+import ufm.universalfinancemanager.addeditreminder.AddEditReminderActivity;
 import ufm.universalfinancemanager.addedittransaction.AddEditTransactionActivity;
 import ufm.universalfinancemanager.R;
 import ufm.universalfinancemanager.db.entity.Transaction;
+import ufm.universalfinancemanager.support.atomic.Category;
 
 /**
  * Created by Faiz on 2/26/2018.
@@ -26,14 +33,10 @@ import ufm.universalfinancemanager.db.entity.Transaction;
 
 public class EarningsHistoryFragment extends DaggerFragment implements EarningsHistoryContract.View  {
 
-
     @Inject
     EarningsHistoryPresenter mPresenter;
 
     private EarningsAdapter mAdapter;
-    private View mNoTransactionsView;
-    private TextView mNoTransactionsTextView;
-    private View mTransactionsView;
 
     @Inject
     public EarningsHistoryFragment() {
@@ -42,7 +45,9 @@ public class EarningsHistoryFragment extends DaggerFragment implements EarningsH
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
+        mAdapter = new EarningsAdapter(new ArrayList<EarningsHistoryListItem>(0));
     }
 
     @Override
@@ -58,20 +63,28 @@ public class EarningsHistoryFragment extends DaggerFragment implements EarningsH
     }
 
     @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        mPresenter.result(requestCode, resultCode);
+    public void showEarningsHistory(List<EarningsHistoryListItem> list){
+        mAdapter.replaceItems(list);
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         //Inflate the fragment with the corresponding layout
-        View root = inflater.inflate(R.layout.transaction_history_fragment, container, false);
+        View root = inflater.inflate(R.layout.earnings_history_fragment, container, false);
 
-        ListView listview = root.findViewById(R.id.transactionlist);
+        TextView thisMonthHeader = root.findViewById(R.id.thisMonthTextView);
+        TextView lastMonthHeader = root.findViewById(R.id.lastMonthTextView);
+
+        Calendar cal = Calendar.getInstance();
+
+        thisMonthHeader.setText(new SimpleDateFormat("MMM").format(cal.getTime()) + ": ");
+
+        cal.add(Calendar.MONTH, -1);
+
+        lastMonthHeader.setText(new SimpleDateFormat("MMM").format(cal.getTime()) + ": ");
+
+        ListView listview = root.findViewById(R.id.earningsList);
         listview.setAdapter(mAdapter);
-        mTransactionsView = root.findViewById(R.id.transactionsLayout);
-        mNoTransactionsView = root.findViewById(R.id.noTransactionsLayout);
-        mNoTransactionsTextView = root.findViewById(R.id.noTransactionsText);
 
         setHasOptionsMenu(true);
 
@@ -89,6 +102,10 @@ public class EarningsHistoryFragment extends DaggerFragment implements EarningsH
                 break;
             case R.id.action_add_category:
                 startActivity(new Intent(getContext(), AddEditCategoryActivity.class));
+                break;
+            case R.id.action_add_reminder:
+                startActivity(new Intent(getContext(), AddEditReminderActivity.class));
+                break;
         }
         return true;
     }
@@ -96,10 +113,6 @@ public class EarningsHistoryFragment extends DaggerFragment implements EarningsH
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         inflater.inflate(R.menu.action_bar, menu);
-    }
-
-    public interface TransactionClickListener {
-        void onTransactionClicked(Transaction t);
     }
 
 }

@@ -7,10 +7,10 @@
     android:background="@color/colorPrimaryDark"
     android:gravity="center_vertical">
 
-    <TextView android:id="@+id/trans_date_header"
-        android:layout_width="match_parent"
+    <TextView android:id="@+id/earnings_header"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:gravity="center"
+        android:gravity="left"
         android:padding="8dp"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:textColor="#FFFFFF"

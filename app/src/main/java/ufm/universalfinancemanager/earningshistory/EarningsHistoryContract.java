@@ -15,10 +15,10 @@ public class EarningsHistoryContract {
 
     interface View extends BaseView<Presenter> {
 
+        void showEarningsHistory(List<EarningsHistoryListItem> list);
     }
 
     interface Presenter extends BasePresenter<View> {
-        void result(int requestCode, int resultCode);
 
         void loadTransactionsInDateRange();
 

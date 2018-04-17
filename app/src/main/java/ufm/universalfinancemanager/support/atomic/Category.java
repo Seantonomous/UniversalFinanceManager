@@ -11,15 +11,22 @@ package ufm.universalfinancemanager.support.atomic;
 
 import android.arch.persistence.room.ColumnInfo;
 import android.arch.persistence.room.TypeConverters;
+import android.graphics.Color;
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.widget.TextView;
 
 import java.io.Serializable;
 
+import ufm.universalfinancemanager.R;
 import ufm.universalfinancemanager.db.source.local.converter.FlowConverter;
 import ufm.universalfinancemanager.support.Flow;
+import ufm.universalfinancemanager.support.ListItem;
+import ufm.universalfinancemanager.support.RowType;
 
-public class Category implements Parcelable, Serializable {
+public class Category implements Parcelable, Serializable{
 
     @ColumnInfo(name = "category_name")
     private String name;
@@ -37,6 +44,32 @@ public class Category implements Parcelable, Serializable {
         this.name = in.readString();
         //flow = Flow.valueOf(in.readString());
     }
+
+    /*@Override
+    public int getViewType() {
+        return RowType.LIST_ITEM.ordinal();
+    }
+
+    @Override
+    public View getView(LayoutInflater inflater, View convertView) {
+        View view;
+        if(convertView == null)
+            view = inflater.inflate(R.layout.earnings_list_item, null);
+        else
+            view = convertView;
+
+        //Instantiate all the textviews from the layout
+        TextView categoryName = view.findViewById(R.id.category_name);
+        TextView thisMonthBalance = view.findViewById(R.id.thisMonth_balance);
+        TextView lastMonthBalance = view.findViewById(R.id.thisMonth_balance);
+
+        //Set the text of each textview based on its corresponding transaction attribute
+        categoryName.setText(this.name);
+        thisMonthBalance.setText("Placeholder");
+        lastMonthBalance.setText("Placeholder");
+
+        return view;
+    }*/
 
     public String getName() {return this.name;}
     public Flow getFlow() {return this.flow;}
@@ -68,4 +101,6 @@ public class Category implements Parcelable, Serializable {
             return new Category[size];
         }
     };
+
+
 }

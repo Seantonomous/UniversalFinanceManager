@@ -37,7 +37,7 @@ public class EarningsCategoryHeader implements ListItem {
             view = convertView;
         }
 
-        TextView title = view.findViewById(R.id.networth_header);
+        TextView title = view.findViewById(R.id.earnings_header);
         title.setText(this.title);
 
         return view;

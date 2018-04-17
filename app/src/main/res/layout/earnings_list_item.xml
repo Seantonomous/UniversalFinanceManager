@@ -12,28 +12,27 @@
     android:stretchColumns="1">
 
     <TableRow>
-        <TextView android:id="@+id/category_name"
-            android:textSize="18sp"
-            android:ellipsize="end"
-            android:textColor="@color/colorPrimary"
-            android:padding="4dp">
-        </TextView>
 
-        <TextView android:id="@+id/thisMonth_balance"
-            android:gravity="end"
-            android:textSize="18sp"
-            android:ellipsize="end"
+        <TextView
+            android:id="@+id/category_name"
+            android:layout_width="174dp"
+            android:padding="4dp"
             android:textColor="@color/colorPrimary"
-            android:padding="4dp">
-        </TextView>
+            android:textSize="18sp"></TextView>
 
-        <TextView android:id="@+id/lastMonth_balance"
-            android:gravity="end"
-            android:textSize="18sp"
-            android:ellipsize="end"
+        <TextView
+            android:id="@+id/thisMonth_balance"
+            android:layout_width="113dp"
+            android:padding="4dp"
             android:textColor="@color/colorPrimary"
-            android:padding="4dp">
-        </TextView>
+            android:textSize="18sp"></TextView>
+
+        <TextView
+            android:id="@+id/lastMonth_balance"
+            android:layout_width="99dp"
+            android:padding="4dp"
+            android:textColor="@color/colorPrimary"
+            android:textSize="18sp"></TextView>
     </TableRow>
 
 </TableLayout>

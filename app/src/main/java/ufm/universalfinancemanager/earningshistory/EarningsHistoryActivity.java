@@ -38,7 +38,7 @@ public class EarningsHistoryActivity extends DaggerAppCompatActivity {
 
         mDrawerLayout = findViewById(R.id.drawer_layout);
         NavigationView navigationView = findViewById(R.id.nav_view);
-        if(navigationView == null) {
+        if(navigationView != null) {
             setupDrawerContent(navigationView);
         }
 

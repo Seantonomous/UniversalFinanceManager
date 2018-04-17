@@ -13,8 +13,10 @@ import java.util.Date;
 import java.util.List;
 
 import ufm.universalfinancemanager.db.entity.Transaction;
+import ufm.universalfinancemanager.support.Flow;
 import ufm.universalfinancemanager.support.ListItem;
 import ufm.universalfinancemanager.support.RowType;
+import ufm.universalfinancemanager.support.atomic.Category;
 import ufm.universalfinancemanager.transactionhistory.TransactionDateHeader;
 
 /**
@@ -27,45 +29,48 @@ public class EarningsAdapter extends BaseAdapter {
     private static final int TYPE_SEPARATOR = 1;
 
     private List<ListItem> mItems;
-    private EarningsHistoryFragment.TransactionClickListener mListener;
 
-    public EarningsAdapter(List<Transaction> items, EarningsHistoryFragment.TransactionClickListener clickListener) {
+    public EarningsAdapter(List<EarningsHistoryListItem> items) {
         mItems = new ArrayList<>();
         setList(items);
-        mListener = clickListener;
     }
 
-    public void replaceItems(List<Transaction> items) {
+    public void replaceItems(List<EarningsHistoryListItem> items) {
         mItems.clear();
         setList(items);
         notifyDataSetChanged();
     }
 
-    private void setList(List<Transaction> items) {
+    private void setList(List<EarningsHistoryListItem> items) {
         if(items.isEmpty()) {
             return;
         }
 
-        //Sort the transactions based on their date
-        Collections.sort(items, new Comparator<Transaction>() {
-            @Override
-            public int compare(Transaction lhs, Transaction rhs) {
-                return lhs.getDate().getTime() > rhs.getDate().getTime() ? -1 : (lhs.getDate().getTime() < rhs.getDate().getTime()) ? 1 : 0;
-            }
-        });
+        double incomeThisMonth = 0;
+        double incomeLastMonth = 0;
+        double expenseThisMonth = 0;
+        double expenseLastMonth = 0;
+        double netEarningsThisMonth = 0;
+        double netEarningsLastMonth = 0;
 
-        Date currentDate = items.get(0).getDate();
-        mItems.add(new TransactionDateHeader(currentDate));
+        mItems.add(new EarningsCategoryHeader("Income: "));
 
-        for(Transaction t : items) {
-            //If the next transaction has a different date, update the current date
-            //and insert a new transaction date header
-            if(t.getDate().getTime() < currentDate.getTime()) {
-                currentDate = t.getDate();
-                mItems.add(new TransactionDateHeader(currentDate));
+        for(EarningsHistoryListItem listItem : items) {
+            if(listItem.getFlow() == Flow.INCOME) {
+                mItems.add(listItem);
             }
-            mItems.add(t);
         }
+
+        mItems.add(new EarningsCategoryHeader("Expense: "));
+
+        for(EarningsHistoryListItem listItem : items) {
+            if(listItem.getFlow() == Flow.OUTCOME) {
+                mItems.add(listItem);
+            }
+        }
+
+        mItems.add(new EarningsCategoryHeader("Total Earnings: "));
+
     }
 
     @Override
@@ -96,13 +101,6 @@ public class EarningsAdapter extends BaseAdapter {
     public View getView(final int position, View convertView, @NonNull ViewGroup parent) {
         View rowView = getItem(position).getView(LayoutInflater.from(parent.getContext()), convertView);
 
-        rowView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if(getItem(position).getViewType() == TYPE_TRANSACTION)
-                    mListener.onTransactionClicked((Transaction)getItem(position));
-            }
-        });
         return rowView;
     }
 }
