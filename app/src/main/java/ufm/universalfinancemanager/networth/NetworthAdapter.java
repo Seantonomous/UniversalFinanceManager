@@ -39,7 +39,7 @@ public class NetworthAdapter extends BaseAdapter {
         double totalLiabilities = 0;
         double totalNetworth = 0;
 
-        mItems.add(new NetworthHeader("Networth: ", 0));
+        mItems.add(new NetworthHeader("Worth: ", 0));
 
         for(Account account : accounts) {
             if(account.getType() != AccountType.CREDIT_CARD) {
@@ -59,7 +59,7 @@ public class NetworthAdapter extends BaseAdapter {
 
         totalNetworth = totalAssets - totalLiabilities;
 
-        mItems.set(0, new NetworthHeader("Networth: ", totalNetworth));
+        mItems.set(0, new NetworthHeader("Worth: ", totalNetworth));
 
     }
 
