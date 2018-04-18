@@ -5,6 +5,7 @@ import android.support.annotation.Nullable;
 import javax.inject.Inject;
 
 import ufm.universalfinancemanager.networth.NetworthContract;
+import ufm.universalfinancemanager.support.atomic.Budget;
 import ufm.universalfinancemanager.support.atomic.User;
 
 /**
@@ -36,4 +37,5 @@ public class BudgetPresenter implements BudgetContract.Presenter {
     public void dropView() {
         this.mBudgetView = null;
     }
+
 }

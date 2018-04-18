@@ -1,6 +1,7 @@
 package ufm.universalfinancemanager.addeditbudget;
 
 import android.app.Activity;
+import android.app.DatePickerDialog;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
@@ -8,14 +9,18 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 import javax.inject.Inject;
 
@@ -41,6 +46,9 @@ public class AddEditBudgetFragment extends DaggerFragment implements AddEditBudg
     private Spinner category;
     private EditText edit_amount;
     private EditText edit_name;
+    private EditText edit_startdate;
+    //private Date enddate;
+    private EditText edit_enddate;
    // private Spinner duration;
     boolean valid_amount = false;
     boolean valid_name = false;
@@ -49,6 +57,27 @@ public class AddEditBudgetFragment extends DaggerFragment implements AddEditBudg
     @Inject
     AddEditBudgetPresenter mPresenter;
     private ArrayAdapter<Category> categorySpinnerAdapter;
+
+    private Calendar calendar;
+    private Calendar calendar2;
+    private DatePickerDialog.OnDateSetListener startdate = new DatePickerDialog.OnDateSetListener() {
+        @Override
+        public void onDateSet(DatePicker datePicker, int year, int monthOfYear, int dayOfMonth) {
+            calendar.set(Calendar.YEAR, year);
+            calendar.set(Calendar.MONTH, monthOfYear);
+            calendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+            updateDate();
+        }
+    };
+    private DatePickerDialog.OnDateSetListener enddate = new DatePickerDialog.OnDateSetListener() {
+        @Override
+        public void onDateSet(DatePicker datePicker, int year, int monthOfYear, int dayOfMonth) {
+            calendar2.set(Calendar.YEAR, year);
+            calendar2.set(Calendar.MONTH, monthOfYear);
+            calendar2.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+            updateDate();
+        }
+    };
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -58,9 +87,23 @@ public class AddEditBudgetFragment extends DaggerFragment implements AddEditBudg
         View root = inflater.inflate(R.layout.add_edit_budget_fragment, container, false);
         edit_amount = root.findViewById(R.id.add_amount);
         edit_name = root.findViewById(R.id.name);
+        edit_startdate = root.findViewById(R.id.date);
+        edit_enddate = root.findViewById(R.id.date2);
         category = root.findViewById(R.id.category);
         cancel_button = root.findViewById(R.id.cancel);
         submit_button = root.findViewById(R.id.submit);
+        calendar = Calendar.getInstance();
+        calendar2 = Calendar.getInstance();
+
+        calendar.set(Calendar.HOUR_OF_DAY, 0);
+        calendar.set(Calendar.MINUTE, 0);
+        calendar.set(Calendar.SECOND, 0);
+        calendar.set(Calendar.MILLISECOND, 0);
+        calendar2.set(Calendar.HOUR_OF_DAY, 0);
+        calendar2.set(Calendar.MINUTE, 0);
+        calendar2.set(Calendar.SECOND, 0);
+        calendar2.set(Calendar.MILLISECOND, 0);
+        updateDate();
 
         edit_name.addTextChangedListener(new TextValidator(edit_name) {
             @Override
@@ -85,6 +128,20 @@ public class AddEditBudgetFragment extends DaggerFragment implements AddEditBudg
                 }
             }
         });
+        edit_startdate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                new DatePickerDialog(getContext(), startdate, calendar.get(Calendar.YEAR),
+                        calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH)).show();
+            }
+        });
+        edit_enddate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                new DatePickerDialog(getContext(), enddate, calendar2.get(Calendar.YEAR),
+                        calendar2.get(Calendar.MONTH), calendar2.get(Calendar.DAY_OF_MONTH)).show();
+            }
+        });
 
         submit_button.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -99,7 +156,9 @@ public class AddEditBudgetFragment extends DaggerFragment implements AddEditBudg
            // currentValue = getExpenseTransactions(category.getSelectedItem().toString());
             mPresenter.loadTransactions(edit_name.getText().toString(),
                     category.getSelectedItem().toString(),
-                    Double.parseDouble(edit_amount.getText().toString())
+                    Double.parseDouble(edit_amount.getText().toString()),
+                    calendar.getTime(),
+                    calendar2.getTime()
             );
             }
         });
@@ -152,19 +211,13 @@ public class AddEditBudgetFragment extends DaggerFragment implements AddEditBudg
         categorySpinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         category.setAdapter(categorySpinnerAdapter);
     }
-    private ArrayList getCategories() {
 
-        ArrayList categories = new ArrayList();
+    public void updateDate() {
+        String myFormat = "MM/dd/yy";
+        SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
 
-        categories.add("Rent");
-        categories.add("Gas");
-        categories.add("Groceries");
-        categories.add("Household");
-        categories.add("Entertainment");
-        categories.add("Savings");
-        categories.add("401K");
-
-        return categories;
+        edit_startdate.setText(sdf.format(calendar.getTime()));
+        edit_enddate.setText(sdf.format(calendar2.getTime()));
     }
 
 }

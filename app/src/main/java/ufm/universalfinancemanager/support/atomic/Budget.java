@@ -3,17 +3,22 @@ package ufm.universalfinancemanager.support.atomic;
 import android.arch.persistence.room.ColumnInfo;
 import android.arch.persistence.room.Embedded;
 import android.arch.persistence.room.Ignore;
+import android.arch.persistence.room.TypeConverters;
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.text.format.DateUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.TextView;
 
 import java.io.Serializable;
 import java.text.NumberFormat;
+import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Locale;
 
 import ufm.universalfinancemanager.R;
+import ufm.universalfinancemanager.db.source.local.converter.DateConverter;
 import ufm.universalfinancemanager.support.AccountType;
 import ufm.universalfinancemanager.support.ListItem;
 import ufm.universalfinancemanager.support.RowType;
@@ -36,22 +41,35 @@ public class Budget implements Parcelable, Serializable, ListItem {
     private String cat;
     @Ignore
     private NumberFormat num_format;
+    @TypeConverters(DateConverter.class)
+    private Date startDate;
+    private Date endDate;
 
 
-    public Budget(String name, Category category, double amount, double current) {
+    public Budget(String name, Category category, double amount, double current, Date startdate, Date enddate) {
         this.name = name;
         this.category = category;
         this.amount = amount;
         this.currentValue= current;
         num_format = NumberFormat.getCurrencyInstance();
+        this.startDate = startdate;
+        this.endDate = enddate;
+
+       // int x = date.getMonth();
+        //int y = date.getDate();
+       // this.endDate.setDate(y);
+       // this.endDate.setMonth(x+1);
     }
 
-    public Budget(String name, String category, double amount, double current) {
+    public Budget(String name, String category, double amount, double current, Date date, Date endDate) {
         this.name = name;
         this.cat = category;
         this.amount = amount;
         this.currentValue= current;
         num_format = NumberFormat.getCurrencyInstance();
+        this.startDate = date;
+        this.endDate = endDate;
+
     }
 
     /******************Getters**********************/
@@ -121,11 +139,20 @@ public class Budget implements Parcelable, Serializable, ListItem {
         TextView overBudget = view.findViewById(R.id.over);
         TextView totalBudget = view.findViewById(R.id.total);
         TextView remainingBalance = view.findViewById(R.id.left); //set this textview
+        TextView startD = (TextView)view.findViewById(R.id.startDate);
+        TextView endD = (TextView)view.findViewById(R.id.endDate);
+        SimpleDateFormat dateFormatter = new SimpleDateFormat("dd.MM.yyyy", Locale.getDefault());
+
+        //TextView endDate = view.findViewById(R.id.endDate);
 
         categoryName.setText(this.cat);
         budgetName.setText(this.name);
         totalBudget.setText(num_format.format(this.amount));
         spentMoney.setText(num_format.format(this.currentValue));
+        startD.setText(dateFormatter.format(startDate));
+        endD.setText(dateFormatter.format(endDate));
+        //startD.setText((CharSequence) this.startDate);
+        //endDate.setText(num_format.format(this.date));
 
         if(this.currentValue>this.amount) {
             overBudget.setText(num_format.format(this.currentValue - this.amount));

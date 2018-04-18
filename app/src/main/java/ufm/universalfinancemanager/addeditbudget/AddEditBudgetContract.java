@@ -2,6 +2,7 @@ package ufm.universalfinancemanager.addeditbudget;
 
 import android.support.annotation.Nullable;
 
+import java.util.Date;
 import java.util.List;
 
 import ufm.universalfinancemanager.BasePresenter;
@@ -23,8 +24,7 @@ public interface AddEditBudgetContract {
     }
 
     interface Presenter extends BasePresenter<AddEditBudgetContract.View> {
-        void makeBudget(String name, String category, double amount);
-        void loadTransactions(String name, String category, double amount);
+        void loadTransactions(String name, String category, double amount, Date startdate, Date enddate);
 
         void deleteBudget();
 

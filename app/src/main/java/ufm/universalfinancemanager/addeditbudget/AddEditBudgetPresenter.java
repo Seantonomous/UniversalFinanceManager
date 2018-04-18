@@ -3,6 +3,7 @@ package ufm.universalfinancemanager.addeditbudget;
 import android.support.annotation.Nullable;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -33,7 +34,7 @@ public class AddEditBudgetPresenter implements AddEditBudgetContract.Presenter{
     }
 
     @Override
-    public void loadTransactions(final String name, final String category, final double amount) {
+    public void loadTransactions(final String name, final String category, final double amount, final Date startdate, final Date enddate) {
         //Performing database/network call, forbid ui test activity until it's done
         EspressoIdlingResource.increment();
 
@@ -48,7 +49,7 @@ public class AddEditBudgetPresenter implements AddEditBudgetContract.Presenter{
                     EspressoIdlingResource.decrement(); // Set app as idle.
                 }
 
-                processTransactions(transactions, name, category,amount);
+                processTransactions(transactions, name, category,amount,startdate, enddate);
             }
 
             @Override
@@ -58,16 +59,18 @@ public class AddEditBudgetPresenter implements AddEditBudgetContract.Presenter{
         });
     }
 
-    public void processTransactions(List<Transaction> transactions, String name, String categoryName, double amount) {
+    public void processTransactions(List<Transaction> transactions, String name, String categoryName, double amount, Date startdate, Date enddate) {
         List<Transaction> budgetTransactionList = new ArrayList<>();
         double sum = 0.0;
         for(Transaction t: transactions) {
-            if((t.getCategory() == (categoryName == null ? null : mUser.getCategory(categoryName))) && t.getFlow() == Flow.INCOME) {
+            if((t.getCategory().equals(categoryName == null ? null : mUser.getCategory(categoryName))) == true &&
+                    t.getFlow().equals(Flow.INCOME) == true &&
+                    t.getDate().compareTo(startdate) == 0) {
                 budgetTransactionList.add(t);
                 sum += t.getAmount();
             }
         }
-        Budget budget = new Budget(name, categoryName == null ? null : mUser.getCategory(categoryName), amount, sum);
+        Budget budget = new Budget(name, categoryName == null ? null : mUser.getCategory(categoryName), amount, sum, startdate, enddate);
         mUser.addBudget(budget);
         if(mAddEditBudgetview != null) {
             mAddEditBudgetview.showMessage("Budget successfully saved.");
@@ -95,16 +98,6 @@ public class AddEditBudgetPresenter implements AddEditBudgetContract.Presenter{
                 mAddEditBudgetview.showLastActivity(true);
         }
     }*/
-    @Override
-    public void makeBudget(String name, String categoryName, double amount) {
-        double current = 0.0; //getTransactions(categoryName);
-        Budget budget = new Budget(name, categoryName == null ? null : mUser.getCategory(categoryName), amount, current);
-        mUser.addBudget(budget);
-        if(mAddEditBudgetview != null) {
-            mAddEditBudgetview.showMessage("Budget successfully saved.");
-            mAddEditBudgetview.showLastActivity(true);
-        }
-    }
 
 
 

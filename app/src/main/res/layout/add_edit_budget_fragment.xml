@@ -81,20 +81,66 @@
         android:layout_alignParentEnd="true"
         android:layout_marginTop="20sp"
         android:hint="$00.00"
-        android:inputType="numberDecimal"
-        />
+        android:inputType="numberDecimal" />
 
+    <TextView
+        android:id="@+id/dateTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_below="@id/amount"
+        android:layout_marginTop="20dp"
+        android:text="Start Date:"
+        android:textAppearance="@android:color/holo_red_dark"
+        android:textSize="19sp" />
+
+    <EditText
+        android:id="@+id/date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/date2"
+        android:layout_alignParentEnd="true"
+        android:contextClickable="false"
+        android:focusable="false"
+        android:hint=" DD/MM/ YYYY"
+        android:inputType="date"
+        android:onClick="setDate"
+        android:textSize="19sp" />
+
+    <TextView
+        android:id="@+id/dateTextView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_below="@id/dateTextView"
+        android:layout_marginTop="20dp"
+        android:text="End Date:"
+        android:textAppearance="@android:color/holo_red_dark"
+        android:textSize="19sp" />
+
+    <EditText
+        android:id="@+id/date2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/cancel"
+        android:layout_alignParentEnd="true"
+        android:contextClickable="false"
+        android:focusable="false"
+        android:hint=" DD/MM/ YYYY"
+        android:inputType="date"
+        android:onClick="setDate"
+        android:textSize="19sp" />
 
     <Button
         android:id="@+id/submit"
         android:layout_width="100dp"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
-        android:layout_below="@id/add_amount"
+        android:layout_below="@id/dateTextView2"
         android:text="Submit" />
 
     <Button
-        android:layout_below="@id/add_amount"
+        android:layout_below="@id/dateTextView2"
         android:layout_alignParentRight="true"
         android:id="@+id/cancel"
         android:layout_width="100dp"

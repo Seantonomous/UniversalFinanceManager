@@ -23,7 +23,23 @@
             android:padding="4dp">
         </TextView>
     </TableRow>
+    <TableRow>
+        <TextView android:id="@+id/startDate"
+            android:textSize="10sp"
+            android:textColor="@color/colorPrimary"
+            android:padding="4dp">
+        </TextView>
 
+        <TextView >
+
+        </TextView>
+
+        <TextView android:id="@+id/endDate"
+            android:textSize="10sp"
+            android:textColor="@color/colorPrimary"
+            android:padding="4dp">
+        </TextView>
+    </TableRow>
 
     <TableRow>
         <TextView
