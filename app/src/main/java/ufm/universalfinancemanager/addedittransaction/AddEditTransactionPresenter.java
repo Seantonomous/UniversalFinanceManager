@@ -78,6 +78,7 @@ public class AddEditTransactionPresenter implements AddEditTransactionContract.P
                 public void onAccountLoaded(Account account) {
                     account.registerTransaction(t);
                     mUserRepository.saveAccount(account);
+                    mUser.refreshAccounts();
                 }
 
                 @Override
@@ -91,6 +92,7 @@ public class AddEditTransactionPresenter implements AddEditTransactionContract.P
                 public void onAccountLoaded(Account account) {
                     account.registerTransaction(t);
                     mUserRepository.saveAccount(account);
+                    mUser.refreshAccounts();
                 }
 
                 @Override
@@ -124,6 +126,8 @@ public class AddEditTransactionPresenter implements AddEditTransactionContract.P
 
                 }
             });
+
+            mUser.refreshAccounts();
         }
 
         if (mAddEditTransactionView != null) {
