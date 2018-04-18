@@ -1,10 +1,16 @@
 package ufm.universalfinancemanager.home;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.ConsoleMessage;
 import android.widget.SearchView;
 import android.widget.Toast;
 
@@ -24,32 +30,64 @@ import com.github.mikephil.charting.data.LineDataSet;
 import com.github.mikephil.charting.formatter.IAxisValueFormatter;
 import com.github.mikephil.charting.utils.ColorTemplate;
 
+import java.text.DateFormatSymbols;
+import java.text.SimpleDateFormat;
+import java.time.Month;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.Date;
+import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
+import java.util.Set;
+import java.util.logging.ConsoleHandler;
+import java.util.stream.Collectors;
 
 import javax.inject.Inject;
 
 import dagger.android.support.DaggerFragment;
 import ufm.universalfinancemanager.R;
+import ufm.universalfinancemanager.addeditaccount.AddEditAccountActivity;
+import ufm.universalfinancemanager.addeditbudget.AddEditBudgetActivity;
+import ufm.universalfinancemanager.addeditcategory.AddEditCategoryActivity;
+import ufm.universalfinancemanager.addeditreminder.AddEditReminderActivity;
+import ufm.universalfinancemanager.addedittransaction.AddEditTransactionActivity;
 import ufm.universalfinancemanager.db.entity.Transaction;
+import ufm.universalfinancemanager.support.AccountType;
+import ufm.universalfinancemanager.support.Flow;
+import ufm.universalfinancemanager.support.atomic.Account;
+import ufm.universalfinancemanager.support.atomic.User;
 
+
+/* Aaron: This is the chart for the Networth Bar Graph */
 public class HomeFragmentChart2 extends DaggerFragment implements HomeContract.View {
-
-
-
-    float arrData[][] = new float[3][6];
-    private CombinedChart mChart;
-    protected String[] mMonths = new String[] {
-            "Jul", "Aug", "Sep", "Oct", "Nov", "Dec", "Jan"
-    };
-
-    private View mTransactionsView;
-    private SearchView mSearchView;
-    private List<Transaction> tlist;
 
     @Inject
     public HomePresenter mPresenter;
+
+    private CombinedChart mChart;
+
+    private User tUser;
+
+    private int numMonths = 6;
+    private View mTransactionsView;
+    private SearchView mSearchView;
+
+    private float yMaxValue = 0;
+    private List<HomeNetWorthData> arrNWData = new ArrayList<HomeNetWorthData>();
+    private List<HomeAccountData> arrAllAccounts = new ArrayList<HomeAccountData>();
+
+    protected String[] mMonths = new String[] { "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul" };
+
+    Calendar cal = Calendar.getInstance();
+    private int thisMonth = -1;
+    private double totalDebts = 0.0;
+    private double totalAssets = 0.0;
+
+    float arrData[][] = new float[3][7];
 
     @Inject
     public HomeFragmentChart2() {}
@@ -59,24 +97,194 @@ public class HomeFragmentChart2 extends DaggerFragment implements HomeContract.V
         super.onResume();
         mPresenter.takeView(this);
     }
+
     @Override
     public void populateList(List<Transaction> items) {
-        tlist = items;
-        Toast.makeText(getContext(), "Category: " + items.get(0).getName(), Toast.LENGTH_SHORT).show();
 
+        int month;
+
+        // 1. Initialize 12 months of data
+        for (int i = 0; i < 12; i++) {
+            arrNWData.add(i, new HomeNetWorthData(i, 0.0f, 0.0f));
+        }
+
+        // 2. Get this month
+        Date date = new Date();
+        cal.setTime(date);
+        month = cal.get(Calendar.MONTH);
+        thisMonth = month;
+
+        createMonthLegend(month);
+
+
+        int j = 0;
+        // 3. Get Account type and current balances
+        for (int i = 0; i < items.size(); i++) {
+            if (items.get(i).getFromAccount() != null) {
+                int debtOrAsset = -1;
+
+                if (items.get(i).getFromAccount().getType() == AccountType.CREDIT_CARD) {
+                    arrAllAccounts.add(new HomeAccountData(
+                            items.get(i).getFromAccount().getName(),
+                            AcctType.DEBT,
+                            items.get(i).getFromAccount().getBalance()));
+                }
+                else if (items.get(i).getFromAccount().getType() != AccountType.CREDIT_CARD) {
+                    arrAllAccounts.add(new HomeAccountData(
+                            items.get(i).getFromAccount().getName(),
+                            AcctType.ASSET,
+                            items.get(i).getFromAccount().getBalance()));
+                }
+
+            }
+            else if (items.get(i).getToAccount() != null) {
+
+                int debtOrAsset = -1;
+
+                if (items.get(i).getToAccount().getType() == AccountType.CREDIT_CARD) {
+                    arrAllAccounts.add(new HomeAccountData(
+                            items.get(i).getToAccount().getName(),
+                            AcctType.DEBT,
+                            items.get(i).getToAccount().getBalance()));
+                }
+                else if (items.get(i).getToAccount().getType() != AccountType.CREDIT_CARD) {
+                    arrAllAccounts.add(new HomeAccountData(
+                            items.get(i).getToAccount().getName(),
+                            AcctType.ASSET,
+                            items.get(i).getToAccount().getBalance()));
+                }
+            }
+        }
+
+        // Sort by Account Name.
+        Collections.sort(arrAllAccounts, HomeAccountData.COMPARE_BY_NAME);
+
+        // Remove Dupes with Set
+        for (j = arrAllAccounts.size() - 1; j > 0; j--) {
+            Log.d("Aaron's Debug", "\nMessage: " +
+                    arrAllAccounts.get(j).acctName + " vs. " +
+                    arrAllAccounts.get(j-1).acctName);
+            if (arrAllAccounts.get(j).acctName.equals(arrAllAccounts.get(j-1).acctName)) {
+                arrAllAccounts.remove(j);
+            }
+        }
+
+        // Get running totals for totalAssests and totalDebt
+
+        for (j = 0; j < arrAllAccounts.size(); j++) {
+            if (arrAllAccounts.get(j).acctType == AcctType.DEBT)
+                totalDebts = totalDebts + arrAllAccounts.get(j).acctBal;
+            else if (arrAllAccounts.get(j).acctType == AcctType.ASSET)
+                totalAssets = totalAssets + arrAllAccounts.get(j).acctBal;
+        }
+
+
+        // 2. Add Transaction amounts based on flowtype and account type
+        for (int i = 0; i < items.size(); i++) {
+
+            cal.setTime(items.get(i).getDate());
+            month = cal.get(Calendar.MONTH);
+
+            // If month = arrNWData.monthInt
+            for (int k = 0; k < arrNWData.size(); k++) {
+
+                if (items.get(i).getFlow() == Flow.OUTCOME &&
+                        items.get(i).getFromAccount().getType() == AccountType.CREDIT_CARD) {
+                    // If transaction is an Outcome & from a credit card, totalDebt increases
+
+                    if (arrNWData.get(k).monthInt == month)
+                        arrNWData.get(k).totalDebt += items.get(i).getAmount();
+
+                    Log.d("\nAaron debug: ",
+                            "Account Flow: " + items.get(i).getFlow() +
+                                    "\nfromAccount type: " + items.get(i).getFromAccount().getType() +
+                                    "\nAmount: " + items.get(i).getAmount());
+                } else if (items.get(i).getFlow() == Flow.OUTCOME &&
+                        items.get(i).getFromAccount().getType() != AccountType.CREDIT_CARD) {
+                    // If transaction is an Outcome & from an asset account, totalAssets decrease
+
+                    if (arrNWData.get(k).monthInt == month)
+                        arrNWData.get(k).totalAsset -= items.get(i).getAmount();
+
+                    Log.d("\nAaron debug: ",
+                            "Account Flow: " + items.get(i).getFlow() +
+                                    "\nfromAccount type: " + items.get(i).getFromAccount().getType() +
+                                    "\nAmount: " + items.get(i).getAmount());
+                } else if (items.get(i).getFlow() == Flow.INCOME &&
+                        items.get(i).getToAccount().getType() == AccountType.CREDIT_CARD) {
+                    // If transaction is an Income & from an credit card account, totalDebt decrease
+
+                    if (arrNWData.get(k).monthInt == month)
+                        arrNWData.get(k).totalDebt -= items.get(i).getAmount();
+
+                    Log.d("\nAaron debug: ",
+                            "Account Flow: " + items.get(i).getFlow() +
+                                    "\ntoAccount type: " + items.get(i).getToAccount().getType() +
+                                    "\nAmount: " + items.get(i).getAmount());
+                } else if (items.get(i).getFlow() == Flow.INCOME &&
+                        items.get(i).getToAccount().getType() != AccountType.CREDIT_CARD) {
+                    // If transaction is an Outcome & from an asset account, totalAssets increase
+
+                    if (arrNWData.get(k).monthInt == month)
+                        arrNWData.get(k).totalAsset += items.get(i).getAmount();
+
+                    Log.d("\nAaron debug: ",
+                            "Account Flow: " + items.get(i).getFlow() +
+                                    "\ntoAccount type: " + items.get(i).getToAccount().getType() +
+                                    "\nAmount: " + items.get(i).getAmount());
+                }
+            }
+
+
+
+        }
+
+        // Populate Double Array with past 6 months data, including this month
+
+
+
+
+
+        // 3. Three inputs per month (1: totalCredit, 2: totalDebt: 3: networth
+//        getYMaxValue();
+
+//        Log.d("Aaron's Tag", "Message: ");
+    }
+
+    public String getMonth(int month) {
+        return new DateFormatSymbols().getShortMonths()[month];
+    }
+
+    void createMonthLegend(int month) {
+
+        String strMonth = "";
+        month = (month + 6)%12;
+
+        for (int i = 0; i < 7; i++) {
+            if (month == 12) {
+                month = 0;
+            }
+            strMonth = getMonth(month++);
+            mMonths[i] = strMonth;
+        }
+
+        Log.d("Aaron Debug: ", "Message: ");
+
+    }
+    void getYMaxValue(){
+        for (int i = 0; i < arrNWData.size(); i++){
+            if (arrNWData.get(i).totalAsset > yMaxValue)
+                yMaxValue = arrNWData.get(i).totalAsset;
+            if (arrNWData.get(i).totalDebt > yMaxValue)
+                yMaxValue = arrNWData.get(i).totalAsset;
+        }
+        Log.d("Aaron's Tag", "Message: ");
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
         mPresenter.dropView();
-    }
-
-    public void showTransactions(List<Transaction> items) {
-
-        Toast.makeText(getContext(), "Am I here? ", Toast.LENGTH_SHORT).show();
-
-        Toast.makeText(getContext(), "show Transactions " + items.get(0).getName(), Toast.LENGTH_SHORT).show();
     }
 
     @Override
@@ -89,24 +297,20 @@ public class HomeFragmentChart2 extends DaggerFragment implements HomeContract.V
         View root = inflater.inflate(R.layout.home_fragment_chart2, container, false);
 
 
-        // Need to load transactions:
-        //showTransactions(List<Transaction> items);
-        Toast.makeText(getContext(), "Am I here 2? ", Toast.LENGTH_SHORT).show();
-
         mPresenter.loadTransactions();
-       // mPresenter.populateList();
 
+        // Get double Array date
 
-//        if(mSearchView.getQuery().toString()==null){
-//            mPresenter.loadTransactions();
-//            showTransactions(List<Transaction> items);
-            // giveTransactions()
-//        }
+//        arrData[][] =
 
         // Set starting data for net worth (Assets[0][], Liabilities[1][], NetWorth[2][]
         arrData[0][0] = 60f;
         arrData[1][0] = -30f;
         arrData[2][0]= 30f;
+
+//        arrData[0][0] = yMaxValue;
+//        arrData[1][0] = -(yMaxValue/2);
+//        arrData[2][0]= yMaxValue/2;
 
         //Generate random data
         Random rand = new Random();
@@ -145,11 +349,15 @@ public class HomeFragmentChart2 extends DaggerFragment implements HomeContract.V
         rightAxis.setDrawGridLines(false);
         rightAxis.setAxisMinimum(-100f); // start at -100
         rightAxis.setAxisMaximum(100f); // the axis maximum is 100
+//        rightAxis.setAxisMinimum(-yMaxValue*1.1f); // start at -100
+//        rightAxis.setAxisMaximum(yMaxValue*1.1f); // the axis maximum is 100
 
         YAxis leftAxis = mChart.getAxisLeft();
         leftAxis.setDrawGridLines(false);
         leftAxis.setAxisMinimum(-100f); // start at -100
         leftAxis.setAxisMaximum(100f); // the axis maximum is 100
+//        leftAxis.setAxisMinimum(-yMaxValue*1.1f); // start at -100
+//        leftAxis.setAxisMaximum(yMaxValue*1.1f); // the axis maximum is 100
 
 
         XAxis xAxis = mChart.getXAxis();
@@ -176,6 +384,8 @@ public class HomeFragmentChart2 extends DaggerFragment implements HomeContract.V
     }
 
     private ArrayList<Entry> getLineEntriesData(ArrayList<Entry> entries){
+
+        // Get data by month, subtotaled by flowType
 
 
         entries.add(new Entry(1, arrData[2][0]));
@@ -215,7 +425,7 @@ public class HomeFragmentChart2 extends DaggerFragment implements HomeContract.V
         entries.add(new BarEntry(5,arrData[0][4]));
         entries.add(new BarEntry(5,arrData[1][4]));
         entries.add(new BarEntry(6,arrData[0][5]));
-        entries.add(new BarEntry(6,arrData[01][5]));
+        entries.add(new BarEntry(6,arrData[1][5]));
 
         return  entries;
     }

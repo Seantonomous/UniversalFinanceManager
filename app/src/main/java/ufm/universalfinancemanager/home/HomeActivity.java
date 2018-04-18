@@ -27,6 +27,7 @@ import android.view.View;
 import dagger.Lazy;
 import dagger.android.support.DaggerAppCompatActivity;
 import ufm.universalfinancemanager.R;
+import ufm.universalfinancemanager.addeditaccount.AddEditAccountPresenter;
 import ufm.universalfinancemanager.di.ActivityScoped;
 import ufm.universalfinancemanager.earningshistory.EarningsHistoryActivity;
 import ufm.universalfinancemanager.networth.NetworthActivity;
@@ -229,11 +230,5 @@ public class HomeActivity extends DaggerAppCompatActivity {
                     }
                 }
         );
-    }
-
-    public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.action_bar, menu);
-        return true;
     }
 }

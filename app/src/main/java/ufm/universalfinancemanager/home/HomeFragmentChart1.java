@@ -27,6 +27,7 @@ import dagger.android.support.DaggerFragment;
 import ufm.universalfinancemanager.R;
 import ufm.universalfinancemanager.db.entity.Transaction;
 
+/* Aaron: This is the chart for the Budget Spend Horizontal Bar Graph */
 public class HomeFragmentChart1 extends DaggerFragment implements HomeContract.View {
     @Inject
     public HomePresenter mPresenter;

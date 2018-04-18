@@ -25,6 +25,7 @@ import dagger.android.support.DaggerFragment;
 import ufm.universalfinancemanager.R;
 import ufm.universalfinancemanager.db.entity.Transaction;
 
+/* Aaron: This is the chart for the Cateogry Spend Pie Chart */
 public class HomeFragmentChart3 extends DaggerFragment implements HomeContract.View {
 
     private PieChart mChart;

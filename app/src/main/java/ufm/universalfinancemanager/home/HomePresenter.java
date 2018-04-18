@@ -14,16 +14,15 @@ import ufm.universalfinancemanager.util.EspressoIdlingResource;
 
 public class HomePresenter implements HomeContract.Presenter {
     private final TransactionRepository mTransactionRepository;
-
-    // private final User mUser;
+    private final User mUser;
 
     @Nullable
     private HomeContract.View mHomeView = null;
 
     @Inject
-    public HomePresenter(TransactionRepository transactionRepository) {
+    public HomePresenter(TransactionRepository transactionRepository, User user) {
         mTransactionRepository = transactionRepository;
-        // mUser = user;
+        this.mUser = user;
     }
 
 
@@ -70,4 +69,5 @@ public class HomePresenter implements HomeContract.Presenter {
         mHomeView.populateList(transactions);
 
     }
+
 }
