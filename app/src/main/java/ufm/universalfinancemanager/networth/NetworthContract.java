@@ -4,7 +4,7 @@ import java.util.List;
 
 import ufm.universalfinancemanager.BasePresenter;
 import ufm.universalfinancemanager.BaseView;
-import ufm.universalfinancemanager.support.atomic.Account;
+import ufm.universalfinancemanager.db.entity.Account;
 
 /**
  * Created by smh7 on 2/28/18.
@@ -12,10 +12,15 @@ import ufm.universalfinancemanager.support.atomic.Account;
 
 public class NetworthContract {
     interface View extends BaseView<Presenter> {
+
         void showNetworth(List<Account> accounts);
+
+        void showEditAccount(String accountName);
     }
 
     interface Presenter extends BasePresenter<View> {
+
+        void editAccount(Account account);
 
         void takeView(NetworthContract.View view);
 

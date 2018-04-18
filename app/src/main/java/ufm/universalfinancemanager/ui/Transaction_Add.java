@@ -10,38 +10,6 @@
 
 package ufm.universalfinancemanager.ui;
 
-import android.app.Activity;
-import android.app.DatePickerDialog;
-import android.app.Dialog;
-import android.content.Intent;
-import android.graphics.Paint;
-import android.os.Bundle;
-import android.os.Parcelable;
-import android.text.InputType;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.View;
-import android.widget.ArrayAdapter;
-import android.widget.Button;
-import android.widget.CheckBox;
-import android.widget.DatePicker;
-import android.widget.EditText;
-import android.widget.RadioButton;
-import android.widget.RadioGroup;
-import android.widget.Spinner;
-import android.widget.TextView;
-import android.widget.Toast;
-
-import java.util.Calendar;
-
-import ufm.universalfinancemanager.support.atomic.Account;
-import ufm.universalfinancemanager.support.atomic.Category;
-import ufm.universalfinancemanager.support.Flow;
-import ufm.universalfinancemanager.R;
-import ufm.universalfinancemanager.support.TextValidator;
-import ufm.universalfinancemanager.db.entity.Transaction;
-import ufm.universalfinancemanager.support.atomic.User;
-
 /**
  * Created by Areeba on 11/2/2017.
  */

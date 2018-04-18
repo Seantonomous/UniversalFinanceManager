@@ -14,18 +14,20 @@ import java.util.Map;
 import javax.annotation.Nonnull;
 import javax.inject.Inject;
 
-import ufm.universalfinancemanager.db.TransactionDataSource;
+import ufm.universalfinancemanager.db.UserDataSource;
+import ufm.universalfinancemanager.db.entity.Account;
+import ufm.universalfinancemanager.db.entity.Category;
 import ufm.universalfinancemanager.db.entity.Transaction;
 
 /**
  * Implementation of a remote data source with static access to the data for easy testing.
  */
-public class FakeTransactionRemoteDataSource implements TransactionDataSource {
+public class FakeUserRemoteDataSource implements UserDataSource {
 
     private static final Map<String, Transaction> TRANSACTIONS_SERVICE_DATA = new LinkedHashMap<>();
 
     @Inject
-    public FakeTransactionRemoteDataSource() {}
+    public FakeUserRemoteDataSource() {}
 
     @Override
     public void getTransactions(@NonNull LoadTransactionsCallback callback) {
@@ -42,7 +44,10 @@ public class FakeTransactionRemoteDataSource implements TransactionDataSource {
     @Override
     public void getTransaction(@NonNull String taskId, @NonNull GetTransactionCallback callback) {
         Transaction transaction = TRANSACTIONS_SERVICE_DATA.get(taskId);
-        callback.onTransactionLoaded(transaction);
+        if(transaction == null)
+            callback.onDataNotAvailable();
+        else
+            callback.onTransactionLoaded(transaction);
     }
 
     @Override
@@ -75,5 +80,45 @@ public class FakeTransactionRemoteDataSource implements TransactionDataSource {
         for (Transaction transaction : transactions) {
             TRANSACTIONS_SERVICE_DATA.put(transaction.getId(), transaction);
         }
+    }
+
+    @Override
+    public void saveAccount(@NonNull Account account) {
+        //TODO: Implement (Stub)
+    }
+
+    @Override
+    public void deleteAccount(@NonNull String accountName) {
+        //TODO: Implement (Stub)
+    }
+
+    @Override
+    public void getAccounts(@NonNull LoadAccountsCallback callback) {
+        //TODO: Implement (Stub)
+    }
+
+    @Override
+    public void getAccount(@NonNull String accountName, @NonNull GetAccountCallback callback) {
+        //TODO: Implement (Stub)
+    }
+
+    @Override
+    public void saveCategory(@NonNull Category category) {
+        //TODO: Implement (Stub)
+    }
+
+    @Override
+    public void deleteCategory(@NonNull String categoryname) {
+        //TODO: Implement (Stub)
+    }
+
+    @Override
+    public void getCategories(@NonNull LoadCategoriesCallback callback) {
+        //TODO: Implement (Stub)
+    }
+
+    @Override
+    public void getCategory(@NonNull String categoryName, @NonNull GetCategoryCallback callback) {
+        //TODO: Implement (Stub)
     }
 }

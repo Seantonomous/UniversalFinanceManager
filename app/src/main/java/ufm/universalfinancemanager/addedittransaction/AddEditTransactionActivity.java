@@ -15,11 +15,11 @@ import javax.inject.Inject;
 import dagger.Lazy;
 import dagger.android.support.DaggerAppCompatActivity;
 import ufm.universalfinancemanager.R;
+import ufm.universalfinancemanager.util.ActivityUtils;
 import ufm.universalfinancemanager.earningshistory.EarningsHistoryActivity;
 import ufm.universalfinancemanager.home.HomeActivity;
 import ufm.universalfinancemanager.networth.NetworthActivity;
 import ufm.universalfinancemanager.transactionhistory.TransactionHistoryActivity;
-import ufm.universalfinancemanager.util.ActivityUtils;
 
 /**
  * Created by smh7 on 12/14/17.

@@ -20,17 +20,19 @@ import java.util.List;
 import ufm.universalfinancemanager.support.AccountType;
 import ufm.universalfinancemanager.support.ListItem;
 import ufm.universalfinancemanager.support.RowType;
-import ufm.universalfinancemanager.support.atomic.Account;
+import ufm.universalfinancemanager.db.entity.Account;
 
 public class NetworthAdapter extends BaseAdapter {
-    private static final int TYPE_TRANSACTION = 0;
+    private static final int TYPE_ACCOUNT = 0;
     private static final int TYPE_SEPARATOR = 1;
 
     private List<ListItem> mItems;
 
+    private NetworthFragment.NetworthClickListener mListener;
 
-    public NetworthAdapter(List<Account> accounts) {
+    public NetworthAdapter(List<Account> accounts, NetworthFragment.NetworthClickListener listener) {
         mItems = new ArrayList<>();
+        mListener = listener;
         setList(accounts);
     }
 
@@ -95,6 +97,16 @@ public class NetworthAdapter extends BaseAdapter {
     @Override
     @NonNull
     public View getView(final int position, View convertView, @NonNull ViewGroup parent) {
-        return getItem(position).getView(LayoutInflater.from(parent.getContext()), convertView);
+        View rowview = getItem(position).getView(LayoutInflater.from(parent.getContext()), convertView);
+
+        rowview.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(getItem(position).getViewType() == TYPE_ACCOUNT)
+                    mListener.onAccountClicked((Account)getItem(position));
+            }
+        });
+
+        return rowview;
     }
 }

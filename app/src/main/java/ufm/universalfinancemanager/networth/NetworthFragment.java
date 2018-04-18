@@ -21,7 +21,7 @@ import ufm.universalfinancemanager.addeditaccount.AddEditAccountActivity;
 import ufm.universalfinancemanager.addeditcategory.AddEditCategoryActivity;
 import ufm.universalfinancemanager.addeditreminder.AddEditReminderActivity;
 import ufm.universalfinancemanager.addedittransaction.AddEditTransactionActivity;
-import ufm.universalfinancemanager.support.atomic.Account;
+import ufm.universalfinancemanager.db.entity.Account;
 
 /**
  * Created by smh7 on 2/28/18.
@@ -33,13 +33,20 @@ public class NetworthFragment extends DaggerFragment implements NetworthContract
 
     private NetworthAdapter mAdapter;
 
+    private NetworthClickListener mListener = new NetworthClickListener() {
+        @Override
+        public void onAccountClicked(Account account) {
+            mPresenter.editAccount(account);
+        }
+    };
+
     @Inject
     public NetworthFragment() {}
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mAdapter = new NetworthAdapter(new ArrayList<Account>(0));
+        mAdapter = new NetworthAdapter(new ArrayList<Account>(0), mListener);
     }
 
     @Override
@@ -92,5 +99,16 @@ public class NetworthFragment extends DaggerFragment implements NetworthContract
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         inflater.inflate(R.menu.action_bar, menu);
+    }
+
+    @Override
+    public void showEditAccount(String accountName) {
+        Intent intent = new Intent(getContext(), AddEditAccountActivity.class);
+        intent.putExtra("ACCOUNT_NAME", accountName);
+        startActivity(intent);
+    }
+
+    public interface NetworthClickListener {
+        void onAccountClicked(Account account);
     }
 }

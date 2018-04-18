@@ -13,11 +13,15 @@ public class AddEditCategoryContract {
 
             void showLastActivity(boolean success);
 
+            void populateCategoryData(String name, Flow flow);
+
             void showMessage(String message);
         }
 
         interface Presenter extends BasePresenter<View> {
             void saveCategory(String name, Flow flow);
+
+            void deleteCategory();
 
             void takeView(View v);
 
