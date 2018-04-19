@@ -5,6 +5,7 @@ import java.util.List;
 import ufm.universalfinancemanager.BasePresenter;
 import ufm.universalfinancemanager.BaseView;
 import ufm.universalfinancemanager.db.entity.Transaction;
+import ufm.universalfinancemanager.support.atomic.Account;
 import ufm.universalfinancemanager.support.atomic.User;
 
 public interface HomeContract {
@@ -13,9 +14,14 @@ public interface HomeContract {
 
         void populateList(List<Transaction> items);
 
+        void getList(List<Transaction> items);
+
+        void getAccounts(List<Account> accounts);
     }
 
     interface Presenter extends BasePresenter<View> {
+
+        void result(int requestCode, int resultCode);
 
         void takeView(View v);
 

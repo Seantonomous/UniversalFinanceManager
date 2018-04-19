@@ -13,6 +13,7 @@ import ufm.universalfinancemanager.support.atomic.User;
 import ufm.universalfinancemanager.util.EspressoIdlingResource;
 
 public class HomePresenter implements HomeContract.Presenter {
+
     private final TransactionRepository mTransactionRepository;
     private final User mUser;
 
@@ -21,23 +22,15 @@ public class HomePresenter implements HomeContract.Presenter {
 
     @Inject
     public HomePresenter(TransactionRepository transactionRepository, User user) {
+        mUser = user;
         mTransactionRepository = transactionRepository;
-        this.mUser = user;
-    }
-
-
-    @Override
-    public void takeView(HomeContract.View v) {
-        if(v == null)
-            return;
-
-        mHomeView = v;
     }
 
     @Override
-    public void dropView() {
-        mHomeView = null;
+    public void result(int requestCode, int resultCode) {
+
     }
+
 
     @Override
     public void loadTransactions() {
@@ -63,11 +56,26 @@ public class HomePresenter implements HomeContract.Presenter {
                 //display loading transactions error message
             }
         });
+
+
     }
 
+//    @Override
     public void processTransactions(List<Transaction> transactions) {
-        mHomeView.populateList(transactions);
+       mHomeView.populateList(transactions);
+    }
 
+    @Override
+    public void takeView(HomeContract.View v) {
+        if(v == null)
+            return;
+
+        mHomeView = v;
+    }
+
+    @Override
+    public void dropView() {
+        mHomeView = null;
     }
 
 }

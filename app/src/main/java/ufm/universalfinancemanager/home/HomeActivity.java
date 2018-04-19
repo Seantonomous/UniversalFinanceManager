@@ -27,7 +27,13 @@ import android.view.View;
 import dagger.Lazy;
 import dagger.android.support.DaggerAppCompatActivity;
 import ufm.universalfinancemanager.R;
+import ufm.universalfinancemanager.addeditaccount.AddEditAccountActivity;
 import ufm.universalfinancemanager.addeditaccount.AddEditAccountPresenter;
+import ufm.universalfinancemanager.addeditbudget.AddEditBudgetActivity;
+import ufm.universalfinancemanager.addeditcategory.AddEditCategoryActivity;
+import ufm.universalfinancemanager.addeditreminder.AddEditReminderActivity;
+import ufm.universalfinancemanager.addedittransaction.AddEditTransactionActivity;
+import ufm.universalfinancemanager.db.entity.Transaction;
 import ufm.universalfinancemanager.di.ActivityScoped;
 import ufm.universalfinancemanager.earningshistory.EarningsHistoryActivity;
 import ufm.universalfinancemanager.networth.NetworthActivity;
@@ -96,7 +102,6 @@ public class HomeActivity extends DaggerAppCompatActivity {
         getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_menu);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setTitle(R.string.home_title);
-
         // Loads the first chart
         nextChart();
 
@@ -232,3 +237,4 @@ public class HomeActivity extends DaggerAppCompatActivity {
         );
     }
 }
+

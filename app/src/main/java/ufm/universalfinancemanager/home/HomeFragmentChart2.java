@@ -58,6 +58,7 @@ import ufm.universalfinancemanager.addedittransaction.AddEditTransactionActivity
 import ufm.universalfinancemanager.db.entity.Transaction;
 import ufm.universalfinancemanager.support.AccountType;
 import ufm.universalfinancemanager.support.Flow;
+import ufm.universalfinancemanager.support.ListItem;
 import ufm.universalfinancemanager.support.atomic.Account;
 import ufm.universalfinancemanager.support.atomic.User;
 
@@ -68,10 +69,13 @@ public class HomeFragmentChart2 extends DaggerFragment implements HomeContract.V
     @Inject
     public HomePresenter mPresenter;
 
+    @Inject
+    public User mUser;
+
+    @Inject
+    public HomeFragmentChart2() {}
+
     private CombinedChart mChart;
-
-    private User tUser;
-
     private int numMonths = 6;
     private View mTransactionsView;
     private SearchView mSearchView;
@@ -79,18 +83,14 @@ public class HomeFragmentChart2 extends DaggerFragment implements HomeContract.V
     private float yMaxValue = 0;
     private List<HomeNetWorthData> arrNWData = new ArrayList<HomeNetWorthData>();
     private List<HomeAccountData> arrAllAccounts = new ArrayList<HomeAccountData>();
-
-    protected String[] mMonths = new String[] { "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul" };
-
-    Calendar cal = Calendar.getInstance();
-    private int thisMonth = -1;
+    protected List<String> mMonths = new ArrayList<String>();
     private double totalDebts = 0.0;
     private double totalAssets = 0.0;
-
     float arrData[][] = new float[3][7];
+    Calendar cal = Calendar.getInstance();
 
-    @Inject
-    public HomeFragmentChart2() {}
+    List<Transaction> myList;
+
 
     @Override
     public void onResume() {
@@ -99,30 +99,33 @@ public class HomeFragmentChart2 extends DaggerFragment implements HomeContract.V
     }
 
     @Override
-    public void populateList(List<Transaction> items) {
+    public void getList(List<Transaction> items) {
 
+        myList = items;
+        Log.d("Aaron", "Here?");
+
+    }
+
+    @Override
+    public void getAccounts(List<Account> accounts) {
+        accounts.get(0).getName();
+    }
+
+
+    @Override
+    public void populateList(List<Transaction> items) {
         int month;
+
+        myList = items;
 
         // 1. Initialize 12 months of data
         for (int i = 0; i < 12; i++) {
             arrNWData.add(i, new HomeNetWorthData(i, 0.0f, 0.0f));
         }
 
-        // 2. Get this month
-        Date date = new Date();
-        cal.setTime(date);
-        month = cal.get(Calendar.MONTH);
-        thisMonth = month;
-
-        createMonthLegend(month);
-
-
-        int j = 0;
-        // 3. Get Account type and current balances
+        // 2. Get Account type and current balances
         for (int i = 0; i < items.size(); i++) {
             if (items.get(i).getFromAccount() != null) {
-                int debtOrAsset = -1;
-
                 if (items.get(i).getFromAccount().getType() == AccountType.CREDIT_CARD) {
                     arrAllAccounts.add(new HomeAccountData(
                             items.get(i).getFromAccount().getName(),
@@ -138,9 +141,6 @@ public class HomeFragmentChart2 extends DaggerFragment implements HomeContract.V
 
             }
             else if (items.get(i).getToAccount() != null) {
-
-                int debtOrAsset = -1;
-
                 if (items.get(i).getToAccount().getType() == AccountType.CREDIT_CARD) {
                     arrAllAccounts.add(new HomeAccountData(
                             items.get(i).getToAccount().getName(),
@@ -156,22 +156,33 @@ public class HomeFragmentChart2 extends DaggerFragment implements HomeContract.V
             }
         }
 
+        // Add accounts from db
+        for (int i = 0; i < mUser.getAccounts().size(); i++)
+        {
+            AcctType tempAcctType;
+
+            if (mUser.getAccounts().get(i).getType() == AccountType.CREDIT_CARD)
+                tempAcctType = AcctType.DEBT;
+            else
+                tempAcctType = AcctType.ASSET;
+
+            arrAllAccounts.add(new HomeAccountData(mUser.getAccounts().get(i).getName(),
+                    tempAcctType,
+                    mUser.getAccounts().get(i).getBalance()));
+        }
+
         // Sort by Account Name.
         Collections.sort(arrAllAccounts, HomeAccountData.COMPARE_BY_NAME);
 
         // Remove Dupes with Set
-        for (j = arrAllAccounts.size() - 1; j > 0; j--) {
-            Log.d("Aaron's Debug", "\nMessage: " +
-                    arrAllAccounts.get(j).acctName + " vs. " +
-                    arrAllAccounts.get(j-1).acctName);
+        for (int j = arrAllAccounts.size() - 1; j > 0; j--) {
             if (arrAllAccounts.get(j).acctName.equals(arrAllAccounts.get(j-1).acctName)) {
                 arrAllAccounts.remove(j);
             }
         }
 
         // Get running totals for totalAssests and totalDebt
-
-        for (j = 0; j < arrAllAccounts.size(); j++) {
+        for (int j = 0; j < arrAllAccounts.size(); j++) {
             if (arrAllAccounts.get(j).acctType == AcctType.DEBT)
                 totalDebts = totalDebts + arrAllAccounts.get(j).acctBal;
             else if (arrAllAccounts.get(j).acctType == AcctType.ASSET)
@@ -195,43 +206,24 @@ public class HomeFragmentChart2 extends DaggerFragment implements HomeContract.V
                     if (arrNWData.get(k).monthInt == month)
                         arrNWData.get(k).totalDebt += items.get(i).getAmount();
 
-                    Log.d("\nAaron debug: ",
-                            "Account Flow: " + items.get(i).getFlow() +
-                                    "\nfromAccount type: " + items.get(i).getFromAccount().getType() +
-                                    "\nAmount: " + items.get(i).getAmount());
                 } else if (items.get(i).getFlow() == Flow.OUTCOME &&
                         items.get(i).getFromAccount().getType() != AccountType.CREDIT_CARD) {
                     // If transaction is an Outcome & from an asset account, totalAssets decrease
 
                     if (arrNWData.get(k).monthInt == month)
                         arrNWData.get(k).totalAsset -= items.get(i).getAmount();
-
-                    Log.d("\nAaron debug: ",
-                            "Account Flow: " + items.get(i).getFlow() +
-                                    "\nfromAccount type: " + items.get(i).getFromAccount().getType() +
-                                    "\nAmount: " + items.get(i).getAmount());
                 } else if (items.get(i).getFlow() == Flow.INCOME &&
                         items.get(i).getToAccount().getType() == AccountType.CREDIT_CARD) {
                     // If transaction is an Income & from an credit card account, totalDebt decrease
 
                     if (arrNWData.get(k).monthInt == month)
                         arrNWData.get(k).totalDebt -= items.get(i).getAmount();
-
-                    Log.d("\nAaron debug: ",
-                            "Account Flow: " + items.get(i).getFlow() +
-                                    "\ntoAccount type: " + items.get(i).getToAccount().getType() +
-                                    "\nAmount: " + items.get(i).getAmount());
                 } else if (items.get(i).getFlow() == Flow.INCOME &&
                         items.get(i).getToAccount().getType() != AccountType.CREDIT_CARD) {
                     // If transaction is an Outcome & from an asset account, totalAssets increase
 
                     if (arrNWData.get(k).monthInt == month)
                         arrNWData.get(k).totalAsset += items.get(i).getAmount();
-
-                    Log.d("\nAaron debug: ",
-                            "Account Flow: " + items.get(i).getFlow() +
-                                    "\ntoAccount type: " + items.get(i).getToAccount().getType() +
-                                    "\nAmount: " + items.get(i).getAmount());
                 }
             }
 
@@ -241,35 +233,38 @@ public class HomeFragmentChart2 extends DaggerFragment implements HomeContract.V
 
         // Populate Double Array with past 6 months data, including this month
 
+        // Set starting data for net worth (Assets[0][], Liabilities[1][], NetWorth[2][]
 
-
+        arrData[0][0] = (float)totalAssets;
+        arrData[1][0] = (float)totalDebts;
+        arrData[2][0]= (float)(totalAssets - totalDebts);
 
 
         // 3. Three inputs per month (1: totalCredit, 2: totalDebt: 3: networth
 //        getYMaxValue();
-
-//        Log.d("Aaron's Tag", "Message: ");
     }
 
     public String getMonth(int month) {
         return new DateFormatSymbols().getShortMonths()[month];
     }
 
-    void createMonthLegend(int month) {
+    void createMonthLegend() {
+        int month;
 
-        String strMonth = "";
+        Date date = new Date();
+        cal.setTime(date);
+        month = cal.get(Calendar.MONTH);
+
+        String strMonth;
         month = (month + 6)%12;
 
         for (int i = 0; i < 7; i++) {
-            if (month == 12) {
+            if (month == 12)
                 month = 0;
-            }
+
             strMonth = getMonth(month++);
-            mMonths[i] = strMonth;
+            mMonths.add(strMonth);
         }
-
-        Log.d("Aaron Debug: ", "Message: ");
-
     }
     void getYMaxValue(){
         for (int i = 0; i < arrNWData.size(); i++){
@@ -278,7 +273,6 @@ public class HomeFragmentChart2 extends DaggerFragment implements HomeContract.V
             if (arrNWData.get(i).totalDebt > yMaxValue)
                 yMaxValue = arrNWData.get(i).totalAsset;
         }
-        Log.d("Aaron's Tag", "Message: ");
     }
 
     @Override
@@ -293,24 +287,29 @@ public class HomeFragmentChart2 extends DaggerFragment implements HomeContract.V
     }
 
     @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        mPresenter.result(requestCode, resultCode);
+    }
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.home_fragment_chart2, container, false);
 
-
         mPresenter.loadTransactions();
+        getList(myList);
+
+        // Populate X-Axis legent with past 7 months "MMM".
+        createMonthLegend();
+
+        if (myList != null)
+            myList.get(0).getName();
 
         // Get double Array date
-
-//        arrData[][] =
 
         // Set starting data for net worth (Assets[0][], Liabilities[1][], NetWorth[2][]
         arrData[0][0] = 60f;
         arrData[1][0] = -30f;
         arrData[2][0]= 30f;
-
-//        arrData[0][0] = yMaxValue;
-//        arrData[1][0] = -(yMaxValue/2);
-//        arrData[2][0]= yMaxValue/2;
 
         //Generate random data
         Random rand = new Random();
@@ -367,7 +366,7 @@ public class HomeFragmentChart2 extends DaggerFragment implements HomeContract.V
         xAxis.setValueFormatter(new IAxisValueFormatter() {
             @Override
             public String getFormattedValue(float value, AxisBase axis) {
-                return mMonths[(int) value % mMonths.length];
+                return mMonths.get((int)value);
             }
         });
 
@@ -497,4 +496,37 @@ public class HomeFragmentChart2 extends DaggerFragment implements HomeContract.V
 
         return tempColors;
     }
+
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch(item.getItemId()) {
+            case R.id.action_add_transaction:
+                startActivity(new Intent(getContext(), AddEditTransactionActivity.class));
+                break;
+            case R.id.action_add_account:
+                startActivity(new Intent(getContext(), AddEditAccountActivity.class));
+                break;
+            case R.id.action_add_category:
+                startActivity(new Intent(getContext(), AddEditCategoryActivity.class));
+                break;
+            case R.id.action_add_reminder:
+                startActivity(new Intent(getContext(), AddEditReminderActivity.class));
+                break;
+            case R.id.action_add_budget:
+                startActivity(new Intent(getContext(), AddEditBudgetActivity.class));
+                break;
+        }
+        return true;
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.action_bar, menu);
+    }
+
+    public interface TransactionClickListener {
+        void onTransactionClicked(Transaction t);
+    }
 }
+

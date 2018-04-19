@@ -1,8 +1,13 @@
 package ufm.universalfinancemanager.home;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
@@ -25,7 +30,13 @@ import javax.inject.Inject;
 
 import dagger.android.support.DaggerFragment;
 import ufm.universalfinancemanager.R;
+import ufm.universalfinancemanager.addeditaccount.AddEditAccountActivity;
+import ufm.universalfinancemanager.addeditbudget.AddEditBudgetActivity;
+import ufm.universalfinancemanager.addeditcategory.AddEditCategoryActivity;
+import ufm.universalfinancemanager.addeditreminder.AddEditReminderActivity;
+import ufm.universalfinancemanager.addedittransaction.AddEditTransactionActivity;
 import ufm.universalfinancemanager.db.entity.Transaction;
+import ufm.universalfinancemanager.support.atomic.Account;
 
 /* Aaron: This is the chart for the Budget Spend Horizontal Bar Graph */
 public class HomeFragmentChart1 extends DaggerFragment implements HomeContract.View {
@@ -43,9 +54,23 @@ public class HomeFragmentChart1 extends DaggerFragment implements HomeContract.V
     }
 
     @Override
+    public void getList(List<Transaction> items) {
+
+    }
+
+    @Override
     public void populateList(List<Transaction> items) {
         tlist = items;
 //        Toast.makeText(getContext(), "Category: " + items.get(0).getName(), Toast.LENGTH_SHORT).show();
+
+    }
+
+    @Override
+    public void getAccounts(List<Account> accounts) {
+
+        accounts.get(0).getName();
+
+        Log.d("Aaron", "Message");
 
     }
 
@@ -184,5 +209,35 @@ public class HomeFragmentChart1 extends DaggerFragment implements HomeContract.V
         mChart.invalidate();
 
         mChart.getDescription().setEnabled(false);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch(item.getItemId()) {
+            case R.id.action_add_transaction:
+                startActivity(new Intent(getContext(), AddEditTransactionActivity.class));
+                break;
+            case R.id.action_add_account:
+                startActivity(new Intent(getContext(), AddEditAccountActivity.class));
+                break;
+            case R.id.action_add_category:
+                startActivity(new Intent(getContext(), AddEditCategoryActivity.class));
+                break;
+            case R.id.action_add_reminder:
+                startActivity(new Intent(getContext(), AddEditReminderActivity.class));
+                break;
+            case R.id.action_add_budget:
+                startActivity(new Intent(getContext(), AddEditBudgetActivity.class));
+                break;
+        }
+        return true;
+    }
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.action_bar, menu);
+    }
+
+    public interface TransactionClickListener {
+        void onTransactionClicked(Transaction t);
     }
 }
