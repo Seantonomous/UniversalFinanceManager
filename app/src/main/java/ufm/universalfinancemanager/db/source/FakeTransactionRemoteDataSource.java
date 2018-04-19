@@ -38,6 +38,11 @@ public class FakeTransactionRemoteDataSource implements TransactionDataSource {
     }
 
     @Override
+    public void getTransactionsInDateRange(@NonNull long date1, @NonNull long date2, @NonNull LoadTransactionsCallback callback) {
+        callback.onTransactionsLoaded(new ArrayList<>(TRANSACTIONS_SERVICE_DATA.values()));
+    }
+
+    @Override
     public void saveTransaction(@NonNull Transaction task) {
         TRANSACTIONS_SERVICE_DATA.put(task.getId(), task);
     }

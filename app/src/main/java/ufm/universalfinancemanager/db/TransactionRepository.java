@@ -177,4 +177,29 @@ public class TransactionRepository implements TransactionDataSource {
 
         mCachedTransactions.remove(transactionId);
     }
+
+    @Override
+    public void getTransactionsInDateRange(@NonNull final long date1, @NonNull final long date2,  @NonNull final LoadTransactionsCallback callback) {
+        if(mCachedTransactions != null && !mCacheDirty) {
+            callback.onTransactionsLoaded(new ArrayList<>(mCachedTransactions.values()));
+            return;
+        }
+
+        if(mCacheDirty) {
+            getTransactionsFromRemoteDataSource(callback);
+        }else {
+            mLocalSource.getTransactionsInDateRange(date1, date2, new LoadTransactionsCallback() {
+                @Override
+                public void onTransactionsLoaded(List<Transaction> transactions) {
+                    refreshCache(transactions);
+                    callback.onTransactionsLoaded(new ArrayList<>(mCachedTransactions.values()));
+                }
+
+                @Override
+                public void onDataNotAvailable() {
+                    getTransactionsFromRemoteDataSource(callback);
+                }
+            });
+        }
+    }
 }
