@@ -7,6 +7,7 @@ import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
@@ -43,7 +44,7 @@ public class AddEditBudgetFragment extends DaggerFragment implements AddEditBudg
     private User mUser;
     Button cancel_button;
     Button submit_button;
-    private Spinner category;
+    private Spinner category_spinner;
     private EditText edit_amount;
     private EditText edit_name;
     private EditText edit_startdate;
@@ -89,7 +90,7 @@ public class AddEditBudgetFragment extends DaggerFragment implements AddEditBudg
         edit_name = root.findViewById(R.id.name);
         edit_startdate = root.findViewById(R.id.date);
         edit_enddate = root.findViewById(R.id.date2);
-        category = root.findViewById(R.id.category);
+        category_spinner = root.findViewById(R.id.category);
         cancel_button = root.findViewById(R.id.cancel);
         submit_button = root.findViewById(R.id.submit);
         calendar = Calendar.getInstance();
@@ -104,6 +105,7 @@ public class AddEditBudgetFragment extends DaggerFragment implements AddEditBudg
         calendar2.set(Calendar.SECOND, 0);
         calendar2.set(Calendar.MILLISECOND, 0);
         updateDate();
+        //mPresenter.getUpdatedCategories(Flow.INCOME);
 
         edit_name.addTextChangedListener(new TextValidator(edit_name) {
             @Override
@@ -153,9 +155,8 @@ public class AddEditBudgetFragment extends DaggerFragment implements AddEditBudg
                         edit_amount.setError("Budget must have an amount!");
                     return;
                 }
-           // currentValue = getExpenseTransactions(category.getSelectedItem().toString());
             mPresenter.loadTransactions(edit_name.getText().toString(),
-                    category.getSelectedItem().toString(),
+                    category_spinner.getSelectedItem().toString(),
                     Double.parseDouble(edit_amount.getText().toString()),
                     calendar.getTime(),
                     calendar2.getTime()
@@ -209,8 +210,9 @@ public class AddEditBudgetFragment extends DaggerFragment implements AddEditBudg
                 android.R.layout.simple_spinner_item, categories);
 
         categorySpinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        category.setAdapter(categorySpinnerAdapter);
+        category_spinner.setAdapter(categorySpinnerAdapter);
     }
+
 
     public void updateDate() {
         String myFormat = "MM/dd/yy";

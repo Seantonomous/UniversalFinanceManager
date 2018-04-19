@@ -18,18 +18,16 @@ public interface AddEditBudgetContract {
     interface View extends BaseView<AddEditBudgetContract.Presenter> {
 
         void showLastActivity(boolean success);
-
-        void showMessage(String message);
         void updateCategories(@Nullable List<Category> categories);
+        void showMessage(String message);
+
     }
 
     interface Presenter extends BasePresenter<AddEditBudgetContract.View> {
         void loadTransactions(String name, String category, double amount, Date startdate, Date enddate);
-
         void deleteBudget();
-
         void takeView(AddEditBudgetContract.View v);
-
         void dropView();
+
     }
 }

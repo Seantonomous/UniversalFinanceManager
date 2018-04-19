@@ -25,7 +25,7 @@ public class AddEditBudgetPresenter implements AddEditBudgetContract.Presenter{
     private User mUser;
     @Nullable
     private AddEditBudgetContract.View mAddEditBudgetview = null;
-    private TransactionRepository mTransactionRepository;
+    private final TransactionRepository mTransactionRepository;
 
     @Inject
     AddEditBudgetPresenter(User user, TransactionRepository transactionRepository) {
@@ -38,7 +38,10 @@ public class AddEditBudgetPresenter implements AddEditBudgetContract.Presenter{
         //Performing database/network call, forbid ui test activity until it's done
         EspressoIdlingResource.increment();
 
-        mTransactionRepository.getTransactions(new TransactionDataSource.LoadTransactionsCallback() {
+        long currentDate = startdate.getTime();
+        long pastDate = enddate.getTime();
+        mTransactionRepository.getTransactionsInDateRange(currentDate, pastDate, new TransactionDataSource.LoadTransactionsCallback() {
+
             @Override
             public void onTransactionsLoaded(List<Transaction> transactions) {
 
@@ -57,6 +60,25 @@ public class AddEditBudgetPresenter implements AddEditBudgetContract.Presenter{
                 //display loading transactions error message
             }
         });
+        /*mTransactionRepository.getTransactions(currentDate, pastDate, new TransactionDataSource.LoadTransactionsCallback() {
+            @Override
+            public void onTransactionsLoaded(List<Transaction> transactions) {
+
+                // This callback may be called twice, once for the cache and once for loading
+                // the data from the server API, so we check before decrementing, otherwise
+                // it throws "Counter has been corrupted!" exception.
+                if (!EspressoIdlingResource.getIdlingResource().isIdleNow()) {
+                    EspressoIdlingResource.decrement(); // Set app as idle.
+                }
+
+                processTransactions(transactions, name, category,amount,startdate, enddate);
+            }
+
+            @Override
+            public void onDataNotAvailable() {
+                //display loading transactions error message
+            }
+        });*/
     }
 
     public void processTransactions(List<Transaction> transactions, String name, String categoryName, double amount, Date startdate, Date enddate) {
@@ -64,10 +86,11 @@ public class AddEditBudgetPresenter implements AddEditBudgetContract.Presenter{
         double sum = 0.0;
         for(Transaction t: transactions) {
             if((t.getCategory().equals(categoryName == null ? null : mUser.getCategory(categoryName))) == true &&
-                    t.getFlow().equals(Flow.INCOME) == true &&
-                    t.getDate().compareTo(startdate) == 0) {
-                budgetTransactionList.add(t);
-                sum += t.getAmount();
+                    t.getFlow().equals(Flow.INCOME) == true) {
+                if (t.getDate().compareTo(startdate) == 0){ // or its greater or close to the end date {
+                    budgetTransactionList.add(t);
+                    sum += t.getAmount();
+                }
             }
         }
         Budget budget = new Budget(name, categoryName == null ? null : mUser.getCategory(categoryName), amount, sum, startdate, enddate);
@@ -108,12 +131,13 @@ public class AddEditBudgetPresenter implements AddEditBudgetContract.Presenter{
     @Override
     public void takeView(AddEditBudgetContract.View view) {
         mAddEditBudgetview = view;
-        //get stuff from database
+        mAddEditBudgetview.updateCategories(mUser.getIncomeCategories());
     }
 
     @Override
     public void dropView() {
         mAddEditBudgetview = null;
     }
+
 
 }
