@@ -28,12 +28,12 @@ import javax.inject.Inject;
 import dagger.android.support.DaggerFragment;
 import ufm.universalfinancemanager.R;
 import ufm.universalfinancemanager.addeditcategory.AddEditCategoryPresenter;
-import ufm.universalfinancemanager.db.TransactionRepository;
+import ufm.universalfinancemanager.db.UserRepository;
 import ufm.universalfinancemanager.db.entity.Transaction;
 import ufm.universalfinancemanager.support.AccountType;
 import ufm.universalfinancemanager.support.Flow;
 import ufm.universalfinancemanager.support.TextValidator;
-import ufm.universalfinancemanager.support.atomic.Category;
+import ufm.universalfinancemanager.db.entity.Category;
 import ufm.universalfinancemanager.support.atomic.User;
 
 /**
@@ -151,20 +151,23 @@ public class AddEditBudgetFragment extends DaggerFragment implements AddEditBudg
         submit_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (!valid_amount || !valid_name) {
+                if (!valid_amount || !valid_name ) {
                     if(!valid_name)
                         edit_name.setError("Budget must have a name!");
                     if(!valid_amount)
                         edit_amount.setError("Budget must have an amount!");
                     return;
                 }
-            mPresenter.loadTransactions(edit_name.getText().toString(),
+
+            mPresenter.saveBudget(edit_name.getText().toString(),
                     category_spinner.getSelectedItem().toString(),
                     Double.parseDouble(edit_amount.getText().toString()),
                     calendar.getTime(),
                     calendar2.getTime()
             );
+                showLastActivity(false);
             }
+
         });
 
         cancel_button.setOnClickListener(new View.OnClickListener() {

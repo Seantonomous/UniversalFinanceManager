@@ -8,8 +8,8 @@ import java.util.List;
 import ufm.universalfinancemanager.BasePresenter;
 import ufm.universalfinancemanager.BaseView;
 import ufm.universalfinancemanager.support.Flow;
-import ufm.universalfinancemanager.support.atomic.Account;
-import ufm.universalfinancemanager.support.atomic.Category;
+import ufm.universalfinancemanager.db.entity.Account;
+import ufm.universalfinancemanager.db.entity.Category;
 
 /**
  * Created by Areeba on 2/23/2018.
@@ -27,7 +27,8 @@ public interface AddEditBudgetContract {
     }
 
     interface Presenter extends BasePresenter<AddEditBudgetContract.View> {
-        void loadTransactions(String name, String category, double amount, Date startdate, Date enddate);
+        void saveBudget(String name, String category, double amount, Date startdate, Date enddate);
+        void loadTransactions(Date date1, Date date2, String str);
         void getUpdatedCategories(Flow flow);
         void deleteBudget();
         void takeView(AddEditBudgetContract.View v);

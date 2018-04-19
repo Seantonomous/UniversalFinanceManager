@@ -5,7 +5,6 @@ import java.util.List;
 import ufm.universalfinancemanager.BasePresenter;
 import ufm.universalfinancemanager.BaseView;
 import ufm.universalfinancemanager.networth.NetworthContract;
-import ufm.universalfinancemanager.support.atomic.Account;
 import ufm.universalfinancemanager.support.atomic.Budget;
 
 /**

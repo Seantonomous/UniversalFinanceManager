@@ -102,7 +102,7 @@ public class BudgetActivity extends DaggerAppCompatActivity {
                                 //Do nothing we're already here
                                 startActivity(new Intent(getApplicationContext(), TransactionHistoryActivity.class));
                                 break;
-                            case R.id.inout_menu_item:
+                            case R.id.earnings_menu_item:
                                 //switch to input output activity
                                 break;
                             case R.id.networth_menu_item:

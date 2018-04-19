@@ -26,6 +26,7 @@ public class UserModule {
     @Provides
     static User provideUser(UserRepository userRepository) {
         User testUser = new User("user", userRepository);
+        testUser.addBudget(new Budget("poo", "poop", 20.0,5.0, new Date(01/01/97), new Date(02/02/97)));
 
         /*
         if(!testUser.hasAccount("Checking"))

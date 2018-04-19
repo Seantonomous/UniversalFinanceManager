@@ -18,6 +18,7 @@ import java.util.Date;
 import java.util.Locale;
 
 import ufm.universalfinancemanager.R;
+import ufm.universalfinancemanager.db.entity.Category;
 import ufm.universalfinancemanager.db.source.local.converter.DateConverter;
 import ufm.universalfinancemanager.support.AccountType;
 import ufm.universalfinancemanager.support.ListItem;
@@ -47,7 +48,7 @@ public class Budget implements Parcelable, Serializable, ListItem {
     private String mBudgetId;
 
 
-    public Budget(String name, Category category, double amount, double current, Date startdate, Date enddate) {
+   /* public Budget(String name, Category category, double amount, double current, Date startdate, Date enddate) {
         this.name = name;
         this.category = category;
         this.amount = amount;
@@ -65,8 +66,18 @@ public class Budget implements Parcelable, Serializable, ListItem {
         this.startDate = startdate;
         this.endDate = enddate;
         this.mBudgetId = id;
-    }
+    }*/
 
+    public Budget(String name, Category category, double amount, double current, Date date, Date endDate) {
+        this.name = name;
+        this.category = category;
+        this.amount = amount;
+        this.currentValue= current;
+        num_format = NumberFormat.getCurrencyInstance();
+        this.startDate = date;
+        this.endDate = endDate;
+
+    }
     public Budget(String name, String category, double amount, double current, Date date, Date endDate) {
         this.name = name;
         this.cat = category;
@@ -109,7 +120,7 @@ public class Budget implements Parcelable, Serializable, ListItem {
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(name);
         dest.writeDouble(this.amount);
-        dest.writeParcelable(category,flags);
+        //dest.writeParcelable(this.category,flags);
         //dest.writeByte((byte) (frequency ? 1 : 0));
     }
 
@@ -153,7 +164,7 @@ public class Budget implements Parcelable, Serializable, ListItem {
         TextView endD = (TextView)view.findViewById(R.id.endDate);
         SimpleDateFormat dateFormatter = new SimpleDateFormat("dd.MM.yyyy", Locale.getDefault());
 
-        categoryName.setText(this.category.toString());
+        categoryName.setText(this.cat);
         budgetName.setText(this.name);
         totalBudget.setText(num_format.format(this.amount));
         spentMoney.setText(num_format.format(this.currentValue));
