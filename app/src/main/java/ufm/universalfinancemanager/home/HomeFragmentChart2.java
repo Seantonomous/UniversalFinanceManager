@@ -58,7 +58,7 @@ import ufm.universalfinancemanager.addedittransaction.AddEditTransactionActivity
 import ufm.universalfinancemanager.db.entity.Transaction;
 import ufm.universalfinancemanager.support.AccountType;
 import ufm.universalfinancemanager.support.Flow;
-import ufm.universalfinancemanager.support.atomic.Account;
+import ufm.universalfinancemanager.db.entity.Account;
 import ufm.universalfinancemanager.support.atomic.User;
 
 
@@ -70,7 +70,8 @@ public class HomeFragmentChart2 extends DaggerFragment implements HomeContract.V
 
     private CombinedChart mChart;
 
-    private User tUser;
+    @Inject
+    public User tUser;
 
     private int numMonths = 6;
     private View mTransactionsView;
@@ -122,36 +123,38 @@ public class HomeFragmentChart2 extends DaggerFragment implements HomeContract.V
         for (int i = 0; i < items.size(); i++) {
             if (items.get(i).getFromAccount() != null) {
                 int debtOrAsset = -1;
+                Account fromAccount = tUser.getAccount(items.get(i).getFromAccount());
 
-                if (items.get(i).getFromAccount().getType() == AccountType.CREDIT_CARD) {
+                if (fromAccount.getType() == AccountType.CREDIT_CARD) {
                     arrAllAccounts.add(new HomeAccountData(
-                            items.get(i).getFromAccount().getName(),
+                            fromAccount.getName(),
                             AcctType.DEBT,
-                            items.get(i).getFromAccount().getBalance()));
+                            fromAccount.getBalance()));
                 }
-                else if (items.get(i).getFromAccount().getType() != AccountType.CREDIT_CARD) {
+                else if (fromAccount.getType() != AccountType.CREDIT_CARD) {
                     arrAllAccounts.add(new HomeAccountData(
-                            items.get(i).getFromAccount().getName(),
+                            fromAccount.getName(),
                             AcctType.ASSET,
-                            items.get(i).getFromAccount().getBalance()));
+                            fromAccount.getBalance()));
                 }
 
             }
             else if (items.get(i).getToAccount() != null) {
 
                 int debtOrAsset = -1;
+                Account toAccount = tUser.getAccount(items.get(i).getToAccount());
 
-                if (items.get(i).getToAccount().getType() == AccountType.CREDIT_CARD) {
+                if (toAccount.getType() == AccountType.CREDIT_CARD) {
                     arrAllAccounts.add(new HomeAccountData(
-                            items.get(i).getToAccount().getName(),
+                            toAccount.getName(),
                             AcctType.DEBT,
-                            items.get(i).getToAccount().getBalance()));
+                            toAccount.getBalance()));
                 }
-                else if (items.get(i).getToAccount().getType() != AccountType.CREDIT_CARD) {
+                else if (toAccount.getType() != AccountType.CREDIT_CARD) {
                     arrAllAccounts.add(new HomeAccountData(
-                            items.get(i).getToAccount().getName(),
+                            toAccount.getName(),
                             AcctType.ASSET,
-                            items.get(i).getToAccount().getBalance()));
+                            toAccount.getBalance()));
                 }
             }
         }
@@ -187,9 +190,17 @@ public class HomeFragmentChart2 extends DaggerFragment implements HomeContract.V
 
             // If month = arrNWData.monthInt
             for (int k = 0; k < arrNWData.size(); k++) {
+                Account account = null;
+
+                if(items.get(i).getFlow() != Flow.TRANSFER)
+                    account = items.get(i).getFlow() == Flow.INCOME ?
+                            tUser.getAccount(items.get(i).getToAccount()) :
+                            tUser.getAccount(items.get(i).getFromAccount());
+                else
+                    continue;
 
                 if (items.get(i).getFlow() == Flow.OUTCOME &&
-                        items.get(i).getFromAccount().getType() == AccountType.CREDIT_CARD) {
+                        account.getType() == AccountType.CREDIT_CARD) {
                     // If transaction is an Outcome & from a credit card, totalDebt increases
 
                     if (arrNWData.get(k).monthInt == month)
@@ -197,10 +208,10 @@ public class HomeFragmentChart2 extends DaggerFragment implements HomeContract.V
 
                     Log.d("\nAaron debug: ",
                             "Account Flow: " + items.get(i).getFlow() +
-                                    "\nfromAccount type: " + items.get(i).getFromAccount().getType() +
+                                    "\nfromAccount type: " + account.getType() +
                                     "\nAmount: " + items.get(i).getAmount());
                 } else if (items.get(i).getFlow() == Flow.OUTCOME &&
-                        items.get(i).getFromAccount().getType() != AccountType.CREDIT_CARD) {
+                        account.getType() != AccountType.CREDIT_CARD) {
                     // If transaction is an Outcome & from an asset account, totalAssets decrease
 
                     if (arrNWData.get(k).monthInt == month)
@@ -208,10 +219,10 @@ public class HomeFragmentChart2 extends DaggerFragment implements HomeContract.V
 
                     Log.d("\nAaron debug: ",
                             "Account Flow: " + items.get(i).getFlow() +
-                                    "\nfromAccount type: " + items.get(i).getFromAccount().getType() +
+                                    "\nfromAccount type: " + account.getType() +
                                     "\nAmount: " + items.get(i).getAmount());
                 } else if (items.get(i).getFlow() == Flow.INCOME &&
-                        items.get(i).getToAccount().getType() == AccountType.CREDIT_CARD) {
+                        account.getType() == AccountType.CREDIT_CARD) {
                     // If transaction is an Income & from an credit card account, totalDebt decrease
 
                     if (arrNWData.get(k).monthInt == month)
@@ -219,10 +230,10 @@ public class HomeFragmentChart2 extends DaggerFragment implements HomeContract.V
 
                     Log.d("\nAaron debug: ",
                             "Account Flow: " + items.get(i).getFlow() +
-                                    "\ntoAccount type: " + items.get(i).getToAccount().getType() +
+                                    "\ntoAccount type: " + account.getType() +
                                     "\nAmount: " + items.get(i).getAmount());
                 } else if (items.get(i).getFlow() == Flow.INCOME &&
-                        items.get(i).getToAccount().getType() != AccountType.CREDIT_CARD) {
+                        account.getType() != AccountType.CREDIT_CARD) {
                     // If transaction is an Outcome & from an asset account, totalAssets increase
 
                     if (arrNWData.get(k).monthInt == month)
@@ -230,7 +241,7 @@ public class HomeFragmentChart2 extends DaggerFragment implements HomeContract.V
 
                     Log.d("\nAaron debug: ",
                             "Account Flow: " + items.get(i).getFlow() +
-                                    "\ntoAccount type: " + items.get(i).getToAccount().getType() +
+                                    "\ntoAccount type: " + account.getType() +
                                     "\nAmount: " + items.get(i).getAmount());
                 }
             }

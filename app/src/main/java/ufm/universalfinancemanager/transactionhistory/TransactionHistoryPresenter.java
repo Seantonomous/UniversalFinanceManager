@@ -70,7 +70,7 @@ public class TransactionHistoryPresenter implements TransactionHistoryContract.P
         EspressoIdlingResource.increment();
 
 
-        mTransactionRepository.getTransactionsSearchByName(new TransactionDataSource.LoadTransactionsCallback() {
+        mTransactionRepository.getTransactionsSearchByName(new UserDataSource.LoadTransactionsCallback() {
             @Override
             public void onTransactionsLoaded(List<Transaction> transactions) {
 

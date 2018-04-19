@@ -78,6 +78,29 @@ public class UserLocalDataSource implements UserDataSource {
         mAppExecutors.diskIO().execute(runnable);
     }
 
+    //
+    @Override
+    public void getTransactionsSearchByName(@NonNull final LoadTransactionsCallback callback, @NonNull final String name) {
+        Runnable runnable = new Runnable() {
+            @Override
+            public void run() {
+                final List<Transaction> transactions = mTransactionDao.getTransactionsByName(name);
+                mAppExecutors.mainThread().execute(new Runnable() {
+                    @Override
+                    public void run() {
+                        if (transactions.isEmpty())
+                            callback.onDataNotAvailable();
+                        else {
+                            callback.onTransactionsLoaded(transactions);
+                        }
+                    }
+                });
+            }
+        };
+
+        mAppExecutors.diskIO().execute(runnable);
+    }
+
     @Override
     public void getTransactionsInDateRange(@NonNull final long date1, @NonNull final long date2, @NonNull final LoadTransactionsCallback callback) {
         Runnable runnable = new Runnable() {

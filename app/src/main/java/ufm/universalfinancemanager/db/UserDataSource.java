@@ -66,5 +66,5 @@ public interface UserDataSource {
     void refreshTransactions();
     void deleteAllTransactions();
 
-
+    void getTransactionsSearchByName(@NonNull LoadTransactionsCallback callback, @NonNull final String name);
 }
