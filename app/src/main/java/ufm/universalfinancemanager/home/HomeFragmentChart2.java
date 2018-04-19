@@ -301,7 +301,7 @@ public class HomeFragmentChart2 extends DaggerFragment implements HomeContract.V
 
 
         // Aaron:  Need list of Transactions in order to populate arrData for bar chart
-        /* List<Transactions> transactions would go here ***
+        /* List<Transactions> transactions would go here *** */
 
 
 
