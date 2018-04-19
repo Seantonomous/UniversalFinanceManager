@@ -59,7 +59,6 @@ import ufm.universalfinancemanager.db.entity.Transaction;
 import ufm.universalfinancemanager.support.AccountType;
 import ufm.universalfinancemanager.support.Flow;
 import ufm.universalfinancemanager.support.ListItem;
-import ufm.universalfinancemanager.support.atomic.Account;
 import ufm.universalfinancemanager.support.atomic.User;
 
 
@@ -106,11 +105,6 @@ public class HomeFragmentChart2 extends DaggerFragment implements HomeContract.V
 
     }
 
-    @Override
-    public void getAccounts(List<Account> accounts) {
-        accounts.get(0).getName();
-    }
-
 
     @Override
     public void populateList(List<Transaction> items) {
@@ -123,38 +117,39 @@ public class HomeFragmentChart2 extends DaggerFragment implements HomeContract.V
             arrNWData.add(i, new HomeNetWorthData(i, 0.0f, 0.0f));
         }
 
+        // Commenting out, no longer allows .getType etc.
         // 2. Get Account type and current balances
-        for (int i = 0; i < items.size(); i++) {
-            if (items.get(i).getFromAccount() != null) {
-                if (items.get(i).getFromAccount().getType() == AccountType.CREDIT_CARD) {
-                    arrAllAccounts.add(new HomeAccountData(
-                            items.get(i).getFromAccount().getName(),
-                            AcctType.DEBT,
-                            items.get(i).getFromAccount().getBalance()));
-                }
-                else if (items.get(i).getFromAccount().getType() != AccountType.CREDIT_CARD) {
-                    arrAllAccounts.add(new HomeAccountData(
-                            items.get(i).getFromAccount().getName(),
-                            AcctType.ASSET,
-                            items.get(i).getFromAccount().getBalance()));
-                }
-
-            }
-            else if (items.get(i).getToAccount() != null) {
-                if (items.get(i).getToAccount().getType() == AccountType.CREDIT_CARD) {
-                    arrAllAccounts.add(new HomeAccountData(
-                            items.get(i).getToAccount().getName(),
-                            AcctType.DEBT,
-                            items.get(i).getToAccount().getBalance()));
-                }
-                else if (items.get(i).getToAccount().getType() != AccountType.CREDIT_CARD) {
-                    arrAllAccounts.add(new HomeAccountData(
-                            items.get(i).getToAccount().getName(),
-                            AcctType.ASSET,
-                            items.get(i).getToAccount().getBalance()));
-                }
-            }
-        }
+//        for (int i = 0; i < items.size(); i++) {
+//            if (items.get(i).getFromAccount() != null) {
+//                if (items.get(i).getFromAccount().getType() == AccountType.CREDIT_CARD) {
+//                    arrAllAccounts.add(new HomeAccountData(
+//                            items.get(i).getFromAccount().getName(),
+//                            AcctType.DEBT,
+//                            items.get(i).getFromAccount().getBalance()));
+//                }
+//                else if (items.get(i).getFromAccount().getType() != AccountType.CREDIT_CARD) {
+//                    arrAllAccounts.add(new HomeAccountData(
+//                            items.get(i).getFromAccount().getName(),
+//                            AcctType.ASSET,
+//                            items.get(i).getFromAccount().getBalance()));
+//                }
+//
+//            }
+//            else if (items.get(i).getToAccount() != null) {
+//                if (items.get(i).getToAccount().getType() == AccountType.CREDIT_CARD) {
+//                    arrAllAccounts.add(new HomeAccountData(
+//                            items.get(i).getToAccount().getName(),
+//                            AcctType.DEBT,
+//                            items.get(i).getToAccount().getBalance()));
+//                }
+//                else if (items.get(i).getToAccount().getType() != AccountType.CREDIT_CARD) {
+//                    arrAllAccounts.add(new HomeAccountData(
+//                            items.get(i).getToAccount().getName(),
+//                            AcctType.ASSET,
+//                            items.get(i).getToAccount().getBalance()));
+//                }
+//            }
+//        }
 
         // Add accounts from db
         for (int i = 0; i < mUser.getAccounts().size(); i++)
@@ -196,36 +191,38 @@ public class HomeFragmentChart2 extends DaggerFragment implements HomeContract.V
             cal.setTime(items.get(i).getDate());
             month = cal.get(Calendar.MONTH);
 
+
+            // Commenting out, no longer allows .getType etc.
             // If month = arrNWData.monthInt
-            for (int k = 0; k < arrNWData.size(); k++) {
-
-                if (items.get(i).getFlow() == Flow.OUTCOME &&
-                        items.get(i).getFromAccount().getType() == AccountType.CREDIT_CARD) {
-                    // If transaction is an Outcome & from a credit card, totalDebt increases
-
-                    if (arrNWData.get(k).monthInt == month)
-                        arrNWData.get(k).totalDebt += items.get(i).getAmount();
-
-                } else if (items.get(i).getFlow() == Flow.OUTCOME &&
-                        items.get(i).getFromAccount().getType() != AccountType.CREDIT_CARD) {
-                    // If transaction is an Outcome & from an asset account, totalAssets decrease
-
-                    if (arrNWData.get(k).monthInt == month)
-                        arrNWData.get(k).totalAsset -= items.get(i).getAmount();
-                } else if (items.get(i).getFlow() == Flow.INCOME &&
-                        items.get(i).getToAccount().getType() == AccountType.CREDIT_CARD) {
-                    // If transaction is an Income & from an credit card account, totalDebt decrease
-
-                    if (arrNWData.get(k).monthInt == month)
-                        arrNWData.get(k).totalDebt -= items.get(i).getAmount();
-                } else if (items.get(i).getFlow() == Flow.INCOME &&
-                        items.get(i).getToAccount().getType() != AccountType.CREDIT_CARD) {
-                    // If transaction is an Outcome & from an asset account, totalAssets increase
-
-                    if (arrNWData.get(k).monthInt == month)
-                        arrNWData.get(k).totalAsset += items.get(i).getAmount();
-                }
-            }
+//            for (int k = 0; k < arrNWData.size(); k++) {
+//
+//                if (items.get(i).getFlow() == Flow.OUTCOME &&
+//                        items.get(i).getFromAccount().getType() == AccountType.CREDIT_CARD) {
+//                    // If transaction is an Outcome & from a credit card, totalDebt increases
+//
+//                    if (arrNWData.get(k).monthInt == month)
+//                        arrNWData.get(k).totalDebt += items.get(i).getAmount();
+//
+//                } else if (items.get(i).getFlow() == Flow.OUTCOME &&
+//                        items.get(i).getFromAccount().getType() != AccountType.CREDIT_CARD) {
+//                    // If transaction is an Outcome & from an asset account, totalAssets decrease
+//
+//                    if (arrNWData.get(k).monthInt == month)
+//                        arrNWData.get(k).totalAsset -= items.get(i).getAmount();
+//                } else if (items.get(i).getFlow() == Flow.INCOME &&
+//                        items.get(i).getToAccount().getType() == AccountType.CREDIT_CARD) {
+//                    // If transaction is an Income & from an credit card account, totalDebt decrease
+//
+//                    if (arrNWData.get(k).monthInt == month)
+//                        arrNWData.get(k).totalDebt -= items.get(i).getAmount();
+//                } else if (items.get(i).getFlow() == Flow.INCOME &&
+//                        items.get(i).getToAccount().getType() != AccountType.CREDIT_CARD) {
+//                    // If transaction is an Outcome & from an asset account, totalAssets increase
+//
+//                    if (arrNWData.get(k).monthInt == month)
+//                        arrNWData.get(k).totalAsset += items.get(i).getAmount();
+//                }
+//            }
 
 
 
@@ -301,11 +298,15 @@ public class HomeFragmentChart2 extends DaggerFragment implements HomeContract.V
         // Populate X-Axis legent with past 7 months "MMM".
         createMonthLegend();
 
-        if (myList != null)
-            myList.get(0).getName();
 
-        // Get double Array date
 
+        // Aaron:  Need list of Transactions in order to populate arrData for bar chart
+        /* List<Transactions> transactions would go here ***
+
+
+
+
+        // Populate double Array
         // Set starting data for net worth (Assets[0][], Liabilities[1][], NetWorth[2][]
         arrData[0][0] = 60f;
         arrData[1][0] = -30f;

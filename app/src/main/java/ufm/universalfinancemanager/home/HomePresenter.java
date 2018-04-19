@@ -6,22 +6,23 @@ import java.util.List;
 
 import javax.inject.Inject;
 
-import ufm.universalfinancemanager.db.TransactionRepository;
 import ufm.universalfinancemanager.db.TransactionDataSource;
+import ufm.universalfinancemanager.db.UserDataSource;
+import ufm.universalfinancemanager.db.UserRepository;
 import ufm.universalfinancemanager.db.entity.Transaction;
 import ufm.universalfinancemanager.support.atomic.User;
 import ufm.universalfinancemanager.util.EspressoIdlingResource;
 
 public class HomePresenter implements HomeContract.Presenter {
 
-    private final TransactionRepository mTransactionRepository;
+    private final UserRepository mTransactionRepository;
     private final User mUser;
 
     @Nullable
     private HomeContract.View mHomeView = null;
 
     @Inject
-    public HomePresenter(TransactionRepository transactionRepository, User user) {
+    public HomePresenter(UserRepository transactionRepository, User user) {
         mUser = user;
         mTransactionRepository = transactionRepository;
     }
@@ -37,7 +38,7 @@ public class HomePresenter implements HomeContract.Presenter {
         //Performing database/network call, forbid ui test activity until it's done
         EspressoIdlingResource.increment();
 
-        mTransactionRepository.getTransactions(new TransactionDataSource.LoadTransactionsCallback() {
+        mTransactionRepository.getTransactions(new UserDataSource.LoadTransactionsCallback() {
             @Override
             public void onTransactionsLoaded(List<Transaction> transactions) {
 
@@ -56,8 +57,6 @@ public class HomePresenter implements HomeContract.Presenter {
                 //display loading transactions error message
             }
         });
-
-
     }
 
 //    @Override

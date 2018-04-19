@@ -34,7 +34,6 @@ import ufm.universalfinancemanager.addeditcategory.AddEditCategoryActivity;
 import ufm.universalfinancemanager.addeditreminder.AddEditReminderActivity;
 import ufm.universalfinancemanager.addedittransaction.AddEditTransactionActivity;
 import ufm.universalfinancemanager.db.entity.Transaction;
-import ufm.universalfinancemanager.support.atomic.Account;
 
 /* Aaron: This is the chart for the Cateogry Spend Pie Chart */
 public class HomeFragmentChart3 extends DaggerFragment implements HomeContract.View {
@@ -61,14 +60,6 @@ public class HomeFragmentChart3 extends DaggerFragment implements HomeContract.V
     public void onDestroy() {
         super.onDestroy();
         mPresenter.dropView();
-    }
-    @Override
-    public void getAccounts(List<Account> accounts) {
-
-        accounts.get(0).getName();
-
-        Log.d("Aaron", "Message");
-
     }
 
     @Override

@@ -36,7 +36,6 @@ import ufm.universalfinancemanager.addeditcategory.AddEditCategoryActivity;
 import ufm.universalfinancemanager.addeditreminder.AddEditReminderActivity;
 import ufm.universalfinancemanager.addedittransaction.AddEditTransactionActivity;
 import ufm.universalfinancemanager.db.entity.Transaction;
-import ufm.universalfinancemanager.support.atomic.Account;
 
 /* Aaron: This is the chart for the Budget Spend Horizontal Bar Graph */
 public class HomeFragmentChart1 extends DaggerFragment implements HomeContract.View {
@@ -62,15 +61,6 @@ public class HomeFragmentChart1 extends DaggerFragment implements HomeContract.V
     public void populateList(List<Transaction> items) {
         tlist = items;
 //        Toast.makeText(getContext(), "Category: " + items.get(0).getName(), Toast.LENGTH_SHORT).show();
-
-    }
-
-    @Override
-    public void getAccounts(List<Account> accounts) {
-
-        accounts.get(0).getName();
-
-        Log.d("Aaron", "Message");
 
     }
 
