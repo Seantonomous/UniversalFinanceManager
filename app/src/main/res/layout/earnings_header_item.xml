@@ -1,19 +1,39 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
+<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/colorPrimaryDark"
-    android:gravity="center_vertical">
+    android:stretchColumns="1">
 
-    <TextView android:id="@+id/earnings_header"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:gravity="left"
-        android:padding="8dp"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:textColor="#FFFFFF"
-        android:textStyle="bold"/>
+    <TableRow>
+        <TextView
+            android:id="@+id/earnings_header"
+            android:layout_width="174dp"
+            android:layout_height="wrap_content"
+            android:padding="4dp"
+            android:textColor="#FFFFFF"
+            android:textStyle="bold"
+            android:textSize="22sp"></TextView>
 
-</LinearLayout>
+        <TextView
+            android:id="@+id/last_month_total"
+            android:layout_width="113dp"
+            android:layout_height="wrap_content"
+            android:padding="4dp"
+            android:textColor="#FFFFFF"
+            android:textStyle="bold"
+            android:textSize="22sp"></TextView>
+
+        <TextView
+            android:id="@+id/this_month_total"
+            android:layout_width="99dp"
+            android:layout_height="wrap_content"
+            android:padding="4dp"
+            android:textColor="#FFFFFF"
+            android:textStyle="bold"
+            android:textSize="22sp"></TextView>
+    </TableRow>
+
+</TableLayout>

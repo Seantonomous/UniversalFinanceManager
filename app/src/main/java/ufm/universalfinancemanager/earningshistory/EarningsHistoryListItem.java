@@ -60,13 +60,13 @@ public class EarningsHistoryListItem implements ListItem {
 
         //Instantiate all the textviews from the layout
         TextView categoryName = view.findViewById(R.id.category_name);
-        TextView thisMonthBalance = view.findViewById(R.id.thisMonth_balance);
         TextView lastMonthBalance = view.findViewById(R.id.lastMonth_balance);
+        TextView thisMonthBalance = view.findViewById(R.id.thisMonth_balance);
 
         //Set the text of each textview based on its corresponding transaction attribute
         categoryName.setText(this.categoryName);
-        thisMonthBalance.setText(num_format.format(this.thisMonthTotal));
         lastMonthBalance.setText(num_format.format(this.lastMonthTotal));
+        thisMonthBalance.setText(num_format.format(this.thisMonthTotal));
 
         return view;
     }

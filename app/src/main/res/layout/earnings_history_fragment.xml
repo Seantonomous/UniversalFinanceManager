@@ -26,6 +26,7 @@ Contributing Team Members:-->
             android:layout_centerHorizontal="true"
             android:text="Last Month:"
             android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textStyle="bold"
             android:textSize="22sp" />
 
         <TextView
@@ -37,10 +38,12 @@ Contributing Team Members:-->
             android:layout_marginEnd="47dp"
             android:text="This Month:"
             android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textStyle="bold"
             android:textSize="22sp" />
 
         <ListView
             android:id="@+id/earningsList"
+            android:paddingTop="6dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="30dp">

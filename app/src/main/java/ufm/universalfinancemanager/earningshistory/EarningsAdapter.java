@@ -46,6 +46,8 @@ public class EarningsAdapter extends BaseAdapter {
             return;
         }
 
+        int i = 0;
+        int expenseHeaderIndex;
         double incomeThisMonth = 0;
         double incomeLastMonth = 0;
         double expenseThisMonth = 0;
@@ -53,23 +55,41 @@ public class EarningsAdapter extends BaseAdapter {
         double netEarningsThisMonth = 0;
         double netEarningsLastMonth = 0;
 
-        mItems.add(new EarningsCategoryHeader("Income: "));
+        mItems.add(new EarningsCategoryHeader("Income: ", 0, 0));
+        i++;
 
         for(EarningsHistoryListItem listItem : items) {
             if(listItem.getFlow() == Flow.INCOME) {
                 mItems.add(listItem);
+                i++;
+
+                incomeLastMonth += listItem.getLastMonthTotal();
+                incomeThisMonth += listItem.getThisMonthTotal();
             }
         }
 
-        mItems.add(new EarningsCategoryHeader("Expense: "));
+        mItems.set(0, new EarningsCategoryHeader("Income: ", incomeLastMonth, incomeThisMonth));
+
+        expenseHeaderIndex = i;
+        mItems.add(new EarningsCategoryHeader("Expense: ", 0, 0));
+        i++;
 
         for(EarningsHistoryListItem listItem : items) {
             if(listItem.getFlow() == Flow.OUTCOME) {
                 mItems.add(listItem);
+                i++;
+
+                expenseLastMonth += listItem.getLastMonthTotal();
+                expenseThisMonth += listItem.getThisMonthTotal();
             }
         }
 
-        mItems.add(new EarningsCategoryHeader("Total Earnings: "));
+        mItems.set(expenseHeaderIndex, new EarningsCategoryHeader("Expense: ", expenseLastMonth, expenseThisMonth));
+
+        netEarningsLastMonth = incomeLastMonth - expenseLastMonth;
+        netEarningsThisMonth = incomeThisMonth - expenseThisMonth;
+
+        mItems.add(new EarningsCategoryHeader("Net Earnings: ", netEarningsLastMonth, netEarningsThisMonth));
 
     }
 

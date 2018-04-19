@@ -57,7 +57,6 @@ public class EarningsHistoryPresenter implements EarningsHistoryContract.Present
         Date b = cal.getTime();
         long pastDate = b.getTime();
 
-
         mTransactionRepository.getTransactionsInDateRange(currentDate, pastDate, new TransactionDataSource.LoadTransactionsCallback() {
 
             @Override
@@ -99,7 +98,7 @@ public class EarningsHistoryPresenter implements EarningsHistoryContract.Present
 
             sortedList.add(new EarningsHistoryListItem(c.getName(), Flow.INCOME, 0, 0));         //Create new list item for each category
 
-            for (Transaction t : transactions) {                                                        //Loop through transactions
+            for (Transaction t : transactions)  {                                                        //Loop through transactions
 
                 if (t.getFlow() == Flow.INCOME) {                                                       //If transaction is an income type
 

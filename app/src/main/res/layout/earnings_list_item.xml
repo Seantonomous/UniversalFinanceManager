@@ -21,14 +21,14 @@
             android:textSize="18sp"></TextView>
 
         <TextView
-            android:id="@+id/thisMonth_balance"
+            android:id="@+id/lastMonth_balance"
             android:layout_width="113dp"
             android:padding="4dp"
             android:textColor="@color/colorPrimary"
             android:textSize="18sp"></TextView>
 
         <TextView
-            android:id="@+id/lastMonth_balance"
+            android:id="@+id/thisMonth_balance"
             android:layout_width="99dp"
             android:padding="4dp"
             android:textColor="@color/colorPrimary"
