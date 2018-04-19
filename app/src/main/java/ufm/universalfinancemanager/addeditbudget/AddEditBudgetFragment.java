@@ -53,10 +53,13 @@ public class AddEditBudgetFragment extends DaggerFragment implements AddEditBudg
    // private Spinner duration;
     boolean valid_amount = false;
     boolean valid_name = false;
+    private boolean isEditing = false;
    // private double currentValue;
     Transaction t;
+
     @Inject
     AddEditBudgetPresenter mPresenter;
+
     private ArrayAdapter<Category> categorySpinnerAdapter;
 
     private Calendar calendar;
@@ -167,7 +170,10 @@ public class AddEditBudgetFragment extends DaggerFragment implements AddEditBudg
         cancel_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                showLastActivity(false);
+                if(isEditing) {
+                    mPresenter.deleteBudget();
+                }else
+                    showLastActivity(false);
             }
         });
         return root;
@@ -200,6 +206,12 @@ public class AddEditBudgetFragment extends DaggerFragment implements AddEditBudg
     }
 
     @Override
+    public void setupFragmentContent(boolean editing) {
+        if(isEditing)
+            cancel_button.setText("Delete");
+    }
+
+    @Override
     public void showMessage(String message) {
         Toast.makeText(getContext(), message, Toast.LENGTH_LONG).show();
     }
@@ -211,6 +223,17 @@ public class AddEditBudgetFragment extends DaggerFragment implements AddEditBudg
 
         categorySpinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         category_spinner.setAdapter(categorySpinnerAdapter);
+    }
+
+    @Override
+    public void populateExistingFields(String name, Category category, Double amount, Date startDate, Date endDate) {
+        edit_name.setText(name);
+        category_spinner.setSelection(categorySpinnerAdapter.getPosition(category));
+        edit_amount.setText(Double.toString(amount));
+        calendar.setTime(startDate);
+        calendar2.setTime(endDate);
+        mPresenter.getUpdatedCategories(Flow.INCOME);
+        updateDate();
     }
 
 

@@ -139,7 +139,7 @@ public class User implements Serializable {
 
         throw new RuntimeException(String.format(Locale.getDefault(), "Budget %s not found", name));
     }
-
+    public void deleteBudget(String name) {budgets.remove(name);}
     public ArrayList<Budget> getBudgets() {return this.budgets;}
     public boolean addCategory(Category c) throws RuntimeException {
         if(c.getFlow() == Flow.INCOME) {

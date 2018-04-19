@@ -27,8 +27,11 @@ public class UserModule {
         testUser.addAccount(new Account("CreditCard2", AccountType.CREDIT_CARD, 3945, new Date()));
         testUser.addCategory(new Category("Test Category 1", Flow.OUTCOME));
         testUser.addCategory(new Category("Test Category 2", Flow.INCOME));
-        testUser.addBudget(new Budget("Budget: 1","Test Category 1", 200, 30, new Date(97,01,14), new Date(98,12, 07)));
-        testUser.addBudget(new Budget("Budget: 3","Test Category 3", 100, 300, new Date(97,01,14), new Date(99, 10, 02)));
+        testUser.addCategory(new Category("Test Category 3", Flow.OUTCOME));
+        testUser.addCategory(new Category("Test Category 4", Flow.OUTCOME));
+
+        //testUser.addBudget(new Budget("Budget: 1","Test Category 1", 200, 30, new Date(97,01,14), new Date(98,12, 07)));
+        //testUser.addBudget(new Budget("Budget: 3","Test Category 3", 100, 300, new Date(97,01,14), new Date(99, 10, 02)));
         return testUser;
     }
 }

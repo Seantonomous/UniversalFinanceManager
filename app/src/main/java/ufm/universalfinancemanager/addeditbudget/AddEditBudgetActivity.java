@@ -82,7 +82,7 @@ public class AddEditBudgetActivity extends DaggerAppCompatActivity {
         if(Id == null) {
             setTitle(R.string.budget_add_title);
         } else {
-            setTitle(R.string.budget_add_title);
+            setTitle(R.string.budget_edit_title);
         }
     }
     @Override
