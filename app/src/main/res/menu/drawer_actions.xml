@@ -12,7 +12,7 @@
         android:title="@string/nav_trans_history" />
 
     <item
-        android:id="@+id/inout_menu_item"
+        android:id="@+id/earnings_menu_item"
         android:title="@string/nav_inoutcome" />
 
     <item

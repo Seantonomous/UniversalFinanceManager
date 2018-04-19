@@ -11,13 +11,9 @@ import java.util.Date;
 
 import ufm.universalfinancemanager.addedittransaction.AddEditTransactionContract;
 import ufm.universalfinancemanager.addedittransaction.AddEditTransactionPresenter;
-import ufm.universalfinancemanager.db.TransactionDataSource;
-import ufm.universalfinancemanager.db.TransactionRepository;
-import ufm.universalfinancemanager.db.entity.Transaction;
-import ufm.universalfinancemanager.support.AccountType;
+import ufm.universalfinancemanager.db.UserDataSource;
+import ufm.universalfinancemanager.db.UserRepository;
 import ufm.universalfinancemanager.support.Flow;
-import ufm.universalfinancemanager.support.atomic.Account;
-import ufm.universalfinancemanager.support.atomic.Category;
 import ufm.universalfinancemanager.support.atomic.User;
 
 import static org.mockito.Mockito.verify;
@@ -29,7 +25,7 @@ import static org.mockito.Mockito.when;
 
 public class AddEditTransactionPresenterTest {
     @Mock
-    private TransactionRepository mTransactionRepository;
+    private UserRepository mTransactionRepository;
 
     @Mock
     User mUser;
@@ -38,7 +34,7 @@ public class AddEditTransactionPresenterTest {
     private AddEditTransactionContract.View mAddEditTaskView;
 
     @Captor
-    private ArgumentCaptor<TransactionDataSource.GetTransactionCallback> mTransactionCallbackCaptor;
+    private ArgumentCaptor<UserDataSource.GetTransactionCallback> mTransactionCallbackCaptor;
 
     private AddEditTransactionPresenter mPresenter;
 

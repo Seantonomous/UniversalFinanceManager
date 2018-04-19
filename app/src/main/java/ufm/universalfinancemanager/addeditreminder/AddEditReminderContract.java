@@ -2,8 +2,6 @@ package ufm.universalfinancemanager.addeditreminder;
 
 import ufm.universalfinancemanager.BasePresenter;
 import ufm.universalfinancemanager.BaseView;
-import ufm.universalfinancemanager.addeditaccount.AddEditAccountContract;
-import ufm.universalfinancemanager.support.AccountType;
 
 /**
  * Created by Areeba on 2/17/2018.

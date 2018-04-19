@@ -8,7 +8,7 @@ import java.util.Date;
 import javax.inject.Inject;
 
 import ufm.universalfinancemanager.support.AccountType;
-import ufm.universalfinancemanager.support.atomic.Account;
+import ufm.universalfinancemanager.db.entity.Account;
 import ufm.universalfinancemanager.support.atomic.User;
 
 /**
@@ -24,9 +24,9 @@ public class AddEditAccountPresenter implements AddEditAccountContract.Presenter
     private AddEditAccountContract.View mAddEditAccountView = null;
 
     @Inject
-    AddEditAccountPresenter(User user) {
+    AddEditAccountPresenter(User user, @Nullable String accountName) {
         mUser = user;
-        //mAccountName = accountName;
+        mAccountName = accountName;
     }
 
     @Override
@@ -34,7 +34,7 @@ public class AddEditAccountPresenter implements AddEditAccountContract.Presenter
         if(isEditing()) {
             //Just save the name, don't want them to adjust the balance or type
             //It's possible but would be a lot of work to accomodate imo
-            mUser.getAccount(mAccountName).setName(accountName);
+            mUser.editAccountName(mAccountName, accountName);
         }else {
             //Save new account
             try {
@@ -51,6 +51,15 @@ public class AddEditAccountPresenter implements AddEditAccountContract.Presenter
             if(mAddEditAccountView != null)
                 mAddEditAccountView.showLastActivity(true);
         }
+    }
+
+    @Override
+    public void deleteAccount() {
+        Account account = mUser.getAccount(mAccountName);
+        mUser.deleteAccount(account);
+
+        if(mAddEditAccountView != null)
+            mAddEditAccountView.showLastActivity(true);
     }
 
     @Override

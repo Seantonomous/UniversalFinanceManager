@@ -7,20 +7,26 @@
 *   Team Members:
 * Contributing Team Members:
 */
-package ufm.universalfinancemanager.support.atomic;
+package ufm.universalfinancemanager.db.entity;
 
 import android.arch.persistence.room.ColumnInfo;
+import android.arch.persistence.room.Entity;
+import android.arch.persistence.room.PrimaryKey;
 import android.arch.persistence.room.TypeConverters;
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.support.annotation.NonNull;
 
 import java.io.Serializable;
 
 import ufm.universalfinancemanager.db.source.local.converter.FlowConverter;
 import ufm.universalfinancemanager.support.Flow;
 
-public class Category implements Parcelable, Serializable {
+@Entity
+public class Category {
 
+    @PrimaryKey
+    @NonNull
     @ColumnInfo(name = "category_name")
     private String name;
 
@@ -32,11 +38,6 @@ public class Category implements Parcelable, Serializable {
         this.name = name;
         this.flow = flow;
     }
-    public Category(Parcel in) {
-
-        this.name = in.readString();
-        //flow = Flow.valueOf(in.readString());
-    }
 
     public String getName() {return this.name;}
     public Flow getFlow() {return this.flow;}
@@ -47,25 +48,4 @@ public class Category implements Parcelable, Serializable {
     public String toString() {
         return this.name;
     }
-
-    @Override
-    public int describeContents() {
-        return 0;
-    }
-
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(name);
-    }
-
-    //Needed for parcelable types
-    public static final Parcelable.Creator<Category> CREATOR = new Parcelable.Creator<Category>() {
-        public Category createFromParcel(Parcel p) {
-            return new Category(p);
-        }
-
-        public Category[] newArray(int size) {
-            return new Category[size];
-        }
-    };
 }

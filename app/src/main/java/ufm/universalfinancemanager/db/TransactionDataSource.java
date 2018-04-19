@@ -28,8 +28,6 @@ public interface TransactionDataSource {
 
     void getTransaction(@NonNull String transactionId, @NonNull GetTransactionCallback callback);
 
-    void getTransactionsInDateRange(@NonNull final long date1, @NonNull final long date2, @NonNull LoadTransactionsCallback callback);
-
     void saveTransaction(@NonNull Transaction transaction);
 
     void refreshTransactions();

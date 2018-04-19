@@ -2,11 +2,16 @@ package ufm.universalfinancemanager.support.atomic;
 
 import java.util.Date;
 
+import javax.inject.Inject;
 import javax.inject.Singleton;
 
-import dagger.Binds;
 import dagger.Module;
 import dagger.Provides;
+import ufm.universalfinancemanager.db.UserRepository;
+import ufm.universalfinancemanager.db.entity.Account;
+import ufm.universalfinancemanager.db.entity.Category;
+import ufm.universalfinancemanager.di.ActivityScoped;
+import ufm.universalfinancemanager.db.UserRepository;
 import ufm.universalfinancemanager.support.AccountType;
 import ufm.universalfinancemanager.support.Flow;
 
@@ -19,19 +24,23 @@ public class UserModule {
 
     @Singleton
     @Provides
-    static User provideUser() {
-        User testUser = new User("TestUser");
-        testUser.addAccount(new Account("Checking", AccountType.CHECKING, 1089, new Date()));
-        testUser.addAccount(new Account("Checking2", AccountType.CHECKING, 19309, new Date()));
-        testUser.addAccount(new Account("CreditCard1", AccountType.CREDIT_CARD, 252, new Date()));
-        testUser.addAccount(new Account("CreditCard2", AccountType.CREDIT_CARD, 3945, new Date()));
-        testUser.addCategory(new Category("Test Category 1", Flow.OUTCOME));
-        testUser.addCategory(new Category("Test Category 2", Flow.INCOME));
-        testUser.addCategory(new Category("Test Category 3", Flow.OUTCOME));
-        testUser.addCategory(new Category("Test Category 4", Flow.OUTCOME));
+    static User provideUser(UserRepository userRepository) {
+        User testUser = new User("user", userRepository);
 
-        //testUser.addBudget(new Budget("Budget: 1","Test Category 1", 200, 30, new Date(97,01,14), new Date(98,12, 07)));
-        //testUser.addBudget(new Budget("Budget: 3","Test Category 3", 100, 300, new Date(97,01,14), new Date(99, 10, 02)));
+        /*
+        if(!testUser.hasAccount("Checking"))
+            testUser.addAccount(new Account("Checking", AccountType.CHECKING, 1089, new Date()));
+        if(!testUser.hasAccount("Checking2"))
+            testUser.addAccount(new Account("Checking2", AccountType.CHECKING, 19309, new Date()));
+        if(!testUser.hasAccount("CreditCard1"))
+            testUser.addAccount(new Account("CreditCard1", AccountType.CREDIT_CARD, 252, new Date()));
+        if(!testUser.hasAccount("CreditCard2"))
+            testUser.addAccount(new Account("CreditCard2", AccountType.CREDIT_CARD, 3945, new Date()));
+        if(!testUser.hasCategory("Test Category 1"))
+            testUser.addCategory(new Category("Test Category 1", Flow.OUTCOME));
+        if(!testUser.hasCategory("Test Category 2"))
+            testUser.addCategory(new Category("Test Category 2", Flow.INCOME));
+        */
         return testUser;
     }
 }

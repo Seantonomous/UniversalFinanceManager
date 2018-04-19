@@ -11,55 +11,6 @@
 
 package ufm.universalfinancemanager.ui;
 
-import android.app.Activity;
-import android.app.FragmentManager;
-import android.arch.persistence.room.Room;
-import android.content.Context;
-import android.content.Intent;
-import android.content.res.Configuration;
-import android.app.Fragment;
-import android.os.Parcelable;
-import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBarDrawerToggle;
-import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
-import android.util.Log;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
-import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.ListView;
-import android.widget.Toast;
-
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Locale;
-import java.util.concurrent.Callable;
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.FutureTask;
-
-import ufm.universalfinancemanager.support.atomic.Account;
-import ufm.universalfinancemanager.support.AccountType;
-import ufm.universalfinancemanager.support.atomic.Category;
-import ufm.universalfinancemanager.support.Flow;
-import ufm.universalfinancemanager.R;
-import ufm.universalfinancemanager.db.entity.Transaction;
-import ufm.universalfinancemanager.support.atomic.User;
-import ufm.universalfinancemanager.db.source.local.TransactionDatabase;
-import ufm.universalfinancemanager.transactionhistory.TransactionHistoryActivity;
-import ufm.universalfinancemanager.transactionhistory.TransactionHistoryFragment;
-
 /*
 public class Main_Activity extends AppCompatActivity{
     private String[] drawer_items;
@@ -67,7 +18,7 @@ public class Main_Activity extends AppCompatActivity{
     private ListView list_view;
     private ActionBarDrawerToggle drawer_toggle;
     private User sessionUser;
-    private TransactionDatabase db;
+    private UserDatabase db;
 
     public static final String EXTRA_USER = "ufm.universalfinancemanager.USER";
 
@@ -91,7 +42,7 @@ public class Main_Activity extends AppCompatActivity{
         }
         );
 
-        db = Room.databaseBuilder(getApplicationContext(), TransactionDatabase.class,
+        db = Room.databaseBuilder(getApplicationContext(), UserDatabase.class,
                 "user_db").build();
 
         try {
