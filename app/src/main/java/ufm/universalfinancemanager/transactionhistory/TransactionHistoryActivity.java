@@ -16,9 +16,11 @@ import javax.inject.Inject;
 import dagger.Lazy;
 import dagger.android.support.DaggerAppCompatActivity;
 import ufm.universalfinancemanager.R;
+import ufm.universalfinancemanager.budgetoverview.BudgetActivity;
 import ufm.universalfinancemanager.earningshistory.EarningsHistoryActivity;
 import ufm.universalfinancemanager.home.HomeActivity;
 import ufm.universalfinancemanager.networth.NetworthActivity;
+import ufm.universalfinancemanager.support.atomic.User;
 import ufm.universalfinancemanager.util.ActivityUtils;
 
 /**
@@ -30,6 +32,10 @@ public class TransactionHistoryActivity extends DaggerAppCompatActivity {
     TransactionHistoryPresenter mPresenter;
     @Inject
     Lazy<TransactionHistoryFragment> transactionHistoryFragmentProvider;
+
+    //STUPID FIX
+    @Inject
+    User mUser;
 
     private DrawerLayout mDrawerLayout;
     private ActionBarDrawerToggle mDrawerToggle;
@@ -101,6 +107,7 @@ public class TransactionHistoryActivity extends DaggerAppCompatActivity {
                                 startActivity(new Intent(getApplicationContext(), HomeActivity.class));
                                 break;
                             case R.id.budget_menu_item:
+                                startActivity(new Intent(getApplicationContext(), BudgetActivity.class));
                                 //switch to budget overview activity
                                 break;
                             case R.id.trans_history_menu_item:
@@ -110,6 +117,7 @@ public class TransactionHistoryActivity extends DaggerAppCompatActivity {
                                 startActivity(new Intent(getApplicationContext(), EarningsHistoryActivity.class));
                                 break;
                             case R.id.networth_menu_item:
+                                //switch to networth activity
                                 startActivity(new Intent(getApplicationContext(), NetworthActivity.class));
                                 break;
                             case R.id.reminder_menu_item:

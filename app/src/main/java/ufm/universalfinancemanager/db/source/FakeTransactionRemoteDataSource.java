@@ -11,7 +11,6 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-import javax.annotation.Nonnull;
 import javax.inject.Inject;
 
 import ufm.universalfinancemanager.db.TransactionDataSource;
@@ -32,13 +31,6 @@ public class FakeTransactionRemoteDataSource implements TransactionDataSource {
         callback.onTransactionsLoaded(new ArrayList<>(TRANSACTIONS_SERVICE_DATA.values()));
     }
 
-    //
-    @Override
-    public void getTransactionsSearchByName(@NonNull LoadTransactionsCallback callback, @Nonnull String name) {
-        callback.onTransactionsLoaded(new ArrayList<>(TRANSACTIONS_SERVICE_DATA.values()));
-    }
-
-
     @Override
     public void getTransaction(@NonNull String taskId, @NonNull GetTransactionCallback callback) {
         Transaction transaction = TRANSACTIONS_SERVICE_DATA.get(taskId);
@@ -46,7 +38,7 @@ public class FakeTransactionRemoteDataSource implements TransactionDataSource {
     }
 
     @Override
-    public void getTransactionsInDateRange(@NonNull final long date1, @NonNull final long date2,  @NonNull LoadTransactionsCallback callback){
+    public void getTransactionsInDateRange(@NonNull long date1, @NonNull long date2, @NonNull LoadTransactionsCallback callback) {
         callback.onTransactionsLoaded(new ArrayList<>(TRANSACTIONS_SERVICE_DATA.values()));
     }
 

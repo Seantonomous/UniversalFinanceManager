@@ -16,6 +16,8 @@ import ufm.universalfinancemanager.addeditreminder.AddEditReminderActivity;
 import ufm.universalfinancemanager.addeditreminder.AddEditReminderModule;
 import ufm.universalfinancemanager.addedittransaction.AddEditTransactionActivity;
 import ufm.universalfinancemanager.addedittransaction.AddEditTransactionModule;
+import ufm.universalfinancemanager.budgetoverview.BudgetActivity;
+import ufm.universalfinancemanager.budgetoverview.BudgetModule;
 import ufm.universalfinancemanager.earningshistory.EarningsHistoryActivity;
 import ufm.universalfinancemanager.earningshistory.EarningsHistoryModule;
 import ufm.universalfinancemanager.home.HomeActivity;
@@ -59,6 +61,10 @@ public abstract class ActivityBindingModule {
     @ActivityScoped
     @ContributesAndroidInjector(modules = AddEditBudgetModule.class)
     abstract AddEditBudgetActivity addEditBudgetActivity();
+
+    @ActivityScoped
+    @ContributesAndroidInjector(modules = BudgetModule.class)
+    abstract BudgetActivity BudgetActivity();
 
     @ActivityScoped
     @ContributesAndroidInjector(modules = HomeModule.class)

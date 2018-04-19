@@ -35,6 +35,10 @@ public class AddEditCategoryActivity extends DaggerAppCompatActivity {
     private DrawerLayout mDrawerLayout;
     private ActionBarDrawerToggle mDrawerToggle;
 
+    @Inject
+    @Nullable
+    String categoryName;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -73,9 +77,17 @@ public class AddEditCategoryActivity extends DaggerAppCompatActivity {
 
         mDrawerLayout.addDrawerListener(mDrawerToggle);
 
-        setTitle("Add Category");
+        setToolbarTitle(categoryName);
         getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_menu);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+    }
+
+    private void setToolbarTitle(@Nullable String name) {
+        if(name == null) {
+            setTitle(R.string.category_add_title);
+        } else {
+            setTitle(R.string.category_edit_title);
+        }
     }
 
     @Override

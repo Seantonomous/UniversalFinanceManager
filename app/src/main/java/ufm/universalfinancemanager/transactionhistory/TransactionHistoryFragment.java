@@ -47,12 +47,7 @@ import ufm.universalfinancemanager.addeditcategory.AddEditCategoryActivity;
 import ufm.universalfinancemanager.addeditreminder.AddEditReminderActivity;
 import ufm.universalfinancemanager.addedittransaction.AddEditTransactionActivity;
 import ufm.universalfinancemanager.R;
-import ufm.universalfinancemanager.db.TransactionDataSource;
-import ufm.universalfinancemanager.db.TransactionRepository;
 import ufm.universalfinancemanager.db.entity.Transaction;
-import ufm.universalfinancemanager.db.source.local.TransactionDao;
-import ufm.universalfinancemanager.db.source.local.TransactionDao_Impl;
-import ufm.universalfinancemanager.db.source.local.TransactionDatabase;
 
 
 public class TransactionHistoryFragment extends DaggerFragment implements TransactionHistoryContract.View {

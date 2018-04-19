@@ -25,12 +25,8 @@ public interface TransactionDataSource {
     }
 
     void getTransactions(@NonNull LoadTransactionsCallback callback);
-    //
-    void getTransactionsSearchByName(@Nonnull LoadTransactionsCallback callback, @Nonnull String name);
 
     void getTransaction(@NonNull String transactionId, @NonNull GetTransactionCallback callback);
-
-    void getTransactionsInDateRange(@NonNull final long date1, @NonNull final long date2,  @NonNull LoadTransactionsCallback callback);
 
     void saveTransaction(@NonNull Transaction transaction);
 

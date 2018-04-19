@@ -3,6 +3,7 @@ package ufm.universalfinancemanager.addeditbudget;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.design.widget.NavigationView;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -13,6 +14,9 @@ import javax.inject.Inject;
 
 import dagger.android.support.DaggerAppCompatActivity;
 import ufm.universalfinancemanager.R;
+import ufm.universalfinancemanager.budgetoverview.BudgetActivity;
+import ufm.universalfinancemanager.networth.NetworthActivity;
+import ufm.universalfinancemanager.transactionhistory.TransactionHistoryActivity;
 import ufm.universalfinancemanager.earningshistory.EarningsHistoryActivity;
 import ufm.universalfinancemanager.home.HomeActivity;
 import ufm.universalfinancemanager.networth.NetworthActivity;
@@ -29,6 +33,7 @@ public class AddEditBudgetActivity extends DaggerAppCompatActivity {
     AddEditBudgetPresenter mPresenter;
     @Inject
     AddEditBudgetFragment mFragment;
+    String name;
 
     private DrawerLayout mDrawerLayout;
     private ActionBarDrawerToggle mDrawerToggle;
@@ -71,11 +76,18 @@ public class AddEditBudgetActivity extends DaggerAppCompatActivity {
 
         mDrawerLayout.addDrawerListener(mDrawerToggle);
 
-        setTitle("Add Budget");
+        setToolbarTitle(name);
         getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_menu);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
+    private void setToolbarTitle(@Nullable String Id) {
+        if(Id == null) {
+            setTitle(R.string.budget_add_title);
+        } else {
+            setTitle(R.string.budget_edit_title);
+        }
+    }
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch(item.getItemId()) {
@@ -97,7 +109,7 @@ public class AddEditBudgetActivity extends DaggerAppCompatActivity {
                                 startActivity(new Intent(getApplicationContext(), HomeActivity.class));
                                 break;
                             case R.id.budget_menu_item:
-                                //switch to budget overview activity
+                                startActivity(new Intent(getApplicationContext(), BudgetActivity.class));
                                 break;
                             case R.id.trans_history_menu_item:
                                 //switch to transaction history activity

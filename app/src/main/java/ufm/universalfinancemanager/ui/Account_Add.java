@@ -27,7 +27,7 @@ import ufm.universalfinancemanager.support.AccountType;
 import ufm.universalfinancemanager.R;
 import ufm.universalfinancemanager.support.TextValidator;
 import ufm.universalfinancemanager.support.atomic.User;
-import ufm.universalfinancemanager.support.atomic.Account;
+import ufm.universalfinancemanager.db.entity.Account;
 
 /**
  * Created by Areeba on 11/2/2017.

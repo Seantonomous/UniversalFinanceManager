@@ -6,7 +6,6 @@ import android.app.SharedElementCallback;
 import android.content.Intent;
 import android.graphics.Paint;
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.support.annotation.Nullable;
 import android.text.Editable;
 import android.text.Selection;
@@ -31,6 +30,7 @@ import java.math.BigDecimal;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.DuplicateFormatFlagsException;
@@ -41,12 +41,11 @@ import javax.inject.Inject;
 
 import dagger.android.support.DaggerFragment;
 import ufm.universalfinancemanager.R;
-import ufm.universalfinancemanager.db.entity.Transaction;
 import ufm.universalfinancemanager.di.ActivityScoped;
 import ufm.universalfinancemanager.support.Flow;
 import ufm.universalfinancemanager.support.TextValidator;
-import ufm.universalfinancemanager.support.atomic.Account;
-import ufm.universalfinancemanager.support.atomic.Category;
+import ufm.universalfinancemanager.db.entity.Account;
+import ufm.universalfinancemanager.db.entity.Category;
 
 /**
  * Created by smh7 on 12/14/17.
@@ -305,8 +304,14 @@ public class AddEditTransactionFragment extends DaggerFragment implements AddEdi
 
         isEditing = editing;
 
-        accountSpinnerAdapter = new ArrayAdapter<>(getContext(),
-                android.R.layout.simple_spinner_item, accounts);
+        if(accounts != null) {
+            accountSpinnerAdapter = new ArrayAdapter<>(getContext(),
+                    android.R.layout.simple_spinner_item, accounts);
+
+            accountSpinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+            fromAccount_spinner.setAdapter(accountSpinnerAdapter);
+            toAccount_spinner.setAdapter(accountSpinnerAdapter);
+        }
 
         if(isEditing) {
             cancel_button.setText("Delete");
@@ -315,11 +320,6 @@ public class AddEditTransactionFragment extends DaggerFragment implements AddEdi
             expense_radioButton.setChecked(true);
             onFlowChecked(expense_radioButton);
         }
-
-        accountSpinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-
-        fromAccount_spinner.setAdapter(accountSpinnerAdapter);
-        toAccount_spinner.setAdapter(accountSpinnerAdapter);
     }
 
     @Override

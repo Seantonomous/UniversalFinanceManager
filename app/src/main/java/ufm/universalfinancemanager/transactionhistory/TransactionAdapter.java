@@ -83,10 +83,10 @@ public class TransactionAdapter extends BaseAdapter {
                    return o1.getDate().getTime() > o2.getDate().getTime() ? -1 : (o1.getDate().getTime() < o2.getDate().getTime()) ? 1 : 0;
 
                case 1:// SORTED BY CATEGORY (A-Z)
-                   return o1.getCategory().getName().hashCode() < o2.getCategory().getName().hashCode()? -1 : (o1.getCategory().getName().hashCode() > o2.getCategory().getName().hashCode() ? 1: 0) ;
+                   return o1.getCategory().hashCode() < o2.getCategory().hashCode()? -1 : (o1.getCategory().hashCode() > o2.getCategory().hashCode() ? 1: 0) ;
 
                case 2:// SORTED BY CATEGORY (Z-A)
-                   return o1.getCategory().getName().hashCode() > o2.getCategory().getName().hashCode()? -1 : (o1.getCategory().getName().hashCode() < o2.getCategory().getName().hashCode() ? 1: 0) ;
+                   return o1.getCategory().hashCode() > o2.getCategory().hashCode()? -1 : (o1.getCategory().hashCode() < o2.getCategory().hashCode() ? 1: 0) ;
 
                case 3:// SORTED BY AMOUNT ($$$-$)
                    return (o1.getAmount()) > o2.getAmount()? -1 : (o1.getAmount() < o2.getAmount() ? 1: 0) ;
@@ -132,7 +132,7 @@ public class TransactionAdapter extends BaseAdapter {
                 Collections.sort(items, new Comparator<Transaction>() {
                     @Override
                     public int compare(Transaction o1, Transaction o2) {
-                        return o1.getCategory().getName().hashCode() < o2.getCategory().getName().hashCode()? -1 : (o1.getCategory().getName().hashCode() > o2.getCategory().getName().hashCode() ? 1: 0) ;
+                        return o1.getCategory().hashCode() < o2.getCategory().hashCode()? -1 : (o1.getCategory().hashCode() > o2.getCategory().hashCode() ? 1: 0) ;
                     }
                 });
 
@@ -141,7 +141,7 @@ public class TransactionAdapter extends BaseAdapter {
                 Collections.sort(items, new Comparator<Transaction>() {
                     @Override
                     public int compare(Transaction o1, Transaction o2) {
-                        return o1.getCategory().getName().hashCode() > o2.getCategory().getName().hashCode()? -1 : (o1.getCategory().getName().hashCode() < o2.getCategory().getName().hashCode() ? 1: 0) ;
+                        return o1.getCategory().hashCode() > o2.getCategory().hashCode()? -1 : (o1.getCategory().hashCode() < o2.getCategory().hashCode() ? 1: 0) ;
                     }
                 });
 
