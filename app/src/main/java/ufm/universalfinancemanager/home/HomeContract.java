@@ -26,5 +26,5 @@ public interface HomeContract {
         void dropView();
 
         void loadTransactions();
-        }
+    }
 }

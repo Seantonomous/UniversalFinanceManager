@@ -59,9 +59,9 @@ public class HomePresenter implements HomeContract.Presenter {
         });
     }
 
-//    @Override
+    //    @Override
     public void processTransactions(List<Transaction> transactions) {
-       mHomeView.populateList(transactions);
+        mHomeView.populateList(transactions);
     }
 
     @Override

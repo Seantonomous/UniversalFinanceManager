@@ -111,24 +111,24 @@ public class HomeClassBudgetSpend {
 
     private ArrayList<Integer> getColors() {
 
-            ArrayList<Integer> tempColors = new ArrayList<Integer>();
+        ArrayList<Integer> tempColors = new ArrayList<Integer>();
 
-            for (int c : ColorTemplate.VORDIPLOM_COLORS) {
-                tempColors.add(c);
-                tempColors.add(Color.LTGRAY);
-            }
+        for (int c : ColorTemplate.VORDIPLOM_COLORS) {
+            tempColors.add(c);
+            tempColors.add(Color.LTGRAY);
+        }
 
-            for (int c : ColorTemplate.JOYFUL_COLORS) {
-                tempColors.add(c);
-                tempColors.add(Color.LTGRAY);
-            }
+        for (int c : ColorTemplate.JOYFUL_COLORS) {
+            tempColors.add(c);
+            tempColors.add(Color.LTGRAY);
+        }
 
-            for (int c : ColorTemplate.COLORFUL_COLORS) {
-                tempColors.add(c);
-                tempColors.add(Color.LTGRAY);
-            }
+        for (int c : ColorTemplate.COLORFUL_COLORS) {
+            tempColors.add(c);
+            tempColors.add(Color.LTGRAY);
+        }
 
-            return tempColors;
+        return tempColors;
     }
 
     private ArrayList<String> getCategoryNames() {
