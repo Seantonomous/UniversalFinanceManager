@@ -1,7 +1,9 @@
-package ufm.universalfinancemanager.earningshistory;
+package ufm.universalfinancemanager.reminderhistory;
+
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -9,75 +11,58 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
-import android.widget.TextView;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.inject.Inject;
 
-import dagger.android.support.DaggerFragment;
+import ufm.universalfinancemanager.R;
+
 import ufm.universalfinancemanager.addeditaccount.AddEditAccountActivity;
 import ufm.universalfinancemanager.addeditcategory.AddEditCategoryActivity;
 import ufm.universalfinancemanager.addeditreminder.AddEditReminderActivity;
 import ufm.universalfinancemanager.addedittransaction.AddEditTransactionActivity;
-import ufm.universalfinancemanager.R;
-import ufm.universalfinancemanager.db.entity.Transaction;
+import ufm.universalfinancemanager.support.atomic.Reminder;
 
 /**
- * Created by Faiz on 2/26/2018.
+ * Created by simranjeetkaur on 06/04/18.
  */
 
-public class EarningsHistoryFragment extends DaggerFragment implements EarningsHistoryContract.View  {
+public class ReminderHistoryFragment extends dagger.android.support.DaggerFragment implements ReminderHistoryContract.View {
+    @Inject
+    ReminderHistoryPresenter mPresenter;
 
+    private ReminderHistoryAdapter mAdapter;
 
     @Inject
-    EarningsHistoryPresenter mPresenter;
+    public ReminderHistoryFragment() {}
 
-    private EarningsAdapter mAdapter;
-    private View mNoTransactionsView;
-    private TextView mNoTransactionsTextView;
-    private View mTransactionsView;
-
-    @Inject
-    public EarningsHistoryFragment() {
-        //Required to be empty since extends Fragment
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        mAdapter = new ReminderHistoryAdapter(new ArrayList<Reminder>(0));
     }
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
+        View root = inflater.inflate(R.layout.reminder_history_fragment, container, false);
+        ListView listview = root.findViewById(R.id.reminder_list);
+        listview.setAdapter(mAdapter);
+        setHasOptionsMenu(true);
+        return root;
     }
-
     @Override
     public void onResume() {
         super.onResume();
         mPresenter.takeView(this);
     }
-
     @Override
     public void onDestroy() {
         super.onDestroy();
         mPresenter.dropView();
     }
 
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        mPresenter.result(requestCode, resultCode);
-    }
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        //Inflate the fragment with the corresponding layout
-        View root = inflater.inflate(R.layout.transaction_history_fragment, container, false);
-
-        ListView listview = root.findViewById(R.id.transactionlist);
-        listview.setAdapter(mAdapter);
-        mTransactionsView = root.findViewById(R.id.transactionsLayout);
-        mNoTransactionsView = root.findViewById(R.id.noTransactionsLayout);
-        mNoTransactionsTextView = root.findViewById(R.id.noTransactionsText);
-
-        setHasOptionsMenu(true);
-
-        return root;
-    }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -97,14 +82,13 @@ public class EarningsHistoryFragment extends DaggerFragment implements EarningsH
         }
         return true;
     }
-
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         inflater.inflate(R.menu.action_bar, menu);
     }
 
-    public interface TransactionClickListener {
-        void onTransactionClicked(Transaction t);
+    @Override
+    public void showReminders(List<Reminder> reminders) {
+        mAdapter.replaceItem(reminders);
     }
-
 }

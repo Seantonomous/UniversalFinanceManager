@@ -20,9 +20,10 @@ import ufm.universalfinancemanager.earningshistory.EarningsHistoryActivity;
 import ufm.universalfinancemanager.earningshistory.EarningsHistoryModule;
 import ufm.universalfinancemanager.networth.NetworthActivity;
 import ufm.universalfinancemanager.networth.NetworthModule;
+import ufm.universalfinancemanager.reminderhistory.ReminderHistoryActivity;
 import ufm.universalfinancemanager.transactionhistory.TransactionHistoryActivity;
 import ufm.universalfinancemanager.transactionhistory.TransactionHistoryModule;
-
+import ufm.universalfinancemanager.reminderhistory.ReminderHistoryModule;
 /**
  * We want Dagger.Android to create a Subcomponent which has a parent Component of whichever module ActivityBindingModule is on,
  * in our case that will be AppComponent. The beautiful part about this setup is that you never need to tell AppComponent that it is going to have all these subcomponents
@@ -63,4 +64,8 @@ public abstract class ActivityBindingModule {
     @ActivityScoped
     @ContributesAndroidInjector(modules = EarningsHistoryModule.class)
     abstract EarningsHistoryActivity earningsHistoryActivity();
+
+    @ActivityScoped
+    @ContributesAndroidInjector(modules = ReminderHistoryModule.class)
+    abstract ReminderHistoryActivity reminderHistoryActivity();
 }

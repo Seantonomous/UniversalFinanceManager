@@ -33,7 +33,7 @@ public class User implements Serializable {
     private ArrayList<Category> expenseCategories;
 
     //Later
-    //private ArrayList<Reminder> reminders;
+    private ArrayList<Reminder> reminders;
 
     public User(String username) {
         this.username = username;
@@ -41,20 +41,23 @@ public class User implements Serializable {
         this.accounts = new ArrayList<>();
         this.incomeCategories = new ArrayList<>();
         this.expenseCategories = new ArrayList<>();
+        this.reminders = new ArrayList<>();
     }
 
     public User() {
         this.accounts = new ArrayList<>();
         this.incomeCategories = new ArrayList<>();
         this.expenseCategories = new ArrayList<>();
+        this.reminders = new ArrayList<>();
     }
 
     public User(String username, String password, ArrayList<Account> accounts,
-                ArrayList<Category> categories) {
+                ArrayList<Category> categories, ArrayList<Reminder> reminders) {
         this.username = username;
         this.password = password;
         this.accounts = accounts;
         this.incomeCategories = categories;
+        this.reminders = reminders;
     }
 
     public void setUserName(String name) {
@@ -112,7 +115,6 @@ public class User implements Serializable {
         return this.accounts;
     }
 
-    /**/
     public boolean addTransaction(Transaction t) {
         if(t.getFromAccount() != null)
             t.getFromAccount().registerTransaction(t);
@@ -120,14 +122,6 @@ public class User implements Serializable {
             t.getToAccount().registerTransaction(t);
         return true;
     }
-    /*
-    public ArrayList<Transaction> getTransactions() {
-        return this.transactions;
-    }
-
-    public boolean addBudget(Budget budget) {}
-    public ArrayList<Budget> getBudgets() {}
-    */
 
     public boolean addCategory(Category c) throws RuntimeException {
         if(c.getFlow() == Flow.INCOME) {
@@ -162,4 +156,23 @@ public class User implements Serializable {
     }
     public ArrayList<Category> getExpenseCategories() { return this.expenseCategories; }
 
+    public Reminder getReminder(String label) throws RuntimeException {
+        for(int i =0; i<reminders.size(); i++) {
+            if(reminders.get(i).getName().equals(label)) {
+                return reminders.get(i);
+            }
+        }
+        throw new RuntimeException(String.format("Reminder %s not found", label));
+    }
+
+    public boolean addReminder(Reminder r) throws RuntimeException {
+        for(int i=0;i<reminders.size();i++)
+            if(reminders.get(i).getName().equals(r.getName())) {
+                throw new RuntimeException("Reminder with same name already exists: " + r.toString());
+            }
+
+        reminders.add(r);
+        return true;
+    }
+    public ArrayList<Reminder> getReminders() {return this.reminders;}
 }
