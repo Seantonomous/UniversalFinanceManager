@@ -71,6 +71,7 @@ public class Budget implements Parcelable, Serializable, ListItem {
     public Budget(String name, Category category, double amount, double current, Date date, Date endDate) {
         this.name = name;
         this.category = category;
+        this.cat = category.getName();
         this.amount = amount;
         this.currentValue= current;
         num_format = NumberFormat.getCurrencyInstance();
@@ -92,6 +93,7 @@ public class Budget implements Parcelable, Serializable, ListItem {
     /******************Getters**********************/
     public String getName() {return name;}
     public Category getCategory() {return category;}
+    public String getCat() {return cat;}
     public double getAmount() {return amount;}
     public double getCurrentValue() {return currentValue;}
     public Date getStartDate() {return startDate;}
@@ -101,6 +103,7 @@ public class Budget implements Parcelable, Serializable, ListItem {
     /*****************Setters***********************/
     public void setName(String name) {this.name = name;}
     public void setCategory(Category category) {this.category = category;}
+    public void setCat(String name) {this.cat = name;}
     public void setAmount(double amount) {this.amount = amount;}
     public void setCurrentValue(double current) {this.currentValue = current;}
     public void setStartDate(Date date) {this.startDate = date;}

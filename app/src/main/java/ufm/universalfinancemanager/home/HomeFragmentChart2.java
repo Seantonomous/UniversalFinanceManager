@@ -128,6 +128,11 @@ public class HomeFragmentChart2 extends DaggerFragment implements HomeContract.V
     }
 
     @Override
+    public void populateBudgets(ArrayList<HomeDataBudgetSpend> items) {
+        //STUB
+    }
+
+    @Override
     public void onDestroy() {
         super.onDestroy();
         mPresenter.dropView();
