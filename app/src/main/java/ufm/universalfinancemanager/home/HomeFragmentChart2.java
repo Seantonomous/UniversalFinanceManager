@@ -88,7 +88,7 @@ public class HomeFragmentChart2 extends DaggerFragment implements HomeContract.V
 
 //         HomeClassNetWorth netWorthChart =  new HomeClassNetWorth(mChart);
 
-        mPresenter.takeView(this);
+        mPresenter.takeView(this, 2);
     }
 
     @Override
@@ -120,6 +120,11 @@ public class HomeFragmentChart2 extends DaggerFragment implements HomeContract.V
 
         mNetWorthChart.setData(getData());
         Log.d("NW: ", "Populate list");
+    }
+
+    @Override
+    public void populateCategories(ArrayList<HomeDataCategory> items) {
+        //STUB
     }
 
     @Override

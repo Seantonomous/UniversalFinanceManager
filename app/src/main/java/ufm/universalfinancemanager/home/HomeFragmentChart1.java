@@ -65,6 +65,11 @@ public class HomeFragmentChart1 extends DaggerFragment implements HomeContract.V
     }
 
     @Override
+    public void populateCategories(ArrayList<HomeDataCategory> items) {
+        //STUB
+    }
+
+    @Override
     public void onDestroy() {
         super.onDestroy();
         mPresenter.dropView();

@@ -2,6 +2,9 @@ package ufm.universalfinancemanager.home;
 
 import android.support.annotation.Nullable;
 
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -9,7 +12,9 @@ import javax.inject.Inject;
 import ufm.universalfinancemanager.db.TransactionDataSource;
 import ufm.universalfinancemanager.db.UserDataSource;
 import ufm.universalfinancemanager.db.UserRepository;
+import ufm.universalfinancemanager.db.entity.Category;
 import ufm.universalfinancemanager.db.entity.Transaction;
+import ufm.universalfinancemanager.support.Flow;
 import ufm.universalfinancemanager.support.atomic.User;
 import ufm.universalfinancemanager.util.EspressoIdlingResource;
 
@@ -21,6 +26,13 @@ public class HomePresenter implements HomeContract.Presenter {
     @Nullable
     private HomeContract.View mHomeView = null;
 
+    private static final int CHART1 = 1;
+    private static final int CHART2 = 2;
+    private static final int CHART3 = 3;
+    private int mCurrentChart;
+
+    private Calendar calendar = Calendar.getInstance();
+
     @Inject
     public HomePresenter(UserRepository transactionRepository, User user) {
         mUser = user;
@@ -31,7 +43,6 @@ public class HomePresenter implements HomeContract.Presenter {
     public void result(int requestCode, int resultCode) {
 
     }
-
 
     @Override
     public void loadTransactions() {
@@ -59,6 +70,53 @@ public class HomePresenter implements HomeContract.Presenter {
         });
     }
 
+    private void loadTransactionRange() {
+        EspressoIdlingResource.increment();
+        Calendar cal2 = (Calendar)calendar.clone();
+        cal2.add(Calendar.DATE, -30);
+
+        mTransactionRepository.getTransactionsInDateRange(cal2.getTimeInMillis(),
+                calendar.getTimeInMillis(), new UserDataSource.LoadTransactionsCallback() {
+                    @Override
+                    public void onTransactionsLoaded(List<Transaction> transactions) {
+                        processCategories(transactions);
+                    }
+
+                    @Override
+                    public void onDataNotAvailable() {
+
+                    }
+                });
+
+        EspressoIdlingResource.decrement();
+    }
+
+    private void processCategories(List<Transaction> transactions) {
+        ArrayList<Category> categories = mUser.getExpenseCategories();
+        ArrayList<HomeDataCategory> data = new ArrayList<>();
+        int[] spending = new int[categories.size()];
+
+        //No categories to report on
+        if(categories.size() == 0)
+            return;
+
+        for(Transaction transaction : transactions) {
+            if(transaction.getFlow() == Flow.OUTCOME) {
+                int index = categories.indexOf(mUser.getCategory(transaction.getCategory()));
+                spending[index] += transaction.getAmount();
+            }
+        }
+
+        for(Category category : categories) {
+            if(spending[categories.indexOf(category)] > 0)
+                data.add(new HomeDataCategory(category.getName(),
+                        spending[categories.indexOf(category)]));
+        }
+
+        if(mHomeView != null)
+            mHomeView.populateCategories(data);
+    }
+
     //    @Override
     private void processTransactions(List<Transaction> transactions) {
         if(mHomeView != null)
@@ -67,12 +125,21 @@ public class HomePresenter implements HomeContract.Presenter {
 
     @Override
     public void takeView(HomeContract.View v) {
+        //Stub
+    }
+
+    @Override
+    public void takeView(HomeContract.View v, int type) {
         if(v == null)
             return;
 
         mHomeView = v;
+        mCurrentChart = type;
 
-        loadTransactions();
+        if(mCurrentChart == CHART2)
+            loadTransactions();
+        else if(mCurrentChart == CHART3)
+            loadTransactionRange();
     }
 
     @Override

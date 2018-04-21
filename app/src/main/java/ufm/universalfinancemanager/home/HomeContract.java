@@ -1,5 +1,6 @@
 package ufm.universalfinancemanager.home;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import ufm.universalfinancemanager.BasePresenter;
@@ -13,6 +14,8 @@ public interface HomeContract {
 
         void populateList(List<Transaction> items);
 
+        void populateCategories(ArrayList<HomeDataCategory> items);
+
         void getList(List<Transaction> items);
 
     }
@@ -21,7 +24,7 @@ public interface HomeContract {
 
         void result(int requestCode, int resultCode);
 
-        void takeView(View v);
+        void takeView(View v, int type);
 
         void dropView();
 
