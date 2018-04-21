@@ -80,7 +80,7 @@ public class HomeFragmentChart2 extends DaggerFragment implements HomeContract.V
 
 
     List<Transaction> myList;
-
+    HomeClassNetWorth mNetWorthChart;
 
     @Override
     public void onResume() {
@@ -99,7 +99,8 @@ public class HomeFragmentChart2 extends DaggerFragment implements HomeContract.V
 
     @Override
     public void populateList(List<Transaction> items) {
-
+        myList = items;
+        mNetWorthChart.setData(getData());
     }
 
     @Override
@@ -125,14 +126,11 @@ public class HomeFragmentChart2 extends DaggerFragment implements HomeContract.V
         //        mPresenter.loadTransactions();
         //        getList(myList);
 
-        mChart = (CombinedChart) root.findViewById(R.id.chart2);
+        mChart = root.findViewById(R.id.chart2);
 
-        // Get Data
-        ArrayList<HomeDataNetWorth> nwData = getData();
+        mNetWorthChart =  new HomeClassNetWorth(mChart);
 
-        HomeClassNetWorth netWorthChart =  new HomeClassNetWorth(mChart, nwData);
-
-
+        setHasOptionsMenu(true);
         return root;
     }
 

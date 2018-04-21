@@ -35,7 +35,7 @@ public class HomeClassNetWorth {
 
 
     HomeClassNetWorth(){};
-
+/*
     HomeClassNetWorth(CombinedChart mChart, ArrayList<HomeDataNetWorth> nwData) {
         this.mChart = mChart;
         this.nwData = nwData;
@@ -45,6 +45,12 @@ public class HomeClassNetWorth {
         //getRandomData();
         createNetWorthBarChart();
 
+    }
+    */
+    HomeClassNetWorth(CombinedChart chart) {
+        this.mChart = chart;
+        createMonthLegend();
+        createNetWorthBarChart();
     }
 
     public void createMonthLegend() {
@@ -148,14 +154,8 @@ public class HomeClassNetWorth {
             }
         });
 
-        CombinedData data = new CombinedData();
 
-        data.setData(generateLineData());
-        data.setData(generateBarData());
 
-        xAxis.setAxisMaximum(data.getXMax() + 0.25f);
-        mChart.setData(data);
-        mChart.invalidate();
     }
 
     private LineData generateLineData() {
@@ -278,6 +278,19 @@ public class HomeClassNetWorth {
         tempColors.add(Color.RED);
 
         return tempColors;
+    }
+
+    public void setData(ArrayList<HomeDataNetWorth> newData) {
+        nwData = newData;
+
+        CombinedData data = new CombinedData();
+
+        data.setData(generateLineData());
+        data.setData(generateBarData());
+
+        mChart.getXAxis().setAxisMaximum(data.getXMax() + 0.25f);
+        mChart.setData(data);
+        mChart.invalidate();
     }
 
 }

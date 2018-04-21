@@ -60,8 +60,9 @@ public class HomePresenter implements HomeContract.Presenter {
     }
 
     //    @Override
-    public void processTransactions(List<Transaction> transactions) {
-        mHomeView.populateList(transactions);
+    private void processTransactions(List<Transaction> transactions) {
+        if(mHomeView != null)
+            mHomeView.populateList(transactions);
     }
 
     @Override
@@ -69,9 +70,9 @@ public class HomePresenter implements HomeContract.Presenter {
         if(v == null)
             return;
 
-        loadTransactions();
-
         mHomeView = v;
+
+        loadTransactions();
     }
 
     @Override
