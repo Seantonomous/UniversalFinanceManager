@@ -39,8 +39,8 @@ import ufm.universalfinancemanager.db.entity.Transaction;
 public class HomeFragmentChart3 extends DaggerFragment implements HomeContract.View {
 
     private PieChart mChart;
-    private float[] yData = {10.0f, 17.0f, 16.0f, 20.0f, 20.0f, 7.0f, 10.0f};
-    private String[] xData = {"Rent", "Gas", "Groceries", "Household", "Entertaiment", "Savings", "401k"};
+    private ArrayList<Float> yData;
+    private ArrayList<String> xData;
 
     private List<Transaction> tlist;
 
@@ -69,11 +69,6 @@ public class HomeFragmentChart3 extends DaggerFragment implements HomeContract.V
 
     }
 
-//    @Override
-//    public void showTransactions(List<Transaction> items) {
-//        Toast.makeText(getContext(), "show Transactions " + items.get(0).getName(), Toast.LENGTH_SHORT).show();
-//    }
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -89,108 +84,32 @@ public class HomeFragmentChart3 extends DaggerFragment implements HomeContract.V
 
         mChart = (PieChart) root.findViewById(R.id.chart3);
 
-        // configure pie chart
-        mChart.setUsePercentValues(true);
-//        mChart.setDescription("Budget Summary");
+        ArrayList<HomeDataCategory> pieData;
+        pieData = getData();
 
-        // enable hole and configure
-        mChart.setDrawHoleEnabled(true);
-        mChart.setHoleColor(000000);
-        mChart.setHoleRadius(7);
-        mChart.setTransparentCircleRadius(10);
+        HomeClassCategorySpend horizontalBarChart = new HomeClassCategorySpend(mChart, pieData);
 
-        // enable rotation of the chart by touch
-        mChart.setRotationAngle(0);
-        mChart.setRotationEnabled(true);
-
-        // add data
-        addData();
-
-        // customize legends
-        Legend l = mChart.getLegend();
-        // l.setPosition(LegendPosition.RIGHT_OF_CHART);
-        l.setXEntrySpace(7);
-        l.setYEntrySpace(5);
 
         return root;
     }
 
-    void addData() {
+    private ArrayList getData(){
 
-        List<Entry> yVals1 = new ArrayList<Entry>();
+        ArrayList<HomeDataCategory> tempPieData = new ArrayList<>();
 
-        for (
-                int i = 0;
-                i < yData.length; i++)
-            yVals1.add(new
+        // Needs to be percentages that toal 100%
+        tempPieData.add(new HomeDataCategory("Rent", 10.0f));
+        tempPieData.add(new HomeDataCategory("Gas", 17.0f));
+        tempPieData.add(new HomeDataCategory("Groceries", 16.0f));
+        tempPieData.add(new HomeDataCategory("Household", 20.0f));
+        tempPieData.add(new HomeDataCategory("Entertaiment", 20.0f));
+        tempPieData.add(new HomeDataCategory("Savings", 7.0f));
+        tempPieData.add(new HomeDataCategory("401k", 10.0f));
 
-                    Entry(yData[i], i));
-
-        List<String> xVals = new ArrayList<String>();
-
-        for (
-                int i = 0;
-                i < xData.length; i++)
-            xVals.add(xData[i]);
-
-//        // create pie data set
-//        PieDataSet dataSet = new PieDataSet(yVals1, "Categories");
-//        dataSet.setSliceSpace(3);
-//        dataSet.setSelectionShift(5);
-
-        List<PieEntry> entries = new ArrayList<>();
-
-//        List categoryList = getCategories();
-
-        for (int i = 0; i < xData.length - 1; i++) {
-            entries.add(new PieEntry(yData[i], xData[i]));
-        }
-
-        PieDataSet set = new PieDataSet(entries, "Budget Summary");
-        PieData data = new PieData(set);
-        mChart.setData(data);
-        mChart.invalidate(); // refresh
-
-        // add many colors
-        ArrayList<Integer> colors = new ArrayList<Integer>();
-
-        for (
-                int c : ColorTemplate.VORDIPLOM_COLORS)
-            colors.add(c);
-
-        for (
-                int c : ColorTemplate.JOYFUL_COLORS)
-            colors.add(c);
-
-        for (
-                int c : ColorTemplate.COLORFUL_COLORS)
-            colors.add(c);
-
-        for (
-                int c : ColorTemplate.LIBERTY_COLORS)
-            colors.add(c);
-
-        for (
-                int c : ColorTemplate.PASTEL_COLORS)
-            colors.add(c);
-
-        colors.add(ColorTemplate.getHoloBlue());
-        set.setColors(colors);
-
-        // instantiate pie data object now
-//        PieData data = new PieData(xVals, set);
-//        data.setValueFormatter(new PercentFormatter());
-        data.setValueTextSize(11f);
-        data.setValueTextColor(Color.GRAY);
-
-        mChart.setData(data);
-
-        // undo all highlights
-        mChart.highlightValues(null);
-
-        // update pie chart
-        mChart.invalidate();
+        return tempPieData;
     }
+
+
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {

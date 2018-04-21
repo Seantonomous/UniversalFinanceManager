@@ -69,6 +69,8 @@ public class HomePresenter implements HomeContract.Presenter {
         if(v == null)
             return;
 
+        loadTransactions();
+
         mHomeView = v;
     }
 

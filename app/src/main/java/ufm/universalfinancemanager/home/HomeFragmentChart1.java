@@ -84,19 +84,31 @@ public class HomeFragmentChart1 extends DaggerFragment implements HomeContract.V
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.home_fragment_chart1, container, false);
 
+
         HorizontalBarChart mChart;
         mChart = (HorizontalBarChart) root.findViewById(R.id.chart1);
 
-        ArrayList categories = getCategories();
-        setData(mChart, categories.size(), 100);
-        setAxis(mChart, categories);
+        ArrayList<HomeDataBudgetSpend> budgetData;
+        budgetData = getData();
+
+        HomeClassBudgetSpend horizontalBarChart = new HomeClassBudgetSpend(mChart, budgetData);
+
 
         return root;
     }
 
-    private ArrayList getCategories() {
+    private ArrayList getData() {
 
-        ArrayList categories = new ArrayList();
+        /* This is the data the horizontal bar graph is created from
+            It needs 3 inputs:
+            1. Category Name
+            2. Amount Spent for the category (float)
+            3. The total/(cap) amount of the budget (float)
+                Note: the class will convert these numbers to percentages (100% based) to display accordingly
+        */
+
+        ArrayList<HomeDataBudgetSpend> tempBudgetData = new ArrayList<HomeDataBudgetSpend>();
+        ArrayList<String> categories = new ArrayList<String>();
 
         categories.add("Rent");
         categories.add("Gas");
@@ -106,100 +118,17 @@ public class HomeFragmentChart1 extends DaggerFragment implements HomeContract.V
         categories.add("Savings");
         categories.add("401K");
 
-        return categories;
-    }
+        for (int i = 0; i < categories.size(); i++) {
+            float spent = (float) (Math.random() * 100);     // % of Amount Spent per Category
+            float capAmount = (float) (100);                 // Category cap 100%
 
-    private void setData(HorizontalBarChart mChart, int numCategories, int range) {
-
-        ArrayList<BarEntry> yVals = new ArrayList<>();
-
-        float barWidth = 9f;
-        float spaceForBar = 10f;
-
-        // Populate with random data
-        for (int i = 0; i < numCategories; i++) {
-            float val1 = (float) (Math.random() * 100);
-            float val2 = (float) (100);
-
-            yVals.add(new BarEntry(i, new float[]{val1, val2 - val1}));
+            // Add the Name of the category, the spent amount, and the cap amount)
+            tempBudgetData.add(new HomeDataBudgetSpend(categories.get(i), spent, capAmount));
         }
 
-        BarDataSet set1;
-
-        ArrayList<Integer> colors  = getColors();
-
-        set1 = new BarDataSet(yVals, "| Category Spend");
-        set1.setStackLabels(new String[]{"% Spent", "Max Budget"});
-        set1.setColors(colors);
-        set1.setValueTextSize(14f);
-        mChart.setDragDecelerationEnabled(true);
-
-        BarData data = new BarData(set1);
-
-        mChart.setData(data);
+        return tempBudgetData;
     }
 
-    // Get array of colors for horizontal stacked bar chart, with 2nd value as light grey
-    ArrayList<Integer> getColors() {
-
-        ArrayList<Integer> tempColors = new ArrayList<Integer>();
-
-        for (int c : ColorTemplate.VORDIPLOM_COLORS) {
-            tempColors.add(c);
-            tempColors.add(Color.LTGRAY);
-        }
-
-        for (int c : ColorTemplate.JOYFUL_COLORS) {
-            tempColors.add(c);
-            tempColors.add(Color.LTGRAY);
-        }
-
-        for (int c : ColorTemplate.COLORFUL_COLORS) {
-            tempColors.add(c);
-            tempColors.add(Color.LTGRAY);
-        }
-
-        return tempColors;
-    }
-    public void setAxis(HorizontalBarChart mChart, ArrayList categories) {
-
-        Legend l = mChart.getLegend();
-        l.setVerticalAlignment(Legend.LegendVerticalAlignment.TOP);
-        l.setHorizontalAlignment(Legend.LegendHorizontalAlignment.CENTER);
-        l.setOrientation(Legend.LegendOrientation.HORIZONTAL);
-        l.setDrawInside(true);
-        l.setYOffset(20f);
-        l.setXOffset(0f);
-        l.setYEntrySpace(0f);
-        l.setTextSize(18f);
-
-
-        //X-axis
-        XAxis xAxis = mChart.getXAxis();
-        xAxis.setGranularity(1f);
-        xAxis.setGranularityEnabled(true);
-        xAxis.setCenterAxisLabels(true);
-        xAxis.setDrawGridLines(true);
-        xAxis.setAxisMaximum(categories.size());
-        xAxis.setPosition(XAxis.XAxisPosition.TOP);
-        xAxis.setValueFormatter(new IndexAxisValueFormatter(categories));
-        xAxis.setXOffset(-380f);
-        xAxis.setTextSize(18f);
-
-        //Y-axis
-        mChart.getAxisRight().setEnabled(false);
-        YAxis leftAxis = mChart.getAxisLeft();
-        leftAxis.setValueFormatter(new LargeValueFormatter());
-        leftAxis.setDrawGridLines(true);
-        leftAxis.setSpaceTop(35f);
-        leftAxis.setAxisMaximum(100);
-        leftAxis.setAxisMinimum(0);
-
-        mChart.setFitBars(false);
-        mChart.invalidate();
-
-        mChart.getDescription().setEnabled(false);
-    }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
