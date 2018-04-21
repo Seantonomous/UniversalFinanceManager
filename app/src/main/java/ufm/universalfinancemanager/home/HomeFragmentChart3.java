@@ -39,10 +39,8 @@ import ufm.universalfinancemanager.db.entity.Transaction;
 public class HomeFragmentChart3 extends DaggerFragment implements HomeContract.View {
 
     private PieChart mChart;
-    private ArrayList<Float> yData;
-    private ArrayList<String> xData;
-
-    private List<Transaction> tlist;
+    private HomeClassCategorySpend horizontalBarChart;
+    private ArrayList<HomeDataCategory> mData;
 
     @Inject
     public HomePresenter mPresenter;
@@ -53,7 +51,7 @@ public class HomeFragmentChart3 extends DaggerFragment implements HomeContract.V
     @Override
     public void onResume() {
         super.onResume();
-        mPresenter.takeView(this);
+        mPresenter.takeView(this, 3);
     }
 
     @Override
@@ -64,9 +62,13 @@ public class HomeFragmentChart3 extends DaggerFragment implements HomeContract.V
 
     @Override
     public void populateList(List<Transaction> items) {
-        tlist = items;
-//        Toast.makeText(getContext(), "Category: " + items.get(0).getName(), Toast.LENGTH_SHORT).show();
+        //STUB
+    }
 
+    @Override
+    public void populateCategories(ArrayList<HomeDataCategory> data) {
+        mData = data;
+        horizontalBarChart.setData(mData);
     }
 
     @Override
@@ -82,34 +84,12 @@ public class HomeFragmentChart3 extends DaggerFragment implements HomeContract.V
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.home_fragment_chart3, container, false);
 
-        mChart = (PieChart) root.findViewById(R.id.chart3);
+        mChart = root.findViewById(R.id.chart3);
 
-        ArrayList<HomeDataCategory> pieData;
-        pieData = getData();
-
-        HomeClassCategorySpend horizontalBarChart = new HomeClassCategorySpend(mChart, pieData);
-
+         horizontalBarChart = new HomeClassCategorySpend(mChart);
 
         return root;
     }
-
-    private ArrayList getData(){
-
-        ArrayList<HomeDataCategory> tempPieData = new ArrayList<>();
-
-        // Needs to be percentages that toal 100%
-        tempPieData.add(new HomeDataCategory("Rent", 10.0f));
-        tempPieData.add(new HomeDataCategory("Gas", 17.0f));
-        tempPieData.add(new HomeDataCategory("Groceries", 16.0f));
-        tempPieData.add(new HomeDataCategory("Household", 20.0f));
-        tempPieData.add(new HomeDataCategory("Entertaiment", 20.0f));
-        tempPieData.add(new HomeDataCategory("Savings", 7.0f));
-        tempPieData.add(new HomeDataCategory("401k", 10.0f));
-
-        return tempPieData;
-    }
-
-
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {

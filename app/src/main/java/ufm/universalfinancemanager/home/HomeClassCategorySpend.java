@@ -23,7 +23,7 @@ public class HomeClassCategorySpend {
 
     HomeClassCategorySpend() {};
 
-    HomeClassCategorySpend(PieChart mChart, ArrayList<HomeDataCategory> pieData) {
+    public HomeClassCategorySpend(PieChart mChart, ArrayList<HomeDataCategory> pieData) {
 
         this.mChart = mChart;
         this.pieData = pieData;
@@ -31,9 +31,21 @@ public class HomeClassCategorySpend {
         xData = createXDataArray();
         yData = createYDataArray();
 
+        createPieChart();
+    }
+
+    public HomeClassCategorySpend(PieChart mChart) {
+        this.mChart = mChart;
+    }
+
+    public void setData(ArrayList<HomeDataCategory> data) {
+        this.pieData = data;
+        this.totalCategorySpend = getTotalSpent(pieData);
+        xData = createXDataArray();
+        yData = createYDataArray();
 
         createPieChart();
-    };
+    }
 
     protected void createPieChart() {
 
@@ -62,9 +74,6 @@ public class HomeClassCategorySpend {
 
     protected void addData() {
 
-        xData = getXData();
-        yData = getYData();
-
         List<Entry> yVals1 = new ArrayList<Entry>();
 
         for (
@@ -87,7 +96,7 @@ public class HomeClassCategorySpend {
 
 
         // Adding entries to PieChart, and dividing float amounts by total spend * 100 for percent
-        for (int i = 0; i < xData.size() - 1; i++) {
+        for (int i = 0; i < xData.size(); i++) {
             entries.add(new PieEntry(yData.get(i)/totalCategorySpend*100, xData.get(i)));
         }
 
@@ -138,37 +147,7 @@ public class HomeClassCategorySpend {
 
     }
 
-    private ArrayList<String> getXData() {
-        //{"Rent", "Gas", "Groceries", "Household", "Entertaiment", "Savings", "401k"}
-
-        ArrayList<String> tempXData = new ArrayList<String>();
-        tempXData.add("Rent");
-        tempXData.add("Gas");
-        tempXData.add("Groceries");
-        tempXData.add("Household");
-        tempXData.add("Entertaiment");
-        tempXData.add("Savings");
-        tempXData.add("401k");
-
-
-        return tempXData;
-    }
-
-    private ArrayList<Float> getYData() {
-
-        ArrayList<Float> tempYData = new ArrayList<Float>();
-        tempYData.add(10.0f);
-        tempYData.add(17.0f);
-        tempYData.add(16.0f);
-        tempYData.add(20.0f);
-        tempYData.add(20.0f);
-        tempYData.add(7.0f);
-        tempYData.add(10.0f);
-
-        return tempYData;
-    }
-
-    private ArrayList createXDataArray() {
+    private ArrayList<String> createXDataArray() {
         ArrayList<String> tempXData = new ArrayList<>();
 
         for (int i = 0; i < pieData.size(); i++){

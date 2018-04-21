@@ -126,6 +126,7 @@ public class UserRepository implements UserDataSource {
             }
         },name);
     }
+
     private void refreshCache(List<Transaction> transactions) {
         if (mCachedTransactions == null) {
             mCachedTransactions = new LinkedHashMap<>();
@@ -205,7 +206,7 @@ public class UserRepository implements UserDataSource {
 
                 @Override
                 public void onDataNotAvailable() {
-                    getTransactionsFromRemoteDataSource(callback);
+                    //getTransactionsFromRemoteDataSource(callback);
                 }
             });
         }
