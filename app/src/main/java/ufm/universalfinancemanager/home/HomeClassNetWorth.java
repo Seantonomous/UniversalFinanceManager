@@ -34,19 +34,6 @@ public class HomeClassNetWorth {
     protected ArrayList<HomeDataNetWorth> nwData;
 
 
-    HomeClassNetWorth(){};
-/*
-    HomeClassNetWorth(CombinedChart mChart, ArrayList<HomeDataNetWorth> nwData) {
-        this.mChart = mChart;
-        this.nwData = nwData;
-        // arrData = new float[3][7];
-
-        createMonthLegend();    // Gets legend for x-axis to show month "mmm" name.
-        //getRandomData();
-        createNetWorthBarChart();
-
-    }
-    */
     HomeClassNetWorth(CombinedChart chart) {
         this.mChart = chart;
         createMonthLegend();
@@ -282,6 +269,19 @@ public class HomeClassNetWorth {
 
     public void setData(ArrayList<HomeDataNetWorth> newData) {
         nwData = newData;
+
+        CombinedData data = new CombinedData();
+
+        data.setData(generateLineData());
+        data.setData(generateBarData());
+
+        mChart.getXAxis().setAxisMaximum(data.getXMax() + 0.25f);
+        mChart.setData(data);
+        mChart.invalidate();
+    }
+
+    public void setRealData(ArrayList<HomeDataNetWorth> realData) {
+        nwData = realData;
 
         CombinedData data = new CombinedData();
 
