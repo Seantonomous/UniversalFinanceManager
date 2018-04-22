@@ -174,81 +174,57 @@ public class AddEditTransactionPresenter implements AddEditTransactionContract.P
         }
     }
 
-    private void updateTransaction(String name, Flow flow, Double amount,
-                                   String categoryName, String fromAccountName,
-                                   String toAccountName, Date date, String notes) {
+    private void updateTransaction(final String name, final Flow flow, final Double amount,
+                                   final String categoryName, final String fromAccountName,
+                                   final String toAccountName, final Date date, final String notes) {
 
         final Transaction t = new Transaction(name, mTransactionId, flow, amount,
                 categoryName, fromAccountName, toAccountName, date, notes);
 
-        if(beforeEditAmount != amount) {
-            if(flow == Flow.INCOME) {
-                mUserRepository.getAccount(toAccountName, new UserDataSource.GetAccountCallback() {
-                    @Override
-                    public void onAccountLoaded(Account account) {
-                        account.unregisterTransaction(t);
-                        account.registerTransaction(t);
-                        mUserRepository.saveAccount(account);
-                        mUser.refreshAccounts();
+        mUserRepository.getTransaction(mTransactionId, new UserDataSource.GetTransactionCallback() {
+            @Override
+            public void onTransactionLoaded(Transaction transaction) {
+                if(transaction.getFlow() != t.getFlow() //if account-affecting info changed...
+                        || (transaction.getToAccount() != null && !transaction.getToAccount().equals(t.getToAccount()))
+                        || (transaction.getToAccount() == null && t.getToAccount() != null)
+                        || (transaction.getFromAccount() != null && !transaction.getFromAccount().equals(t.getFromAccount()))
+                        || (transaction.getFromAccount() == null && t.getFromAccount() != null)
+                        || transaction.getAmount() != t.getAmount()) {
+
+                    if(transaction.getFlow() == Flow.INCOME) {
+                        Account account = mUser.getAccount(transaction.getToAccount());
+                        account.unregisterTransaction(transaction);
+                        mUser.editAccount(account);
+                    }else if(transaction.getFlow() == Flow.OUTCOME) {
+                        Account account = mUser.getAccount(transaction.getFromAccount());
+                        account.unregisterTransaction(transaction);
+                        mUser.editAccount(account);
+                    }else {
+                        Account account1 = mUser.getAccount(transaction.getFromAccount());
+                        Account account2 = mUser.getAccount(transaction.getToAccount());
+                        account1.unregisterTransaction(transaction);
+                        account2.unregisterTransaction(transaction);
+                        mUser.editAccount(account1);
+                        mUser.editAccount(account2);
                     }
 
-                    @Override
-                    public void onDataNotAvailable() {
+                    mUser.refreshAccounts();
 
-                    }
-                });
-            } else if(flow == Flow.OUTCOME) {
-                mUserRepository.getAccount(fromAccountName, new UserDataSource.GetAccountCallback() {
-                    @Override
-                    public void onAccountLoaded(Account account) {
-                        account.unregisterTransaction(t);
-                        account.registerTransaction(t);
-                        mUserRepository.saveAccount(account);
-                        mUser.refreshAccounts();
-                    }
-
-                    @Override
-                    public void onDataNotAvailable() {
-
-                    }
-                });
-            } else {
-                mUserRepository.getAccount(fromAccountName, new UserDataSource.GetAccountCallback() {
-                    @Override
-                    public void onAccountLoaded(Account account) {
-                        account.unregisterTransaction(t);
-                        account.registerTransaction(t);
-                        mUserRepository.saveAccount(account);
-                        mUser.refreshAccounts();
-                    }
-
-                    @Override
-                    public void onDataNotAvailable() {
-
-                    }
-                });
-
-                mUserRepository.getAccount(toAccountName, new UserDataSource.GetAccountCallback() {
-                    @Override
-                    public void onAccountLoaded(Account account) {
-                        account.unregisterTransaction(t);
-                        account.registerTransaction(t);
-                        mUserRepository.saveAccount(account);
-                        mUser.refreshAccounts();
-                    }
-
-                    @Override
-                    public void onDataNotAvailable() {
-
-                    }
-                });
+                    mUserRepository.deleteTransaction(mTransactionId);
+                    createTransaction(name, flow, amount, categoryName, fromAccountName,
+                            toAccountName, date, notes);
+                }else {//non account-affecting information
+                    mUserRepository.deleteTransaction(mTransactionId);
+                    createTransaction(name, flow, amount, categoryName, fromAccountName,
+                            toAccountName, date, notes);
+                }
             }
-        }
 
-        mUserRepository.saveTransaction(t);
-        if (mAddEditTransactionView != null) {
-            mAddEditTransactionView.showLastActivity(true);
-        }
+            @Override
+            public void onDataNotAvailable() {
+
+            }
+        });
     }
 
     public void populateTransaction() {

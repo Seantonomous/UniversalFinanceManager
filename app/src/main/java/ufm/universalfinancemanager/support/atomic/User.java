@@ -91,6 +91,10 @@ public class User implements Serializable {
         mUserRepository.saveAccount(account);
     }
 
+    public void editAccount(Account editAccount) {
+        mUserRepository.saveAccount(editAccount);
+    }
+
     public void deleteAccount(Account account) {
         accounts.remove(account);
         mUserRepository.deleteAccount(account.getName());
