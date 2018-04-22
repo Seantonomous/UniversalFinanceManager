@@ -32,12 +32,18 @@ public class HomeClassNetWorth {
     protected List<String> mMonths = new ArrayList<String>();
     protected float arrData[][];  // [0][month] is Assets, [1][month] is Debt, [2][month] is net Worth
     protected ArrayList<HomeDataNetWorth> nwData;
+    protected float currentAssetTotal;
+    protected float currentDebtTotal;
 
 
     HomeClassNetWorth(CombinedChart chart) {
         this.mChart = chart;
         createMonthLegend();
         createNetWorthBarChart();
+        currentAssetTotal = 0;
+        currentDebtTotal = 0;
+
+        // maxFloatNum = getMaxYValue();
     }
 
     public void createMonthLegend() {
@@ -88,16 +94,24 @@ public class HomeClassNetWorth {
 
     }
 
-    private void getMaxYValue() {
-//        for (int i = 0; i < arrNWData.size(); i++){
-//            if (arrNWData.get(i).totalAsset > yMaxValue)
-//                yMaxValue = arrNWData.get(i).totalAsset;
-//            if (arrNWData.get(i).totalDebt > yMaxValue)
-//                yMaxValue = arrNWData.get(i).totalAsset;
-//        }
+    private float getMaxYValue() {
+
+        float yMax = -1f;
+
+        for (int i = 0; i < nwData.size(); i++){
+            if (nwData.get(i).totalAssets > yMax)
+                yMax = nwData.get(i).totalAssets;
+            if (nwData.get(i).totalDebts > yMax)
+                yMax = nwData.get(i).totalDebts;
+        }
+
+        return yMax;
     }
 
     protected void createNetWorthBarChart() {
+
+        // float maxYVal = getMaxYValue();
+        float maxYVal = 4000f;
 
         mChart.getDescription().setText("Net Worth");
         mChart.setDrawGridBackground(true);
@@ -117,15 +131,15 @@ public class HomeClassNetWorth {
 
         YAxis rightAxis = mChart.getAxisRight();
         rightAxis.setDrawGridLines(false);
-        rightAxis.setAxisMinimum(-100f); // start at -100
-        rightAxis.setAxisMaximum(100f); // the axis maximum is 100
+        rightAxis.setAxisMinimum(-maxYVal); // start at -100
+        rightAxis.setAxisMaximum(maxYVal); // the axis maximum is 100
 //        rightAxis.setAxisMinimum(-yMaxValue*1.1f); // start at -100
 //        rightAxis.setAxisMaximum(yMaxValue*1.1f); // the axis maximum is 100
 
         YAxis leftAxis = mChart.getAxisLeft();
         leftAxis.setDrawGridLines(false);
-        leftAxis.setAxisMinimum(-100f); // start at -100
-        leftAxis.setAxisMaximum(100f); // the axis maximum is 100
+        leftAxis.setAxisMinimum(-maxYVal); // start at -100
+        leftAxis.setAxisMaximum(maxYVal); // the axis maximum is 100
 //        leftAxis.setAxisMinimum(-yMaxValue*1.1f); // start at -100
 //        leftAxis.setAxisMaximum(yMaxValue*1.1f); // the axis maximum is 100
 

@@ -55,6 +55,7 @@ import ufm.universalfinancemanager.addeditbudget.AddEditBudgetActivity;
 import ufm.universalfinancemanager.addeditcategory.AddEditCategoryActivity;
 import ufm.universalfinancemanager.addeditreminder.AddEditReminderActivity;
 import ufm.universalfinancemanager.addedittransaction.AddEditTransactionActivity;
+import ufm.universalfinancemanager.db.entity.Account;
 import ufm.universalfinancemanager.db.entity.Transaction;
 import ufm.universalfinancemanager.support.AccountType;
 import ufm.universalfinancemanager.support.Flow;
@@ -81,6 +82,7 @@ public class HomeFragmentChart2 extends DaggerFragment implements HomeContract.V
 
     List<Transaction> myList;
     HomeClassNetWorth mNetWorthChart;
+    private float maxYVal = -1;
 
     @Override
     public void onResume() {
@@ -102,28 +104,18 @@ public class HomeFragmentChart2 extends DaggerFragment implements HomeContract.V
         myList = items;
         HomeDataTransactionItem tempItem;
         mUser.getAccounts();
-        List<String> creditCardList = new ArrayList<>();
-        for (int i = 0; i < mUser.getAccounts().size(); i++) {
-            if (mUser.getAccounts().get(i).getType() == AccountType.CREDIT_CARD)
-                creditCardList.add(mUser.getAccounts().get(i).getName());
 
-        }
+        mNetWorthChart.setData(getData(items));
 
-        List<HomeDataTransactionItem> gatherTransactions = new ArrayList<>();
-
-//        for (int i = 0; i < myList.size(); i++) {
-//            if (myList.get(i))
-//
-//            myList.get(0).getAmount();
-//            gatherTransactions.add(new HomeDataTransactionItem( 0,0,0,0));
-//        }
-
-        mNetWorthChart.setData(getData());
-        Log.d("NW: ", "Populate list");
     }
 
     @Override
     public void populateCategories(ArrayList<HomeDataCategory> items) {
+        //STUB
+    }
+
+    @Override
+    public void populateBudgets(ArrayList<HomeDataBudgetSpend> items) {
         //STUB
     }
 
@@ -154,27 +146,184 @@ public class HomeFragmentChart2 extends DaggerFragment implements HomeContract.V
 
         mNetWorthChart =  new HomeClassNetWorth(mChart);
 
+//        mNetWorthChart.createNetWorthBarChart(4000f);
+
         setHasOptionsMenu(true);
         return root;
     }
 
 
-    private ArrayList getData(){
+    private ArrayList getData(List<Transaction> items){
 
-        /* Required data
+       /* Required data
             1. yAxaxis max value (for chart cap)
             2. Assets broken down into 6 months
             3. Debts broken down into 6 months
          */
 
+        myList = items;
+        HomeDataTransactionItem tempItem;
+        mUser.getAccounts();
+
+        List<String> creditCardList = new ArrayList<>();
+        List<HomeDataTransactionItem> allTransactions = new ArrayList<>();
+
+        int thisMonth = -1;
+        Date date = new Date();
+
+
+
+        // Get current list of Accounts, both Types and the current balalnces
+        for (Account acct : mUser.getAccounts()) {
+            if (acct.getType() == AccountType.CREDIT_CARD) {
+                creditCardList.add(acct.getName());
+                mNetWorthChart.currentDebtTotal += acct.getBalance();
+            }
+            else {
+                mNetWorthChart.currentAssetTotal += acct.getBalance();
+            }
+        }
+
+        // Organize all transactions by month, Outcome and Income, totaling the income/outcome
+        // Initialize array
+        float[][] totalTransactionsCurrentAccountBalance = new float[2][12];
+        for (float[] tRow : totalTransactionsCurrentAccountBalance) {
+            for (float tCol : tRow) {
+                tCol = 0.0f;
+            }
+        }
+
+
+        // Add transactions to list of HomeDataTransaction Items (total list of transactions)
+        for (Transaction item : myList) {
+            tempItem = new HomeDataTransactionItem();
+
+            // Assign thisMonth
+            thisMonth = tempItem.getMonthInt(date);
+
+            // Get Account Name and Flow
+            if (item.getFlow() == Flow.INCOME) {
+                tempItem.accountName = item.getToAccount();
+                tempItem.varTransactionType = HomeDataTransactionItem.TransactionType.Credit;
+            }
+            else {
+                tempItem.accountName = item.getFromAccount();
+                tempItem.varTransactionType = HomeDataTransactionItem.TransactionType.Debit;
+            }
+
+            tempItem.varAcctType = tempItem.getAccountType(tempItem.accountName, creditCardList);  // Get Account Type
+            tempItem.transactionAmount = (float) item.getAmount();     // Get Transaction amount
+            tempItem.monthInt = tempItem.getMonthInt(item.getDate());  // Get Month Integer
+            item.getAmount();
+
+            allTransactions.add(tempItem);
+        }
+
+        totalTransactionsCurrentAccountBalance[0][thisMonth] = mNetWorthChart.currentAssetTotal;
+        totalTransactionsCurrentAccountBalance[1][thisMonth] = mNetWorthChart.currentDebtTotal;
+
+        // Organize all transactions by month, Outcome and Income, totaling the income/outcome
+        // Initialize array
+        float[][] totalTransactions = new float[2][12];
+        for (float[] tRow : totalTransactions) {
+            for (float tCol : tRow) {
+                tCol = 0.0f;
+            }
+        }
+
+        // Populate array with corresponding transacations
+        for (HomeDataTransactionItem t : allTransactions) {
+            if (t.varAcctType == HomeDataTransactionItem.AcctType.Asset
+                    && t.varTransactionType == HomeDataTransactionItem.TransactionType.Credit) {
+                totalTransactions[0][t.monthInt] = totalTransactions[0][t.monthInt] + t.transactionAmount;
+            }
+            else if (t.varAcctType == HomeDataTransactionItem.AcctType.Asset
+                    && t.varTransactionType == HomeDataTransactionItem.TransactionType.Debit) {
+                totalTransactions[0][t.monthInt] = totalTransactions[0][t.monthInt] - t.transactionAmount;
+            }
+            else if (t.varAcctType == HomeDataTransactionItem.AcctType.Liability
+                    && t.varTransactionType == HomeDataTransactionItem.TransactionType.Credit) {
+                totalTransactions[1][t.monthInt] = totalTransactions[0][t.monthInt] - t.transactionAmount;
+            }
+            else if (t.varAcctType == HomeDataTransactionItem.AcctType.Liability
+                    && t.varTransactionType == HomeDataTransactionItem.TransactionType.Debit) {
+                totalTransactions[1][t.monthInt] = totalTransactions[0][t.monthInt] + t.transactionAmount;
+            }
+        }
+
+        // Organize all transactions by month, Outcome and Income, totaling the income/outcome
+        // Initialize array
+//        float[][] totalTransactionsMaster = new float[2][12];
+//        for (float[] tRow : totalTransactionsMaster) {
+//            for (float tCol : tRow) {
+//                tCol = 0.0f;
+//            }
+//        }
+
+        float[][] totalTransactionsMaster = totalTransactionsCurrentAccountBalance;
+
+        // Next, todo: add transactions to the correct balances
+        /*
+        Backwards ajusted to previous month
+        case 1: 	Outcome 	type = credit card,		-> totalDebt decreases previous month
+        case 2: 	Outcome   	type != credit card, 	-> totalAssets increases previous month
+        case 3: 	Income 		type = credit card, 	-> totalDebt increases previous month
+        case 4: 	Income 		type != credit card, 	-> totalAssets decreases previous month
+         */
+
+        // Voodoo: combine arrays to make master account balance chart
+        int curMonth = thisMonth;
+        int nextMonth = curMonth + 1;
+
+        if (nextMonth == 12)
+            nextMonth = 0;
+
+        for (int i = 0; i < 7; i++) {
+            curMonth--;
+            nextMonth--;
+
+            if (curMonth == -1  || nextMonth == -1) {
+                curMonth = 11;
+                nextMonth = 11;
+            }
+
+            totalTransactionsMaster[0][curMonth] = totalTransactionsMaster[0][nextMonth] - totalTransactions[0][nextMonth];
+            totalTransactionsMaster[1][curMonth] = totalTransactionsMaster[1][nextMonth] - totalTransactions[1][nextMonth];
+        }
+
+
+
+
         ArrayList<HomeDataNetWorth> tempNWData = new ArrayList<>();
 
-        tempNWData.add(new HomeDataNetWorth(11, 50f, 20f));
-        tempNWData.add(new HomeDataNetWorth(12, 55f, 20f));
-        tempNWData.add(new HomeDataNetWorth(1, 58f, 19f));
-        tempNWData.add(new HomeDataNetWorth(2, 62f, 18f));
-        tempNWData.add(new HomeDataNetWorth(3, 58f, 16f));
-        tempNWData.add(new HomeDataNetWorth(4, 70f, 15f));
+        int firstMonth = thisMonth - 5;
+        if (firstMonth < 0)
+            firstMonth = firstMonth + 12;
+
+        for (int i = 0; i < 6; i++) {
+            if (firstMonth == 12) {
+                firstMonth = 0;
+            }
+
+            tempNWData.add(new HomeDataNetWorth(firstMonth, totalTransactionsMaster[0][firstMonth], -1*totalTransactionsMaster[1][firstMonth]));
+            firstMonth++;
+        }
+
+        for (int i = 0; i < tempNWData.size(); i++){
+            if (tempNWData.get(i).totalAssets > maxYVal)
+                maxYVal = tempNWData.get(i).totalAssets;
+            if (tempNWData.get(i).totalDebts > maxYVal)
+                maxYVal = tempNWData.get(i).totalDebts;
+        }
+
+
+//        tempNWData.add(new HomeDataNetWorth(10, 50f, -50f));
+//        tempNWData.add(new HomeDataNetWorth(11, 50f, -50f));
+//        tempNWData.add(new HomeDataNetWorth(12, 55f, -20f));
+//        tempNWData.add(new HomeDataNetWorth(1, 58f, -19f));
+//        tempNWData.add(new HomeDataNetWorth(2, 62f, -18f));
+//        tempNWData.add(new HomeDataNetWorth(3, 58f, -16f));
+//        tempNWData.add(new HomeDataNetWorth(4, 70f, -5f));
 
         return tempNWData;
     }
@@ -210,4 +359,3 @@ public class HomeFragmentChart2 extends DaggerFragment implements HomeContract.V
         void onTransactionClicked(Transaction t);
     }
 }
-
