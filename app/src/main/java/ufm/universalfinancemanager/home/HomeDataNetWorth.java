@@ -16,6 +16,6 @@ public class HomeDataNetWorth {
     }
 
     private float getNetWorth() {
-        return (totalAssets - totalDebts);
+        return (totalAssets + totalDebts);
     }
 }
