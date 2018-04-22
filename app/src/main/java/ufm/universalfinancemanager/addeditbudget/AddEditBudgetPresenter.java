@@ -27,7 +27,8 @@ public class AddEditBudgetPresenter implements AddEditBudgetContract.Presenter{
     @Nullable
     private AddEditBudgetContract.View mAddEditBudgetview = null;
     private final UserRepository mUserRepository;
-    private Category category;
+    private Category category1;
+    private String cat;
     //private Date d1;
     //private Date d2;
     final List<Category> expense = new ArrayList<>();
@@ -44,37 +45,30 @@ public class AddEditBudgetPresenter implements AddEditBudgetContract.Presenter{
 
     @Override
     public void saveBudget(String name, String category, double amount, Date startdate, Date enddate) {
-        loadTransactions(startdate,enddate,category);
-        List<Transaction> budgetTransactions = new ArrayList<>();
-        double sum =0.0;
-        if (name.length() > 25) {
-            if (mAddEditBudgetview != null)
-                mAddEditBudgetview.showMessage("Budget name too long!");
-        } else {
-            try {
-                for(Transaction t: this.transactions) {
-                    if(t.getCategory() == this.category.toString()) {
-                        if(t.getFlow() == Flow.OUTCOME) {
-                            budgetTransactions.add(t);
-                            sum += t.getAmount();
-                        }
-                    }
-                }
-                Budget budget = new Budget(name, category, amount, sum, startdate, enddate);
-                mUser.addBudget(budget);
-                if (mAddEditBudgetview != null) {
-                    mAddEditBudgetview.showMessage("Budget successfully saved.");
-                    mAddEditBudgetview.showLastActivity(true);
-                }
+        this.cat = category;
 
-            } catch (RuntimeException e) {
-                if (mAddEditBudgetview != null)
-                    mAddEditBudgetview.showMessage("Error saving budget, Budget with that name already exists!");
-                return;
-            }
-            if (mAddEditBudgetview != null)
-                mAddEditBudgetview.showLastActivity(true);
+        for(Budget b : mUser.getBudgets()) {
+           expense.add(b.getCategory());
         }
+
+            loadTransactions(startdate, enddate, category);
+
+            double sum = 0.0;
+            for (Transaction t : this.transactions) {
+                sum += t.getAmount();
+            }
+            Budget budget = new Budget(name, category, amount, sum, startdate, enddate);
+            mUser.addBudget(budget);
+            if (mAddEditBudgetview != null) {
+                mAddEditBudgetview.showMessage("Budget successfully saved.");
+                mAddEditBudgetview.showLastActivity(true);
+            }
+            //}catch(RuntimeException e) {
+       // }
+        //}
+        if (mAddEditBudgetview != null)
+            mAddEditBudgetview.showLastActivity(true);
+
     }
 
     @Override
@@ -94,8 +88,8 @@ public class AddEditBudgetPresenter implements AddEditBudgetContract.Presenter{
                 if (!EspressoIdlingResource.getIdlingResource().isIdleNow()) {
                     EspressoIdlingResource.decrement(); // Set app as idle.
                 }
-                saveTransaction(transactions);
-                processCategory(category);
+                processTransactions(transactions);
+               // processCategory(category);
             }
 
             @Override
@@ -124,9 +118,11 @@ public class AddEditBudgetPresenter implements AddEditBudgetContract.Presenter{
         });*/
     }
 
-    private void saveTransaction(List<Transaction> transactions) {
+    private void processTransactions(List<Transaction> transactions) {
         for(Transaction t: transactions) {
-            this.transactions.add(t);
+            if(t.getCategory().compareTo(this.cat) == 0 && t.getFlow().compareTo(Flow.OUTCOME) == 0) {
+                this.transactions.add(t);
+            }
         }
     }
 
@@ -145,7 +141,7 @@ public class AddEditBudgetPresenter implements AddEditBudgetContract.Presenter{
     }
 
     private void saveCategory(Category category) {
-        this.category = category;
+        this.category1 = category;
     }
 
     @Override

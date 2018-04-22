@@ -14,12 +14,14 @@ import ufm.universalfinancemanager.support.atomic.Budget;
 public class BudgetContract {
     public interface Presenter extends BasePresenter<BudgetContract.View> {
         void loadBudgets();
-
+        void editBudget(String budgetId);
         void takeView(BudgetContract.View view);
 
         void dropView();
     }
     interface View extends BaseView<BudgetContract.Presenter> {
        void showBudgets(List<Budget> budgets);
+       void showAddEditBudgets();
+       void showAddEditBudget(String id);
     }
 }
