@@ -42,8 +42,6 @@ public class HomeClassNetWorth {
         createNetWorthBarChart();
         currentAssetTotal = 0;
         currentDebtTotal = 0;
-
-        // maxFloatNum = getMaxYValue();
     }
 
     public void createMonthLegend() {
@@ -285,6 +283,14 @@ public class HomeClassNetWorth {
         nwData = newData;
 
         CombinedData data = new CombinedData();
+
+        float maxYVal = getMaxYValue() * 1.5f;
+
+        mChart.getAxisRight().setAxisMinimum(-maxYVal); // start at -100
+        mChart.getAxisRight().setAxisMaximum(maxYVal); // the axis maximum is 100
+
+        mChart.getAxisLeft().setAxisMinimum(-maxYVal);
+        mChart.getAxisLeft().setAxisMaximum(maxYVal);
 
         data.setData(generateLineData());
         data.setData(generateBarData());

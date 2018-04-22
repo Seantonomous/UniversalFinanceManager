@@ -102,9 +102,6 @@ public class HomeFragmentChart2 extends DaggerFragment implements HomeContract.V
     @Override
     public void populateList(List<Transaction> items) {
         myList = items;
-        HomeDataTransactionItem tempItem;
-        mUser.getAccounts();
-
         mNetWorthChart.setData(getData(items));
 
     }
@@ -163,7 +160,6 @@ public class HomeFragmentChart2 extends DaggerFragment implements HomeContract.V
 
         myList = items;
         HomeDataTransactionItem tempItem;
-        mUser.getAccounts();
 
         List<String> creditCardList = new ArrayList<>();
         List<HomeDataTransactionItem> allTransactions = new ArrayList<>();

@@ -36,7 +36,7 @@ public class HomeDataTransactionItem {
         Calendar cal = Calendar.getInstance();
 
         // Date date = new Date();
-        cal.setTime(transactionDate);
+        cal.setTimeInMillis(transactionDate.getTime());
         month = cal.get(Calendar.MONTH);
 
         return month;
