@@ -56,6 +56,43 @@ public class AddEditTransactionPresenter implements AddEditTransactionContract.P
 
     @Override
     public void deleteTransaction() {
+        mUserRepository.getTransaction(mTransactionId, new UserDataSource.GetTransactionCallback() {
+            @Override
+            public void onTransactionLoaded(Transaction transaction) {
+                Account toAccount;
+                Account fromAccount;
+
+                if(transaction.getFlow() == Flow.INCOME) {
+                    toAccount = mUser.getAccount(transaction.getToAccount());
+                    toAccount.unregisterTransaction(transaction);
+                    mUserRepository.saveAccount(toAccount);
+
+                    mUser.refreshAccounts();
+                }else if(transaction.getFlow() == Flow.OUTCOME) {
+                    fromAccount = mUser.getAccount(transaction.getFromAccount());
+                    fromAccount.unregisterTransaction(transaction);
+                    mUserRepository.saveAccount(fromAccount);
+
+                    mUser.refreshAccounts();
+                }else {
+                    toAccount = mUser.getAccount(transaction.getToAccount());
+                    toAccount.unregisterTransaction(transaction);
+                    fromAccount = mUser.getAccount(transaction.getFromAccount());
+                    fromAccount.unregisterTransaction(transaction);
+
+                    mUserRepository.saveAccount(toAccount);
+                    mUserRepository.saveAccount(fromAccount);
+
+                    mUser.refreshAccounts();
+                }
+            }
+
+            @Override
+            public void onDataNotAvailable() {
+
+            }
+        });
+
         mUserRepository.deleteTransaction(mTransactionId);
 
         if(mAddEditTransactionView != null) {

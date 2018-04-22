@@ -9,6 +9,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,6 +33,9 @@ import ufm.universalfinancemanager.support.atomic.Budget;
  */
 
 public class BudgetFragment extends DaggerFragment implements BudgetContract.View {
+    private View mNoBudgetView;
+    private TextView mNoBudgetsTextView;
+    private View mBudgetsView;
 
     @Inject
     BudgetPresenter mPresenter;
@@ -50,7 +54,9 @@ public class BudgetFragment extends DaggerFragment implements BudgetContract.Vie
         View root = inflater.inflate(R.layout.budget_overview_fragment, container, false);
         ListView listview = root.findViewById(R.id.budget_list);
         listview.setAdapter(mAdapter);
-       // HorizontalBarChart mChart;
+       // mBudgetsView = root.findViewById(R.id.budgetLayout);
+        //mNoBudgetView = root.findViewById(R.id.noBudgetsLayout);
+      //  mNoBudgetsTextView = root.findViewById(R.id.noBudgetsText);
         setHasOptionsMenu(true);
         return root;
     }
@@ -96,7 +102,24 @@ public class BudgetFragment extends DaggerFragment implements BudgetContract.Vie
 
     @Override
     public void showBudgets(List<Budget> budgets) {
+
         mAdapter.replaceItems(budgets);
+       // mBudgetsView.setVisibility(View.VISIBLE);
+        //mNoBudgetsTextView.setVisibility(View.GONE);
+    }
+
+    @Override
+    public void showAddEditBudgets() {
+        //startActivityForResult(new Intent(getContext(), AddEditBudgetActivity.class), 1);
+    }
+
+    @Override
+    public void showAddEditBudget(String id) {
+        //Intent intent = new Intent(getContext(), AddEditBudgetActivity.class);
+        //Todo: make EXTRA_ID in TransactionAddEditActivity
+        //intent.putExtra("EDIT_BUDGET_ID", id);
+        //Todo: make request code in TransactionAddEditAcitivity for '2'
+        //startActivityForResult(intent, 2);
     }
 
 }

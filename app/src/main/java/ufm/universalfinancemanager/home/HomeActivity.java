@@ -33,6 +33,7 @@ import ufm.universalfinancemanager.addeditbudget.AddEditBudgetActivity;
 import ufm.universalfinancemanager.addeditcategory.AddEditCategoryActivity;
 import ufm.universalfinancemanager.addeditreminder.AddEditReminderActivity;
 import ufm.universalfinancemanager.addedittransaction.AddEditTransactionActivity;
+import ufm.universalfinancemanager.budgetoverview.BudgetActivity;
 import ufm.universalfinancemanager.db.entity.Transaction;
 import ufm.universalfinancemanager.di.ActivityScoped;
 import ufm.universalfinancemanager.earningshistory.EarningsHistoryActivity;
@@ -207,7 +208,7 @@ public class HomeActivity extends DaggerAppCompatActivity {
                                 startActivity(new Intent(getApplicationContext(), HomeActivity.class));
                                 break;
                             case R.id.budget_menu_item:
-                                //switch to budget overview activity
+                                startActivity(new Intent(getApplicationContext(), BudgetActivity.class));
                                 break;
                             case R.id.trans_history_menu_item:
                                 //switch to transaction history activity

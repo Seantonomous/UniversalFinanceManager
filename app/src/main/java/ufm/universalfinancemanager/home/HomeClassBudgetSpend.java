@@ -17,35 +17,28 @@ import java.util.ArrayList;
 
 public class HomeClassBudgetSpend {
 
-    HorizontalBarChart mChart;
-    ArrayList<String> categories;
-    ArrayList<HomeDataBudgetSpend> budgetData;      // This is (Category Name, spend, capAmount)
+    private HorizontalBarChart mChart;
+    private ArrayList<String> categories;
+    private ArrayList<HomeDataBudgetSpend> budgetData;      // This is (Category Name, spend, capAmount)
 
-    HomeClassBudgetSpend() {}
+    HomeClassBudgetSpend(HorizontalBarChart chart) {
+        this.mChart = chart;
+    }
 
-    HomeClassBudgetSpend(HorizontalBarChart mChart, ArrayList<HomeDataBudgetSpend> budgetData){
-        this.mChart = mChart;
-        this.budgetData = budgetData;
-
-
-        /* What is need to generate this chart?
-            1. HorizonangalBarChart
-            2. List of categories with "Budget Total" amounts
-            3. Amount of Budet spent
-         */
-
+    public void setData(ArrayList<HomeDataBudgetSpend> data) {
+        budgetData = data;
         categories = getCategoryNames();
-        setData(mChart, budgetData);
-        setAxis(mChart, categories);
+        setChart();
+        setAxis();
     }
 
 
-    protected void setData(HorizontalBarChart mChart, ArrayList<HomeDataBudgetSpend> budgetData) {
+    private void setChart() {
 
         ArrayList<BarEntry> yVals = new ArrayList<>();
 
-        float barWidth = 9f;
-        float spaceForBar = 10f;
+        //float barWidth = 9f;
+        //float spaceForBar = 10f;
 
         // Add Bar Entries for each category ("Name, % spent, 100f
         for (int i = 0; i < budgetData.size(); i++) {
@@ -68,7 +61,7 @@ public class HomeClassBudgetSpend {
 
     }
 
-    protected void setAxis(HorizontalBarChart mChart, ArrayList<String> categories) {
+    private void setAxis() {
 
         Legend l = mChart.getLegend();
         l.setVerticalAlignment(Legend.LegendVerticalAlignment.TOP);

@@ -15,6 +15,7 @@ import ufm.universalfinancemanager.db.UserRepository;
 import ufm.universalfinancemanager.db.entity.Category;
 import ufm.universalfinancemanager.db.entity.Transaction;
 import ufm.universalfinancemanager.support.Flow;
+import ufm.universalfinancemanager.support.atomic.Budget;
 import ufm.universalfinancemanager.support.atomic.User;
 import ufm.universalfinancemanager.util.EspressoIdlingResource;
 
@@ -117,6 +118,25 @@ public class HomePresenter implements HomeContract.Presenter {
             mHomeView.populateCategories(data);
     }
 
+    private void processBudgets() {
+        ArrayList<Budget> budgets = mUser.getBudgets();
+        ArrayList<HomeDataBudgetSpend> data = new ArrayList<>();
+
+        for(Budget budget : budgets) {
+            if (budget.getStartDate().getTime() < calendar.getTimeInMillis() &&
+                    budget.getEndDate().getTime() > calendar.getTimeInMillis()) {
+
+                data.add(new HomeDataBudgetSpend(
+                        budget.getCat(),
+                        (float) budget.getCurrentValue(),
+                        (float) budget.getAmount()));
+            }
+        }
+
+        if(mHomeView != null)
+            mHomeView.populateBudgets(data);
+    }
+
     //    @Override
     private void processTransactions(List<Transaction> transactions) {
         if(mHomeView != null)
@@ -140,6 +160,8 @@ public class HomePresenter implements HomeContract.Presenter {
             loadTransactions();
         else if(mCurrentChart == CHART3)
             loadTransactionRange();
+        else if(mCurrentChart == CHART1)// chart 1
+            processBudgets();
     }
 
     @Override

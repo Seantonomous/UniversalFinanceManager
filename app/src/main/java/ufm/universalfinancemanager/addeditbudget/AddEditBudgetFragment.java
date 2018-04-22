@@ -231,11 +231,12 @@ public class AddEditBudgetFragment extends DaggerFragment implements AddEditBudg
     @Override
     public void populateExistingFields(String name, Category category, Double amount, Date startDate, Date endDate) {
         edit_name.setText(name);
+        getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
         category_spinner.setSelection(categorySpinnerAdapter.getPosition(category));
         edit_amount.setText(Double.toString(amount));
         calendar.setTime(startDate);
         calendar2.setTime(endDate);
-        mPresenter.getUpdatedCategories(Flow.INCOME);
+        mPresenter.getUpdatedCategories(Flow.INCOME);getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
         updateDate();
     }
 

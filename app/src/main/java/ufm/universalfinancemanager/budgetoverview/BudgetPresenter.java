@@ -2,6 +2,8 @@ package ufm.universalfinancemanager.budgetoverview;
 
 import android.support.annotation.Nullable;
 
+import java.util.ArrayList;
+
 import javax.inject.Inject;
 
 import ufm.universalfinancemanager.networth.NetworthContract;
@@ -24,7 +26,13 @@ public class BudgetPresenter implements BudgetContract.Presenter {
 
     @Override
     public void loadBudgets() {
-        mBudgetView.showBudgets(mUser.getBudgets());
+        ArrayList<Budget> budgets = mUser.getBudgets();
+        mBudgetView.showBudgets(budgets);
+    }
+
+    @Override
+    public void editBudget(String budgetId) {
+
     }
 
     @Override

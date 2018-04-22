@@ -66,6 +66,11 @@ public class HomeFragmentChart3 extends DaggerFragment implements HomeContract.V
     }
 
     @Override
+    public void populateBudgets(ArrayList<HomeDataBudgetSpend> items) {
+        //STUB
+    }
+
+    @Override
     public void populateCategories(ArrayList<HomeDataCategory> data) {
         mData = data;
         horizontalBarChart.setData(mData);

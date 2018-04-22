@@ -16,6 +16,8 @@ public interface HomeContract {
 
         void populateCategories(ArrayList<HomeDataCategory> items);
 
+        void populateBudgets(ArrayList<HomeDataBudgetSpend> items);
+
         void getList(List<Transaction> items);
 
     }

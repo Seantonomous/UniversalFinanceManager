@@ -136,6 +136,8 @@ public class User implements Serializable {
     }
     public void deleteBudget(String name) {budgets.remove(name);}
     public ArrayList<Budget> getBudgets() {return this.budgets;}
+    public void refreshBudgets() {}
+
     public boolean addCategory(Category c) throws RuntimeException {
         if(c.getFlow() == Flow.INCOME) {
             for(Category category : incomeCategories)
