@@ -90,9 +90,10 @@ public class HomeFragmentChart3 extends DaggerFragment implements HomeContract.V
         View root = inflater.inflate(R.layout.home_fragment_chart3, container, false);
 
         mChart = root.findViewById(R.id.chart3);
+        
+        horizontalBarChart = new HomeClassCategorySpend(mChart);
 
-         horizontalBarChart = new HomeClassCategorySpend(mChart);
-
+        setHasOptionsMenu(true);
         return root;
     }
 

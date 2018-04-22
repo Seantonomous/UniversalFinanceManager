@@ -182,8 +182,8 @@ public class HomeFragmentChart2 extends DaggerFragment implements HomeContract.V
 
         // Organize all transactions by month, Outcome and Income, totaling the income/outcome
         // Initialize array
-        float[][] totalTransactionsCurrentAccountBalance = new float[2][12];
-        for (float[] tRow : totalTransactionsCurrentAccountBalance) {
+        float[][] totalTransactionsMaster = new float[2][12];
+        for (float[] tRow : totalTransactionsMaster) {
             for (float tCol : tRow) {
                 tCol = 0.0f;
             }
@@ -215,8 +215,8 @@ public class HomeFragmentChart2 extends DaggerFragment implements HomeContract.V
             allTransactions.add(tempItem);
         }
 
-        totalTransactionsCurrentAccountBalance[0][thisMonth] = mNetWorthChart.currentAssetTotal;
-        totalTransactionsCurrentAccountBalance[1][thisMonth] = mNetWorthChart.currentDebtTotal;
+        totalTransactionsMaster[0][thisMonth] = mNetWorthChart.currentAssetTotal;
+        totalTransactionsMaster[1][thisMonth] = mNetWorthChart.currentDebtTotal;
 
         // Organize all transactions by month, Outcome and Income, totaling the income/outcome
         // Initialize array
@@ -239,24 +239,14 @@ public class HomeFragmentChart2 extends DaggerFragment implements HomeContract.V
             }
             else if (t.varAcctType == HomeDataTransactionItem.AcctType.Liability
                     && t.varTransactionType == HomeDataTransactionItem.TransactionType.Credit) {
-                totalTransactions[1][t.monthInt] = totalTransactions[0][t.monthInt] - t.transactionAmount;
+                totalTransactions[1][t.monthInt] = totalTransactions[1][t.monthInt] - t.transactionAmount;
             }
             else if (t.varAcctType == HomeDataTransactionItem.AcctType.Liability
                     && t.varTransactionType == HomeDataTransactionItem.TransactionType.Debit) {
-                totalTransactions[1][t.monthInt] = totalTransactions[0][t.monthInt] + t.transactionAmount;
+                totalTransactions[1][t.monthInt] = totalTransactions[1][t.monthInt] + t.transactionAmount;
             }
         }
 
-        // Organize all transactions by month, Outcome and Income, totaling the income/outcome
-        // Initialize array
-//        float[][] totalTransactionsMaster = new float[2][12];
-//        for (float[] tRow : totalTransactionsMaster) {
-//            for (float tCol : tRow) {
-//                tCol = 0.0f;
-//            }
-//        }
-
-        float[][] totalTransactionsMaster = totalTransactionsCurrentAccountBalance;
 
         // Next, todo: add transactions to the correct balances
         /*
@@ -283,11 +273,20 @@ public class HomeFragmentChart2 extends DaggerFragment implements HomeContract.V
                 nextMonth = 11;
             }
 
+
             totalTransactionsMaster[0][curMonth] = totalTransactionsMaster[0][nextMonth] - totalTransactions[0][nextMonth];
             totalTransactionsMaster[1][curMonth] = totalTransactionsMaster[1][nextMonth] - totalTransactions[1][nextMonth];
+
+            // Don't allow negative balances for Assets
+            if (totalTransactionsMaster[0][curMonth] < 0) {
+                totalTransactionsMaster[0][curMonth] = 0;
+            }
+
+            // Don't allow negative balances for Debts
+            if (totalTransactionsMaster[1][curMonth] < 0) {
+                totalTransactionsMaster[1][curMonth] = 0;
+            }
         }
-
-
 
 
         ArrayList<HomeDataNetWorth> tempNWData = new ArrayList<>();
@@ -312,7 +311,7 @@ public class HomeFragmentChart2 extends DaggerFragment implements HomeContract.V
                 maxYVal = tempNWData.get(i).totalDebts;
         }
 
-
+        // Static sample data
 //        tempNWData.add(new HomeDataNetWorth(10, 50f, -50f));
 //        tempNWData.add(new HomeDataNetWorth(11, 50f, -50f));
 //        tempNWData.add(new HomeDataNetWorth(12, 55f, -20f));
