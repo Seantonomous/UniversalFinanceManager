@@ -94,6 +94,8 @@ public class HomeFragmentChart1 extends DaggerFragment implements HomeContract.V
         horizontalBarChart = new HomeClassBudgetSpend(mChart);
 
 
+        setHasOptionsMenu(true);
+        
         return root;
     }
 
