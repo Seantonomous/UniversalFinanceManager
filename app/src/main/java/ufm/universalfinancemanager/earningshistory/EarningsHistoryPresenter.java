@@ -57,7 +57,7 @@ public class EarningsHistoryPresenter implements EarningsHistoryContract.Present
         Date b = cal.getTime();
         long pastDate = b.getTime();
 
-        mTransactionRepository.getTransactionsInDateRange(currentDate, pastDate, new UserDataSource.LoadTransactionsCallback() {
+        mTransactionRepository.getTransactionsInDateRange(pastDate, currentDate, new UserDataSource.LoadTransactionsCallback() {
 
             @Override
             public void onTransactionsLoaded(List<Transaction> transactions) {
