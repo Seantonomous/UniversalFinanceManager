@@ -102,8 +102,9 @@ public class HomeFragmentChart2 extends DaggerFragment implements HomeContract.V
     @Override
     public void populateList(List<Transaction> items) {
         myList = items;
-        mNetWorthChart.setData(getData(items));
 
+        if(!items.isEmpty())
+            mNetWorthChart.setData(getData(items));
     }
 
     @Override
