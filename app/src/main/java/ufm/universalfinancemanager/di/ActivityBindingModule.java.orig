@@ -26,7 +26,11 @@ import ufm.universalfinancemanager.login.LoginActivity;
 import ufm.universalfinancemanager.login.LoginModule;
 import ufm.universalfinancemanager.networth.NetworthActivity;
 import ufm.universalfinancemanager.networth.NetworthModule;
+<<<<<<< HEAD
+import ufm.universalfinancemanager.reminderhistory.ReminderHistoryActivity;
 import ufm.universalfinancemanager.reminderhistory.ReminderHistoryModule;
+=======
+>>>>>>> parent of 7a2ba88... merge dev_simran into dev
 import ufm.universalfinancemanager.transactionhistory.TransactionHistoryActivity;
 import ufm.universalfinancemanager.transactionhistory.TransactionHistoryModule;
 
@@ -82,8 +86,11 @@ public abstract class ActivityBindingModule {
     @ActivityScoped
     @ContributesAndroidInjector(modules = LoginModule.class)
     abstract LoginActivity loginActivity();
+<<<<<<< HEAD
 
     @ActivityScoped
-    @ContributesAndroidInjector(modules = LoginModule.class)
-    abstract LoginActivity loginActivity();
+    @ContributesAndroidInjector(modules = ReminderHistoryModule.class)
+    abstract ReminderHistoryActivity reminderHistoryActivity();
+=======
+>>>>>>> parent of 7a2ba88... merge dev_simran into dev
 }

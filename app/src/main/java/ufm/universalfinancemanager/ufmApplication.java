@@ -8,7 +8,6 @@ import dagger.android.AndroidInjector;
 import dagger.android.DaggerApplication;
 import ufm.universalfinancemanager.db.UserRepository;
 import ufm.universalfinancemanager.di.DaggerAppComponent;
-//import ufm.universalfinancemanager.di.DaggerAppComponent;
 
 
 /**

@@ -33,7 +33,6 @@ Contributing Team Members: Areeba Waheed 10/21/17-->
     <string name="account_edit_title">Edit Account</string>
     <string name="transaction_add_title">Add Transaction</string>
     <string name="transaction_edit_title">Edit Transaction</string>
-    <string name="reminder_add_title">Add Reminder</string>
     <string name="budget_add_title">Add Budget</string>
     <string name="budget_edit_title">Edit Budget</string>
     <string name="category_add_title">Add Category</string>

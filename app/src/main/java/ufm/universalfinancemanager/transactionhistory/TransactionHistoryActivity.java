@@ -21,7 +21,6 @@ import ufm.universalfinancemanager.earningshistory.EarningsHistoryActivity;
 import ufm.universalfinancemanager.home.HomeActivity;
 import ufm.universalfinancemanager.networth.NetworthActivity;
 import ufm.universalfinancemanager.support.atomic.User;
-import ufm.universalfinancemanager.reminderhistory.ReminderHistoryActivity;
 import ufm.universalfinancemanager.util.ActivityUtils;
 
 /**
@@ -122,7 +121,6 @@ public class TransactionHistoryActivity extends DaggerAppCompatActivity {
                                 startActivity(new Intent(getApplicationContext(), NetworthActivity.class));
                                 break;
                             case R.id.reminder_menu_item:
-                                startActivity(new Intent(getApplicationContext(), ReminderHistoryActivity.class));
                                 break;
                             case R.id.settings_menu_item:
                                 break;

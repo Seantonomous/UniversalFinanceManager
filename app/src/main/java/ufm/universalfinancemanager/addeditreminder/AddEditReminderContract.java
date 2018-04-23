@@ -1,13 +1,5 @@
 package ufm.universalfinancemanager.addeditreminder;
 
-import android.support.annotation.Nullable;
-import android.widget.DatePicker;
-import android.widget.TimePicker;
-
-import java.util.Date;
-import java.util.List;
-import java.sql.Time;
-
 import ufm.universalfinancemanager.BasePresenter;
 import ufm.universalfinancemanager.BaseView;
 
@@ -25,7 +17,6 @@ public interface AddEditReminderContract {
 
     interface Presenter extends BasePresenter<AddEditReminderContract.View> {
 
-        void saveReminders(String name, Time time, Date date, String notes);
         void takeView(AddEditReminderContract.View v);
 
         void dropView();

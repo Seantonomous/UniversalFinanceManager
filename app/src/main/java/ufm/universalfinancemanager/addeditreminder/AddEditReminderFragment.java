@@ -2,9 +2,8 @@ package ufm.universalfinancemanager.addeditreminder;
 
 import android.app.Activity;
 import android.app.DatePickerDialog;
-import android.os.Build;
+import android.content.Context;
 import android.os.Bundle;
-import android.support.annotation.RequiresApi;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,21 +13,29 @@ import android.widget.EditText;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.TimePicker;
 import android.widget.Toast;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.Locale;
-import java.sql.Time;
 
 import javax.inject.Inject;
 
 import dagger.android.support.DaggerFragment;
 import ufm.universalfinancemanager.R;
+import ufm.universalfinancemanager.support.Flow;
 import ufm.universalfinancemanager.support.TextValidator;
-
+import android.app.DatePickerDialog;
+import android.app.Dialog;
+import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.View;
+import android.widget.DatePicker;
+import android.widget.EditText;
+import android.widget.TextView;
+import android.widget.Toast;
 /**
  * Created by Areeba on 2/17/2018.
  */
@@ -38,19 +45,20 @@ public class AddEditReminderFragment extends DaggerFragment implements AddEditRe
     AddEditReminderPresenter mPresenter;
 
     private EditText edit_name;
-    private TimePicker timepicker;
-    private TextView date_textView;
     private EditText edit_date;
+    private TextView date_textView;
+    private DatePicker datePicker;
+    private Calendar calendar;
+    private int year, month, day;
+
     private EditText edit_notes;
+    private RadioGroup flow_radioGroup;
+    private Spinner duration_spinner;
+    private boolean isEditing = false;
     Button submit_button;
     Button cancel_button;
-
-    private Date datePicker;
-
-    private Calendar calendar;
-    private int hour, minute;
-    private boolean isEditing = false;
     boolean valid_name = false;
+    boolean valid_amount = false;
     private DatePickerDialog.OnDateSetListener date = new DatePickerDialog.OnDateSetListener() {
         @Override
         public void onDateSet(DatePicker datePicker, int year, int monthOfYear, int dayOfMonth) {
@@ -84,23 +92,16 @@ public class AddEditReminderFragment extends DaggerFragment implements AddEditRe
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.add_edit_reminder_fragment, container, false);
-        edit_name = root.findViewById(R.id.label);
-        timepicker = root.findViewById(R.id.timePicker);
-        date_textView = root.findViewById(R.id.dateTextView);
         edit_date = root.findViewById(R.id.date);
-        edit_notes = root.findViewById(R.id.notes);
-        submit_button = root.findViewById(R.id.done);
+        edit_name = root.findViewById(R.id.label);
+        date_textView = root.findViewById(R.id.dateTextView);
+        calendar = Calendar.getInstance();
+        year = calendar.get(Calendar.YEAR);
+        month = calendar.get(Calendar.MONTH);
+        day = calendar.get(Calendar.DAY_OF_MONTH);
         cancel_button = root.findViewById(R.id.cancel);
 
-        calendar = Calendar.getInstance();
-        updateDate();
-
-        Calendar currentCal = Calendar.getInstance();
-        Date currentDate = currentCal.getTime();
-        int currentHour = currentDate.getHours();
-        int currentMinute = currentDate.getMinutes();
-        hour = currentHour;
-        minute = currentMinute;
+        showDate(year,month+1,day);
 
         edit_name.addTextChangedListener(new TextValidator(edit_name) {
             @Override
@@ -114,40 +115,6 @@ public class AddEditReminderFragment extends DaggerFragment implements AddEditRe
             }
         });
 
-        timepicker.setOnTimeChangedListener(new TimePicker.OnTimeChangedListener() {
-            @Override
-            public void onTimeChanged(TimePicker timePicker, int selectedHour, int selectedMinute) {
-                hour = selectedHour;
-                minute = selectedMinute;
-            }
-        });
-
-        edit_date.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                new DatePickerDialog(getContext(), date, calendar.get(Calendar.YEAR),
-                        calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH)).show();
-            }
-        });
-
-        submit_button.setOnClickListener(new View.OnClickListener() {
-            @RequiresApi(api = Build.VERSION_CODES.O)
-            @Override
-            public void onClick(View view) {
-
-                Date dateSelected = calendar.getTime();
-                int a = dateSelected.getDay();
-
-                if(valid_name) {
-                  //  if(a < Calendar.DATE) {
-                    //    edit_date.setError("Date cannot be before current Date");
-                  //  }
-                   // else{
-                        mPresenter.saveReminders(edit_name.getText().toString(), new Time(hour, minute, 0), calendar.getTime(), edit_notes.getText().toString());
-                    //}
-                }
-            }
-        });
 
         cancel_button.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -155,9 +122,15 @@ public class AddEditReminderFragment extends DaggerFragment implements AddEditRe
                 showLastActivity(false);
             }
         });
-
         return root;
     }
+
+
+    private void showDate(int year, int month, int day) {
+        edit_date.setText(new StringBuilder().append(day).append(" / ")
+                .append(month).append(" / ").append(year));
+    }
+
 
     @Override
     public void showLastActivity(boolean success) {
@@ -169,14 +142,12 @@ public class AddEditReminderFragment extends DaggerFragment implements AddEditRe
 
         getActivity().finish();
     }
-
     public void updateDate() {
-        String myFormat = "MM / dd / yy";
+        String myFormat = "MM/dd/yy";
         SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
 
         edit_date.setText(sdf.format(calendar.getTime()));
     }
-
     public boolean isActive() {
         return isAdded();
     }
