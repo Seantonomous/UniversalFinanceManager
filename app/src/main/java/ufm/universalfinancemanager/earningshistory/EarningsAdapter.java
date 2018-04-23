@@ -16,7 +16,7 @@ import ufm.universalfinancemanager.db.entity.Transaction;
 import ufm.universalfinancemanager.support.Flow;
 import ufm.universalfinancemanager.support.ListItem;
 import ufm.universalfinancemanager.support.RowType;
-import ufm.universalfinancemanager.support.atomic.Category;
+import ufm.universalfinancemanager.db.entity.Category;
 import ufm.universalfinancemanager.transactionhistory.TransactionDateHeader;
 
 /**
