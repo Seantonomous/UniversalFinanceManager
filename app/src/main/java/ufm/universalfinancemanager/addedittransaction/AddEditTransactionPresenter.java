@@ -184,40 +184,28 @@ public class AddEditTransactionPresenter implements AddEditTransactionContract.P
         mUserRepository.getTransaction(mTransactionId, new UserDataSource.GetTransactionCallback() {
             @Override
             public void onTransactionLoaded(Transaction transaction) {
-                if(transaction.getFlow() != t.getFlow() //if account-affecting info changed...
-                        || (transaction.getToAccount() != null && !transaction.getToAccount().equals(t.getToAccount()))
-                        || (transaction.getToAccount() == null && t.getToAccount() != null)
-                        || (transaction.getFromAccount() != null && !transaction.getFromAccount().equals(t.getFromAccount()))
-                        || (transaction.getFromAccount() == null && t.getFromAccount() != null)
-                        || transaction.getAmount() != t.getAmount()) {
-
-                    if(transaction.getFlow() == Flow.INCOME) {
-                        Account account = mUser.getAccount(transaction.getToAccount());
-                        account.unregisterTransaction(transaction);
-                        mUser.editAccount(account);
-                    }else if(transaction.getFlow() == Flow.OUTCOME) {
-                        Account account = mUser.getAccount(transaction.getFromAccount());
-                        account.unregisterTransaction(transaction);
-                        mUser.editAccount(account);
-                    }else {
-                        Account account1 = mUser.getAccount(transaction.getFromAccount());
-                        Account account2 = mUser.getAccount(transaction.getToAccount());
-                        account1.unregisterTransaction(transaction);
-                        account2.unregisterTransaction(transaction);
-                        mUser.editAccount(account1);
-                        mUser.editAccount(account2);
-                    }
-
-                    mUser.refreshAccounts();
-
-                    mUserRepository.deleteTransaction(mTransactionId);
-                    createTransaction(name, flow, amount, categoryName, fromAccountName,
-                            toAccountName, date, notes);
-                }else {//non account-affecting information
-                    mUserRepository.deleteTransaction(mTransactionId);
-                    createTransaction(name, flow, amount, categoryName, fromAccountName,
-                            toAccountName, date, notes);
+                if(transaction.getFlow() == Flow.INCOME) {
+                    Account account = mUser.getAccount(transaction.getToAccount());
+                    account.unregisterTransaction(transaction);
+                    mUser.editAccount(account);
+                }else if(transaction.getFlow() == Flow.OUTCOME) {
+                    Account account = mUser.getAccount(transaction.getFromAccount());
+                    account.unregisterTransaction(transaction);
+                    mUser.editAccount(account);
+                }else {
+                    Account account1 = mUser.getAccount(transaction.getFromAccount());
+                    Account account2 = mUser.getAccount(transaction.getToAccount());
+                    account1.unregisterTransaction(transaction);
+                    account2.unregisterTransaction(transaction);
+                    mUser.editAccount(account1);
+                    mUser.editAccount(account2);
                 }
+
+                mUser.refreshAccounts();
+
+                mUserRepository.deleteTransaction(mTransactionId);
+                createTransaction(name, flow, amount, categoryName, fromAccountName,
+                        toAccountName, date, notes);
             }
 
             @Override
