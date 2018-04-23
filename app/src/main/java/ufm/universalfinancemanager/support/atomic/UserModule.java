@@ -1,5 +1,10 @@
 package ufm.universalfinancemanager.support.atomic;
 
+import android.os.Build;
+import android.support.annotation.RequiresApi;
+import android.widget.TimePicker;
+
+import java.sql.Time;
 import java.util.Date;
 
 import javax.inject.Inject;
@@ -15,6 +20,8 @@ import ufm.universalfinancemanager.db.UserRepository;
 import ufm.universalfinancemanager.support.AccountType;
 import ufm.universalfinancemanager.support.Flow;
 
+import static java.util.stream.IntStream.range;
+
 /**
  * Created by smh7 on 1/7/18.
  */
@@ -22,6 +29,7 @@ import ufm.universalfinancemanager.support.Flow;
 @Module
 public class UserModule {
 
+    @RequiresApi(api = Build.VERSION_CODES.M)
     @Singleton
     @Provides
     static User provideUser(UserRepository userRepository) {

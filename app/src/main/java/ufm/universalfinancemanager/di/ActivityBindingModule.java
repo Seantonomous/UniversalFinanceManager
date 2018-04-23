@@ -26,6 +26,7 @@ import ufm.universalfinancemanager.login.LoginActivity;
 import ufm.universalfinancemanager.login.LoginModule;
 import ufm.universalfinancemanager.networth.NetworthActivity;
 import ufm.universalfinancemanager.networth.NetworthModule;
+import ufm.universalfinancemanager.reminderhistory.ReminderHistoryActivity;
 import ufm.universalfinancemanager.transactionhistory.TransactionHistoryActivity;
 import ufm.universalfinancemanager.transactionhistory.TransactionHistoryModule;
 
@@ -80,6 +81,6 @@ public abstract class ActivityBindingModule {
     abstract EarningsHistoryActivity earningsHistoryActivity();
 
     @ActivityScoped
-    @ContributesAndroidInjector(modules = LoginModule.class)
-    abstract LoginActivity loginActivity();
+    @ContributesAndroidInjector(modules = ReminderHistoryModule.class)
+    abstract ReminderHistoryActivity reminderHistoryActivity();
 }

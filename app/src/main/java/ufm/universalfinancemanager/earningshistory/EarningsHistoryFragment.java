@@ -16,6 +16,7 @@ import javax.inject.Inject;
 import dagger.android.support.DaggerFragment;
 import ufm.universalfinancemanager.addeditaccount.AddEditAccountActivity;
 import ufm.universalfinancemanager.addeditcategory.AddEditCategoryActivity;
+import ufm.universalfinancemanager.addeditreminder.AddEditReminderActivity;
 import ufm.universalfinancemanager.addedittransaction.AddEditTransactionActivity;
 import ufm.universalfinancemanager.R;
 import ufm.universalfinancemanager.db.entity.Transaction;
@@ -89,6 +90,10 @@ public class EarningsHistoryFragment extends DaggerFragment implements EarningsH
                 break;
             case R.id.action_add_category:
                 startActivity(new Intent(getContext(), AddEditCategoryActivity.class));
+                break;
+            case R.id.action_add_reminder:
+                startActivity(new Intent(getContext(), AddEditReminderActivity.class));
+                break;
         }
         return true;
     }

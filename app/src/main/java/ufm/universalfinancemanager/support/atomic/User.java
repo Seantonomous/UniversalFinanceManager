@@ -34,7 +34,9 @@ public class User implements Serializable {
     private ArrayList<Budget> budgets;
     private ArrayList<Category> incomeCategories;
     private ArrayList<Category> expenseCategories;
-    //private ArrayList<Reminder> reminders;
+
+    //Later
+    private ArrayList<Reminder> reminders;
 
     UserRepository mUserRepository;
 
@@ -49,20 +51,23 @@ public class User implements Serializable {
 
         refreshAccounts();
         refreshCategories();
+        this.reminders = new ArrayList<>();
     }
 
     public User() {
         this.accounts = new ArrayList<>();
         this.incomeCategories = new ArrayList<>();
         this.expenseCategories = new ArrayList<>();
+        this.reminders = new ArrayList<>();
         this.budgets = new ArrayList<>();
     }
 
     public User(String username, ArrayList<Account> accounts,
-                ArrayList<Category> categories) {
+                ArrayList<Category> categories, ArrayList<Reminder> reminders) {
         this.username = username;
         this.accounts = accounts;
         this.incomeCategories = categories;
+        this.reminders = reminders;
     }
 
     public void setUserName(String name) {
@@ -193,6 +198,25 @@ public class User implements Serializable {
         mUserRepository.deleteAccount(category.getName());
     }
 
+    public Reminder getReminder(String label) throws RuntimeException {
+        for(int i =0; i<reminders.size(); i++) {
+            if(reminders.get(i).getName().equals(label)) {
+                return reminders.get(i);
+            }
+        }
+        throw new RuntimeException(String.format("Reminder %s not found", label));
+    }
+
+    public boolean addReminder(Reminder r) throws RuntimeException {
+        for(int i=0;i<reminders.size();i++)
+            if(reminders.get(i).getName().equals(r.getName())) {
+                throw new RuntimeException("Reminder with same name already exists: " + r.toString());
+            }
+
+        reminders.add(r);
+        return true;
+    }
+    public ArrayList<Reminder> getReminders() {return this.reminders;}
     public void refresh() {
         refreshAccounts();
     }
