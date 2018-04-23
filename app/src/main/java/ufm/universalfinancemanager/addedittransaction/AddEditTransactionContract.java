@@ -1,6 +1,5 @@
 package ufm.universalfinancemanager.addedittransaction;
 
-import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import java.util.Date;
@@ -9,8 +8,8 @@ import java.util.List;
 import ufm.universalfinancemanager.BasePresenter;
 import ufm.universalfinancemanager.BaseView;
 import ufm.universalfinancemanager.support.Flow;
-import ufm.universalfinancemanager.support.atomic.Account;
-import ufm.universalfinancemanager.support.atomic.Category;
+import ufm.universalfinancemanager.db.entity.Account;
+import ufm.universalfinancemanager.db.entity.Category;
 
 /**
  * Created by smh7 on 12/14/17.

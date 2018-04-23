@@ -11,13 +11,13 @@ import java.text.SimpleDateFormat;
 import javax.annotation.Nullable;
 import javax.inject.Inject;
 
-import ufm.universalfinancemanager.db.TransactionDataSource;
-import ufm.universalfinancemanager.db.TransactionRepository;
+import ufm.universalfinancemanager.db.UserDataSource;
+import ufm.universalfinancemanager.db.UserRepository;
 import ufm.universalfinancemanager.db.entity.Transaction;
 import ufm.universalfinancemanager.di.ActivityScoped;
 import ufm.universalfinancemanager.support.Flow;
 import ufm.universalfinancemanager.support.ListItem;
-import ufm.universalfinancemanager.support.atomic.Category;
+import ufm.universalfinancemanager.db.entity.Category;
 import ufm.universalfinancemanager.support.atomic.User;
 import ufm.universalfinancemanager.util.EspressoIdlingResource;
 
@@ -28,15 +28,15 @@ import ufm.universalfinancemanager.util.EspressoIdlingResource;
 
 @ActivityScoped
 public class EarningsHistoryPresenter implements EarningsHistoryContract.Presenter {
-    private final TransactionRepository mTransactionRepository;
     private User mUser;
     private List<EarningsHistoryListItem> sortedList;
+    private final UserRepository mTransactionRepository;
 
     @Nullable
     EarningsHistoryContract.View mEarningsHistoryView;
 
     @Inject
-    EarningsHistoryPresenter(TransactionRepository transactionRepository, User user) {
+    EarningsHistoryPresenter(UserRepository transactionRepository, User user) {
         mTransactionRepository = transactionRepository;
         mUser = user;
     }
@@ -57,7 +57,7 @@ public class EarningsHistoryPresenter implements EarningsHistoryContract.Present
         Date b = cal.getTime();
         long pastDate = b.getTime();
 
-        mTransactionRepository.getTransactionsInDateRange(currentDate, pastDate, new TransactionDataSource.LoadTransactionsCallback() {
+        mTransactionRepository.getTransactionsInDateRange(currentDate, pastDate, new UserDataSource.LoadTransactionsCallback() {
 
             @Override
             public void onTransactionsLoaded(List<Transaction> transactions) {
@@ -104,12 +104,12 @@ public class EarningsHistoryPresenter implements EarningsHistoryContract.Present
 
                     if (t.getDate().before(lastMonthDate)) {                                            //If last month transaction
 
-                        if (t.getCategory() == c)                                                       //If transaction's category matches current category
+                        if (t.getCategory().equals(c.getName()))                                                       //If transaction's category matches current category
                             lastMonthCounter[i] += t.getAmount();                                       //Add transaction's amount to counter for this category
                     }
                     else {                                                                              //If current month transaction
 
-                        if (t.getCategory() == c)                                                       //If transaction's category matches current category
+                        if (t.getCategory().equals(c.getName()))                                                       //If transaction's category matches current category
                             thisMonthCounter[i] += t.getAmount();                                       //Add transaction's amount to counter for this category
                     }
                 }
@@ -129,12 +129,12 @@ public class EarningsHistoryPresenter implements EarningsHistoryContract.Present
 
                     if (t.getDate().before(lastMonthDate)) {
 
-                        if (t.getCategory() == c)
+                        if (t.getCategory().equals(c.getName()))
                             lastMonthCounter[i] += t.getAmount();
                     }
                     else {
 
-                        if (t.getCategory() == c)
+                        if (t.getCategory().equals(c.getName()))
                             thisMonthCounter[i] += t.getAmount();
                     }
                 }
@@ -151,7 +151,8 @@ public class EarningsHistoryPresenter implements EarningsHistoryContract.Present
             i++;
         }
 
-        mEarningsHistoryView.showEarningsHistory(sortedList);
+        if(mEarningsHistoryView != null)
+            mEarningsHistoryView.showEarningsHistory(sortedList);
 
     }
 

@@ -23,7 +23,14 @@ public class AddEditCategoryFragment extends DaggerFragment implements AddEditCa
     @Inject
     AddEditCategoryPresenter mPresenter;
 
+    private EditText edit_name;
+    private RadioButton income_radioButton;
+    private RadioButton expense_radioButton;
+    private Button submit_button;
+    private Button cancel_button;
+
     private boolean valid_name = false;
+    private boolean is_editing = false;
 
     @Inject
     public AddEditCategoryFragment() {}
@@ -44,10 +51,11 @@ public class AddEditCategoryFragment extends DaggerFragment implements AddEditCa
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.add_edit_category_fragment, container, false);
 
-        final EditText edit_name = root.findViewById(R.id.category_name);
-        final RadioButton income_radioButton = root.findViewById(R.id.category_flow_income);
-        Button submit_button = root.findViewById(R.id.submit);
-        Button cancel_button = root.findViewById(R.id.cancel);
+        edit_name = root.findViewById(R.id.category_name);
+        income_radioButton = root.findViewById(R.id.category_flow_income);
+        expense_radioButton = root.findViewById(R.id.category_flow_expense);
+        submit_button = root.findViewById(R.id.submit);
+        cancel_button = root.findViewById(R.id.cancel);
 
         income_radioButton.setChecked(true);
 
@@ -78,7 +86,10 @@ public class AddEditCategoryFragment extends DaggerFragment implements AddEditCa
         cancel_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                showLastActivity(false);
+                if(is_editing)
+                    mPresenter.deleteCategory();
+                else
+                    showLastActivity(false);
             }
         });
 
@@ -94,6 +105,23 @@ public class AddEditCategoryFragment extends DaggerFragment implements AddEditCa
         }
 
         getActivity().finish();
+    }
+
+    @Override
+    public void populateCategoryData(String name, Flow flow) {
+        edit_name.setText(name);
+
+        is_editing = true;
+        cancel_button.setText("Delete");
+
+        switch(flow) {
+            case INCOME:
+                income_radioButton.setChecked(true);
+                break;
+            case OUTCOME:
+                expense_radioButton.setChecked(true);
+                break;
+        }
     }
 
     @Override

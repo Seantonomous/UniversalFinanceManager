@@ -26,11 +26,17 @@ import ufm.universalfinancemanager.db.entity.Transaction;
 
 @Dao
 public interface TransactionDao {
+
     @Query("SELECT * FROM `Transaction`")
     List<Transaction> getAll();
 
-    @Query("SELECT * FROM `Transaction` WHERE name LIKE :name")
-    List<Transaction> getTransactionsByName(String name);
+    // --SORTING--
+
+    //names = %names%
+    @Query( "SELECT * FROM `Transaction` WHERE name LIKE :names UNION " +
+            "SELECT * FROM `Transaction` WHERE amount LIKE :names UNION " +
+            "SELECT * FROM `Transaction` WHERE category_name LIKE :names")
+    List<Transaction> getTransactionsByName(String names);
 
     @Query("SELECT * FROM `Transaction` WHERE name LIKE :name LIMIT 1")
     Transaction getTransactionByName(String name);

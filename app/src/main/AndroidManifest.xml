@@ -14,7 +14,7 @@ Contributing Team Members:
     </uses-permission>
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE">
     </uses-permission>
-    
+
     <application
         android:name=".ufmApplication"
         android:allowBackup="true"
@@ -47,11 +47,15 @@ Contributing Team Members:
             android:theme="@style/AppTheme"/>
         <activity android:name=".addeditreminder.AddEditReminderActivity"
             android:theme="@style/AppTheme"/>
+        <activity android:name=".home.HomeActivity"
+            android:theme="@style/AppTheme"/>
         <activity android:name=".addeditbudget.AddEditBudgetActivity"
             android:theme="@style/AppTheme"/>
         <activity android:name=".networth.NetworthActivity"
             android:theme="@style/AppTheme"/>
         <activity android:name=".earningshistory.EarningsHistoryActivity"
+            android:theme="@style/AppTheme"/>
+        <activity android:name=".budgetoverview.BudgetActivity"
             android:theme="@style/AppTheme"/>
     </application>
 

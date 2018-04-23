@@ -2,15 +2,8 @@ package ufm.universalfinancemanager.addeditreminder;
 
 import android.support.annotation.Nullable;
 
-import java.util.Date;
-
 import javax.inject.Inject;
 
-import ufm.universalfinancemanager.addedittransaction.AddEditTransactionContract;
-import ufm.universalfinancemanager.db.TransactionDataSource;
-import ufm.universalfinancemanager.db.TransactionRepository;
-import ufm.universalfinancemanager.db.entity.Transaction;
-import ufm.universalfinancemanager.support.Flow;
 import ufm.universalfinancemanager.support.atomic.User;
 
 

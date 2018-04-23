@@ -30,6 +30,8 @@ public interface TransactionHistoryContract {
         void result(int requestCode, int resultCode);
 
         void loadTransactions();
+        //
+        void loadTransactionsByName(String name);
 
         void addTransaction();
 

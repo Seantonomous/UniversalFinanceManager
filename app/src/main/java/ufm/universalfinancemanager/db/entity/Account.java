@@ -7,13 +7,16 @@
 *   Team Members:
 * Contributing Team Members:
 */
-package ufm.universalfinancemanager.support.atomic;
+package ufm.universalfinancemanager.db.entity;
 
 import android.arch.persistence.room.ColumnInfo;
+import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.Ignore;
+import android.arch.persistence.room.PrimaryKey;
 import android.arch.persistence.room.TypeConverters;
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.support.annotation.NonNull;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.TextView;
@@ -23,16 +26,18 @@ import java.text.NumberFormat;
 import java.util.Date;
 
 import ufm.universalfinancemanager.R;
-import ufm.universalfinancemanager.db.entity.Transaction;
 import ufm.universalfinancemanager.db.source.local.converter.AccountTypeConverter;
 import ufm.universalfinancemanager.db.source.local.converter.DateConverter;
 import ufm.universalfinancemanager.support.AccountType;
 import ufm.universalfinancemanager.support.ListItem;
 import ufm.universalfinancemanager.support.RowType;
 
-public class Account implements Parcelable, Serializable, ListItem {
+@Entity
+public class Account implements ListItem {
 
+    @PrimaryKey
     @ColumnInfo(name = "account_name")
+    @NonNull
     private String name;
 
     @TypeConverters(AccountTypeConverter.class)
@@ -95,10 +100,12 @@ public class Account implements Parcelable, Serializable, ListItem {
                         balance += t.getAmount();
                         break;
                     case TRANSFER:
-                        if(t.getFromAccount() == this)
+                        if(t.getFromAccount().equals(this.getName()))
                             balance -= t.getAmount();
                         else
                             balance += t.getAmount();
+                        break;
+
                 }
                 break;
             case CREDIT_CARD:
@@ -109,6 +116,7 @@ public class Account implements Parcelable, Serializable, ListItem {
                     case TRANSFER:
                         //Pay off credit card balance
                         balance -= t.getAmount();
+
                 }
                 break;
         }
@@ -125,11 +133,10 @@ public class Account implements Parcelable, Serializable, ListItem {
                         balance -= t.getAmount();
                         break;
                     case TRANSFER:
-                        if(t.getFromAccount() == this)
+                        if(t.getFromAccount().equals(this.getName()))
                             balance -= t.getAmount();
                         else
                             balance += t.getAmount();
-
                 }
                 break;
             case CREDIT_CARD:
@@ -142,25 +149,6 @@ public class Account implements Parcelable, Serializable, ListItem {
                         balance += t.getAmount();
                 }
         }
-    }
-
-    public Account(Parcel in) {
-        name = in.readString();
-        type = AccountType.valueOf(in.readString());
-        balance = in.readDouble();
-        OpeningDate = new Date(in.readLong());
-        notes = in.readString();
-
-        num_format = NumberFormat.getCurrencyInstance();
-    }
-
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(this.name);
-        dest.writeString(type.name());
-        dest.writeDouble(this.balance);
-        dest.writeLong(this.OpeningDate.getTime());
-        dest.writeString(this.notes);
     }
 
     @Override
@@ -192,21 +180,6 @@ public class Account implements Parcelable, Serializable, ListItem {
 
         return view;
     }
-
-    @Override
-    public int describeContents() {
-        return 0;
-    }
-
-    public static final Parcelable.Creator<Account> CREATOR = new Parcelable.Creator<Account>() {
-        public Account createFromParcel(Parcel p) {
-            return new Account(p);
-        }
-
-        public Account[] newArray(int size) {
-            return new Account[size];
-        }
-    };
 
     @Override
     public String toString() {
