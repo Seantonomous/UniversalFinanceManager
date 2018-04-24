@@ -74,4 +74,7 @@ public interface TransactionDao {
 
     @Query("DELETE FROM 'Transaction' WHERE id = :id")
     void deleteById(String id);
+
+    @Query("DELETE FROM `Transaction` WHERE toAccount = :name OR fromAccount = :name")
+    int deleteByAccount(String name);
 }

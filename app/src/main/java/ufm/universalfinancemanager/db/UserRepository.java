@@ -60,7 +60,8 @@ public class UserRepository implements UserDataSource {
 
                 @Override
                 public void onDataNotAvailable() {
-                    getTransactionsFromRemoteDataSource(callback);
+                    //getTransactionsFromRemoteDataSource(callback);
+                    callback.onTransactionsLoaded(new ArrayList<Transaction>());
                 }
             });
         }
@@ -255,7 +256,11 @@ public class UserRepository implements UserDataSource {
         mCachedTransactions.remove(transactionId);
     }
 
-
+    @Override
+    public void deleteTransactionsByAccount(String account) {
+        mLocalSource.deleteTransactionsByAccount(account);
+        mRemoteSource.deleteTransactionsByAccount(account);
+    }
 
     @Override
     public void getAccounts(@NonNull final LoadAccountsCallback callback) {

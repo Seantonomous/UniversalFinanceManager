@@ -121,4 +121,9 @@ public class FakeUserRemoteDataSource implements UserDataSource {
     public void getCategory(@NonNull String categoryName, @NonNull GetCategoryCallback callback) {
         //TODO: Implement (Stub)
     }
+
+    @Override
+    public void deleteTransactionsByAccount(String name) {
+        //STUB
+    }
 }

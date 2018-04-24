@@ -166,6 +166,20 @@ public class UserLocalDataSource implements UserDataSource {
     }
 
     @Override
+    public void deleteTransactionsByAccount(@NonNull final String account) {
+        Runnable deleteRunnable = new Runnable() {
+            @Override
+            public void run() {
+                //mTransactionDao.deleteByAccount(account);
+                int affected = mTransactionDao.deleteByAccount(account);
+                System.out.println(affected);
+            }
+        };
+
+        mAppExecutors.diskIO().execute(deleteRunnable);
+    }
+
+    @Override
     public void getAccounts(@NonNull final LoadAccountsCallback callback) {
         Runnable runnable = new Runnable() {
             @Override

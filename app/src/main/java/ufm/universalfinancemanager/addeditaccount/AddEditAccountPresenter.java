@@ -7,6 +7,7 @@ import java.util.Date;
 
 import javax.inject.Inject;
 
+import ufm.universalfinancemanager.db.UserRepository;
 import ufm.universalfinancemanager.support.AccountType;
 import ufm.universalfinancemanager.db.entity.Account;
 import ufm.universalfinancemanager.support.atomic.User;
@@ -19,13 +20,15 @@ public class AddEditAccountPresenter implements AddEditAccountContract.Presenter
 
     private User mUser;
     private String mAccountName;
+    private UserRepository mUserRepository;
 
     @Nullable
     private AddEditAccountContract.View mAddEditAccountView = null;
 
     @Inject
-    AddEditAccountPresenter(User user, @Nullable String accountName) {
+    AddEditAccountPresenter(User user, UserRepository userRepository, @Nullable String accountName) {
         mUser = user;
+        mUserRepository = userRepository;
         mAccountName = accountName;
     }
 
@@ -56,6 +59,8 @@ public class AddEditAccountPresenter implements AddEditAccountContract.Presenter
     @Override
     public void deleteAccount() {
         Account account = mUser.getAccount(mAccountName);
+        //user will take care of transaction deletion
+        mUserRepository.deleteTransactionsByAccount(account.getName());
         mUser.deleteAccount(account);
 
         if(mAddEditAccountView != null)

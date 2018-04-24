@@ -96,8 +96,8 @@ public class User implements Serializable {
     }
 
     public void deleteAccount(Account account) {
-        accounts.remove(account);
         mUserRepository.deleteAccount(account.getName());
+        accounts.remove(account);
     }
 
     public void editAccountName(String oldName, String newName) {
