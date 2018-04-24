@@ -104,6 +104,7 @@ public class User implements Serializable {
         Account toEdit = getAccount(oldName);
         toEdit.setName(newName);
 
+        mUserRepository.deleteAccount(oldName);
         mUserRepository.saveAccount(toEdit);
     }
 
