@@ -77,4 +77,10 @@ public interface TransactionDao {
 
     @Query("DELETE FROM `Transaction` WHERE toAccount = :name OR fromAccount = :name")
     int deleteByAccount(String name);
+
+    @Query("UPDATE `Transaction` SET toAccount = :newName WHERE toAccount = :oldName")
+    void updateTransactionToAccounts(String oldName, String newName);
+
+    @Query("UPDATE `Transaction` SET fromAccount = :newName WHERE fromAccount = :oldName")
+    void updateTransactionFromAccounts(String oldName, String newName);
 }

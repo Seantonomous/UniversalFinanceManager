@@ -180,6 +180,19 @@ public class UserLocalDataSource implements UserDataSource {
     }
 
     @Override
+    public void updateTransactionAccounts(@NonNull final String oldName, @NonNull final String newName) {
+        Runnable updateRunnable = new Runnable() {
+            @Override
+            public void run() {
+                mTransactionDao.updateTransactionToAccounts(oldName, newName);
+                mTransactionDao.updateTransactionFromAccounts(oldName, newName);
+            }
+        };
+
+        mAppExecutors.diskIO().execute(updateRunnable);
+    }
+
+    @Override
     public void getAccounts(@NonNull final LoadAccountsCallback callback) {
         Runnable runnable = new Runnable() {
             @Override

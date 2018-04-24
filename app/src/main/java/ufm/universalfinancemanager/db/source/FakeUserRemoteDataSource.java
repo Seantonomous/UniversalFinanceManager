@@ -126,4 +126,9 @@ public class FakeUserRemoteDataSource implements UserDataSource {
     public void deleteTransactionsByAccount(String name) {
         //STUB
     }
+
+    @Override
+    public void updateTransactionAccounts(String oldAccountName, String newAccountName) {
+        //STUB
+    }
 }
