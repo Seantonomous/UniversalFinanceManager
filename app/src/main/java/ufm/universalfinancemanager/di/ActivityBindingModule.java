@@ -21,6 +21,7 @@ import ufm.universalfinancemanager.earningshistory.EarningsHistoryModule;
 import ufm.universalfinancemanager.networth.NetworthActivity;
 import ufm.universalfinancemanager.networth.NetworthModule;
 import ufm.universalfinancemanager.reminderhistory.ReminderHistoryActivity;
+import ufm.universalfinancemanager.reminderhistory.ReminderHistoryModule;
 import ufm.universalfinancemanager.transactionhistory.TransactionHistoryActivity;
 import ufm.universalfinancemanager.transactionhistory.TransactionHistoryModule;
 import ufm.universalfinancemanager.reminderhistory.ReminderHistoryModule;

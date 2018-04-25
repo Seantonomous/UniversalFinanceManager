@@ -13,8 +13,8 @@ import ufm.universalfinancemanager.BaseView;
 import ufm.universalfinancemanager.addeditaccount.AddEditAccountContract;
 import ufm.universalfinancemanager.support.AccountType;
 import ufm.universalfinancemanager.support.Flow;
-import ufm.universalfinancemanager.support.atomic.Account;
-import ufm.universalfinancemanager.support.atomic.Category;
+//import ufm.universalfinancemanager.support.atomic.Account;
+//import ufm.universalfinancemanager.support.atomic.Category;
 
 /**
  * Created by Areeba on 2/17/2018.
