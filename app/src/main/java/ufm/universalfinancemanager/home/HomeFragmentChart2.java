@@ -258,7 +258,13 @@ public class HomeFragmentChart2 extends DaggerFragment implements HomeContract.V
         case 4: 	Income 		type != credit card, 	-> totalAssets decreases previous month
          */
 
-        // Voodoo: combine arrays to make master account balance chart
+        /* *** useAcctBal True is working backwards from current account balancd,
+        useAcctBal False is working forward based on transactins w/out acct balance */
+        boolean useAcctBal = true;
+
+        float[][] blank;
+
+        // Combine arrays to make master account balance chart
         int curMonth = thisMonth;
         int nextMonth = curMonth + 1;
 
@@ -266,33 +272,65 @@ public class HomeFragmentChart2 extends DaggerFragment implements HomeContract.V
             nextMonth = 0;
 
         for (int i = 0; i < 7; i++) {
-            curMonth--;
-            nextMonth--;
 
-            if (curMonth == -1  || nextMonth == -1) {
-                curMonth = 11;
-                nextMonth = 11;
+            if (useAcctBal) {
+                curMonth--;
+                nextMonth--;
+
+                if (curMonth == -1  || nextMonth == -1) {
+                    curMonth = 11;
+                    nextMonth = 11;
+                }
+
+                totalTransactionsMaster[0][curMonth] = totalTransactionsMaster[0][nextMonth] - totalTransactions[0][nextMonth];
+                totalTransactionsMaster[1][curMonth] = totalTransactionsMaster[1][nextMonth] - totalTransactions[1][nextMonth];
+
+                // Don't allow negative balances for Assets
+                if (totalTransactionsMaster[0][curMonth] < 0) {
+                    totalTransactionsMaster[0][curMonth] = 0;
+                }
+
+                // Don't allow negative balances for Debts
+                if (totalTransactionsMaster[1][curMonth] < 0) {
+                    totalTransactionsMaster[1][curMonth] = 0;
+                }
             }
+            else {
 
+                if (i == 0) {
+                    blank = new float[2][12];
+                    for (float[] tRow : blank) {
+                        for (float tCol : tRow) {
+                            tCol = 0.0f;
+                        }
+                    }
+                    curMonth = curMonth - 5;
+                    nextMonth = curMonth + 1;
+                    totalTransactionsMaster = blank;
+                }
 
-            totalTransactionsMaster[0][curMonth] = totalTransactionsMaster[0][nextMonth] - totalTransactions[0][nextMonth];
-            totalTransactionsMaster[1][curMonth] = totalTransactionsMaster[1][nextMonth] - totalTransactions[1][nextMonth];
+                if (curMonth < 0  || nextMonth < 0) {
+                    curMonth = curMonth + 12;
+                    nextMonth = nextMonth + 12;
+                }
 
-            // Don't allow negative balances for Assets
-            if (totalTransactionsMaster[0][curMonth] < 0) {
-                totalTransactionsMaster[0][curMonth] = 0;
-            }
+                if (curMonth == 12)
+                    curMonth = 0;
 
-            // Don't allow negative balances for Debts
-            if (totalTransactionsMaster[1][curMonth] < 0) {
-                totalTransactionsMaster[1][curMonth] = 0;
+                if (nextMonth == 12)
+                    nextMonth = 0;
+
+                totalTransactionsMaster[0][nextMonth] = totalTransactions[0][nextMonth] + totalTransactions[0][curMonth];
+                totalTransactionsMaster[1][nextMonth] = totalTransactions[1][nextMonth] + totalTransactions[1][curMonth];
+                curMonth++;
+                nextMonth++;
             }
         }
 
 
         ArrayList<HomeDataNetWorth> tempNWData = new ArrayList<>();
-
         int firstMonth = thisMonth - 5;
+
         if (firstMonth < 0)
             firstMonth = firstMonth + 12;
 

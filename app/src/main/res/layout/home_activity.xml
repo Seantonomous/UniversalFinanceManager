@@ -25,11 +25,12 @@
             android:text="Chart Name"
             android:textAlignment="center"
             android:textColor="@color/colorPrimary"
-            android:textSize="18sp" />
+            android:textSize="24sp" />
 
         <Button
             android:id="@+id/bnNext"
-            android:layout_width="100dp"
+            android:layout_width="75dp"
+            android:textSize="10dp"
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
             android:layout_centerHorizontal="true"
@@ -38,7 +39,8 @@
 
         <Button
             android:id="@+id/bnPrevious"
-            android:layout_width="100dp"
+            android:layout_width="75dp"
+            android:textSize="10dp"
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
             android:layout_centerHorizontal="true"
@@ -50,7 +52,9 @@
             android:id="@+id/frag_container"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:paddingTop="45dp">
+            android:paddingHorizontal="10dp"
+            android:paddingBottom="25dp"
+            android:paddingTop="75dp">
         </RelativeLayout>
 
     </FrameLayout>

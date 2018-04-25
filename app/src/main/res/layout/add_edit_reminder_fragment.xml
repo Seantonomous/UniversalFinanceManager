@@ -20,17 +20,8 @@ Contributing Team Members:
         android:layout_height="match_parent"
         android:weightSum="1">
 
-        <TextView
-            android:id="@+id/textView"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Add Reminder"
-            android:textColor="@color/colorPrimary"
-            android:textSize="18sp"
-            android:visibility="visible" />
-
         <EditText
-            android:layout_below="@id/textView"
+
             android:id="@+id/label"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -44,19 +35,14 @@ Contributing Team Members:
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
 
-        <CheckBox
-            android:layout_below="@id/timePicker"
-            android:id="@+id/frequency"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Remind me on a day" />
+
 
         <TextView
             android:id="@+id/dateTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentStart="true"
-            android:layout_below="@id/frequency"
+            android:layout_below="@id/timePicker"
             android:text="Date:"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:textSize="18sp" />
@@ -77,18 +63,10 @@ Contributing Team Members:
 
 
 
-        <Spinner
-            android:id="@+id/weekly"
-            android:layout_width="200dp"
-            android:layout_height="wrap_content"
-            android:layout_alignBaseline="@+id/date"
-            android:layout_alignBottom="@+id/date"
-            android:layout_alignParentEnd="true"
-            android:background="@android:drawable/btn_dropdown"
-            android:entries="@array/duration" />
+
 
         <EditText
-            android:layout_below="@id/weekly"
+            android:layout_below="@id/date"
             android:id="@+id/notes"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -103,7 +81,7 @@ Contributing Team Members:
             android:layout_alignBottom="@+id/cancel"
             android:layout_marginBottom="0dp"
             android:layout_marginEnd="68dp"
-            android:layout_toStartOf="@+id/weekly"
+            android:layout_below="@id/notes"
             android:text="Submit" />
 
 

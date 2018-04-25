@@ -34,7 +34,7 @@ public class User implements Serializable {
     private ArrayList<Budget> budgets;
     private ArrayList<Category> incomeCategories;
     private ArrayList<Category> expenseCategories;
-    //private ArrayList<Reminder> reminders;
+    private ArrayList<Reminder> reminders;
 
     UserRepository mUserRepository;
 
@@ -96,14 +96,15 @@ public class User implements Serializable {
     }
 
     public void deleteAccount(Account account) {
-        accounts.remove(account);
         mUserRepository.deleteAccount(account.getName());
+        accounts.remove(account);
     }
 
     public void editAccountName(String oldName, String newName) {
         Account toEdit = getAccount(oldName);
         toEdit.setName(newName);
 
+        mUserRepository.deleteAccount(oldName);
         mUserRepository.saveAccount(toEdit);
     }
 
@@ -234,4 +235,27 @@ public class User implements Serializable {
             }
         });
     }
+
+    public Reminder getReminder(String label) throws RuntimeException {
+        for(Reminder reminder : reminders) {
+            if(reminder.getName().equals(label)) {
+                return reminder;
+            }
+        }
+
+        throw new RuntimeException(String.format("Reminder %s not found", label));
+    }
+
+    public boolean addReminder(Reminder r) throws RuntimeException {
+        for(Reminder reminder : reminders) {
+            if(reminder.getName().equals(r.getName())) {
+                throw new RuntimeException("Reminder with that name already exists: " + r.toString());
+            }
+        }
+
+        reminders.add(r);
+        return true;
+    }
+
+    public ArrayList<Reminder> getReminders() {return this.reminders;}
 }

@@ -60,7 +60,8 @@ public class UserRepository implements UserDataSource {
 
                 @Override
                 public void onDataNotAvailable() {
-                    getTransactionsFromRemoteDataSource(callback);
+                    //getTransactionsFromRemoteDataSource(callback);
+                    callback.onTransactionsLoaded(new ArrayList<Transaction>());
                 }
             });
         }
@@ -148,11 +149,11 @@ public class UserRepository implements UserDataSource {
     @Override
     public void getTransaction(@NonNull final String transactionId, @NonNull final GetTransactionCallback callback) {
         Transaction cachedTransaction = getTransactionWithId(transactionId);
-
+        /*
         if(cachedTransaction != null) {
             callback.onTransactionLoaded(cachedTransaction);
             return;
-        }
+        }*/
 
         mLocalSource.getTransaction(transactionId, new GetTransactionCallback() {
             @Override
@@ -255,7 +256,16 @@ public class UserRepository implements UserDataSource {
         mCachedTransactions.remove(transactionId);
     }
 
+    @Override
+    public void deleteTransactionsByAccount(String account) {
+        mLocalSource.deleteTransactionsByAccount(account);
+        mRemoteSource.deleteTransactionsByAccount(account);
+    }
 
+    @Override
+    public void updateTransactionAccounts(String oldName, String newName) {
+        mLocalSource.updateTransactionAccounts(oldName, newName);
+    }
 
     @Override
     public void getAccounts(@NonNull final LoadAccountsCallback callback) {

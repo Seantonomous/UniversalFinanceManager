@@ -34,6 +34,9 @@ public class HomeClassNetWorth {
     protected ArrayList<HomeDataNetWorth> nwData;
     protected float currentAssetTotal;
     protected float currentDebtTotal;
+    private float netWorthTextSize = 12f;  // Originally 10
+    private float xAxisLegendTextSize = 12f;
+    private float yAxisLegendTextSize = 10f;
 
 
     HomeClassNetWorth(CombinedChart chart) {
@@ -131,21 +134,21 @@ public class HomeClassNetWorth {
         rightAxis.setDrawGridLines(false);
         rightAxis.setAxisMinimum(-maxYVal); // start at -100
         rightAxis.setAxisMaximum(maxYVal); // the axis maximum is 100
-//        rightAxis.setAxisMinimum(-yMaxValue*1.1f); // start at -100
-//        rightAxis.setAxisMaximum(yMaxValue*1.1f); // the axis maximum is 100
+        rightAxis.setTextSize(yAxisLegendTextSize);
+//        rightAxis.setTextColor(Color.rgb(250,250,250));
 
         YAxis leftAxis = mChart.getAxisLeft();
         leftAxis.setDrawGridLines(false);
-        leftAxis.setAxisMinimum(-maxYVal); // start at -100
-        leftAxis.setAxisMaximum(maxYVal); // the axis maximum is 100
-//        leftAxis.setAxisMinimum(-yMaxValue*1.1f); // start at -100
-//        leftAxis.setAxisMaximum(yMaxValue*1.1f); // the axis maximum is 100
-
+        leftAxis.setAxisMinimum(-maxYVal);
+        leftAxis.setAxisMaximum(maxYVal);
+        leftAxis.setTextSize(yAxisLegendTextSize);
+//        leftAxis.setTextColor(Color.rgb(250,250,250));
 
         XAxis xAxis = mChart.getXAxis();
         xAxis.setPosition(XAxis.XAxisPosition.BOTH_SIDED);
         xAxis.setAxisMinimum(0f);
         xAxis.setGranularity(1f);
+        xAxis.setTextSize(xAxisLegendTextSize);
         xAxis.setValueFormatter(new IAxisValueFormatter() {
             @Override
             public String getFormattedValue(float value, AxisBase axis) {
@@ -175,11 +178,11 @@ public class HomeClassNetWorth {
         set.setFillColor(Color.rgb(240, 238, 70));
         set.setMode(LineDataSet.Mode.CUBIC_BEZIER);
         set.setDrawValues(true);
-        set.setValueTextSize(10f);
-        // set.setValueTextColor(Color.rgb(240, 238, 70));
-        set.setValueTextColor(Color.rgb(255, 255, 255));
+        set.setValueTextSize(netWorthTextSize);
+        set.setValueTextColor(Color.rgb(159, 64, 120));
 
         set.setAxisDependency(YAxis.AxisDependency.LEFT);
+
         d.addDataSet(set);
 
         return d;
@@ -248,9 +251,10 @@ public class HomeClassNetWorth {
         BarDataSet set1 = new BarDataSet(entries, "Assets/Liabilities");
         set1.setColor(Color.rgb(60, 220, 78));
         set1.setColors(ColorTemplate.COLORFUL_COLORS);
-        set1.setValueTextColor(Color.rgb(60, 220, 78));
-        set1.setValueTextSize(10f);
+        set1.setValueTextColor(Color.rgb(215, 215, 215));
+        //set1.setValueTextSize(netWorthTextSize);
         set1.setAxisDependency(YAxis.AxisDependency.LEFT);
+
 
         ArrayList<Integer> colors  = getColors();
         set1.setColors(colors);
@@ -285,6 +289,8 @@ public class HomeClassNetWorth {
         CombinedData data = new CombinedData();
 
         float maxYVal = getMaxYValue() * 1.5f;
+
+//        maxYVal = 100f;
 
         mChart.getAxisRight().setAxisMinimum(-maxYVal); // start at -100
         mChart.getAxisRight().setAxisMaximum(maxYVal); // the axis maximum is 100
