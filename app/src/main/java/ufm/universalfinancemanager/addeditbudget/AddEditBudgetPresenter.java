@@ -8,13 +8,12 @@ import java.util.List;
 
 import javax.inject.Inject;
 
-import ufm.universalfinancemanager.db.TransactionDataSource;
 import ufm.universalfinancemanager.db.UserDataSource;
 import ufm.universalfinancemanager.db.UserRepository;
 import ufm.universalfinancemanager.db.entity.Category;
 import ufm.universalfinancemanager.db.entity.Transaction;
 import ufm.universalfinancemanager.support.Flow;
-import ufm.universalfinancemanager.support.atomic.Budget;
+import ufm.universalfinancemanager.db.entity.Budget;
 import ufm.universalfinancemanager.support.atomic.User;
 import ufm.universalfinancemanager.util.EspressoIdlingResource;
 
@@ -32,7 +31,7 @@ public class AddEditBudgetPresenter implements AddEditBudgetContract.Presenter{
     //private Date d1;
     //private Date d2;
     final List<Category> expense = new ArrayList<>();
-    final List<Transaction> transactions = new ArrayList<>();
+    List<Transaction> transactions;
     //private final String mBudgetId;
     private String budgetName;
 
@@ -47,10 +46,10 @@ public class AddEditBudgetPresenter implements AddEditBudgetContract.Presenter{
     public void saveBudget(String name, String category, double amount, Date startdate, Date enddate) {
         this.cat = category;
 
-        for(Budget b : mUser.getBudgets()) {
-           expense.add(b.getCategory());
-        }
-
+       // for(Budget b : mUser.getBudgets()) {
+          // expense.add(b.getCategory());
+        //}
+            this.transactions = new ArrayList<>();
             loadTransactions(startdate, enddate, category);
 
             double sum = 0.0;
@@ -119,6 +118,7 @@ public class AddEditBudgetPresenter implements AddEditBudgetContract.Presenter{
     }
 
     private void processTransactions(List<Transaction> transactions) {
+
         for(Transaction t: transactions) {
             if(t.getCategory().compareTo(this.cat) == 0 && t.getFlow().compareTo(Flow.OUTCOME) == 0) {
                 this.transactions.add(t);
@@ -149,7 +149,7 @@ public class AddEditBudgetPresenter implements AddEditBudgetContract.Presenter{
        // mAddEditBudgetview.updateCategories(mUser.getIncomeCategories());
     }
 
-    public void processTransactions(List<Transaction> transactions, String name, Category categoryName, double amount, Date startdate, Date enddate) {
+   /* public void processTransactions(List<Transaction> transactions, String name, Category categoryName, double amount, Date startdate, Date enddate) {
         List<Transaction> budgetTransactionList = new ArrayList<>();
         double sum = 0.0;
         if(isNewBudget()) {

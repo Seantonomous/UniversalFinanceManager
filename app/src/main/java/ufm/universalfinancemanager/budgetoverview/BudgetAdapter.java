@@ -9,7 +9,7 @@ import android.widget.BaseAdapter;
 import java.util.ArrayList;
 import java.util.List;
 import ufm.universalfinancemanager.support.ListItem;
-import ufm.universalfinancemanager.support.atomic.Budget;
+import ufm.universalfinancemanager.db.entity.Budget;
 
 /**
  * Created by Areeba on 3/24/2018.
