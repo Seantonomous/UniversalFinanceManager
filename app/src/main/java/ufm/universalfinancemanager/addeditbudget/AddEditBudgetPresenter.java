@@ -36,7 +36,7 @@ public class AddEditBudgetPresenter implements AddEditBudgetContract.Presenter{
     private String budgetName;
 
     @Inject
-    AddEditBudgetPresenter(User user, UserRepository transactionRepository){//, @Nullable String id) {
+    AddEditBudgetPresenter(User user, UserRepository transactionRepository){//,@Nullable String id) {
         mUser = user;
         mUserRepository = transactionRepository;
         //mBudgetId = id;
@@ -45,29 +45,51 @@ public class AddEditBudgetPresenter implements AddEditBudgetContract.Presenter{
     @Override
     public void saveBudget(String name, String category, double amount, Date startdate, Date enddate) {
         this.cat = category;
-
+       // this.budgetName = name;
        // for(Budget b : mUser.getBudgets()) {
           // expense.add(b.getCategory());
         //}
             this.transactions = new ArrayList<>();
             loadTransactions(startdate, enddate, category);
+            if (isNewBudget()) {
+                createNewBudget(name, category, amount, startdate, enddate);
+            }
+            else {
+                updateBudget(name, category, amount, startdate, enddate);
+            }
 
-            double sum = 0.0;
-            for (Transaction t : this.transactions) {
-                sum += t.getAmount();
-            }
-            Budget budget = new Budget(name, category, amount, sum, startdate, enddate);
-            mUser.addBudget(budget);
-            if (mAddEditBudgetview != null) {
-                mAddEditBudgetview.showMessage("Budget successfully saved.");
-                mAddEditBudgetview.showLastActivity(true);
-            }
             //}catch(RuntimeException e) {
        // }
         //}
         if (mAddEditBudgetview != null)
             mAddEditBudgetview.showLastActivity(true);
 
+    }
+
+    private void updateBudget(String name, String category, double amount, Date startdate, Date enddate) {
+        this.budgetName = name;
+        Budget b = mUser.getBudget(name);
+        b.setAmount(amount);
+        b.setCat(category);
+        b.setStartDate(startdate);
+        b.setEndDate(enddate);
+        if (mAddEditBudgetview != null) {
+            mAddEditBudgetview.showLastActivity(true);
+        }
+    }
+
+    private void createNewBudget(String name, String category, double amount, Date startdate, Date enddate) {
+        //this.budgetName = name;
+        double sum = 0.0;
+        for (Transaction t : this.transactions) {
+            sum += t.getAmount();
+        }
+        Budget budget = new Budget(name, category, amount, sum, startdate, enddate);
+        mUser.addBudget(budget);
+        if (mAddEditBudgetview != null) {
+            mAddEditBudgetview.showMessage("Budget successfully saved.");
+            mAddEditBudgetview.showLastActivity(true);
+        }
     }
 
     @Override
@@ -248,20 +270,7 @@ public class AddEditBudgetPresenter implements AddEditBudgetContract.Presenter{
 
         mAddEditBudgetview = view;
         mAddEditBudgetview.updateCategories(mUser.getExpenseCategories());
-       /* mUserRepository.getCategories(new UserDataSource.LoadCategoriesCallback() {
-            @Override
-            public void onCategoriesLoaded(List<Category> categories) {
-                for(Category c: categories) {
-                    if(c.getFlow() == Flow.INCOME);
-                        expense.add(c);
-                }
-            }
-            @Override
-            public void onDataNotAvailable() {
 
-            }
-        }); */
-        //mAddEditBudgetview.updateCategories(expense);
         if(view == null)
             return;
         if(isNewBudget()) {
@@ -269,6 +278,7 @@ public class AddEditBudgetPresenter implements AddEditBudgetContract.Presenter{
         }
         else{
             mAddEditBudgetview.setupFragmentContent(true);
+            populateBudget();
         }
     }
 
@@ -278,7 +288,13 @@ public class AddEditBudgetPresenter implements AddEditBudgetContract.Presenter{
     }
 
     public boolean isNewBudget() {
-       // return mBudgetId == null;
-        return true;
+       return budgetName == null;
+       // return true;
     }
+
+    public void populateBudget() {
+       Budget b =  mUser.getBudget(budgetName);
+       mAddEditBudgetview.populateExistingFields(b.getName(), b.getCategory(), b.getAmount(), b.getStartDate(), b.getEndDate());
+    }
+
 }

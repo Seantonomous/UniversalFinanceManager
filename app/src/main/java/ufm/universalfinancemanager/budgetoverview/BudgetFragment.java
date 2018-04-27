@@ -24,6 +24,9 @@ import ufm.universalfinancemanager.addeditcategory.AddEditCategoryActivity;
 import ufm.universalfinancemanager.addeditreminder.AddEditReminderActivity;
 import ufm.universalfinancemanager.addedittransaction.AddEditTransactionActivity;
 import ufm.universalfinancemanager.db.entity.Budget;
+import ufm.universalfinancemanager.db.entity.Transaction;
+import ufm.universalfinancemanager.transactionhistory.TransactionAdapter;
+import ufm.universalfinancemanager.transactionhistory.TransactionHistoryFragment;
 
 /**
  * Created by Areeba on 3/24/2018.
@@ -37,13 +40,21 @@ public class BudgetFragment extends DaggerFragment implements BudgetContract.Vie
     @Inject
     BudgetPresenter mPresenter;
     private BudgetAdapter mAdapter;
+    //public int filter;
     @Inject
     public BudgetFragment() {}
+
+    BudgetFragment.BudgetClickListener mClickListener = new BudgetFragment.BudgetClickListener() {
+        @Override
+        public void onBudgetClicked(Budget b) {
+            mPresenter.editBudget(b.getName());
+        }
+    };
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mAdapter = new BudgetAdapter(new ArrayList<Budget>());
+        mAdapter = new BudgetAdapter(new ArrayList<Budget>(0), mClickListener);
     }
 
     @Override
@@ -86,7 +97,7 @@ public class BudgetFragment extends DaggerFragment implements BudgetContract.Vie
                 startActivity(new Intent(getContext(), AddEditReminderActivity.class));
                 break;
             case R.id.action_add_budget:
-                startActivity(new Intent(getContext(), AddEditBudgetActivity.class));
+                mPresenter.addBudget();
                 break;
         }
         return true;
@@ -105,18 +116,20 @@ public class BudgetFragment extends DaggerFragment implements BudgetContract.Vie
         //mNoBudgetsTextView.setVisibility(View.GONE);
     }
 
-   // @Override
+    @Override
     public void showAddEditBudgets() {
-        //startActivityForResult(new Intent(getContext(), AddEditBudgetActivity.class), 1);
+        startActivityForResult(new Intent(getContext(), AddEditBudgetActivity.class), 1);
     }
 
-    //@Override
+    @Override
     public void showAddEditBudget(String id) {
-        //Intent intent = new Intent(getContext(), AddEditBudgetActivity.class);
+        Intent intent = new Intent(getContext(), AddEditBudgetActivity.class);
         //Todo: make EXTRA_ID in TransactionAddEditActivity
-        //intent.putExtra("EDIT_BUDGET_ID", id);
+        intent.putExtra("EDIT_BUDGET_ID", id);
         //Todo: make request code in TransactionAddEditAcitivity for '2'
-        //startActivityForResult(intent, 2);
+        startActivityForResult(intent, 2);
     }
-
+    public interface BudgetClickListener {
+        void onBudgetClicked(Budget b);
+    }
 }

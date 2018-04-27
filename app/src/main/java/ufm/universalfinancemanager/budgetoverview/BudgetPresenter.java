@@ -90,10 +90,15 @@ public class BudgetPresenter implements BudgetContract.Presenter {
             }
         }
     }
-
-   // @Override
+    @Override
+    public void addBudget(){
+        if(mBudgetView != null) {
+            mBudgetView.showAddEditBudgets();
+        }
+    }
+    @Override
     public void editBudget(String budgetId) {
-
+        this.mBudgetView.showAddEditBudget(budgetId);
     }
 
     @Override

@@ -210,6 +210,7 @@ public class AddEditBudgetFragment extends DaggerFragment implements AddEditBudg
 
     @Override
     public void setupFragmentContent(boolean editing) {
+        this.isEditing = editing;
         if(isEditing)
             cancel_button.setText("Delete");
     }
