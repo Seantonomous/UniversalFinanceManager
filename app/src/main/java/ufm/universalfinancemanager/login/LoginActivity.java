@@ -28,6 +28,6 @@ public class LoginActivity extends DaggerAppCompatActivity {
             ActivityUtils.addFragmentToActivity(getSupportFragmentManager(), loginFragment, R.id.contentFrame);
         }
 
-        setTitle("UFM Login");
+        setTitle(" ");
     }
 }
