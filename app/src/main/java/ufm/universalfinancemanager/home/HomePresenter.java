@@ -85,7 +85,8 @@ public class HomePresenter implements HomeContract.Presenter {
 
                     @Override
                     public void onDataNotAvailable() {
-
+                        if(mHomeView != null)
+                            mHomeView.showNoChart();
                     }
                 });
 
@@ -99,7 +100,8 @@ public class HomePresenter implements HomeContract.Presenter {
 
         //No categories to report on
         if(categories.size() == 0)
-            return;
+            if(mHomeView != null)
+                mHomeView.showNoChart();
 
         for(Transaction transaction : transactions) {
             if(transaction.getFlow() == Flow.OUTCOME) {

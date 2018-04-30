@@ -13,8 +13,10 @@ import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
+import android.widget.FrameLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -40,6 +42,7 @@ import ufm.universalfinancemanager.earningshistory.EarningsHistoryActivity;
 import ufm.universalfinancemanager.networth.NetworthActivity;
 import ufm.universalfinancemanager.transactionhistory.TransactionHistoryActivity;
 import ufm.universalfinancemanager.util.ActivityUtils;
+import ufm.universalfinancemanager.util.OnSwipeTouchListener;
 
 
 @ActivityScoped
@@ -53,7 +56,7 @@ public class HomeActivity extends DaggerAppCompatActivity {
     @Inject
     HomeFragmentChart3 mFragment3;
 
-
+    private OnSwipeTouchListener onSwipeTouchListener;
     private DrawerLayout mDrawerLayout;
     private ActionBarDrawerToggle mDrawerToggle;
 
@@ -73,9 +76,20 @@ public class HomeActivity extends DaggerAppCompatActivity {
         mDrawerLayout = findViewById(R.id.drawer_layout);
         NavigationView navigationView = findViewById(R.id.nav_view);
 
+        onSwipeTouchListener = (new OnSwipeTouchListener(this) {
+            public void onSwipeRight() {
+                for (int i = 0; i < 2; i++) {
+                    nextChart();
+                }
+            }
 
-        bnNext = findViewById(R.id.bnNext);
-        bnPrevious = findViewById(R.id.bnPrevious);
+            public void onSwipeLeft() {
+                nextChart();
+            }
+        });
+
+        FrameLayout layout = findViewById(R.id.contentFrame);
+        layout.setOnTouchListener(onSwipeTouchListener);
         tvChartName = findViewById(R.id.tvHomeChartName);
 
         //if(navigationView == null) {
@@ -105,33 +119,18 @@ public class HomeActivity extends DaggerAppCompatActivity {
         getSupportActionBar().setTitle(R.string.home_title);
         // Loads the first chart
         nextChart();
-
-        bnNext.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                nextChart();
-            }
-        });
-
-        bnPrevious.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                /* Logic for switching charts is by setting to next chart,
-                   using forward twice to get back to the previous (only 3 charts to navigate)
-                 */
-                for (int i = 0; i < 2; i++) {
-                    nextChart();
-                }
-            }
-        });
-
     }
 
     private void setToolbarTitle(@Nullable String Id) {
         if(Id == null) {
             setTitle(R.string.home_title);
         }
+    }
+
+    @Override
+    public boolean dispatchTouchEvent(MotionEvent e) {
+        onSwipeTouchListener.getGestureDetector().onTouchEvent(e);
+        return super.dispatchTouchEvent(e);
     }
 
     private void nextChart() {

@@ -29,31 +29,6 @@
             android:textSize="22sp"
             android:textStyle="bold"/>
 
-        <Button
-            android:id="@+id/bnNext"
-            android:layout_width="wrap_content"
-            android:textSize="12dp"
-            android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="3dp"
-            android:layout_marginRight="5dp"
-            android:layout_gravity="right"
-            android:text="Next" />
-
-        <Button
-            android:id="@+id/bnPrevious"
-            android:layout_width="wrap_content"
-            android:textSize="12dp"
-            android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
-            android:layout_marginTop="3dp"
-            android:layout_marginLeft="5dp"
-            android:layout_centerHorizontal="true"
-            android:layout_gravity="left"
-            android:text="Previous" />
-
-
         <RelativeLayout
             android:id="@+id/frag_container"
             android:layout_width="match_parent"

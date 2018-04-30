@@ -1,14 +1,43 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/colorBackground">
 
-
-    <com.github.mikephil.charting.charts.PieChart
-        android:id="@+id/chart3"
+    <LinearLayout
+        android:id="@+id/chartLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_alignParentStart="true"
-        android:layout_marginTop="39dp" />
+        android:orientation="vertical">
+        <com.github.mikephil.charting.charts.PieChart
+            android:id="@+id/chart3"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_alignParentStart="true"
+            android:layout_marginTop="39dp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/noChartLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:scaleX="4"
+            android:scaleY="4"
+            android:src="@android:drawable/stat_notify_error"/>
+        <TextView
+            android:id="@+id/noChartText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="20sp"
+            android:textColor="@color/colorLightText"
+            android:paddingTop="30dp"
+            android:text="Nothing to show. Go spend some money!"/>
+    </LinearLayout>
 
 </RelativeLayout>

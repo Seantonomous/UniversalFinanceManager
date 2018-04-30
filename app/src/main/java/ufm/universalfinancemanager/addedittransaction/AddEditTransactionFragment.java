@@ -25,6 +25,7 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.math.BigDecimal;
 import java.text.DecimalFormat;
@@ -429,6 +430,22 @@ public class AddEditTransactionFragment extends DaggerFragment implements AddEdi
         SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
 
         edit_date.setText(sdf.format(calendar.getTime()));
+    }
+
+    @Override
+    public void disableIncome() {
+        income_radioButton.setEnabled(false);
+    }
+
+    @Override
+    public void disableExpense() {
+        expense_radioButton.setEnabled(false);
+    }
+
+    @Override
+    public void showError(String message) {
+        Toast.makeText(getContext(), message, Toast.LENGTH_LONG).show();
+        showLastActivity(false);
     }
 
     @Override

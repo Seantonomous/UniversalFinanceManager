@@ -72,6 +72,9 @@ public class HomeFragmentChart2 extends DaggerFragment implements HomeContract.V
     @Inject
     public User mUser;
 
+    private View mChartView;
+    private View mNoChartView;
+
     @Inject
     public HomeFragmentChart2() {}
 
@@ -103,8 +106,19 @@ public class HomeFragmentChart2 extends DaggerFragment implements HomeContract.V
     public void populateList(List<Transaction> items) {
         myList = items;
 
-        if(!items.isEmpty())
+        if(!items.isEmpty()) {
+            mChartView.setVisibility(View.VISIBLE);
+            mNoChartView.setVisibility(View.GONE);
             mNetWorthChart.setData(getData(items));
+        }else {
+            mChartView.setVisibility(View.GONE);
+            mNoChartView.setVisibility(View.VISIBLE);
+        }
+    }
+
+    @Override
+    public void showNoChart() {
+        //STUB
     }
 
     @Override
@@ -141,6 +155,10 @@ public class HomeFragmentChart2 extends DaggerFragment implements HomeContract.V
         //        getList(myList);
 
         mChart = root.findViewById(R.id.chart2);
+
+        mChartView = root.findViewById(R.id.chartLayout);
+        mNoChartView = root.findViewById(R.id.noChartLayout);
+        mNoChartView.setVisibility(View.GONE);
 
         mNetWorthChart =  new HomeClassNetWorth(mChart);
 

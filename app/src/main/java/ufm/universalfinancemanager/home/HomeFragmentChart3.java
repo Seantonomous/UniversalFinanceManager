@@ -40,7 +40,8 @@ public class HomeFragmentChart3 extends DaggerFragment implements HomeContract.V
 
     private PieChart mChart;
     private HomeClassCategorySpend horizontalBarChart;
-    private ArrayList<HomeDataCategory> mData;
+    private View mChartView;
+    private View mNoChartView;
 
     @Inject
     public HomePresenter mPresenter;
@@ -71,9 +72,22 @@ public class HomeFragmentChart3 extends DaggerFragment implements HomeContract.V
     }
 
     @Override
+    public void showNoChart() {
+        mChartView.setVisibility(View.GONE);
+        mNoChartView.setVisibility(View.VISIBLE);
+    }
+
+    @Override
     public void populateCategories(ArrayList<HomeDataCategory> data) {
-        mData = data;
-        horizontalBarChart.setData(mData);
+
+        if(data.isEmpty()) {
+            mChartView.setVisibility(View.GONE);
+            mNoChartView.setVisibility(View.VISIBLE);
+        }else {
+            horizontalBarChart.setData(data);
+            mChartView.setVisibility(View.VISIBLE);
+            mNoChartView.setVisibility(View.GONE);
+        }
     }
 
     @Override
@@ -90,6 +104,9 @@ public class HomeFragmentChart3 extends DaggerFragment implements HomeContract.V
         View root = inflater.inflate(R.layout.home_fragment_chart3, container, false);
 
         mChart = root.findViewById(R.id.chart3);
+        mChartView = root.findViewById(R.id.chartLayout);
+        mNoChartView = root.findViewById(R.id.noChartLayout);
+        mNoChartView.setVisibility(View.GONE);
         
         horizontalBarChart = new HomeClassCategorySpend(mChart);
 

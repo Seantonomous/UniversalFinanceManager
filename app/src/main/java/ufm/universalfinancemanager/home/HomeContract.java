@@ -20,6 +20,7 @@ public interface HomeContract {
 
         void getList(List<Transaction> items);
 
+        void showNoChart();
     }
 
     interface Presenter extends BasePresenter<View> {

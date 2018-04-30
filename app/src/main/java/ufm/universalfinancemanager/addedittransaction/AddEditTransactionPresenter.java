@@ -3,6 +3,7 @@ package ufm.universalfinancemanager.addedittransaction;
 import android.support.annotation.Nullable;
 import android.support.annotation.VisibleForTesting;
 import android.view.WindowManager;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -260,6 +261,17 @@ public class AddEditTransactionPresenter implements AddEditTransactionContract.P
 
         if(v == null)
             return;
+
+        if(mUser.getIncomeCategories().isEmpty()) {
+            mAddEditTransactionView.disableIncome();
+        }
+        if(mUser.getExpenseCategories().isEmpty()) {
+            mAddEditTransactionView.disableExpense();
+        }
+        if(mUser.getAccounts().isEmpty()) {
+            mAddEditTransactionView.showError("You must add an account before you start " +
+                    "recording transactions!");
+        }
 
         if(isNewTransaction())
             mAddEditTransactionView.setupFragmentContent(mUser.getAccounts(), false);
