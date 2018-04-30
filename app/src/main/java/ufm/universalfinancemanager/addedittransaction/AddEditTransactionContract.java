@@ -30,6 +30,10 @@ public interface AddEditTransactionContract {
         void populateExistingFields(String name, Double amount, Flow flow,
                                   Category categoryName, @Nullable Account fromAccountName,
                                   @Nullable Account toAccountName, Date date, @Nullable String notes);
+
+        void disableIncome();
+        void disableExpense();
+        void showError(String message);
     }
 
     interface Presenter extends BasePresenter<View> {
