@@ -32,14 +32,14 @@ public class AddEditBudgetPresenter implements AddEditBudgetContract.Presenter{
     //private Date d2;
     final List<Category> expense = new ArrayList<>();
     List<Transaction> transactions;
-    //private final String mBudgetId;
+    private final String mBudgetId;
     private String budgetName;
 
     @Inject
-    AddEditBudgetPresenter(User user, UserRepository transactionRepository){//,@Nullable String id) {
+    AddEditBudgetPresenter(User user, UserRepository transactionRepository, @Nullable String id) {
         mUser = user;
         mUserRepository = transactionRepository;
-        //mBudgetId = id;
+        mBudgetId = id;
     }
 
     @Override
@@ -262,7 +262,8 @@ public class AddEditBudgetPresenter implements AddEditBudgetContract.Presenter{
 
     @Override
     public void deleteBudget() {
-        mUser.deleteBudget(budgetName);
+        mUser.deleteBudget(mBudgetId);
+        mAddEditBudgetview.showLastActivity(true);
     }
 
     @Override
@@ -288,12 +289,12 @@ public class AddEditBudgetPresenter implements AddEditBudgetContract.Presenter{
     }
 
     public boolean isNewBudget() {
-       return budgetName == null;
+       return mBudgetId == null;
        // return true;
     }
 
     public void populateBudget() {
-       Budget b =  mUser.getBudget(budgetName);
+       Budget b =  mUser.getBudget(mBudgetId);
        mAddEditBudgetview.populateExistingFields(b.getName(), b.getCategory(), b.getAmount(), b.getStartDate(), b.getEndDate());
     }
 

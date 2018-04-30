@@ -15,7 +15,7 @@ import ufm.universalfinancemanager.db.UserRepository;
 import ufm.universalfinancemanager.db.entity.Category;
 import ufm.universalfinancemanager.db.entity.Transaction;
 import ufm.universalfinancemanager.support.Flow;
-import ufm.universalfinancemanager.support.atomic.Budget;
+import ufm.universalfinancemanager.db.entity.Budget;
 import ufm.universalfinancemanager.support.atomic.User;
 import ufm.universalfinancemanager.util.EspressoIdlingResource;
 

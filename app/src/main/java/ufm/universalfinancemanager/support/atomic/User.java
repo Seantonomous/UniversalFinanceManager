@@ -130,9 +130,14 @@ public class User implements Serializable {
 
         throw new RuntimeException(String.format(Locale.getDefault(), "Budget %s not found", name));
     }
-    public void deleteBudget(String name) {budgets.remove(name);}
-    public ArrayList<Budget> getBudgets() {
 
+    public void deleteBudget(String name) {
+        for(Budget budget : budgets)
+            if(budget.getName().equals(name))
+                budgets.remove(budget);
+    }
+
+    public ArrayList<Budget> getBudgets() {
         return this.budgets;
     }
     public void refreshBudgets() {}

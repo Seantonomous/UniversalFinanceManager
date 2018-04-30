@@ -231,6 +231,7 @@ public class AddEditBudgetFragment extends DaggerFragment implements AddEditBudg
 
     @Override
     public void populateExistingFields(String name, Category category, Double amount, Date startDate, Date endDate) {
+        isEditing = true;
         edit_name.setText(name);
         getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
         category_spinner.setSelection(categorySpinnerAdapter.getPosition(category));
