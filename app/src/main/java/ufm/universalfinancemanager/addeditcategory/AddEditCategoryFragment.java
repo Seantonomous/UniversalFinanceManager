@@ -109,10 +109,17 @@ public class AddEditCategoryFragment extends DaggerFragment implements AddEditCa
 
     @Override
     public void populateCategoryData(String name, Flow flow) {
+        is_editing = true;
+
         edit_name.setText(name);
 
         is_editing = true;
         cancel_button.setText("Delete");
+
+        if(mPresenter.checkDeletableCategory())
+            cancel_button.setEnabled(true);
+        else
+            cancel_button.setEnabled(false);
 
         switch(flow) {
             case INCOME:
@@ -122,6 +129,9 @@ public class AddEditCategoryFragment extends DaggerFragment implements AddEditCa
                 expense_radioButton.setChecked(true);
                 break;
         }
+
+        income_radioButton.setEnabled(false);
+        expense_radioButton.setEnabled(false);
     }
 
     @Override

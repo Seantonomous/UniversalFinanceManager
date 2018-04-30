@@ -61,7 +61,7 @@ public class NetworthAdapter extends BaseAdapter {
 
         totalNetworth = totalAssets - totalLiabilities;
 
-        mItems.set(0, new NetworthHeader("Worth: ", totalNetworth));
+        mItems.set(0, new NetworthHeader("Net Worth: ", totalNetworth));
 
     }
 

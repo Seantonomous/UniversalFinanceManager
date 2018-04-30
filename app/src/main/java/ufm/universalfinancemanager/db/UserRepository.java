@@ -268,6 +268,11 @@ public class UserRepository implements UserDataSource {
     }
 
     @Override
+    public void updateTransactionCategories(String oldName, String newName){
+        mLocalSource.updateTransactionCategories(oldName, newName);
+    }
+
+    @Override
     public void getAccounts(@NonNull final LoadAccountsCallback callback) {
         mLocalSource.getAccounts(new LoadAccountsCallback() {
             @Override

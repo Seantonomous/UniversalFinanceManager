@@ -186,6 +186,7 @@ public class AddEditAccountFragment extends DaggerFragment implements AddEditAcc
     @Override
     public void populateExistingAccountInfo(String name, double balance, AccountType type) {
         isediting = true;
+
         cancel_button.setText("Delete");
 
         edit_name.setText(name);

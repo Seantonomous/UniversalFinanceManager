@@ -142,7 +142,6 @@ public class AddEditTransactionFragment extends DaggerFragment implements AddEdi
         calendar.set(Calendar.MILLISECOND, 0);
         updateDate();
 
-
         edit_date.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

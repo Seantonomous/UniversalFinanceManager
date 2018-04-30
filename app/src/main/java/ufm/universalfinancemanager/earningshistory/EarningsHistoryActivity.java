@@ -106,7 +106,7 @@ public class EarningsHistoryActivity extends DaggerAppCompatActivity {
                                 break;
                             case R.id.earnings_menu_item:
                                 //switch to earnings menu
-                                startActivity(new Intent(getApplicationContext(), EarningsHistoryActivity.class));
+                                //startActivity(new Intent(getApplicationContext(), EarningsHistoryActivity.class));
                                 break;
                             case R.id.networth_menu_item:
                                 //switch to networth activity

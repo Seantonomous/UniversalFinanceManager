@@ -131,4 +131,9 @@ public class FakeUserRemoteDataSource implements UserDataSource {
     public void updateTransactionAccounts(String oldAccountName, String newAccountName) {
         //STUB
     }
+
+    @Override
+    public void updateTransactionCategories(String oldName, String newName){
+
+    }
 }

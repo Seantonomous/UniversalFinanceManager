@@ -12,7 +12,7 @@ Contributing Team Members: Areeba Waheed 10/21/17-->
     <string name="drawer_close">Close navigation</string>
 
     <!--Page Titles-->
-    <string name="home_title">UFM Home</string>
+    <string name="home_title">Home</string>
     <string name="transaction_title">Transaction History</string>
     <string name="earnings_title">Earnings History</string>
     <string name="budget_title">Budget Overview</string>

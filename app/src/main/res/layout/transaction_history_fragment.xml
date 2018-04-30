@@ -18,7 +18,7 @@ Contributing Team Members:-->
 
         <SearchView
             android:id="@+id/searchView"
-            android:layout_width="304dp"
+            android:layout_width="322dp"
             android:layout_height="wrap_content">
 
         </SearchView>
@@ -27,7 +27,8 @@ Contributing Team Members:-->
             android:id="@+id/buttonSort"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Sort"
+            android:layout_alignParentRight="true"
+            android:text="Search"
             android:textSize="14sp" />
     </TableRow>
 

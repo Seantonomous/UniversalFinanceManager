@@ -27,8 +27,6 @@ Contributing Team Members:
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentStart="true"
-            android:layout_below="@+id/textView"
-            android:layout_weight="0.05"
             android:hint="Name"
             android:inputType="text"
             android:textSize="20sp" />
@@ -183,7 +181,7 @@ Contributing Team Members:
             android:inputType="date"
             android:textSize="20sp"
             android:textAlignment="center"
-            android:hint=" DD/MM/ YYYY"/>
+            android:hint=" DD / MM / YYYY"/>
 
         <!--Drop Down menu for frequency selection-->
         <Spinner
@@ -211,7 +209,6 @@ Contributing Team Members:
             android:layout_height="wrap_content"
             android:layout_below="@id/notes"
             android:text="Submit"
-            android:background="@android:color/holo_green_dark"
             android:textSize="17sp" />
 
         <Button
@@ -221,7 +218,6 @@ Contributing Team Members:
             android:layout_alignEnd="@+id/fromaccount"
             android:layout_below="@+id/notes"
             android:layout_gravity="fill_horizontal"
-            android:background="@android:color/holo_red_dark"
             android:text="Cancel"
             android:textSize="17sp" />
 

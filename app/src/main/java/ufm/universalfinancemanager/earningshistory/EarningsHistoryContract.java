@@ -16,6 +16,8 @@ public class EarningsHistoryContract {
     interface View extends BaseView<Presenter> {
 
         void showEarningsHistory(List<EarningsHistoryListItem> list);
+
+        void showEditCategory(String categoryName);
     }
 
     interface Presenter extends BasePresenter<View> {

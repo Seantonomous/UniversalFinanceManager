@@ -45,7 +45,7 @@ public class NetworthHeader implements ListItem {
         }
 
         TextView stringNetworth = view.findViewById(R.id.networth_header);
-        stringNetworth.setText("Net " + this.title + num_format.format(this.dblAmount));
+        stringNetworth.setText(this.title + num_format.format(this.dblAmount));
 
         return view;
     }

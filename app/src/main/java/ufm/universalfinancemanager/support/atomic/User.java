@@ -108,6 +108,14 @@ public class User implements Serializable {
         mUserRepository.saveAccount(toEdit);
     }
 
+    public void editCategoryName(String oldName, String newName) {
+        Category toEdit = getCategory(oldName);
+        toEdit.setName(newName);
+
+        mUserRepository.deleteCategory(oldName);
+        mUserRepository.saveCategory(toEdit);
+    }
+
     public Account getAccount(String name) throws RuntimeException {
         for(Account account : accounts)
             if(account.getName().equals(name))
@@ -191,7 +199,7 @@ public class User implements Serializable {
         else
             expenseCategories.remove(category);
 
-        mUserRepository.deleteAccount(category.getName());
+        mUserRepository.deleteCategory(category.getName());
     }
 
     public void refresh() {

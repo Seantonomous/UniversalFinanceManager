@@ -126,11 +126,11 @@ public class Transaction implements ListItem, Serializable {
 
         //set text color based on flow type
         if(flow == Flow.OUTCOME)
-            amountText.setTextColor(Color.RED); //red
+            amountText.setTextColor(Color.rgb(183, 71, 71)); //red
         else if(flow == Flow.INCOME)
-            amountText.setTextColor(Color.GREEN); //green
+            amountText.setTextColor(Color.rgb(84, 175, 120)); //green
         else if(flow == Flow.TRANSFER)
-            amountText.setTextColor(Color.BLUE); //blue
+            amountText.setTextColor(Color.rgb(71, 138, 183)); //blue
 
         if(fromAccount != null)
             accountText.setText(this.fromAccount);

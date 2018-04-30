@@ -152,7 +152,7 @@ public class HomeActivity extends DaggerAppCompatActivity {
                         .beginTransaction()
                         .replace(R.id.frag_container, homeFragment1)
                         .commit();
-                tvChartName.setText("Budget Spend");
+                tvChartName.setText("Budget Summary");
                 chartNum = 1;
 
                 break;
@@ -165,7 +165,7 @@ public class HomeActivity extends DaggerAppCompatActivity {
                         .replace(R.id.frag_container, homeFragment2)
                         .commit();
 
-                tvChartName.setText("Net Worth");
+                tvChartName.setText("Net Worth Summary");
                 chartNum = 2;
 
                 break;
@@ -178,7 +178,7 @@ public class HomeActivity extends DaggerAppCompatActivity {
                         .replace(R.id.frag_container, homeFragment3)
                         .commit();
 
-                tvChartName.setText("Category Spend");
+                tvChartName.setText("Category Summary");
                 chartNum = 0;
 
                 break;

@@ -38,6 +38,13 @@ public class EarningsHistoryFragment extends DaggerFragment implements EarningsH
 
     private EarningsAdapter mAdapter;
 
+    private EarningsClickListener mListener = new EarningsClickListener() {
+        @Override
+        public void onCategoryClicked(EarningsHistoryListItem category) {
+            mPresenter.editCategory(category);
+        }
+    };
+
     @Inject
     public EarningsHistoryFragment() {
         //Required to be empty since extends Fragment
@@ -47,7 +54,7 @@ public class EarningsHistoryFragment extends DaggerFragment implements EarningsH
     public void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
-        mAdapter = new EarningsAdapter(new ArrayList<EarningsHistoryListItem>(0));
+        mAdapter = new EarningsAdapter(new ArrayList<EarningsHistoryListItem>(0), mListener);
     }
 
     @Override
@@ -113,6 +120,17 @@ public class EarningsHistoryFragment extends DaggerFragment implements EarningsH
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         inflater.inflate(R.menu.action_bar, menu);
+    }
+
+    @Override
+    public void showEditCategory(String categoryName) {
+        Intent intent = new Intent(getContext(), AddEditCategoryActivity.class);
+        intent.putExtra("CATEGORY_NAME", categoryName);
+        startActivity(intent);
+    }
+
+    public interface EarningsClickListener {
+        void onCategoryClicked(EarningsHistoryListItem category);
     }
 
 }

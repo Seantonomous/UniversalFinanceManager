@@ -25,13 +25,16 @@ import ufm.universalfinancemanager.transactionhistory.TransactionDateHeader;
 
 public class EarningsAdapter extends BaseAdapter {
 
-    private static final int TYPE_TRANSACTION = 0;
+    private static final int TYPE_CATEGORY = 0;
     private static final int TYPE_SEPARATOR = 1;
 
     private List<ListItem> mItems;
 
-    public EarningsAdapter(List<EarningsHistoryListItem> items) {
+    private EarningsHistoryFragment.EarningsClickListener mListener;
+
+    public EarningsAdapter(List<EarningsHistoryListItem> items, EarningsHistoryFragment.EarningsClickListener listener) {
         mItems = new ArrayList<>();
+        mListener = listener;
         setList(items);
     }
 
@@ -120,6 +123,14 @@ public class EarningsAdapter extends BaseAdapter {
     @NonNull
     public View getView(final int position, View convertView, @NonNull ViewGroup parent) {
         View rowView = getItem(position).getView(LayoutInflater.from(parent.getContext()), convertView);
+
+        rowView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(getItem(position).getViewType() == TYPE_CATEGORY)
+                    mListener.onCategoryClicked((EarningsHistoryListItem)getItem(position));
+            }
+        });
 
         return rowView;
     }

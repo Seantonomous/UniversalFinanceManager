@@ -41,6 +41,11 @@ public class EarningsHistoryPresenter implements EarningsHistoryContract.Present
         mUser = user;
     }
 
+    public void editCategory(EarningsHistoryListItem category) {
+       if(mEarningsHistoryView != null)
+            mEarningsHistoryView.showEditCategory(category.getName());
+    }
+
     @Override
     public void loadTransactionsInDateRange() {
         //Performing database/network call, forbid ui test activity until it's done
@@ -52,7 +57,7 @@ public class EarningsHistoryPresenter implements EarningsHistoryContract.Present
         long currentDate = a.getTime();
 
         cal.add(Calendar.MONTH, -1);
-        cal.set(Calendar.DAY_OF_MONTH, 1);
+        cal.set(Calendar.DAY_OF_MONTH, 0);
 
         Date b = cal.getTime();
         long pastDate = b.getTime();
@@ -83,8 +88,14 @@ public class EarningsHistoryPresenter implements EarningsHistoryContract.Present
 
         Calendar cal = Calendar.getInstance();
 
-        cal.set(Calendar.DAY_OF_MONTH, 1);
+        cal.set(Calendar.DAY_OF_MONTH, 0);
         Date lastMonthDate = cal.getTime();                                                             //Gets cutoff date between last month and current month
+
+        Calendar cal2 = Calendar.getInstance();
+
+        cal2.add(Calendar.MONTH, -1);
+        cal2.set(Calendar.DAY_OF_MONTH, 0);
+        Date cutoffDate = cal2.getTime();
 
         sortedList = new ArrayList<>();
         ArrayList<Category> incomeCategories = mUser.getIncomeCategories();                             //Get income categories list from user
@@ -100,26 +111,31 @@ public class EarningsHistoryPresenter implements EarningsHistoryContract.Present
 
             for (Transaction t : transactions)  {                                                        //Loop through transactions
 
-                if (t.getFlow() == Flow.INCOME) {                                                       //If transaction is an income type
+                if (t.getFlow() == Flow.INCOME) {                                                        //If transaction is an income type
 
                     if (t.getDate().before(lastMonthDate)) {                                            //If last month transaction
 
-                        if (t.getCategory().equals(c.getName()))                                                       //If transaction's category matches current category
-                            lastMonthCounter[i] += t.getAmount();                                       //Add transaction's amount to counter for this category
-                    }
-                    else {                                                                              //If current month transaction
+                        if(t.getDate().after(cutoffDate)){
 
-                        if (t.getCategory().equals(c.getName()))                                                       //If transaction's category matches current category
-                            thisMonthCounter[i] += t.getAmount();                                       //Add transaction's amount to counter for this category
+                            if (t.getCategory().equals(c.getName()))                                         //If transaction's category matches current category
+                                lastMonthCounter[i] += t.getAmount();                                        //Add transaction's amount to counter for this category
+                        }
+                    }
+                    else {                                                                               //If current month transaction
+                        if(t.getDate().before(Calendar.getInstance().getTime())){
+                            if (t.getCategory().equals(c.getName()))                                         //If transaction's category matches current category
+                                thisMonthCounter[i] += t.getAmount();                                        //Add transaction's amount to counter for this category
+                        }
+
                     }
                 }
 
             }
 
-            i++;                                                                                        //Increment index when moving onto next category
+            i++;                                                                                         //Increment index when moving onto next category
         }
 
-        for (Category c : expenseCategories) {                                                           //Repeat the above process for expense categories
+        for (Category c : expenseCategories) {                                                            //Repeat the above process for expense categories
 
             sortedList.add(new EarningsHistoryListItem(c.getName(), Flow.OUTCOME, 0, 0));
 

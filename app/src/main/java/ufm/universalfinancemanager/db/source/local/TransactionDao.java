@@ -83,4 +83,7 @@ public interface TransactionDao {
 
     @Query("UPDATE `Transaction` SET fromAccount = :newName WHERE fromAccount = :oldName")
     void updateTransactionFromAccounts(String oldName, String newName);
+
+    @Query("UPDATE `Transaction` SET category_name = :newName WHERE category_name = :oldName")
+    void updateTransactionCategories(String oldName, String newName);
 }

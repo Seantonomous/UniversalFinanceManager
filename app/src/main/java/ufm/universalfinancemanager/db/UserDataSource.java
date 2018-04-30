@@ -68,5 +68,7 @@ public interface UserDataSource {
     void deleteAllTransactions();
     void deleteTransactionsByAccount(String accountName);
 
+    void updateTransactionCategories(String oldName, String newName);
+
     void getTransactionsSearchByName(@NonNull LoadTransactionsCallback callback, @NonNull final String name);
 }

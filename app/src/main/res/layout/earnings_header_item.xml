@@ -15,7 +15,7 @@
             android:padding="4dp"
             android:textColor="#FFFFFF"
             android:textStyle="bold"
-            android:textSize="22sp"></TextView>
+            android:textSize="20sp" />
 
         <TextView
             android:id="@+id/last_month_total"
@@ -24,8 +24,8 @@
             android:padding="4dp"
             android:textColor="#FFFFFF"
             android:textStyle="bold"
-            android:textSize="22sp"></TextView>
-
+            android:textSize="20sp"
+            android:singleLine="true" />
         <TextView
             android:id="@+id/this_month_total"
             android:layout_width="99dp"
@@ -33,7 +33,8 @@
             android:padding="4dp"
             android:textColor="#FFFFFF"
             android:textStyle="bold"
-            android:textSize="22sp"></TextView>
+            android:textSize="20sp"
+            android:singleLine="true" />
     </TableRow>
 
 </TableLayout>
