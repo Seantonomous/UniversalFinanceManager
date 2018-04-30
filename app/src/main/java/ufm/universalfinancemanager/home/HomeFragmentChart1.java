@@ -43,6 +43,9 @@ public class HomeFragmentChart1 extends DaggerFragment implements HomeContract.V
     public HomePresenter mPresenter;
     HomeClassBudgetSpend horizontalBarChart;
 
+    private View mChartView;
+    private View mNoChartView;
+
     @Inject
     public HomeFragmentChart1() {}
 
@@ -58,6 +61,11 @@ public class HomeFragmentChart1 extends DaggerFragment implements HomeContract.V
     }
 
     @Override
+    public void showNoChart() {
+        //STUB
+    }
+
+    @Override
     public void populateList(List<Transaction> items) {
         //STUB
     }
@@ -69,7 +77,14 @@ public class HomeFragmentChart1 extends DaggerFragment implements HomeContract.V
 
     @Override
     public void populateBudgets(ArrayList<HomeDataBudgetSpend> data) {
-        horizontalBarChart.setData(data);
+        if(data.isEmpty()) {
+            mNoChartView.setVisibility(View.VISIBLE);
+            mChartView.setVisibility(View.GONE);
+        }else {
+            mNoChartView.setVisibility(View.GONE);
+            mChartView.setVisibility(View.VISIBLE);
+            horizontalBarChart.setData(data);
+        }
     }
 
     @Override
@@ -87,6 +102,9 @@ public class HomeFragmentChart1 extends DaggerFragment implements HomeContract.V
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.home_fragment_chart1, container, false);
 
+        mChartView = root.findViewById(R.id.chartLayout);
+        mNoChartView = root.findViewById(R.id.noChartLayout);
+        mNoChartView.setVisibility(View.GONE);
 
         HorizontalBarChart mChart;
         mChart = root.findViewById(R.id.chart1);
