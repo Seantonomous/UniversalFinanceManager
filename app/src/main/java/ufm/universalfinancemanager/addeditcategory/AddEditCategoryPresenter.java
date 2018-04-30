@@ -35,7 +35,7 @@ public class AddEditCategoryPresenter implements AddEditCategoryContract.Present
         mUser = user;
         mUserRepository = userRepository;
         mCategoryName = categoryName;
-        deletable = false;
+        deletable = true;
     }
 
     @Override
