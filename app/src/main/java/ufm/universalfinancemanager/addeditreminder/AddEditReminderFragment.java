@@ -125,8 +125,11 @@ public class AddEditReminderFragment extends DaggerFragment implements AddEditRe
         edit_date.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                new DatePickerDialog(getContext(), date, calendar.get(Calendar.YEAR),
-                        calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH)).show();
+                DatePickerDialog picker = new DatePickerDialog(getContext(), date, calendar.get(Calendar.YEAR),
+                        calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH));
+
+                picker.getDatePicker().setMinDate(new Date().getTime());
+                picker.show();
             }
         });
 
