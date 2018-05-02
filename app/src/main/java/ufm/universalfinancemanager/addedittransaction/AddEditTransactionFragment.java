@@ -27,6 +27,8 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.blackcat.currencyedittext.CurrencyEditText;
+
 import java.math.BigDecimal;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
@@ -60,7 +62,7 @@ public class AddEditTransactionFragment extends DaggerFragment implements AddEdi
     public static final String ARGUMENT_EDIT_TRANSACTION_ID = "EDIT_TRANSACTION_ID";
 
     private EditText edit_name;
-    private EditText edit_amount;
+    private CurrencyEditText edit_amount;
     private EditText edit_date;
     private RadioGroup flow_radioGroup;
     private RadioButton income_radioButton;
@@ -166,11 +168,13 @@ public class AddEditTransactionFragment extends DaggerFragment implements AddEdi
                     return;
                 }
 
+                NumberFormat formatter = new DecimalFormat("#0.00");
+
                 double amount = Double.parseDouble(edit_amount.getText().toString().replace("$","").replace(",",""));
                 if(income_radioButton.isChecked()) {
                     mPresenter.saveTransaction(edit_name.getText().toString(),
                             Flow.INCOME,
-                            Double.parseDouble(edit_amount.getText().toString()),
+                            amount,
                             category_spinner.getSelectedItem().toString(),
                             null,
                             toAccount_spinner.getSelectedItem().toString(),
@@ -190,7 +194,7 @@ public class AddEditTransactionFragment extends DaggerFragment implements AddEdi
                 }else { //transfer
                     mPresenter.saveTransaction(edit_name.getText().toString(),
                             Flow.TRANSFER,
-                            Double.parseDouble(edit_amount.getText().toString()),
+                           amount,
                             null,
                             fromAccount_spinner.getSelectedItem().toString(),
                             toAccount_spinner.getSelectedItem().toString(),
@@ -340,7 +344,10 @@ public class AddEditTransactionFragment extends DaggerFragment implements AddEdi
                                        Category categoryName, @Nullable Account fromAccountName,
                                        @Nullable Account toAccountName, Date date, @Nullable String notes) {
         edit_name.setText(name);
-        edit_amount.setText(Double.toString(amount));
+
+        NumberFormat formatter = new DecimalFormat("#0.00");
+        edit_amount.setText(formatter.format(amount));
+
         getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
 
         if(flow == Flow.INCOME) {

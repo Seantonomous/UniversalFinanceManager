@@ -23,6 +23,10 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.blackcat.currencyedittext.CurrencyEditText;
+
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.util.Calendar;
 
 /**
@@ -34,7 +38,7 @@ public class AddEditAccountFragment extends DaggerFragment implements AddEditAcc
     public AddEditAccountPresenter mPresenter;
 
     EditText edit_name;
-    EditText edit_amount;
+    CurrencyEditText edit_amount;
     Spinner type_spinner;
     Button submit_button;
     Button cancel_button;
@@ -125,8 +129,9 @@ public class AddEditAccountFragment extends DaggerFragment implements AddEditAcc
                         selectedType = AccountType.CHECKING;
                 }
 
+                double amount = Double.parseDouble(edit_amount.getText().toString().replace("$","").replace(",",""));
                 mPresenter.saveAccount(edit_name.getText().toString(),
-                        Double.parseDouble(edit_amount.getText().toString()),
+                        amount,
                         selectedType);
             }
         });
@@ -191,7 +196,8 @@ public class AddEditAccountFragment extends DaggerFragment implements AddEditAcc
 
         edit_name.setText(name);
 
-        edit_amount.setText(Double.toString(balance));
+        NumberFormat formatter = new DecimalFormat("#0.00");
+        edit_amount.setText(formatter.format(balance));
         edit_amount.setEnabled(false);  //Disable balance editing
 
         ArrayAdapter<String> adapter = (ArrayAdapter<String>)type_spinner.getAdapter();
