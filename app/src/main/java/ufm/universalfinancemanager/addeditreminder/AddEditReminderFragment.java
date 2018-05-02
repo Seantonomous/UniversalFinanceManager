@@ -1,7 +1,13 @@
 package ufm.universalfinancemanager.addeditreminder;
 
 import android.app.Activity;
+import android.app.AlarmManager;
 import android.app.DatePickerDialog;
+import android.app.Notification;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.content.Context;
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.RequiresApi;
@@ -17,17 +23,23 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
+import java.io.Console;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 import java.sql.Time;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 import javax.inject.Inject;
 
 import dagger.android.support.DaggerFragment;
 import ufm.universalfinancemanager.R;
 import ufm.universalfinancemanager.support.TextValidator;
+
+import static android.content.Context.ALARM_SERVICE;
+import static android.content.Context.SYSTEM_HEALTH_SERVICE;
 
 /**
  * Created by Areeba on 2/17/2018.
@@ -97,7 +109,7 @@ public class AddEditReminderFragment extends DaggerFragment implements AddEditRe
 
         Calendar currentCal = Calendar.getInstance();
         Date currentDate = currentCal.getTime();
-        int currentHour = currentDate.getHours();
+        final int currentHour = currentDate.getHours();
         int currentMinute = currentDate.getMinutes();
         hour = currentHour;
         minute = currentMinute;
@@ -146,6 +158,27 @@ public class AddEditReminderFragment extends DaggerFragment implements AddEditRe
                         mPresenter.saveReminders(edit_name.getText().toString(), new Time(hour, minute, 0), calendar.getTime(), edit_notes.getText().toString());
                     //}
                 }
+
+                int hourOfDay = timepicker.getHour();
+                int minute = timepicker.getMinute();
+
+                long currentTime = System.currentTimeMillis();
+                long diffTime =0;
+
+                Calendar cal = Calendar.getInstance();
+
+                cal.setTimeInMillis(currentTime);
+                cal.set(Calendar.HOUR_OF_DAY, hourOfDay);
+                cal.set(Calendar.MINUTE, minute);
+                cal.set(Calendar.SECOND, 0);
+
+                diffTime = cal.getTimeInMillis() - currentTime;
+
+                Intent i = new Intent(getActivity(), NotifyReminder.class);
+                PendingIntent pi = PendingIntent.getBroadcast(getContext(), 0, i, 0);
+                AlarmManager am = (AlarmManager)getContext().getSystemService(getContext().ALARM_SERVICE);
+                am.set(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() +diffTime, pi);
+
             }
         });
 

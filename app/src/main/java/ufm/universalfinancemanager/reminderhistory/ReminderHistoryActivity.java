@@ -1,5 +1,7 @@
 package ufm.universalfinancemanager.reminderhistory;
 
+import android.app.AlarmManager;
+import android.app.PendingIntent;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
@@ -53,7 +55,6 @@ public class ReminderHistoryActivity extends DaggerAppCompatActivity
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.reminder_history_activity);
-
         mDrawerLayout = findViewById(R.id.drawer_layout);
         NavigationView navigationView = findViewById(R.id.nav_view);
         //if(navigationView == null)
