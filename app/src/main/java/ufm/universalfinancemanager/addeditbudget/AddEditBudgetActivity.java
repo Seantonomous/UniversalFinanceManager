@@ -33,6 +33,9 @@ public class AddEditBudgetActivity extends DaggerAppCompatActivity {
     AddEditBudgetPresenter mPresenter;
     @Inject
     AddEditBudgetFragment mFragment;
+
+    @Nullable
+    @Inject
     String name;
 
     private DrawerLayout mDrawerLayout;

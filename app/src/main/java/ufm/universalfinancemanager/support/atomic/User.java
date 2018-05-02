@@ -10,22 +10,18 @@
 
 package ufm.universalfinancemanager.support.atomic;
 
-import android.arch.persistence.room.Insert;
-
 import java.io.Serializable;
 
 import ufm.universalfinancemanager.db.UserDataSource;
 import ufm.universalfinancemanager.db.UserRepository;
 import ufm.universalfinancemanager.db.entity.Account;
+import ufm.universalfinancemanager.db.entity.Budget;
 import ufm.universalfinancemanager.db.entity.Category;
-import ufm.universalfinancemanager.db.entity.Transaction;
 import ufm.universalfinancemanager.support.Flow;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
-
-import javax.inject.Inject;
 
 public class User implements Serializable {
     private String username;
@@ -147,8 +143,16 @@ public class User implements Serializable {
 
         throw new RuntimeException(String.format(Locale.getDefault(), "Budget %s not found", name));
     }
-    public void deleteBudget(String name) {budgets.remove(name);}
-    public ArrayList<Budget> getBudgets() {return this.budgets;}
+
+    public void deleteBudget(String name) {
+        for(Budget budget : budgets)
+            if(budget.getName().equals(name))
+                budgets.remove(budget);
+    }
+
+    public ArrayList<Budget> getBudgets() {
+        return this.budgets;
+    }
     public void refreshBudgets() {}
 
     public boolean addCategory(Category c) throws RuntimeException {
