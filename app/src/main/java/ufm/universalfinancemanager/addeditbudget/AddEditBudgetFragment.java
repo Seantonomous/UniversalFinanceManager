@@ -242,7 +242,7 @@ public class AddEditBudgetFragment extends DaggerFragment implements AddEditBudg
 
 
     public void updateDate() {
-        String myFormat = "MM/dd/yy";
+        String myFormat = "MM / dd / yy";
         SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
 
         edit_startdate.setText(sdf.format(calendar.getTime()));

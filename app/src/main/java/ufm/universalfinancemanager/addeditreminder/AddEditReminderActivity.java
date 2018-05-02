@@ -1,5 +1,6 @@
 package ufm.universalfinancemanager.addeditreminder;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -15,6 +16,11 @@ import dagger.android.support.DaggerAppCompatActivity;
 import ufm.universalfinancemanager.R;
 import ufm.universalfinancemanager.addeditaccount.AddEditAccountFragment;
 import ufm.universalfinancemanager.addeditaccount.AddEditAccountPresenter;
+import ufm.universalfinancemanager.budgetoverview.BudgetActivity;
+import ufm.universalfinancemanager.earningshistory.EarningsHistoryActivity;
+import ufm.universalfinancemanager.home.HomeActivity;
+import ufm.universalfinancemanager.networth.NetworthActivity;
+import ufm.universalfinancemanager.transactionhistory.TransactionHistoryActivity;
 import ufm.universalfinancemanager.util.ActivityUtils;
 
 /**
@@ -95,19 +101,24 @@ public class AddEditReminderActivity extends DaggerAppCompatActivity {
                     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                         switch(item.getItemId()) {
                             case R.id.home_menu_item:
-                                //switch to home activity
+                                // switch to home activity
+                                startActivity(new Intent(getApplicationContext(), HomeActivity.class));
                                 break;
                             case R.id.budget_menu_item:
                                 //switch to budget overview activity
+                                startActivity(new Intent(getApplicationContext(), BudgetActivity.class));
                                 break;
                             case R.id.trans_history_menu_item:
                                 //switch to transaction history activity
+                                startActivity(new Intent(getApplicationContext(), TransactionHistoryActivity.class));
                                 break;
                             case R.id.earnings_menu_item:
-                                //switch to input output activity
+                                //switch to earnings menu
+                                startActivity(new Intent(getApplicationContext(), EarningsHistoryActivity.class));
                                 break;
                             case R.id.networth_menu_item:
                                 //switch to networth activity
+                                startActivity(new Intent(getApplicationContext(), NetworthActivity.class));
                                 break;
                             case R.id.reminder_menu_item:
                                 break;

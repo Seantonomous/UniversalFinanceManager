@@ -98,7 +98,7 @@ public class BudgetActivity extends DaggerAppCompatActivity {
                                 startActivity(new Intent(getApplicationContext(), HomeActivity.class));
                                 break;
                             case R.id.budget_menu_item:
-                                startActivity(new Intent(getApplicationContext(), BudgetActivity.class));
+                                //startActivity(new Intent(getApplicationContext(), BudgetActivity.class));
                                 break;
                             case R.id.trans_history_menu_item:
                                 //Do nothing we're already here

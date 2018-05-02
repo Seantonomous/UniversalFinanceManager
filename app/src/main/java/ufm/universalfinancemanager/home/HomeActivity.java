@@ -204,7 +204,7 @@ public class HomeActivity extends DaggerAppCompatActivity {
                         switch(item.getItemId()) {
                             case R.id.home_menu_item:
                                 // switch to home activity
-                                startActivity(new Intent(getApplicationContext(), HomeActivity.class));
+                                //startActivity(new Intent(getApplicationContext(), HomeActivity.class));
                                 break;
                             case R.id.budget_menu_item:
                                 startActivity(new Intent(getApplicationContext(), BudgetActivity.class));

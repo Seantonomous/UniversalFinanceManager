@@ -426,7 +426,7 @@ public class AddEditTransactionFragment extends DaggerFragment implements AddEdi
     }
 
     public void updateDate() {
-        String myFormat = "MM/dd/yy";
+        String myFormat = "MM / dd / yy";
         SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
 
         edit_date.setText(sdf.format(calendar.getTime()));

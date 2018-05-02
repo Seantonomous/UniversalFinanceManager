@@ -14,6 +14,7 @@ import javax.inject.Inject;
 import dagger.Lazy;
 import dagger.android.support.DaggerAppCompatActivity;
 import ufm.universalfinancemanager.R;
+import ufm.universalfinancemanager.budgetoverview.BudgetActivity;
 import ufm.universalfinancemanager.home.HomeActivity;
 import ufm.universalfinancemanager.networth.NetworthActivity;
 import ufm.universalfinancemanager.transactionhistory.TransactionHistoryActivity;
@@ -99,6 +100,7 @@ public class EarningsHistoryActivity extends DaggerAppCompatActivity {
                                 break;
                             case R.id.budget_menu_item:
                                 //switch to budget overview activity
+                                startActivity(new Intent(getApplicationContext(), BudgetActivity.class));
                                 break;
                             case R.id.trans_history_menu_item:
                                 //switch to transaction history activity

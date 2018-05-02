@@ -111,7 +111,7 @@ public class NetworthActivity extends DaggerAppCompatActivity {
                                 break;
                             case R.id.networth_menu_item:
                                 //switch to networth activity
-                                startActivity(new Intent(getApplicationContext(), NetworthActivity.class));
+                                //startActivity(new Intent(getApplicationContext(), NetworthActivity.class));
                                 break;
                             case R.id.reminder_menu_item:
                                 break;

@@ -12,13 +12,10 @@
             android:padding="4dp">
         </TextView>
 
-        <TextView >
-
-        </TextView>
-
         <TextView android:id="@+id/category"
             android:textSize="18sp"
             android:ellipsize="end"
+            android:gravity="end"
             android:textColor="@color/colorPrimary"
             android:padding="4dp">
         </TextView>
@@ -27,17 +24,14 @@
         <TextView android:id="@+id/startDate"
             android:textSize="10sp"
             android:textColor="@color/colorPrimary"
-            android:padding="4dp">
-        </TextView>
-
-        <TextView >
-
+            android:padding="2dp">
         </TextView>
 
         <TextView android:id="@+id/endDate"
             android:textSize="10sp"
+            android:gravity="end"
             android:textColor="@color/colorPrimary"
-            android:padding="4dp">
+            android:padding="2dp">
         </TextView>
     </TableRow>
 
@@ -46,14 +40,14 @@
             android:text="Spent: "
             android:textSize="12sp"
             android:textColor="@color/colorPrimary"
-            android:padding="4dp">
+            android:padding="2dp">
         </TextView>
         <TextView
             android:id="@+id/spent"
             android:gravity="end"
             android:textSize="12sp"
             android:textColor="@color/colorPrimary"
-            android:padding="4dp">
+            android:padding="2dp">
 
         </TextView>
     </TableRow>
@@ -62,13 +56,13 @@
             android:text="Remaining: "
             android:textSize="12sp"
             android:textColor="@color/colorPrimary"
-            android:padding="4dp">
+            android:padding="2dp">
         </TextView>
         <TextView android:id="@+id/left"
             android:gravity="end"
             android:textSize="12sp"
             android:textColor="@color/colorPrimary"
-            android:padding="4dp">
+            android:padding="2dp">
         </TextView>
     </TableRow>
     <TableRow>
@@ -76,13 +70,13 @@
             android:text="Total: "
             android:textSize="12sp"
             android:textColor="@color/colorPrimary"
-            android:padding="4dp">
+            android:padding="2dp">
         </TextView>
         <TextView android:id="@+id/total"
             android:gravity="end"
             android:textSize="12sp"
             android:textColor="@color/colorPrimary"
-            android:padding="4dp">
+            android:padding="2dp">
         </TextView>
     </TableRow>
     <TableRow>
@@ -90,13 +84,13 @@
             android:text="Over Budget: "
             android:textSize="12sp"
             android:textColor="#FF0000"
-            android:padding="4dp">
+            android:padding="2dp">
         </TextView>
         <TextView android:id="@+id/over"
             android:gravity="end"
             android:textSize="12sp"
             android:textColor="#FF0000"
-            android:padding="4dp">
+            android:padding="2dp">
         </TextView>
     </TableRow>
 

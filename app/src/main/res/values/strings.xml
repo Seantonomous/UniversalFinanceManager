@@ -7,7 +7,7 @@ Peer Review:
 Contributing Team Members: Areeba Waheed 10/21/17-->
 
 <resources>
-    <string name="app_name">UniversalFinanceManager</string>
+    <string name="app_name">UFM</string>
     <string name="drawer_open">Open navigation</string>
     <string name="drawer_close">Close navigation</string>
 
