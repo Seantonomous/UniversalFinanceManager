@@ -16,6 +16,10 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.blackcat.currencyedittext.CurrencyEditText;
+
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -45,7 +49,7 @@ public class AddEditBudgetFragment extends DaggerFragment implements AddEditBudg
     Button cancel_button;
     Button submit_button;
     private Spinner category_spinner;
-    private EditText edit_amount;
+    private CurrencyEditText edit_amount;
     private EditText edit_name;
     private EditText edit_startdate;
     //private Date enddate;
@@ -159,9 +163,10 @@ public class AddEditBudgetFragment extends DaggerFragment implements AddEditBudg
                     return;
                 }
 
+                double amount = Double.parseDouble(edit_amount.getText().toString().replace("$","").replace(",",""));
             mPresenter.saveBudget(edit_name.getText().toString(),
                     category_spinner.getSelectedItem().toString(),
-                    Double.parseDouble(edit_amount.getText().toString()),
+                    amount,
                     calendar.getTime(),
                     calendar2.getTime()
             );
@@ -233,7 +238,8 @@ public class AddEditBudgetFragment extends DaggerFragment implements AddEditBudg
         edit_name.setText(name);
         getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
         category_spinner.setSelection(categorySpinnerAdapter.getPosition(category));
-        edit_amount.setText(Double.toString(amount));
+        NumberFormat formatter = new DecimalFormat("#0.00");
+        edit_amount.setText(formatter.format(amount).toString());
         calendar.setTime(startDate);
         calendar2.setTime(endDate);
         mPresenter.getUpdatedCategories(Flow.INCOME);getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);

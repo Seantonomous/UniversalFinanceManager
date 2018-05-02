@@ -62,4 +62,7 @@ dependencies {
     // Chart dependencies
     implementation 'com.github.PhilJay:MPAndroidChart:v3.0.2'
 
+    // Input format dependency
+    compile 'com.github.BlacKCaT27:CurrencyEditText:2.0.2'
+
 }

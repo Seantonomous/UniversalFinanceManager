@@ -23,7 +23,7 @@
             android:textSize="20sp"
             android:inputType="text" />
 
-        <EditText
+        <com.blackcat.currencyedittext.CurrencyEditText
             android:id="@+id/add_amount"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

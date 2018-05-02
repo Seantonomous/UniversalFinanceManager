@@ -28,7 +28,7 @@ Contributing Team Members:
             android:hint="Name"
             android:inputType="textPersonName" />
 
-        <EditText
+        <com.blackcat.currencyedittext.CurrencyEditText
             android:id="@+id/balance"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

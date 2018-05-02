@@ -31,7 +31,7 @@ Contributing Team Members:
             android:inputType="text"
             android:textSize="20sp" />
 
-        <EditText
+        <com.blackcat.currencyedittext.CurrencyEditText
             android:layout_below="@id/name"
             android:id="@+id/amount"
             android:layout_marginTop="5dp"
