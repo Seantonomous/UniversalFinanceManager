@@ -276,7 +276,7 @@ public class User implements Serializable {
     public void deleteReminder(String name) {
         for(Reminder r : reminders)
             if(r.getName().equals(name))
-                budgets.remove(r);
+                reminders.remove(r);
     }
     public ArrayList<Reminder> getReminders() {return this.reminders;}
 }
