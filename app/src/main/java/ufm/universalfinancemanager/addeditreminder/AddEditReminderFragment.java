@@ -1,13 +1,20 @@
 package ufm.universalfinancemanager.addeditreminder;
 
 import android.app.Activity;
+import android.app.AlarmManager;
 import android.app.DatePickerDialog;
+import android.app.Notification;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.content.Context;
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.RequiresApi;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
@@ -17,17 +24,23 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
+import java.io.Console;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 import java.sql.Time;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 import javax.inject.Inject;
 
 import dagger.android.support.DaggerFragment;
 import ufm.universalfinancemanager.R;
 import ufm.universalfinancemanager.support.TextValidator;
+
+import static android.content.Context.ALARM_SERVICE;
+import static android.content.Context.SYSTEM_HEALTH_SERVICE;
 
 /**
  * Created by Areeba on 2/17/2018.
@@ -44,7 +57,6 @@ public class AddEditReminderFragment extends DaggerFragment implements AddEditRe
     private EditText edit_notes;
     Button submit_button;
     Button cancel_button;
-
     private Date datePicker;
 
     private Calendar calendar;
@@ -97,7 +109,7 @@ public class AddEditReminderFragment extends DaggerFragment implements AddEditRe
 
         Calendar currentCal = Calendar.getInstance();
         Date currentDate = currentCal.getTime();
-        int currentHour = currentDate.getHours();
+        final int currentHour = currentDate.getHours();
         int currentMinute = currentDate.getMinutes();
         hour = currentHour;
         minute = currentMinute;
@@ -125,11 +137,8 @@ public class AddEditReminderFragment extends DaggerFragment implements AddEditRe
         edit_date.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                DatePickerDialog picker = new DatePickerDialog(getContext(), date, calendar.get(Calendar.YEAR),
-                        calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH));
-
-                picker.getDatePicker().setMinDate(new Date().getTime());
-                picker.show();
+                new DatePickerDialog(getContext(), date, calendar.get(Calendar.YEAR),
+                        calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH)).show();
             }
         });
 
@@ -141,21 +150,48 @@ public class AddEditReminderFragment extends DaggerFragment implements AddEditRe
                 Date dateSelected = calendar.getTime();
                 int a = dateSelected.getDay();
 
-                if(valid_name) {
-                  //  if(a < Calendar.DATE) {
+                //if(valid_name) {
+                    //  if(a < Calendar.DATE) {
                     //    edit_date.setError("Date cannot be before current Date");
-                  //  }
-                   // else{
-                        mPresenter.saveReminders(edit_name.getText().toString(), new Time(hour, minute, 0), calendar.getTime(), edit_notes.getText().toString());
+                    //  }
+                    // else{
+                    mPresenter.saveReminders(edit_name.getText().toString(), new Time(hour, minute, 0), calendar.getTime(), edit_notes.getText().toString());
                     //}
-                }
+                //}
+
+                int hourOfDay = timepicker.getHour();
+                int minute = timepicker.getMinute();
+
+                long currentTime = System.currentTimeMillis();
+                long diffTime =0;
+
+                Calendar cal = Calendar.getInstance();
+
+                cal.setTimeInMillis(currentTime);
+                cal.set(Calendar.HOUR_OF_DAY, hourOfDay);
+                cal.set(Calendar.MINUTE, minute);
+                cal.set(Calendar.SECOND, 0);
+
+                diffTime = cal.getTimeInMillis() - currentTime;
+
+                Intent i = new Intent(getActivity(), NotifyReminder.class);
+                PendingIntent pi = PendingIntent.getBroadcast(getContext(), 0, i, 0);
+                AlarmManager am = (AlarmManager)getContext().getSystemService(getContext().ALARM_SERVICE);
+                am.set(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() +diffTime, pi);
+
             }
         });
 
         cancel_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                showLastActivity(false);
+                if(isEditing) {
+                    mPresenter.deleteReminders();
+                }
+                else {
+                    showLastActivity(false);
+                }
+
             }
         });
 
@@ -173,6 +209,14 @@ public class AddEditReminderFragment extends DaggerFragment implements AddEditRe
         getActivity().finish();
     }
 
+    @Override
+    public void setUpFragmentContent(boolean editing) {
+        this.isEditing = editing;
+        if(isEditing) {
+            cancel_button.setText("Delete");
+        }
+    }
+
     public void updateDate() {
         String myFormat = "MM / dd / yy";
         SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
@@ -186,5 +230,23 @@ public class AddEditReminderFragment extends DaggerFragment implements AddEditRe
     @Override
     public void showMessage(String message) {
         Toast.makeText(getContext(), message, Toast.LENGTH_LONG).show();
+    }
+
+
+    @Override
+    public void populateExistingFields(String name, Time time, Date date, String notes) {
+        isEditing = true;
+        edit_name.setText(name);
+        getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
+        calendar.setTime(date);
+        edit_notes.setText(notes);
+        //Calendar call = Calendar.getInstance();
+        /*int hourOfDay = time.getHours();
+        int minute = time.getMinutes();
+        call.set(Calendar.HOUR_OF_DAY, hourOfDay);
+        call.set(Calendar.MINUTE, minute);
+        call.set(Calendar.SECOND, 0);*/
+        updateDate();
+
     }
 }

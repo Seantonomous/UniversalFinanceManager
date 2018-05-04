@@ -21,10 +21,11 @@ import ufm.universalfinancemanager.R;
 
 
 import ufm.universalfinancemanager.addeditaccount.AddEditAccountActivity;
+import ufm.universalfinancemanager.addeditbudget.AddEditBudgetActivity;
 import ufm.universalfinancemanager.addeditcategory.AddEditCategoryActivity;
 import ufm.universalfinancemanager.addeditreminder.AddEditReminderActivity;
 import ufm.universalfinancemanager.addedittransaction.AddEditTransactionActivity;
-import ufm.universalfinancemanager.support.atomic.Reminder;
+import ufm.universalfinancemanager.db.entity.Reminder;
 
 /**
  * Created by simranjeetkaur on 06/04/18.
@@ -39,10 +40,17 @@ public class ReminderHistoryFragment extends dagger.android.support.DaggerFragme
     @Inject
     public ReminderHistoryFragment() {}
 
+    ReminderHistoryFragment.ReminderClickListener mClickListener = new ReminderHistoryFragment.ReminderClickListener (){
+        @Override
+        public void onReminderClicked(Reminder r) {
+            mPresenter.editReminder(r.getName());
+        }
+    };
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mAdapter = new ReminderHistoryAdapter(new ArrayList<Reminder>(0));
+        mAdapter = new ReminderHistoryAdapter(new ArrayList<Reminder>(0), mClickListener);
     }
 
     @Override
@@ -78,7 +86,10 @@ public class ReminderHistoryFragment extends dagger.android.support.DaggerFragme
                 startActivity(new Intent(getContext(), AddEditCategoryActivity.class));
                 break;
             case R.id.action_add_reminder:
-                startActivity(new Intent(getContext(), AddEditReminderActivity.class));
+                mPresenter.addReminder();
+                break;
+            case R.id.action_add_budget:
+                startActivity(new Intent(getContext(), AddEditBudgetActivity.class));
                 break;
         }
         return true;
@@ -91,5 +102,22 @@ public class ReminderHistoryFragment extends dagger.android.support.DaggerFragme
     @Override
     public void showReminders(List<Reminder> reminders) {
         mAdapter.replaceItem(reminders);
+    }
+
+    @Override
+    public void showAddEditReminders() {
+        startActivityForResult(new Intent(getContext(), AddEditReminderActivity.class),1);
+
+    }
+
+    @Override
+    public void showAddEditReminders(String id) {
+        Intent intent = new Intent(getContext(), AddEditReminderActivity.class);
+        intent.putExtra("EDIT_REMINDER_ID", id);
+        startActivityForResult(intent, 2);
+
+    }
+    public interface ReminderClickListener{
+        void onReminderClicked(Reminder b);
     }
 }

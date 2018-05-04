@@ -43,6 +43,7 @@ public class UserModule {
         if(!testUser.hasCategory("Test Category 2"))
             testUser.addCategory(new Category("Test Category 2", Flow.INCOME));
         */
+
         return testUser;
     }
 }

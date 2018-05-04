@@ -24,15 +24,16 @@ public interface AddEditReminderContract {
     interface View extends BaseView<AddEditReminderContract.Presenter> {
 
         void showLastActivity(boolean success);
-
+        void setUpFragmentContent(boolean editing);
         void showMessage(String message);
+        void populateExistingFields(String name, Time time, Date date, String notes);
     }
 
     interface Presenter extends BasePresenter<AddEditReminderContract.View> {
 
         void saveReminders(String name, Time time, Date date, String notes);
+        void deleteReminders();
         void takeView(AddEditReminderContract.View v);
-
         void dropView();
     }
 }

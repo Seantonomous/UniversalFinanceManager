@@ -27,9 +27,22 @@ public class ReminderHistoryPresenter implements ReminderHistoryContract.Present
     }
 
     @Override
+    public void addReminder() {
+        if(mView != null) {
+            mView.showAddEditReminders();
+        }
+    }
+
+    @Override
+    public void editReminder(String id) {
+        this.mView.showAddEditReminders(id);
+
+    }
+
+    @Override
     public void takeView(ReminderHistoryContract.View view)
         {
-            mView = view;
+            this.mView = view;
             loadReminders();
     }
     @Override

@@ -1,3 +1,4 @@
+
 package ufm.universalfinancemanager.addeditreminder;
 
 import android.content.Intent;
@@ -33,9 +34,9 @@ public class AddEditReminderActivity extends DaggerAppCompatActivity {
     @Inject
     AddEditReminderFragment mFragment;
 
-    //@Inject
-    //@Nullable
-    String ReminderName;
+    @Inject
+    @Nullable
+    String reminderName;
 
     private DrawerLayout mDrawerLayout;
     private ActionBarDrawerToggle mDrawerToggle;
@@ -48,9 +49,9 @@ public class AddEditReminderActivity extends DaggerAppCompatActivity {
         mDrawerLayout = findViewById(R.id.drawer_layout);
         NavigationView navigationView = findViewById(R.id.nav_view);
 
-        if(navigationView == null) {
+        //if(navigationView == null) {
             setupDrawerContent(navigationView);
-        }
+        //}
 
         AddEditReminderFragment addEditReminderFragment =
                 (AddEditReminderFragment)getSupportFragmentManager().findFragmentById(R.id.contentFrame);
@@ -58,8 +59,8 @@ public class AddEditReminderActivity extends DaggerAppCompatActivity {
         if(addEditReminderFragment == null) {
             addEditReminderFragment = mFragment;
 
-           ActivityUtils.addFragmentToActivity(getSupportFragmentManager(),
-                   addEditReminderFragment , R.id.contentFrame);
+            ActivityUtils.addFragmentToActivity(getSupportFragmentManager(),
+                    addEditReminderFragment , R.id.contentFrame);
         }
 
         mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout, R.string.drawer_open,
@@ -78,11 +79,20 @@ public class AddEditReminderActivity extends DaggerAppCompatActivity {
         };
 
         mDrawerLayout.addDrawerListener(mDrawerToggle);
-        setTitle("Add Reminder");
+        //setTitle("Add Reminder");
+        setToolbarTitle(reminderName);
         getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_menu);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
+    public void setToolbarTitle(@Nullable String name) {
+        if(name == null) {
+            setTitle(R.string.reminder_add_title);
+        }
+        else{
+            setTitle(R.string.reminder_edit_title);
+        }
+    }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -101,24 +111,24 @@ public class AddEditReminderActivity extends DaggerAppCompatActivity {
                     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                         switch(item.getItemId()) {
                             case R.id.home_menu_item:
-                                // switch to home activity
                                 startActivity(new Intent(getApplicationContext(), HomeActivity.class));
+                                //switch to home activity
                                 break;
                             case R.id.budget_menu_item:
-                                //switch to budget overview activity
                                 startActivity(new Intent(getApplicationContext(), BudgetActivity.class));
+                                //switch to budget overview activity
                                 break;
                             case R.id.trans_history_menu_item:
-                                //switch to transaction history activity
                                 startActivity(new Intent(getApplicationContext(), TransactionHistoryActivity.class));
+                                //switch to transaction history activity
                                 break;
                             case R.id.earnings_menu_item:
-                                //switch to earnings menu
                                 startActivity(new Intent(getApplicationContext(), EarningsHistoryActivity.class));
+                                //switch to input output activity
                                 break;
                             case R.id.networth_menu_item:
-                                //switch to networth activity
                                 startActivity(new Intent(getApplicationContext(), NetworthActivity.class));
+                                //switch to networth activity
                                 break;
                             case R.id.reminder_menu_item:
                                 break;

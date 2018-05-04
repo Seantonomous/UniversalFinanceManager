@@ -4,18 +4,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.ListAdapter;
 
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.Date;
 import java.util.List;
 
 //import ufm.universalfinancemanager.db.entity.ReminderHistory;
 import ufm.universalfinancemanager.support.ListItem;
 import ufm.universalfinancemanager.support.RowType;
-import ufm.universalfinancemanager.support.atomic.Reminder;
+import ufm.universalfinancemanager.db.entity.Reminder;
 
 
 /**
@@ -27,9 +23,11 @@ public class ReminderHistoryAdapter extends BaseAdapter {
     private static final int TYPE_SEPARATOR = 1;
 
     private List<ListItem> mItems;
-    public ReminderHistoryAdapter(List<Reminder> reminders) {
+    public ReminderHistoryFragment.ReminderClickListener mListener;
+    public ReminderHistoryAdapter(List<Reminder> reminders, ReminderHistoryFragment.ReminderClickListener l) {
         mItems = new ArrayList<>();
         setList(reminders);
+        this.mListener = l;
     }
 
     private void setList(List<Reminder> reminders) {
@@ -43,7 +41,7 @@ public class ReminderHistoryAdapter extends BaseAdapter {
         return mItems.get(position);
     }
 
-  //  @Override
+    //  @Override
     public long getItemId(int position) {
         return position;
     }
@@ -51,7 +49,18 @@ public class ReminderHistoryAdapter extends BaseAdapter {
     @Override
     @NonNull
     public View getView(final int position, View convertView, @NonNull ViewGroup parent) {
-        return getItem(position).getView(LayoutInflater.from(parent.getContext()), convertView);
+        //return getItem(position).getView(LayoutInflater.from(parent.getContext()), convertView);
+        View rowView = getItem(position).getView(LayoutInflater.from(parent.getContext()), convertView);
+
+        rowView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(getItem(position).getViewType() == 0)
+                    mListener.onReminderClicked((Reminder) getItem(position));
+            }
+        });
+
+        return rowView;
     }
 
     //@Override
