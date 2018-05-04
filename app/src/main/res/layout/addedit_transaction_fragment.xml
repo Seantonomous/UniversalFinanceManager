@@ -165,8 +165,8 @@ Contributing Team Members:
             android:layout_marginBottom="5dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Repeat?"
-            android:onClick="onRepeatChecked" />
+            android:text="Repeat?"/>
+            <!--android:onClick="onRepeatChecked" !-->
 
         <EditText
             android:id="@+id/date"
