@@ -26,7 +26,10 @@ public class NetworthPresenter implements NetworthContract.Presenter {
     }
 
     private void getNetworth() {
-        mView.showNetworth(mUser.getAccounts());
+        if(mUser.getAccounts().isEmpty())
+            mView.showNoNetworth();
+        else
+            mView.showNetworth(mUser.getAccounts());
     }
 
     @Override
