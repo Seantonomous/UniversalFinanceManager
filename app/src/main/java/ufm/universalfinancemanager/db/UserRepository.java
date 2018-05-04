@@ -89,7 +89,8 @@ public class UserRepository implements UserDataSource {
 
                 @Override
                 public void onDataNotAvailable() {
-                    getTransactionsFromRemoteDataSourceByName(callback,name);
+                    callback.onDataNotAvailable();
+                    //getTransactionsFromRemoteDataSourceByName(callback,name);
                 }
             },name);
         }

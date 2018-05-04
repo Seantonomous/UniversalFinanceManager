@@ -186,6 +186,8 @@ public class TransactionHistoryFragment extends DaggerFragment implements Transa
                             mPresenter.loadTransactionsByName(mSearchView.getQuery().toString());
                         }
 
+                        dialog.cancel();
+
                     }
                 });
 
