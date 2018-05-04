@@ -2,6 +2,7 @@ package ufm.universalfinancemanager.transactionhistory;
 
 import android.widget.SearchView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.Nullable;
@@ -87,6 +88,7 @@ public class TransactionHistoryPresenter implements TransactionHistoryContract.P
             @Override
             public void onDataNotAvailable() {
                 //display loading transactions error message
+                processTransactions(new ArrayList<Transaction>());
             }
         },"%"+name+"%");
     }
