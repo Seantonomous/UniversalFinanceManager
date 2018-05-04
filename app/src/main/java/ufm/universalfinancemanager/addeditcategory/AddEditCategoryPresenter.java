@@ -76,9 +76,18 @@ public class AddEditCategoryPresenter implements AddEditCategoryContract.Present
 
         Category c = mUser.getCategory(mCategoryName);
 
-        mUser.deleteCategory(c);
-        mAddEditCategoryview.showLastActivity(true);
+        checkDeletableCategory();
 
+        if(deletable) {
+            mUser.deleteCategory(c);
+            if(mAddEditCategoryview != null) {
+                mAddEditCategoryview.showMessage("Category deleted successfully!");
+                mAddEditCategoryview.showLastActivity(true);
+            }
+        } else
+            if(mAddEditCategoryview != null)
+                mAddEditCategoryview.showMessage("Can't delete this category. Recategorize or" +
+                        " delete any transactions first.");
     }
 
     public boolean checkDeletableCategory(){
@@ -111,7 +120,7 @@ public class AddEditCategoryPresenter implements AddEditCategoryContract.Present
     private void checkTransactionCategoryName(List<Transaction> transactions){
 
         for(Transaction t : transactions){
-            if(t.getCategory() == mCategoryName){
+            if(t.getCategory().equals(mCategoryName)){
                 deletable = false;
                 return;
             }
