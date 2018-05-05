@@ -8,6 +8,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 
 import java.util.ArrayList;
@@ -33,6 +34,8 @@ public class NetworthFragment extends DaggerFragment implements NetworthContract
     NetworthPresenter mPresenter;
 
     private NetworthAdapter mAdapter;
+    private LinearLayout mNetworthLayout;
+    private LinearLayout mNoNetworthLayout;
 
     private NetworthClickListener mListener = new NetworthClickListener() {
         @Override
@@ -52,12 +55,26 @@ public class NetworthFragment extends DaggerFragment implements NetworthContract
 
     @Override
     public void showNetworth(List<Account> accounts) {
+        mNetworthLayout.setVisibility(View.VISIBLE);
+        mNoNetworthLayout.setVisibility(View.GONE);
         mAdapter.replaceItems(accounts);
+    }
+
+    @Override
+    public void showNoNetworth() {
+        mNetworthLayout.setVisibility(View.GONE);
+        mNoNetworthLayout.setVisibility(View.VISIBLE);
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.networth_fragment, container, false);
+
+        mNetworthLayout = root.findViewById(R.id.networthLayout);
+        mNoNetworthLayout = root.findViewById(R.id.noNetworthLayout);
+
+        mNetworthLayout.setVisibility(View.VISIBLE);
+        mNoNetworthLayout.setVisibility(View.GONE);
 
         ListView listview = root.findViewById(R.id.networth_list);
         listview.setAdapter(mAdapter);

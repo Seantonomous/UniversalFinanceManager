@@ -165,8 +165,8 @@ Contributing Team Members:
             android:layout_marginBottom="5dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Repeat?"
-            android:onClick="onRepeatChecked" />
+            android:text="Repeat?"/>
+            <!--android:onClick="onRepeatChecked" !-->
 
         <EditText
             android:id="@+id/date"
@@ -174,8 +174,6 @@ Contributing Team Members:
             android:layout_alignParentStart="true"
             android:layout_width="197dp"
             android:layout_height="wrap_content"
-            android:layout_weight="0.02"
-            android:contextClickable="false"
             android:focusable="false"
             android:onClick="setDate"
             android:inputType="date"

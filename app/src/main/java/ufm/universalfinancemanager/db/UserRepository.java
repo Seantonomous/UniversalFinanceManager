@@ -89,7 +89,8 @@ public class UserRepository implements UserDataSource {
 
                 @Override
                 public void onDataNotAvailable() {
-                    getTransactionsFromRemoteDataSourceByName(callback,name);
+                    callback.onDataNotAvailable();
+                    //getTransactionsFromRemoteDataSourceByName(callback,name);
                 }
             },name);
         }
@@ -190,10 +191,11 @@ public class UserRepository implements UserDataSource {
 
     @Override
     public void getTransactionsInDateRange(@NonNull final long date1, @NonNull final long date2,  @NonNull final LoadTransactionsCallback callback) {
+        /*
         if(mCachedTransactions != null && !mCacheDirty) {
             callback.onTransactionsLoaded(new ArrayList<>(mCachedTransactions.values()));
             return;
-        }
+        }*/
 
         if(mCacheDirty) {
             getTransactionsFromRemoteDataSource(callback);

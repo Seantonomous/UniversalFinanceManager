@@ -80,6 +80,7 @@ public class EarningsHistoryPresenter implements EarningsHistoryContract.Present
             @Override
             public void onDataNotAvailable() {
                 //display loading transactions error message
+                sortTransactions(new ArrayList<Transaction>());
             }
         });
     }
@@ -100,6 +101,12 @@ public class EarningsHistoryPresenter implements EarningsHistoryContract.Present
         sortedList = new ArrayList<>();
         ArrayList<Category> incomeCategories = mUser.getIncomeCategories();                             //Get income categories list from user
         ArrayList<Category> expenseCategories = mUser.getExpenseCategories();                           //Get expense categories list from user
+
+        if(incomeCategories.isEmpty() && expenseCategories.isEmpty())
+            if(mEarningsHistoryView != null) {
+                mEarningsHistoryView.showNoEarningsHistory();
+                return;
+            }
 
         double[] thisMonthCounter = new double[incomeCategories.size() + expenseCategories.size()];     //Will hold current-month amount totals for each category
         double[] lastMonthCounter = new double[incomeCategories.size() + expenseCategories.size()];     //Will hold last-month amount totals for each category

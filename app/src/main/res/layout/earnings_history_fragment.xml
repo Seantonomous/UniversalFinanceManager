@@ -53,4 +53,27 @@ Contributing Team Members:-->
 
     </RelativeLayout>
 
+    <LinearLayout
+        android:id="@+id/noEarningsLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:scaleX="4"
+            android:scaleY="4"
+            android:src="@android:drawable/stat_notify_error"/>
+        <TextView
+            android:id="@+id/noEarningsText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="20sp"
+            android:textColor="@color/colorLightText"
+            android:paddingTop="30dp"
+            android:text="No Categories! Try adding one."/>
+    </LinearLayout>
+
 </LinearLayout>

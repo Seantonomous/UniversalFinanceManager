@@ -18,6 +18,7 @@ import ufm.universalfinancemanager.R;
 import ufm.universalfinancemanager.earningshistory.EarningsHistoryActivity;
 import ufm.universalfinancemanager.home.HomeActivity;
 import ufm.universalfinancemanager.networth.NetworthActivity;
+import ufm.universalfinancemanager.reminderhistory.ReminderHistoryActivity;
 import ufm.universalfinancemanager.transactionhistory.TransactionHistoryActivity;
 import ufm.universalfinancemanager.util.ActivityUtils;
 
@@ -98,7 +99,7 @@ public class BudgetActivity extends DaggerAppCompatActivity {
                                 startActivity(new Intent(getApplicationContext(), HomeActivity.class));
                                 break;
                             case R.id.budget_menu_item:
-                                startActivity(new Intent(getApplicationContext(), BudgetActivity.class));
+                                //startActivity(new Intent(getApplicationContext(), BudgetActivity.class));
                                 break;
                             case R.id.trans_history_menu_item:
                                 //Do nothing we're already here
@@ -112,6 +113,7 @@ public class BudgetActivity extends DaggerAppCompatActivity {
                                 startActivity(new Intent(getApplicationContext(), NetworthActivity.class));
                                 break;
                             case R.id.reminder_menu_item:
+                                startActivity(new Intent(getApplicationContext(), ReminderHistoryActivity.class));
                                 break;
                             case R.id.settings_menu_item:
                                 break;

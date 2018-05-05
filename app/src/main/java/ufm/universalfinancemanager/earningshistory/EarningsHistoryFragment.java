@@ -8,7 +8,9 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import java.text.SimpleDateFormat;
@@ -37,6 +39,8 @@ public class EarningsHistoryFragment extends DaggerFragment implements EarningsH
     EarningsHistoryPresenter mPresenter;
 
     private EarningsAdapter mAdapter;
+    private RelativeLayout mEarningsLayout;
+    private LinearLayout mNoEarningsLayout;
 
     private EarningsClickListener mListener = new EarningsClickListener() {
         @Override
@@ -71,13 +75,27 @@ public class EarningsHistoryFragment extends DaggerFragment implements EarningsH
 
     @Override
     public void showEarningsHistory(List<EarningsHistoryListItem> list){
+        mEarningsLayout.setVisibility(View.VISIBLE);
+        mNoEarningsLayout.setVisibility(View.GONE);
         mAdapter.replaceItems(list);
+    }
+
+    @Override
+    public void showNoEarningsHistory() {
+        mEarningsLayout.setVisibility(View.GONE);
+        mNoEarningsLayout.setVisibility(View.VISIBLE);
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         //Inflate the fragment with the corresponding layout
         View root = inflater.inflate(R.layout.earnings_history_fragment, container, false);
+
+        mEarningsLayout = root.findViewById(R.id.earningsLayout);
+        mNoEarningsLayout = root.findViewById(R.id.noEarningsLayout);
+
+        mEarningsLayout.setVisibility(View.VISIBLE);
+        mNoEarningsLayout.setVisibility(View.GONE);
 
         TextView thisMonthHeader = root.findViewById(R.id.thisMonthTextView);
         TextView lastMonthHeader = root.findViewById(R.id.lastMonthTextView);

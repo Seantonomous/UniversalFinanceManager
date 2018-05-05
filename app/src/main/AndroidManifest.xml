@@ -57,6 +57,9 @@ Contributing Team Members:
             android:theme="@style/AppTheme"/>
         <activity android:name=".budgetoverview.BudgetActivity"
             android:theme="@style/AppTheme"/>
+        <activity android:name=".reminderhistory.ReminderHistoryActivity"
+            android:theme="@style/AppTheme"/>
+        <receiver android:name=".addeditreminder.NotifyReminder"/>
     </application>
 
 </manifest>

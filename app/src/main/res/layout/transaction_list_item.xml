@@ -24,6 +24,7 @@ Contributing Team Members:-->
 
         <TextView android:id="@+id/trans_amount"
             android:layout_gravity="end"
+            android:textAlignment="viewEnd"
             android:textSize="22sp"
             android:layout_weight="1">
         </TextView> 

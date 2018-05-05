@@ -35,9 +35,7 @@
             android:layout_height="match_parent"
             android:paddingHorizontal="10dp"
             android:paddingBottom="25dp"
-            android:paddingTop="75dp"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp">
+            android:paddingTop="55dp" >
         </RelativeLayout>
 
     </FrameLayout>

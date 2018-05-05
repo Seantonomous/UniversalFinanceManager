@@ -15,6 +15,8 @@ public class NetworthContract {
 
         void showNetworth(List<Account> accounts);
 
+        void showNoNetworth();
+
         void showEditAccount(String accountName);
     }
 

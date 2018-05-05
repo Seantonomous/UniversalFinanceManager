@@ -7,7 +7,7 @@ Peer Review:
 Contributing Team Members: Areeba Waheed 10/21/17-->
 
 <resources>
-    <string name="app_name">UniversalFinanceManager</string>
+    <string name="app_name">UFM</string>
     <string name="drawer_open">Open navigation</string>
     <string name="drawer_close">Close navigation</string>
 
@@ -19,6 +19,7 @@ Contributing Team Members: Areeba Waheed 10/21/17-->
     <string name="transaction_title">Transaction History</string>
     <string name="earnings_title">Earnings History</string>
     <string name="budget_title">Budget Overview</string>
+    <string name="reminder_title">Reminders History</string>
     <string name="account_title">Accounts</string>
     <string name="networth_title">Net Worth</string>
 
@@ -41,6 +42,7 @@ Contributing Team Members: Areeba Waheed 10/21/17-->
     <string name="category_add_title">Add Category</string>
     <string name="category_edit_title">Edit Category</string>
     <string name="reminder_add_title">Add Reminder</string>
+    <string name="reminder_edit_title">Edit Reminder</string>
 
     <!--Errors/Misc-->
     <string name="no_transactions">No Transactions to Show!</string>

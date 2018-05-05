@@ -1,20 +1,13 @@
-package ufm.universalfinancemanager.support.atomic;
+package ufm.universalfinancemanager.db.entity;
 
-import android.annotation.SuppressLint;
-import android.arch.persistence.room.ColumnInfo;
-import android.arch.persistence.room.Embedded;
-import android.os.Build;
 import android.os.Parcel;
 import android.os.Parcelable;
-import android.support.annotation.RequiresApi;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.TextView;
-import android.widget.TimePicker;
 
 
 import java.io.Serializable;
-import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;

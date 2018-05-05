@@ -17,6 +17,8 @@ public class EarningsHistoryContract {
 
         void showEarningsHistory(List<EarningsHistoryListItem> list);
 
+        void showNoEarningsHistory();
+
         void showEditCategory(String categoryName);
     }
 

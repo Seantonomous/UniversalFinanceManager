@@ -14,8 +14,10 @@ import javax.inject.Inject;
 import dagger.Lazy;
 import dagger.android.support.DaggerAppCompatActivity;
 import ufm.universalfinancemanager.R;
+import ufm.universalfinancemanager.budgetoverview.BudgetActivity;
 import ufm.universalfinancemanager.home.HomeActivity;
 import ufm.universalfinancemanager.networth.NetworthActivity;
+import ufm.universalfinancemanager.reminderhistory.ReminderHistoryActivity;
 import ufm.universalfinancemanager.transactionhistory.TransactionHistoryActivity;
 import ufm.universalfinancemanager.util.ActivityUtils;
 
@@ -99,6 +101,7 @@ public class EarningsHistoryActivity extends DaggerAppCompatActivity {
                                 break;
                             case R.id.budget_menu_item:
                                 //switch to budget overview activity
+                                startActivity(new Intent(getApplicationContext(), BudgetActivity.class));
                                 break;
                             case R.id.trans_history_menu_item:
                                 //switch to transaction history activity
@@ -113,6 +116,7 @@ public class EarningsHistoryActivity extends DaggerAppCompatActivity {
                                 startActivity(new Intent(getApplicationContext(), NetworthActivity.class));
                                 break;
                             case R.id.reminder_menu_item:
+                                startActivity(new Intent(getApplicationContext(), ReminderHistoryActivity.class));
                                 break;
                             case R.id.settings_menu_item:
                                 break;

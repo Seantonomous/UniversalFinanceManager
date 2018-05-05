@@ -51,9 +51,10 @@ Contributing Team Members:
 
         <Spinner
             android:id="@+id/accounttype"
-            android:layout_width="200dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentStart="true"
+            android:layout_alignParentEnd="true"
             android:layout_below="@+id/textView4"
             android:background="@android:drawable/btn_dropdown"
             android:entries="@array/accountsType" />
@@ -63,7 +64,7 @@ Contributing Team Members:
             android:layout_alignParentLeft="true"
             android:layout_below="@id/accounttype"
             android:id="@+id/submit_account"
-            android:layout_marginTop="12dp"
+            android:layout_marginTop="15dp"
             android:layout_width="150dp"
             android:layout_height="wrap_content"
             android:textSize="17sp"
@@ -73,7 +74,7 @@ Contributing Team Members:
             android:layout_alignParentRight="true"
             android:layout_below="@id/accounttype"
             android:id="@+id/cancel_account"
-            android:layout_marginTop="12dp"
+            android:layout_marginTop="15dp"
             android:layout_width="150dp"
             android:layout_height="wrap_content"
             android:textSize="17sp"
