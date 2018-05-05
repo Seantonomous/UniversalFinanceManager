@@ -4,6 +4,7 @@ import android.arch.persistence.room.ColumnInfo;
 import android.arch.persistence.room.Embedded;
 import android.arch.persistence.room.Ignore;
 import android.arch.persistence.room.TypeConverters;
+import android.graphics.Color;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.view.LayoutInflater;
@@ -93,28 +94,21 @@ public class Budget implements Serializable, ListItem {
         TextView categoryName = view.findViewById(R.id.category);
         TextView budgetName = view.findViewById(R.id.name);
         TextView spentMoney = view.findViewById(R.id.spent); //set this textview
-        TextView overBudget = view.findViewById(R.id.over);
-        TextView totalBudget = view.findViewById(R.id.total);
         TextView remainingBalance = view.findViewById(R.id.left); //set this textview
-        TextView startD = (TextView)view.findViewById(R.id.startDate);
-        TextView endD = (TextView)view.findViewById(R.id.endDate);
-        SimpleDateFormat dateFormatter = new SimpleDateFormat("dd.MM.yyyy", Locale.getDefault());
+        TextView endD = view.findViewById(R.id.endDate);
+        SimpleDateFormat dateFormatter = new SimpleDateFormat("MM/dd/yy", Locale.getDefault());
 
-        categoryName.setText(this.cat);
+        categoryName.setText("Category:  " + this.cat);
         budgetName.setText(this.name);
-        totalBudget.setText(num_format.format(this.amount));
-        spentMoney.setText(num_format.format(this.currentValue));
-        startD.setText(dateFormatter.format(startDate));
-        endD.setText(dateFormatter.format(endDate));
+        spentMoney.setText(num_format.format(this.currentValue) + " / " + num_format.format(this.amount));
+        endD.setText(dateFormatter.format(startDate) + " - " + dateFormatter.format(endDate));
 
-        if(this.currentValue>this.amount) {
-            overBudget.setText(num_format.format(this.currentValue - this.amount));
-            remainingBalance.setText(num_format.format(0));
-        }
-        else{
-            overBudget.setText(num_format.format(0));
-            remainingBalance.setText(num_format.format(this.amount - this.currentValue));
-        }
+        remainingBalance.setText(num_format.format(this.amount - this.currentValue));
+
+        if(this.currentValue>this.amount)
+            remainingBalance.setTextColor(Color.rgb(183, 71, 71));
+        else
+            remainingBalance.setTextColor(Color.rgb(84, 175, 120));
 
 
         return view;
