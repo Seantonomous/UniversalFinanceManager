@@ -35,7 +35,7 @@ import ufm.universalfinancemanager.addeditreminder.AddEditReminderActivity;
 import ufm.universalfinancemanager.addedittransaction.AddEditTransactionActivity;
 import ufm.universalfinancemanager.db.entity.Transaction;
 
-/* Aaron: This is the chart for the Cateogry Spend Pie Chart */
+/* Aaron: This is the chart for the Category Spend Pie Chart */
 public class HomeFragmentChart3 extends DaggerFragment implements HomeContract.View {
 
     private PieChart mChart;
@@ -109,7 +109,6 @@ public class HomeFragmentChart3 extends DaggerFragment implements HomeContract.V
         mNoChartView.setVisibility(View.GONE);
         
         horizontalBarChart = new HomeClassCategorySpend(mChart);
-
         setHasOptionsMenu(true);
         return root;
     }

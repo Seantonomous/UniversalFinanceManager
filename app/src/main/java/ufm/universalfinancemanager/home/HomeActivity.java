@@ -84,7 +84,7 @@ public class HomeActivity extends DaggerAppCompatActivity {
             }
 
             public void onSwipeLeft() {
-                nextChart();
+                nextChartLeft();
             }
         });
 
@@ -118,7 +118,8 @@ public class HomeActivity extends DaggerAppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setTitle(R.string.home_title);
         // Loads the first chart
-        nextChart();
+        //nextChart();
+        firstChart();
     }
 
     private void setToolbarTitle(@Nullable String Id) {
@@ -133,6 +134,18 @@ public class HomeActivity extends DaggerAppCompatActivity {
         return super.dispatchTouchEvent(e);
     }
 
+    private void firstChart(){
+        HomeFragmentChart1 homeFragment1 =  mFragment1;
+
+        getSupportFragmentManager()
+                .beginTransaction()
+                .replace(R.id.frag_container, homeFragment1)
+                .commit();
+
+        tvChartName.setText("Budget Summary");
+        chartNum = 1;
+    }
+
     private void nextChart() {
 
         if(getSupportFragmentManager().findFragmentById(R.id.frag_container) != null) {
@@ -143,24 +156,22 @@ public class HomeActivity extends DaggerAppCompatActivity {
 
         switch(chartNum) {
             case 0:
-                HomeFragmentChart1 homeFragment1 =  (HomeFragmentChart1)getSupportFragmentManager().findFragmentById(R.id.contentFrame);
-                homeFragment1 = mFragment1;
-
+                HomeFragmentChart1 homeFragment1 =  mFragment1;
 
                 getSupportFragmentManager()
-                        .beginTransaction()
+                        .beginTransaction().setCustomAnimations(R.anim.slide_from_left, R.anim.slide_to_right)
                         .replace(R.id.frag_container, homeFragment1)
                         .commit();
+
                 tvChartName.setText("Budget Summary");
                 chartNum = 1;
 
                 break;
             case 1:
-                HomeFragmentChart2 homeFragment2 =  (HomeFragmentChart2)getSupportFragmentManager().findFragmentById(R.id.contentFrame);
-                homeFragment2 = mFragment2;
+                HomeFragmentChart2 homeFragment2 = mFragment2;
 
                 getSupportFragmentManager()
-                        .beginTransaction()
+                        .beginTransaction().setCustomAnimations(R.anim.slide_from_left, R.anim.slide_to_right)
                         .replace(R.id.frag_container, homeFragment2)
                         .commit();
 
@@ -169,11 +180,57 @@ public class HomeActivity extends DaggerAppCompatActivity {
 
                 break;
             case 2:
-                HomeFragmentChart3 homeFragment3 =  (HomeFragmentChart3)getSupportFragmentManager().findFragmentById(R.id.contentFrame);
-                homeFragment3 = mFragment3;
+                HomeFragmentChart3 homeFragment3 = mFragment3;
 
                 getSupportFragmentManager()
-                        .beginTransaction()
+                        .beginTransaction().setCustomAnimations(R.anim.slide_from_left, R.anim.slide_to_right)
+                        .replace(R.id.frag_container, homeFragment3)
+                        .commit();
+
+                tvChartName.setText("Category Summary");
+                chartNum = 0;
+
+                break;
+        }
+    }
+    private void nextChartLeft() {
+
+        if(getSupportFragmentManager().findFragmentById(R.id.frag_container) != null) {
+            getSupportFragmentManager()
+                    .beginTransaction().
+                    remove(getSupportFragmentManager().findFragmentById(R.id.frag_container)).commit();
+        }
+
+        switch(chartNum) {
+            case 0:
+                HomeFragmentChart1 homeFragment1 = mFragment1;
+
+
+                getSupportFragmentManager()
+                        .beginTransaction().setCustomAnimations(R.anim.slide_from_right, R.anim.slide_to_left)
+                        .replace(R.id.frag_container, homeFragment1)
+                        .commit();
+                tvChartName.setText("Budget Summary");
+                chartNum = 1;
+
+                break;
+            case 1:
+                HomeFragmentChart2 homeFragment2 = mFragment2;
+
+                getSupportFragmentManager()
+                        .beginTransaction().setCustomAnimations(R.anim.slide_from_right, R.anim.slide_to_left)
+                        .replace(R.id.frag_container, homeFragment2)
+                        .commit();
+
+                tvChartName.setText("Net Worth Summary");
+                chartNum = 2;
+
+                break;
+            case 2:
+                HomeFragmentChart3 homeFragment3 = mFragment3;
+
+                getSupportFragmentManager()
+                        .beginTransaction().setCustomAnimations(R.anim.slide_from_right, R.anim.slide_to_left)
                         .replace(R.id.frag_container, homeFragment3)
                         .commit();
 
@@ -204,7 +261,10 @@ public class HomeActivity extends DaggerAppCompatActivity {
                         switch(item.getItemId()) {
                             case R.id.home_menu_item:
                                 // switch to home activity
-                                startActivity(new Intent(getApplicationContext(), HomeActivity.class));
+                                Intent i = new Intent(getApplicationContext(),HomeActivity.class);
+                                i.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                                startActivity(i);
+                                //startActivity(new Intent(getApplicationContext(), HomeActivity.class));
                                 break;
                             case R.id.budget_menu_item:
                                 startActivity(new Intent(getApplicationContext(), BudgetActivity.class));

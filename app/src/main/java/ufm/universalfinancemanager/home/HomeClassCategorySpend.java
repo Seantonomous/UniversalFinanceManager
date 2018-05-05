@@ -1,6 +1,9 @@
 package ufm.universalfinancemanager.home;
 
+import android.content.Context;
+import android.content.res.Resources;
 import android.graphics.Color;
+import android.support.v4.content.ContextCompat;
 
 import com.github.mikephil.charting.charts.PieChart;
 import com.github.mikephil.charting.components.Legend;
@@ -12,6 +15,10 @@ import com.github.mikephil.charting.utils.ColorTemplate;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.annotation.Resource;
+
+import ufm.universalfinancemanager.R;
 
 public class HomeClassCategorySpend {
 
@@ -57,14 +64,11 @@ public class HomeClassCategorySpend {
         mChart.setHoleColor(000000);
         mChart.setHoleRadius(7);
         mChart.setTransparentCircleRadius(10);
-
         // enable rotation of the chart by touch
         mChart.setRotationAngle(0);
         mChart.setRotationEnabled(true);
-
         // add data
         addData();
-
         // customize legends
         Legend l = mChart.getLegend();
         // l.setPosition(LegendPosition.RIGHT_OF_CHART);

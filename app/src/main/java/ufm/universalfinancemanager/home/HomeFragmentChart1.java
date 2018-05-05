@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.github.mikephil.charting.charts.HorizontalBarChart;
+import com.github.mikephil.charting.components.Description;
 import com.github.mikephil.charting.components.Legend;
 import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.components.YAxis;
@@ -36,6 +37,7 @@ import ufm.universalfinancemanager.addeditcategory.AddEditCategoryActivity;
 import ufm.universalfinancemanager.addeditreminder.AddEditReminderActivity;
 import ufm.universalfinancemanager.addedittransaction.AddEditTransactionActivity;
 import ufm.universalfinancemanager.db.entity.Transaction;
+import ufm.universalfinancemanager.db.source.local.CategoryDao;
 
 /* Aaron: This is the chart for the Budget Spend Horizontal Bar Graph */
 public class HomeFragmentChart1 extends DaggerFragment implements HomeContract.View {
@@ -45,7 +47,7 @@ public class HomeFragmentChart1 extends DaggerFragment implements HomeContract.V
 
     private View mChartView;
     private View mNoChartView;
-
+    int budgetCount;
     @Inject
     public HomeFragmentChart1() {}
 
@@ -77,6 +79,7 @@ public class HomeFragmentChart1 extends DaggerFragment implements HomeContract.V
 
     @Override
     public void populateBudgets(ArrayList<HomeDataBudgetSpend> data) {
+        budgetCount = data.size();
         if(data.isEmpty()) {
             mNoChartView.setVisibility(View.VISIBLE);
             mChartView.setVisibility(View.GONE);
@@ -101,14 +104,15 @@ public class HomeFragmentChart1 extends DaggerFragment implements HomeContract.V
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.home_fragment_chart1, container, false);
-
         mChartView = root.findViewById(R.id.chartLayout);
         mNoChartView = root.findViewById(R.id.noChartLayout);
         mNoChartView.setVisibility(View.GONE);
 
         HorizontalBarChart mChart;
         mChart = root.findViewById(R.id.chart1);
-
+       // mChart.setPinchZoom(false);
+       // mChart.setScaleEnabled(false);
+        mChart.setDoubleTapToZoomEnabled(false);
         horizontalBarChart = new HomeClassBudgetSpend(mChart);
 
 

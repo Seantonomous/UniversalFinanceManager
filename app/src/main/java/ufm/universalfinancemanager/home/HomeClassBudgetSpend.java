@@ -97,7 +97,6 @@ public class HomeClassBudgetSpend {
 
         mChart.setFitBars(false);
         mChart.invalidate();
-
         mChart.getDescription().setEnabled(false);
 
     }

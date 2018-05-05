@@ -24,6 +24,8 @@ import java.util.Date;
 import java.util.List;
 import java.util.Random;
 
+import ufm.universalfinancemanager.R;
+
 public class HomeClassNetWorth {
 
     CombinedChart mChart;
@@ -277,8 +279,10 @@ public class HomeClassNetWorth {
 //            tempColors.add(c);
 //            tempColors.add(Color.LTGRAY);
 //        }
-        tempColors.add(Color.GREEN);
-        tempColors.add(Color.RED);
+
+        // PieChart green -> rgb(192, 255, 140)
+        tempColors.add(Color.parseColor("#8cea8c")); //NetworthGreen
+        tempColors.add(Color.parseColor("#F6756E")); //NetworthRed
 
         return tempColors;
     }

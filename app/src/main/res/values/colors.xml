@@ -6,5 +6,7 @@
     <color name="colorBackground">#eff1f4</color>
     <color name="colorLightText">#abaeb2</color>
 
+    <color name= "netWorthGreen">#8cea8c</color>
+    <color name="netWorthRed">#F6756E</color>
     <color name ="back">#1e2228</color>
 </resources>

@@ -159,9 +159,7 @@ public class HomeFragmentChart2 extends DaggerFragment implements HomeContract.V
         mChartView = root.findViewById(R.id.chartLayout);
         mNoChartView = root.findViewById(R.id.noChartLayout);
         mNoChartView.setVisibility(View.GONE);
-
         mNetWorthChart =  new HomeClassNetWorth(mChart);
-
 //        mNetWorthChart.createNetWorthBarChart(4000f);
 
         setHasOptionsMenu(true);
