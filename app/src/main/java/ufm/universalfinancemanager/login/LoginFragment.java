@@ -31,7 +31,7 @@ public class LoginFragment extends DaggerFragment implements LoginContract.View 
     private boolean valid_email = false;
     private boolean valid_password = false;
 
-    private static final boolean DEBUG = true;
+    private static final boolean DEBUG = false;
 
     @Inject
     public LoginFragment() {

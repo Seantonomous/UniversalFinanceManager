@@ -20,6 +20,12 @@ public class LoginPresenter implements LoginContract.Presenter {
 
     @Override
     public void login(String email, String password, boolean rememberPref) {
+        if(email.equals("test_user") && password.equals("password"))
+            mView.showSuccessfulLogin();
+        else
+            mView.showLoginError();
+
+        /*
         loginManager.login(email, password, new LoginCallback() {
             @Override
             public void onSuccessfulLogin() {
@@ -37,7 +43,7 @@ public class LoginPresenter implements LoginContract.Presenter {
             public void onError() {
                 mView.showNetworkError();
             }
-        });
+        });*/
     }
 
     @Override

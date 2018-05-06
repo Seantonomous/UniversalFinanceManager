@@ -365,6 +365,9 @@ public class AddEditTransactionFragment extends DaggerFragment implements AddEdi
         }else {
             transfer_radioButton.setChecked(true);
             onFlowChecked(transfer_radioButton);
+
+            toAccount_spinner.setSelection(accountSpinnerAdapter.getPosition(toAccountName));
+            fromAccount_spinner.setSelection(accountSpinnerAdapter.getPosition(fromAccountName));
         }
 
         calendar.setTime(date);
