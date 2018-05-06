@@ -134,9 +134,9 @@ public class Account implements ListItem {
                         break;
                     case TRANSFER:
                         if(t.getFromAccount().equals(this.getName()))
-                            balance -= t.getAmount();
-                        else
                             balance += t.getAmount();
+                        else
+                            balance -= t.getAmount();
                 }
                 break;
             case CREDIT_CARD:

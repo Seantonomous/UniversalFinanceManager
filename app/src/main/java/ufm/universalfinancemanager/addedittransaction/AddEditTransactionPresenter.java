@@ -146,6 +146,7 @@ public class AddEditTransactionPresenter implements AddEditTransactionContract.P
                 public void onAccountLoaded(Account account) {
                     account.registerTransaction(t);
                     mUserRepository.saveAccount(account);
+                    mUser.refreshAccounts();
                 }
 
                 @Override
@@ -159,6 +160,7 @@ public class AddEditTransactionPresenter implements AddEditTransactionContract.P
                 public void onAccountLoaded(Account account) {
                     account.registerTransaction(t);
                     mUserRepository.saveAccount(account);
+                    mUser.refreshAccounts();
                 }
 
                 @Override
@@ -225,7 +227,7 @@ public class AddEditTransactionPresenter implements AddEditTransactionContract.P
         if (mAddEditTransactionView != null && mAddEditTransactionView.isActive()) {
             mAddEditTransactionView.populateExistingFields(transaction.getName(),
                     transaction.getAmount(), transaction.getFlow(),
-                    mUser.getCategory(transaction.getCategory()),
+                    transaction.getCategory() == null ? null : mUser.getCategory(transaction.getCategory()),
                     transaction.getFromAccount() == null ? null : mUser.getAccount(transaction.getFromAccount()),
                     transaction.getToAccount() == null ? null : mUser.getAccount(transaction.getToAccount()),
                     transaction.getDate(), transaction.getNotes());
