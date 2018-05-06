@@ -40,21 +40,11 @@ public class BudgetPresenter implements BudgetContract.Presenter {
     public void loadBudgets() {
         //ArrayList<Budget> budgets = mUser.getBudgets();
         //ArrayList<Budget> newBudgets = new ArrayList<>();
-        for(Budget b: mUser.getBudgets()) {
-           // this.spent = 0.0;
-            this.t = new ArrayList<>();
-            loadTransactions(b.getStartDate(), b.getEndDate(),b.getCat());
-            double sum = 0.0;
-            for (Transaction t : this.t) {
-                sum += t.getAmount();
-            }
-            b.setCurrentValue(sum);
-        }
-        ArrayList<Budget> budgets = mUser.getBudgets();
-        mBudgetView.showBudgets(budgets);
+        this.t = new ArrayList<>();
+        loadTransactions(new Date(0), new Date());
     }
 
-    private void loadTransactions(Date s, Date e, final String cat) {
+    private void loadTransactions(Date s, Date e) {
         EspressoIdlingResource.increment();
         long currentDate = s.getTime();
         long pastDate = e.getTime();
@@ -69,7 +59,7 @@ public class BudgetPresenter implements BudgetContract.Presenter {
                 if (!EspressoIdlingResource.getIdlingResource().isIdleNow()) {
                     EspressoIdlingResource.decrement(); // Set app as idle.
                 }
-                processTransactions(transactions,cat);
+                processTransactions(transactions);
                 // processCategory(category);
 
             }
@@ -82,14 +72,35 @@ public class BudgetPresenter implements BudgetContract.Presenter {
 
     }
 
-    public void processTransactions(List<Transaction> transactions, String cat) {
+    public void processTransactions(List<Transaction> transactions) {
        // String category = cat.toString();
-        for(Transaction t: transactions) {
-            if(t.getCategory().compareTo(cat) == 0 && t.getFlow().compareTo(Flow.OUTCOME) == 0) {
-                this.t.add(t);
-            }
+        for(Transaction trans: transactions) {
+            if(trans.getCategory() == null)
+                continue;
+            else
+                this.t.add(trans);
         }
+
+        processBudgets();
     }
+
+    public void processBudgets() {
+        for(Budget b: mUser.getBudgets()) {
+            double sum = 0.0;
+
+            for (Transaction t : this.t) {
+                if(t.getDate().getTime() > b.getStartDate().getTime() &&
+                        t.getDate().getTime() < b.getEndDate().getTime() &&
+                        t.getCategory().compareTo(b.getCat()) == 0)
+                    sum += t.getAmount();
+            }
+            b.setCurrentValue(sum);
+        }
+
+        ArrayList<Budget> budgets = mUser.getBudgets();
+        mBudgetView.showBudgets(budgets);
+    }
+
     @Override
     public void addBudget(){
         if(mBudgetView != null) {

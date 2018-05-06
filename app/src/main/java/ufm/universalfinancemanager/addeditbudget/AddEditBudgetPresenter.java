@@ -142,6 +142,9 @@ public class AddEditBudgetPresenter implements AddEditBudgetContract.Presenter{
     private void processTransactions(List<Transaction> transactions) {
 
         for(Transaction t: transactions) {
+            if(t.getCategory() == null)
+                continue;
+
             if(t.getCategory().compareTo(this.cat) == 0 && t.getFlow().compareTo(Flow.OUTCOME) == 0) {
                 this.transactions.add(t);
             }
