@@ -11,6 +11,7 @@ package ufm.universalfinancemanager.db.source.local.converter;
 
 import android.arch.persistence.room.TypeConverter;
 
+import ufm.universalfinancemanager.db.entity.Account;
 import ufm.universalfinancemanager.support.AccountType;
 
 /**
@@ -26,6 +27,8 @@ public class AccountTypeConverter {
             return AccountType.CHECKING;
         else if(type == AccountType.CREDIT_CARD.ordinal())
             return AccountType.CREDIT_CARD;
+        else if(type == AccountType.SAVINGS.ordinal())
+            return AccountType.SAVINGS;
         else
             throw new IllegalArgumentException("Could not read AccountType field");
     }

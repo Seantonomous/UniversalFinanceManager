@@ -91,6 +91,8 @@ public class Account implements ListItem {
 
     public void registerTransaction(Transaction t) {
         switch(type) {
+            case CASH:
+            case SAVINGS:
             case CHECKING:
                 switch(t.getFlow()) {
                     case OUTCOME:
@@ -124,6 +126,8 @@ public class Account implements ListItem {
 
     public void unregisterTransaction(Transaction t) {
         switch(type) {
+            case CASH:
+            case SAVINGS:
             case CHECKING:
                 switch(t.getFlow()) {
                     case OUTCOME:

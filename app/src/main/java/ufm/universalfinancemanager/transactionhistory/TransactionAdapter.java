@@ -31,6 +31,7 @@ import java.util.List;
 
 import ufm.universalfinancemanager.db.entity.Transaction;
 import ufm.universalfinancemanager.db.source.local.TransactionDao;
+import ufm.universalfinancemanager.support.Flow;
 import ufm.universalfinancemanager.support.ListItem;
 import ufm.universalfinancemanager.support.RowType;
 
@@ -83,10 +84,20 @@ public class TransactionAdapter extends BaseAdapter {
                    return o1.getDate().getTime() > o2.getDate().getTime() ? -1 : (o1.getDate().getTime() < o2.getDate().getTime()) ? 1 : 0;
 
                case 1:// SORTED BY CATEGORY (A-Z)
-                   return o1.getCategory().hashCode() < o2.getCategory().hashCode()? -1 : (o1.getCategory().hashCode() > o2.getCategory().hashCode() ? 1: 0) ;
+                    if(o1.getFlow() == Flow.TRANSFER)
+                        return -1;
+                    else if(o2.getFlow() == Flow.TRANSFER)
+                        return 1;
+                    else
+                        return o1.getCategory().hashCode() < o2.getCategory().hashCode()? -1 : (o1.getCategory().hashCode() > o2.getCategory().hashCode() ? 1: 0) ;
 
                case 2:// SORTED BY CATEGORY (Z-A)
-                   return o1.getCategory().hashCode() > o2.getCategory().hashCode()? -1 : (o1.getCategory().hashCode() < o2.getCategory().hashCode() ? 1: 0) ;
+                   if(o1.getFlow() == Flow.TRANSFER)
+                        return 1;
+                    else if(o2.getFlow() == Flow.TRANSFER)
+                        return -1;
+                    else
+                        return o1.getCategory().hashCode() > o2.getCategory().hashCode()? -1 : (o1.getCategory().hashCode() < o2.getCategory().hashCode() ? 1: 0) ;
 
                case 3:// SORTED BY AMOUNT ($$$-$)
                    return (o1.getAmount()) > o2.getAmount()? -1 : (o1.getAmount() < o2.getAmount() ? 1: 0) ;
