@@ -64,13 +64,22 @@ public class HomeClassCategorySpend {
         mChart.setHoleColor(000000);
         mChart.setHoleRadius(7);
         mChart.setTransparentCircleRadius(10);
+
         // enable rotation of the chart by touch
         mChart.setRotationAngle(0);
         mChart.setRotationEnabled(true);
+
         // add data
         addData();
+
         // customize legends
         Legend l = mChart.getLegend();
+
+        // entry label styling
+        mChart.setEntryLabelColor(Color.DKGRAY);
+        mChart.setEntryLabelTextSize(12f);
+
+
         // l.setPosition(LegendPosition.RIGHT_OF_CHART);
         l.setXEntrySpace(7);
         l.setYEntrySpace(5);
